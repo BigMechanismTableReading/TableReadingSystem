@@ -1,10 +1,10 @@
-package columncontents.proteins;
+package columncontents;
 
 public class English extends Protein{
 
 	
 	private static English eng = null;
-	public static English getInstance(){
+	public static ColumnContents getInstance(){
 		if(eng == null)
 			eng = new English();
 		return eng;

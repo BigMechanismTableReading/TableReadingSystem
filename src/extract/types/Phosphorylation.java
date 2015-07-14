@@ -1,6 +1,6 @@
 package extract.types;
 
-import columncontents.proteins.English;
+import columncontents.*;
 import extract.analysis.TableType.ColumnTypes;
 
 public class Phosphorylation extends Reaction{

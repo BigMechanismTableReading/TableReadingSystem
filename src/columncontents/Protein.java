@@ -1,4 +1,4 @@
-package columncontents.proteins;
+package columncontents;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

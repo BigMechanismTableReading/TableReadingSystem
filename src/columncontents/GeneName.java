@@ -1,10 +1,10 @@
-package columncontents.proteins;
+package columncontents;
 
 public class GeneName extends Protein {
 
 	private String regEx = "[A-Z]{3}[0-9[A-Z]]{1,5}";
 	private static GeneName gene = null;
-	public static GeneName getInstance(){
+	public static ColumnContents getInstance(){
 		if(gene == null)
 			gene = new GeneName();
 		return gene;

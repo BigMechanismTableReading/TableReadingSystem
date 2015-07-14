@@ -1,4 +1,4 @@
-package columncontents.site;
+package columncontents;
 
 import java.util.ArrayList;
 import java.util.List;

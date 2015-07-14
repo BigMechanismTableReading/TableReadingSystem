@@ -1,9 +1,9 @@
-package columncontents.proteins;
+package columncontents;
 
 public class IPI extends Protein {
 	private String regEx = "IPI[0-9]{8}";
 	private static IPI ipi = null;
-	public static IPI getInstance(){
+	public static ColumnContents getInstance(){
 		if(ipi == null)
 			ipi = new IPI();
 		return ipi;
