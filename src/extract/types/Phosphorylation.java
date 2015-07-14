@@ -6,9 +6,9 @@ import extract.analysis.TableType.ColumnTypes;
 public class Phosphorylation extends Reaction{
 	private Phosphorylation instance = null;
 	public Phosphorylation(){
-		data.add(English.getInstance());
+		data.add(PhosphoSite.getInstance());
 		data.add(Fold.getInstance());
-		conjugations.add("phosphorylat");
+		conjugationBase.add("phosphorylat");
 	}
 	
 	@Override
