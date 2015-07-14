@@ -3,6 +3,7 @@ package extract;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,6 +18,9 @@ import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import extract.analysis.TableType;
+import extract.types.Reaction;
 
 public class TextExtractor {
 	
@@ -68,6 +72,51 @@ public class TextExtractor {
 			}
 		}
 		return null;
+	}
+	
+	public static List<Reaction> getPossibleReactions(int PMCID){
+		String name = "PMC" + PMCID;
+		HashSet<String> wordSet = new HashSet<String>();
+		Reaction[] allReactions = Reaction.allReactions;
+		String paperPath = "papers" + File.separator + name + ".html";
+		
+		File document = new File(paperPath);
+		if (document.exists()) {
+			try {
+				
+				Document doc = Jsoup.parse(document, "UTF-8", "");
+				LinkedList<String> list = new LinkedList<String>();
+				
+				String text = doc.text();
+				String[] words = text.split(" ");
+				for(int i = 0; i < words.length; i++){
+					String word = words[i].toLowerCase().replaceAll("\\p{Punct}", "");
+					wordSet.add(word);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		List<Reaction> possibleReactions = new ArrayList<Reaction>();
+		for (Reaction r : allReactions){
+			if(containsConjugate(wordSet, r)){
+				possibleReactions.add(r);
+			}
+		}
+		return possibleReactions;
+	}
+	
+	private static boolean containsConjugate(Set<String> words, Reaction r) {
+		List<String> base = r.getConjugationBase();
+		List<String> conjugations = r.getConjugationsList();
+		for (String b : base) {
+			for (String c : conjugations) {
+				if (words.contains(b + c)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
