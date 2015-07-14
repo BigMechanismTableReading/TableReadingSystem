@@ -23,7 +23,7 @@ public class TableType {
 	public enum ColumnTypes{
 		UNIPROT,SWISPROT,IPI,GENE,ENGLISH,
 		MULTISITE,PHOSPHOSITE,METHYLSITE,SUMOSITE,ACETYLSITE,
-		FOLD,PHOSAMINO,METHAMINO,MULTAMINO,POSITION, UNKNOWN
+		FOLD,PHOSAMINO,METHAMINO,MULTAMINO,POSITION, UNKNOWN,NOTPROTEIN
 	}
 	public enum ReactionType{
 		MULTIPLE,PHOSPHORYLATION,ACETYLATION,FARNESYLATION,GLYCOSYLATION,HYDROXYLATION,
@@ -142,12 +142,43 @@ public class TableType {
 		return table;
 	}
 	
+	
+	private void addColumnMapEntry(ColumnTypes t, TableBuf.Column col){
+		if(columnMapping.containsKey(t)){
+			columnMapping.get(t).add(col);
+		}else{
+			ArrayList<TableBuf.Column> list = new ArrayList<TableBuf.Column>();
+			list.add(col);
+			columnMapping.put(t,col);
+		}
+	}
+	
+	/**
+	 * First step in relevance check, identifying if there are participantB Columns
+	 */
+	private boolean getPartB(){
+		ParticipantB bCheck = new ParticipantB();
+		for(TableBuf.Column col : table.getColumnList()){
+			ColumnTypes t = bCheck.hasParticipantB(col);
+			addColumnMapEntry(t,col);
+		}
+		if(columnMapping.containsKey(ColumnTypes.NOTPROTEIN)){
+			if(columnMapping.size()>1)
+				return true;
+			else 
+				return false;
+		}else if(columnMapping.size() > 0){
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Gets the possible column types indicated by the headers
 	 * @param table
 	 * @return
 	 */
-	private void getColumnTypes(){
+	private void getColumnLabels(){
+		//Identify ParticipantB Before other columns
 		for(TableBuf.Column col : table.getColumnList()){
 			String header = "";
 			if(col.getHeader() != null){
@@ -181,7 +212,8 @@ public class TableType {
 	 */
 	public Pair<ReactionType,List<ColumnTypes>> tableType(TableBuf.Table table){
 		this.table = table;
-		getColumnTypes();
+		boolean hasPartB = getPartB();
+		getColumnLabels();
 		ReactionType reaction = getReactionType(columnMapping.keySet());
 		List<ColumnTypes> colsNeeded = getNeededColumnTypes(reaction);
 		Pair<ReactionType,List<ColumnTypes>> pair = new Pair<ReactionType, List<ColumnTypes>>(reaction,colsNeeded);
