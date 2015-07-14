@@ -3,6 +3,7 @@ package extract.analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -204,9 +205,18 @@ public class TableType {
 	
 	private ReactionType getReactionType(Set<ColumnTypes> colTypes){
 		//TODO Use identified columns to find the reaction type occuring inside the table
-		String title = "";
-		if(table.getCaptionList().size() > 0)
-			title = table.getCaption(0);
+		HashSet<ReactionType> possibleReactions = new HashSet<ReactionType>();
+		for (String caption : table.getCaptionList()){
+			for (ReactionType r : ReactionType.values()){
+				if(r.toString().contains("ion")){
+					String base = r.toString().substring(0, r.toString().lastIndexOf("ion"));
+					if(caption.contains(base)){
+						possibleReactions.add(r);
+					}
+				}
+			}
+		}
+		
 		return null;
 	}
 	
