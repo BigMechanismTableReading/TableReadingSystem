@@ -1,4 +1,4 @@
-package extract.proteins;
+package columncontents.proteins;
 
 public class SwisProt extends Protein{
 	private String regEx = "([A-Z[0-9]]{1,4}_[A-Z]{0,10})";

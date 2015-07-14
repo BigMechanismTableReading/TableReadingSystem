@@ -1,4 +1,4 @@
-package ColumnContents;
+package columncontents;
 
 public interface ColumnContents {
 

@@ -13,6 +13,7 @@ import extract.analysis.TableType.ReactionType;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.buffer.TableBuf.Table;
+import extract.reaction.ReactionReader;
 
 public class TableType {
 	
@@ -154,7 +155,8 @@ public class TableType {
 	}
 	
 	/**
-	 * First step in relevance check, identifying if there are participantB Columns
+	 * Returns whether this table has a participantB Columns
+	 * @return
 	 */
 	private boolean getPartB(){
 		ParticipantB bCheck = new ParticipantB();
@@ -174,17 +176,20 @@ public class TableType {
 	}
 	/**
 	 * Gets the possible column types indicated by the headers
+	 * @param reactionHash 
 	 * @param table
 	 * @return
 	 */
-	private void getColumnLabels(){
+	private void getColumnLabels(HashMap<String, HashMap<ColumnTypes, String[]>> reactionHash){
 		//Identify ParticipantB Before other columns
 		for(TableBuf.Column col : table.getColumnList()){
 			String header = "";
 			if(col.getHeader() != null){
 				header = col.getHeader().getData();
-				List<ColumnTypes> headerTypes = matchHeader(header);
-				List<ColumnTypes> cellTypes = matchCell(col);
+				//TODO efficent way to do the header
+				System.out.println(matchHeader(header));
+				
+				//List<ColumnTypes> cellTypes = matchCell(col);
 				//TODO compare the two lists to decide which column types are correct
 				//Add to columnMapping here
 			}
@@ -210,14 +215,24 @@ public class TableType {
 	 * @param table
 	 * @return
 	 */
-	public Pair<ReactionType,List<ColumnTypes>> tableType(TableBuf.Table table){
+	public Pair<ReactionType,List<ColumnTypes>> tableType(TableBuf.Table table,String reactionFile){
 		this.table = table;
+		//Determines whether there is a participantB and maps the columns that have participantB
 		boolean hasPartB = getPartB();
-		getColumnLabels();
-		ReactionType reaction = getReactionType(columnMapping.keySet());
-		List<ColumnTypes> colsNeeded = getNeededColumnTypes(reaction);
-		Pair<ReactionType,List<ColumnTypes>> pair = new Pair<ReactionType, List<ColumnTypes>>(reaction,colsNeeded);
-		return pair;
+		if(hasPartB == true){
+			//Gets the reactions from a formatted file.
+			ReactionReader r = ReactionReader.getInstance(reactionFile);
+			HashMap<String, HashMap<ColumnTypes,String[]>> reactionHash = r.getReact();
+			//TODO Uses these Hashmaps on the headers first, then inside the columns(looks through first 10 or so rows
+			getColumnLabels(reactionHash);
+			ReactionType reaction = getReactionType(columnMapping.keySet());
+			List<ColumnTypes> colsNeeded = getNeededColumnTypes(reaction);
+			Pair<ReactionType,List<ColumnTypes>> pair = new Pair<ReactionType, List<ColumnTypes>>(reaction,colsNeeded);
+			return pair;
+		}else{
+			System.err.println("No Participant B Column Found");
+			return null;
+		}
 	}
 	
 	

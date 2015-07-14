@@ -1,4 +1,4 @@
-package extract.proteins;
+package columncontents.proteins;
 
 public class GeneName extends Protein {
 

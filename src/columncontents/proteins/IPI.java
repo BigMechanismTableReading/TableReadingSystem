@@ -1,4 +1,4 @@
-package extract.proteins;
+package columncontents.proteins;
 
 public class IPI extends Protein {
 	private String regEx = "IPI[0-9]{8}";

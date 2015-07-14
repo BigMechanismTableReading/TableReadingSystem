@@ -1,4 +1,4 @@
-package extract.proteins;
+package columncontents.proteins;
 
 public class English extends Protein{
 
