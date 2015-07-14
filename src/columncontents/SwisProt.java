@@ -2,8 +2,8 @@ package columncontents;
 
 public class SwisProt extends Protein{
 	private String regEx = "([A-Z[0-9]]{1,4}_[A-Z]{0,10})";
-	private static ColumnContents swis = null;
-	public static ColumnContents getInstance(){
+	private static SwisProt swis = null;
+	public static SwisProt getInstance(){
 		if(swis == null)
 			swis = new SwisProt();
 		return swis;

@@ -4,7 +4,7 @@ public class English extends Protein{
 
 	
 	private static English eng = null;
-	public static ColumnContents getInstance(){
+	public static English getInstance(){
 		if(eng == null)
 			eng = new English();
 		return eng;

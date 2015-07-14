@@ -8,6 +8,12 @@ import extract.lookup.TabLookup;
 
 public abstract class Protein implements ColumnContents{
 	
+	private static Protein prot = null;
+	
+	public static ColumnContents getInstance(){
+		return prot;
+	}
+
 	TabLookup t = TabLookup.getInstance();
 	
 	public String matchesFormat(String input,String regEx) {
