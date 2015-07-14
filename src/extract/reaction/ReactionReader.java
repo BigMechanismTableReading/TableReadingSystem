@@ -1,4 +1,4 @@
-package extract.analysis;
+package extract.reaction;
 
 import java.util.List;
 import java.io.File;
@@ -11,14 +11,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import extract.analysis.TableType;
 import extract.analysis.TableType.ColumnTypes;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.json.simple.JSONObject;
 ;/**
-
  * Input a tab seperated text file in which each new line is a new reaction.
  * Each column should be seperated like this
  * ex. {"SITE"::"HeaderRegex"::"CellRegEx"}
@@ -30,7 +26,7 @@ import org.json.simple.JSONObject;
 public class ReactionReader {
 	
 	static ReactionReader reader = null;
-	String reactionTextFile = "";
+	static String reactionTextFile = "";
 	private HashMap<String,HashMap<ColumnTypes,String[]>> react = new HashMap<String,HashMap<ColumnTypes,String[]>>();
 	
 	private ReactionReader(){
@@ -38,13 +34,15 @@ public class ReactionReader {
 	}
 	
 	private ReactionReader(String filename){
+		reactionTextFile = filename;
 		readReaction(filename);
 		//TODO test this tommorow
 	}
 	
 	public static ReactionReader getInstance(String filename){
-		if(reader == null)
+		if(reader == null || !reactionTextFile.equals(filename)){
 			reader = new ReactionReader(filename);
+		}
 		return reader;
 	}
 
@@ -73,8 +71,8 @@ public class ReactionReader {
 							columnIndicator = e;
 					}
 					subvals.put(columnIndicator, regExes);
-					
 				}				
+				System.out.println(reactType);
 				react.put(reactType, subvals);
 			}
 			s.close();
