@@ -2,9 +2,18 @@ package columncontents.proteins;
 
 public class IPI extends Protein {
 	private String regEx = "IPI[0-9]{8}";
+	private IPI ipi = null;
+	public IPI getInstance(){
+		if(ipi == null)
+			ipi = new IPI();
+		return ipi;
+	}
+	private IPI(){
+		
+	}
 	@Override
 	public String groundIdentity(String ungrounded) {
-		// TODO Auto-generated method stub
+		// TODO GROUND IN THE IPI LOOKUP
 		return null;
 	}
 	public String matchesFormat(String input) {
