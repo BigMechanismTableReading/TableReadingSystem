@@ -1,0 +1,27 @@
+package table;
+option java_package = "extract.buffer";
+option java_outer_classname = "TableBuf";
+
+
+message Cell {
+	required string data = 1;
+}
+message Column {
+	required Cell header = 1;
+	repeated Cell data = 2;
+}
+
+
+message Source {
+	required string paperTitle = 1;
+	required string pmcId = 2;
+	required string author = 3;
+	optional string sourceFile = 4;
+	optional string sheetNo = 5;
+}
+
+message Table {
+	repeated Column column = 1;
+	repeated string caption = 2;
+	required Source source = 3;
+}
