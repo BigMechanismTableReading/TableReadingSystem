@@ -1,5 +1,7 @@
 package columncontents;
 
 public interface ColumnContents {
-	public ColumnContents getInstance();
+	public static ColumnContents getInstance() {
+		return null;
+	}
 }

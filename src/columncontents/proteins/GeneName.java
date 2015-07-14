@@ -3,8 +3,8 @@ package columncontents.proteins;
 public class GeneName extends Protein {
 
 	private String regEx = "[A-Z]{3}[0-9[A-Z]]{1,5}";
-	private GeneName gene = null;
-	public GeneName getInstance(){
+	private static GeneName gene = null;
+	public static GeneName getInstance(){
 		if(gene == null)
 			gene = new GeneName();
 		return gene;

@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import columncontents.ColumnContents;
 import extract.analysis.TableType;
 
 public abstract class Reaction {
-	HashMap<TableType.ColumnTypes, String[]> data = new HashMap<TableType.ColumnTypes, String[]>();
+	HashMap<ColumnContents, String[]> data = new HashMap<ColumnContents, String[]>();
 	ArrayList<String> conjugations = new ArrayList<String>();
-	public List<TableType.ColumnTypes> getRequiredColumns() {
-		ArrayList<TableType.ColumnTypes> requiredTypes = new ArrayList<TableType.ColumnTypes>();
+	public List<ColumnContents> getRequiredColumns() {
+		ArrayList<ColumnContents> requiredTypes = new ArrayList<ColumnContents>();
 		requiredTypes.addAll(data.keySet());
 		return requiredTypes;
 	}
@@ -31,4 +32,5 @@ public abstract class Reaction {
 	public List<String> getConjugationBase(){
 		return conjugations;
 	}
+	public abstract Reaction getInstance();
 }

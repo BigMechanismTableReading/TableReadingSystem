@@ -3,8 +3,8 @@ package columncontents.proteins;
 public class English extends Protein{
 
 	
-	private English eng = null;
-	public English getInstance(){
+	private static English eng = null;
+	public static English getInstance(){
 		if(eng == null)
 			eng = new English();
 		return eng;
