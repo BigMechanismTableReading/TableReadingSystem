@@ -2,9 +2,12 @@ package extract.analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import extract.TextExtractor;
 import extract.analysis.TableType.ColumnTypes;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
@@ -24,10 +27,10 @@ public class ColumnChooser {
 	
 	
 	
-	private boolean notBad(String potentialA, List<String> partB) {
+	private boolean notBad(String potentialA, Set<String> partB) {
 		// TODO Make sure A is not in the participantBList
 		//Make sure A does not match any words that would lead to a false positive
-		return false;
+		return !partB.contains(potentialA);
 	}
 	
 	private String checkFoldCols(String colHeader){
@@ -46,12 +49,14 @@ public class ColumnChooser {
 		HashMap<String, List<TableBuf.Column>> partACols = new HashMap<String, List<TableBuf.Column>>();
 		String title = null;
 		List<String> textMatch= null;
+		HashSet<String> partBset = new HashSet<String>();
+		partBset.addAll(partB);
 		//First look in the fold Columns, if not here do other checks
 		//TODO Can check against the text here as well in the future
 		for(TableBuf.Column col : columns.get(ColumnTypes.FOLD)){
 			String potentialA = checkFoldCols(col.getHeader().getData());
 			if(potentialA != null){
-				if(partACols.containsKey(potentialA) && notBad(potentialA,partB)){
+				if(partACols.containsKey(potentialA) && notBad(potentialA,partBset)){
 					partACols.get(potentialA).add(col);
 				}else{
 					List<TableBuf.Column> addCol = new ArrayList<TableBuf.Column>();
@@ -62,6 +67,7 @@ public class ColumnChooser {
 		}
 		//TODO Add the text matching up here send to checkA
 		//text matcher goes here
+		//textMatch = TextExtractor.extractParticipantA(participantBs, PMCID, conjugationBase);
 		if(partACols.size() == 0){
 			List<TableBuf.Column> foldCols = getBestFold(columns);
 			List<String> possA = new ArrayList<String>();
@@ -73,7 +79,7 @@ public class ColumnChooser {
 				while(wordCount < caption.length && gotA == false){
 					String word = caption[wordCount];
 					String partA = checkA(word,textMatch);//TODO groundsA as well
-					if(partA != null && notBad(partA,partB)){
+					if(partA != null && notBad(partA,partBset)){
 						partACols.put(partA,foldCols); //TODO implement this part, do last capital in checkA if no match
 						gotA = true;
 					}	
