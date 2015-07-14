@@ -17,8 +17,11 @@ public class SwisProt extends Protein{
 			return("Uniprot:" + t.swisprot.get(ungrounded));
 		return null;
 	}
-	public String matchesFormat(String input) {
-		return super.matchesFormat(input, regEx);
-	}	
+	@Override
+	public String cellMatch(String match) {
+		String grounded = groundIdentity(super.matchesFormat(match, regEx));
+		return grounded;
+	}
+	
 
 }

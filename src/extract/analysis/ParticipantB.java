@@ -3,12 +3,7 @@ package extract.analysis;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import columncontents.proteins.English;
-import columncontents.proteins.GeneName;
-import columncontents.proteins.IPI;
-import columncontents.proteins.Protein;
-import columncontents.proteins.SwisProt;
-import columncontents.proteins.Uniprot;
+import columncontents.*;
 import extract.analysis.TableType.ColumnTypes;
 import extract.buffer.TableBuf;
 import extract.lookup.TabLookup;
@@ -19,11 +14,11 @@ import extract.lookup.TabLookup;
  *
  */
 public class ParticipantB {
-	Uniprot u = new Uniprot();
-	SwisProt s = new SwisProt();
-	IPI i = new IPI();
-	GeneName g = new GeneName();
-	English e = new English();
+	Uniprot u = Uniprot.getInstance();
+	SwisProt s = SwisProt.getInstance();
+	IPI i = IPI.getInstance();
+	GeneName g = GeneName.getInstance();
+	English e = English.getInstance();
 	/**
 	 * Helper method that handles matching
 	 * @param pattern
@@ -39,31 +34,7 @@ public class ParticipantB {
 			return ColumnTypes.NOTPROTEIN;
 		}
 	}
-	/**
-	 * Looks up english words in the database
-	 * @param data
-	 * @return
-	 */
-	private boolean LookupEnglish(String data){
-		TabLookup t = TabLookup.getInstance();
-		data = data.replaceAll("\\W+"," ").toUpperCase();
-		if(t.english.containsKey(data))
-			return true;
-		return false;
-	}
 	
-	/**
-	 * Looks up the gene in the database
-	 * @param data
-	 * @return
-	 */
-	private boolean LookupGene(String data){
-		TabLookup t = TabLookup.getInstance();
-		data = data.replaceAll("\\W+"," ").toUpperCase();
-		if(t.genename.containsKey(data))
-			return true;
-		return false;
-	}
 	
 	/**
 	 * Sees if the column has potential participantBs
@@ -78,15 +49,15 @@ public class ParticipantB {
 				String cellData = cell.getData();
 				if(cell.getData() != null){
 					//TODO verify that this is needed.
-					if(u.matchesFormat(cellData) != null)
+					if(u.cellMatch(cellData) != null)
 						return u;
-					if(s.matchesFormat(cellData) != null)
+					if(s.cellMatch(cellData) != null)
 						return s;
-					if(i.matchesFormat(cellData)!=null)
+					if(i.cellMatch(cellData)!=null)
 						return i;
-					if(g.groundIdentity(g.matchesFormat(cellData)) != null)
+					if(g.groundIdentity(g.cellMatch(cellData)) != null)
 						return g;//TODO Specify this geneset
-					if(e.groundIdentity(cellData) != null)
+					if(e.cellMatch(cellData) != null)
 						return e;
 				}
 			}

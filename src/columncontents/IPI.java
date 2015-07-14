@@ -16,8 +16,9 @@ public class IPI extends Protein {
 		// TODO GROUND IN THE IPI LOOKUP
 		return null;
 	}
-	public String matchesFormat(String input) {
-		return super.matchesFormat(input, regEx);
-	}	
-
+	@Override
+	public String cellMatch(String match) {
+		String grounded = groundIdentity(super.matchesFormat(match, regEx));
+		return grounded;
+	}
 }

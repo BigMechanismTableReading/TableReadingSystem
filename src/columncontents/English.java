@@ -18,5 +18,10 @@ public class English extends Protein{
 			return("Uniprot:" + t.english.get(ungrounded));
 		return null;
 	}
+	@Override
+	public String cellMatch(String match) {
+		String grounded = groundIdentity(match);
+		return grounded;
+	}
 
 }

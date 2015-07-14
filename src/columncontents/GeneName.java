@@ -9,17 +9,21 @@ public class GeneName extends Protein {
 			gene = new GeneName();
 		return gene;
 	}
+	
 	private GeneName(){
 		
 	}
+	
 	public String groundIdentity(String ungrounded) {
 		ungrounded = ungrounded.toUpperCase();
 		if(t.genename.containsKey(ungrounded))
 			return("Uniprot:" + t.genename.get(ungrounded));
 		return null;
 	}
-	public String matchesFormat(String input) {
-		return super.matchesFormat(input, regEx);
-	}	
 
+	@Override
+	public String cellMatch(String match) {
+		String grounded = groundIdentity(super.matchesFormat(match, regEx));
+		return grounded;
+	}
 }

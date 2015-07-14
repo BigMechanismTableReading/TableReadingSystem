@@ -24,6 +24,11 @@ public abstract class Protein implements ColumnContents{
 		return null;
 	}
 	
+	@Override
+	public String headerMatch(String match) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	/**
 	 * Returns the grounded ID if found, else returns null
 	 * @param ungrounded

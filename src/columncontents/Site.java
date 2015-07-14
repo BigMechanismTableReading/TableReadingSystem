@@ -8,17 +8,6 @@ import java.util.regex.Pattern;
 import columncontents.ColumnContents;
 
 public abstract class Site implements ColumnContents {
-	
-	public List<String> matchesFormat(String input,String regEx){
-		List<String> sites = new ArrayList<String>();
-		Pattern p = Pattern.compile(regEx);
-		Matcher m = p.matcher(input);
-		while(m.find())
-			sites.add(m.group());
-		if(sites.size() > 0 )
-			return sites;
-		return null;
-	}
 	/**
 	 * Returns cutoff values for positions
 	 * @return
@@ -27,6 +16,17 @@ public abstract class Site implements ColumnContents {
 		return new int[]{
 			1,20,10000
 		};
+	}
+	public String cellMatch(String match, String regEx) {
+		String sites = "";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(match);
+		while(m.find())
+			sites += "," + m.group();
+		sites = sites.replaceAll(",$", "");
+		if(sites.equals(""))
+			return null;
+		return sites;
 	}
 	
 	//TODO
