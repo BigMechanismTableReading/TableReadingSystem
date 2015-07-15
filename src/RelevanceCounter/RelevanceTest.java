@@ -3,13 +3,18 @@ package RelevanceCounter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import columncontents.ColumnContents;
 import extract.analysis.DetermineTable;
+import extract.analysis.Pair;
 import extract.buffer.TableBuf;
+import extract.buffer.TableBuf.Column;
 import extract.types.Reaction;
 
 public class RelevanceTest {
@@ -42,20 +47,30 @@ public class RelevanceTest {
 			e.printStackTrace();
 		}
 		File tableDir = new File("tables");
+		File markedRelevant = new File("MarkedRelevant.txt");
+		FileWriter w;
+		try {
+			w = new FileWriter(markedRelevant);
 		for (File file : tableDir.listFiles()){
 			for(Integer pmc : PMCIDs){
 				if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
 						TableBuf.Table t = getTable(file);
 						if(t!=null){
 							DetermineTable d = new DetermineTable();
-							Reaction r  = d.determine(t).getA();
+							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 							if(r != null){
+								w.write(file.getName());
 								System.out.println(file.getName());
 								relevantCount++;							
 							}
 						}
 				}
 			}
+		}
+		w.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		System.out.println(relevantCount);
 	}

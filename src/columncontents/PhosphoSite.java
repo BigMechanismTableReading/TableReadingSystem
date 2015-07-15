@@ -13,11 +13,7 @@ public class PhosphoSite extends Site implements ColumnContents {
 	private PhosphoSite(){
 		
 	}
-	@Override
-	public String headerMatch(String match) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	@Override
 	public String cellMatch(String match) {
 		return super.cellMatch(match,regEx);
