@@ -1,7 +1,5 @@
 package extract.types;
 
-import java.util.ArrayList;
-
 import columncontents.*;
 
 public class Phosphorylation extends Reaction{
@@ -9,10 +7,7 @@ public class Phosphorylation extends Reaction{
 	public Phosphorylation(){
 		data.add(PhosphoSite.class);
 		data.add(Fold.class);
-		ArrayList<Class<? extends ColumnContents>> phosphositeAlt = new ArrayList<Class<? extends ColumnContents>>();
-		phosphositeAlt.add(Position.class);
-		phosphositeAlt.add(PhosphoAmino.class);
-		alternatives.put(PhosphoSite.class, phosphositeAlt);
+		addAlternativeEntry(PhosphoSite.class, createEntry(Position.class, PhosphoAmino.class));
 		conjugationBase.add("phosphorylat");
 	}
 	
