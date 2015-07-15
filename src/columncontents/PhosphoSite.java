@@ -8,7 +8,7 @@ public class PhosphoSite extends Site implements ColumnContents {
 	public static ColumnContents getInstance() {
 		if(phos == null)
 			phos = new PhosphoSite();
-		return null;
+		return phos;
 	}
 	private PhosphoSite(){
 		

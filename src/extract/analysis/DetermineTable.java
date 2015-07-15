@@ -77,7 +77,7 @@ public class DetermineTable {
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		if(assignB(table,partB,labels)){
-			List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId());
+			List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {
 				requiredContents.addAll(r.getRequiredColumns());
@@ -108,7 +108,7 @@ public class DetermineTable {
 			} catch (Exception e) {
 				e.printStackTrace();	
 			}
-			
+			System.out.println(labels);
 			for (Reaction r : possibleReactions) {
 				List<Class<? extends ColumnContents>> required = r.getRequiredColumns();
 				if (tableColumns.containsAll(required)){

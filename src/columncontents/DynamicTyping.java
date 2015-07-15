@@ -13,8 +13,7 @@ public class DynamicTyping {
 		return dt;
 	}
 	private DynamicTyping(){
-		typeList = Reflections.collect();
-		
+		typeList = new Reflections("columncontents");
 	}
 	public <T> Set<Class<? extends T>> getSubTypesOf(Class<T> type){
 		return typeList.getSubTypesOf(type);
