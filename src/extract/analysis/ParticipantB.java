@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import columncontents.*;
-import extract.analysis.TableType.ColumnTypes;
 import extract.buffer.TableBuf;
 import extract.lookup.TabLookup;
 
