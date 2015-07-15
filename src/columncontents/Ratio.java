@@ -6,9 +6,9 @@ public class Ratio extends Fold{
 	private String headerRegEx = null;//TODO These RegExp
 	private String cellRegEx = null;
 	
-	private Ratio rat = null;
+	private static Ratio rat = null;
 	
-	public Ratio getInstance(){
+	public static Ratio getInstance(){
 		if(rat == null)
 			rat = new Ratio();
 		return rat;	

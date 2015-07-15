@@ -1,14 +1,16 @@
 package columncontents;
 
 import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import extract.buffer.TableBuf;
 
 //TODO Decide on best implementation, abstract or not
 public abstract class Fold implements ColumnContents{
-	private final HashSet<String> INCREASINGTERMS = set("INCREAS");
-	private final HashSet<String> DECREASINGTERMS = set("DECREAS");
-	private final String[] conjugations = new String[]{"E","ES","ING","ED"};
+	private HashSet<String> INCREASINGTERMS = set("INCREAS");
+	private HashSet<String> DECREASINGTERMS = set("DECREAS");
+	private static String[] conjugations = new String[]{"E","ES","ING","ED"};
 	
 	/**
 	 * Calculates and returns cutoffValues as array/HASH?
@@ -33,6 +35,15 @@ public abstract class Fold implements ColumnContents{
 				return null; //TODO what should be returned? ENUM?
 			}
 		}
+		return null;
+	}
+	
+	
+	String match(String match,String regEx) {
+		Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(match);
+		if(m.find())
+			return m.group();
 		return null;
 	}
 

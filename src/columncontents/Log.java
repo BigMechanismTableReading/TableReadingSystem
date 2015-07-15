@@ -9,12 +9,12 @@ import extract.buffer.TableBuf.Column;
  */
 public class Log extends Fold{
 
-	private String headerRegEx = null;//TODO These RegExp
+	private String headerRegEx = ".*[^A-Z[a-z]]log.*";
 	private String cellRegEx = null;
 	
-	private Log log = null;
+	private static Log log = null;
 	
-	public Log getInstance(){
+	public static Log getInstance(){
 		if(log == null)
 			log = new Log();
 		return log;	
@@ -25,8 +25,8 @@ public class Log extends Fold{
 	
 	@Override
 	public String headerMatch(String match) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println(super.match(match, headerRegEx));
+		return super.match(match, headerRegEx);
 	}
 
 	@Override
