@@ -7,6 +7,7 @@ import java.util.List;
 import columncontents.ColumnContents;
 
 public abstract class Reaction {
+	public static Reaction[] allReactions = {Phosphorylation.getInstance()};
 	HashSet<ColumnContents> data = new HashSet<ColumnContents>();
 	ArrayList<String> conjugations = new ArrayList<String>();
 	ArrayList<String> conjugationBase = new ArrayList<String>();
@@ -28,5 +29,7 @@ public abstract class Reaction {
 		conjugations.add("e");
 		conjugations.add("es");
 	}
-	public abstract Reaction getInstance();
+	public static Reaction[] getReactions(){
+		return allReactions;
+	}
 }
