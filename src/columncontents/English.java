@@ -1,5 +1,10 @@
 package columncontents;
 
+/**
+ * English participantB description class
+ * @author sloates
+ *
+ */
 public class English extends Protein{
 
 	
@@ -14,7 +19,7 @@ public class English extends Protein{
 	}
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
-			ungrounded = ungrounded.replaceAll("\\W+"," ");
+			ungrounded = ungrounded.replaceAll("\\W+"," ").toUpperCase();
 			if(t.english.containsKey(ungrounded))
 				return("Uniprot:" + t.english.get(ungrounded));
 		}
