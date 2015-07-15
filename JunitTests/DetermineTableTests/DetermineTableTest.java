@@ -11,6 +11,7 @@ import org.junit.Test;
 import columncontents.Protein;
 import extract.analysis.DetermineTable;
 import extract.buffer.TableBuf;
+import extract.types.Phosphorylation;
 import extract.types.Reaction;
 
 public class DetermineTableTest {
@@ -35,6 +36,6 @@ public class DetermineTableTest {
 		DetermineTable dt = new DetermineTable();
 		Reaction r = dt.determine(table);
 		System.out.println(r);
-		assertTrue(true);
+		assertTrue(r instanceof Phosphorylation);
 	}
 }
