@@ -6,11 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import columncontents.ColumnContents;
 import extract.analysis.DetermineTable;
+import extract.analysis.Pair;
 import extract.buffer.TableBuf;
+import extract.buffer.TableBuf.Column;
 import extract.types.Reaction;
 
 public class RelevanceTest {
@@ -53,7 +57,7 @@ public class RelevanceTest {
 						TableBuf.Table t = getTable(file);
 						if(t!=null){
 							DetermineTable d = new DetermineTable();
-							Reaction r  = d.determine(t).getA();
+							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 							if(r != null){
 								w.write(file.getName());
 								System.out.println(file.getName());
