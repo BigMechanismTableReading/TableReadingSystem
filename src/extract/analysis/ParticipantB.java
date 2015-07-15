@@ -34,6 +34,7 @@ public class ParticipantB {
 				String cellData = cell.getData();
 				if(cell.getData() != null){
 					//TODO verify that this is needed.
+					//This way gets better F1 but not grounded here.
 					if(u.matchesFormat(cellData,u.regEx) != null)
 						return u;
 					if(s.matchesFormat(cellData,s.regEx) != null)
@@ -44,6 +45,7 @@ public class ParticipantB {
 						return g;//TODO Specify this geneset
 					if(e.cellMatch(cellData) != null)
 						return e;
+					//This way gets actual grounding
 //					if(u.cellMatch(cellData) != null)
 //						return u;
 //					if(s.cellMatch(cellData) != null)

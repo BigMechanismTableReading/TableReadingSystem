@@ -59,8 +59,7 @@ public class RelevanceTest {
 							DetermineTable d = new DetermineTable();
 							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 							if(r != null){
-								w.write(file.getName());
-								System.out.println(file.getName());
+								w.write(file.getName()+ "\n");
 								relevantCount++;							
 							}
 						}
