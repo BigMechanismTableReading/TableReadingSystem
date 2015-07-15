@@ -5,12 +5,16 @@ import static org.junit.Assert.assertTrue;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Test;
 
+import columncontents.ColumnContents;
 import columncontents.Protein;
 import extract.analysis.DetermineTable;
+import extract.analysis.Pair;
 import extract.buffer.TableBuf;
+import extract.buffer.TableBuf.Column;
 import extract.types.Phosphorylation;
 import extract.types.Reaction;
 
@@ -34,8 +38,8 @@ public class DetermineTableTest {
 		String filename = "ParticipantBTestProtobufs/PMC1459033T1.pb";
 		TableBuf.Table table = getTable(filename);
 		DetermineTable dt = new DetermineTable();
-		Reaction r = dt.determine(table);
+		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = dt.determine(table);
 		System.out.println(r);
-		assertTrue(r instanceof Phosphorylation);
+		assertTrue(r.getA() instanceof Phosphorylation);
 	}
 }

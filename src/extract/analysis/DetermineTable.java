@@ -97,9 +97,10 @@ public class DetermineTable {
 	
 	/**
 	 * Pipeline that determines whether a table is relevant and what the table indicates
+	 * Returns a pair containing the interaction type and the ColumnTypes mapped to a list of columns
 	 * @param table
 	 */
-	public Reaction determine(TableBuf.Table table){
+	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table){
 		//First Checks whether the species is invalid 
 		if(invalidSpecies(table.getCaptionList()))
 			return null;
@@ -116,7 +117,7 @@ public class DetermineTable {
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
 			for (Reaction r : possibleReactions) {
 				if (containsAllRequired(r, tableColumns)){
-					return r;
+					return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
 				}
 			}
 		}
