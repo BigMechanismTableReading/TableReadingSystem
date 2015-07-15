@@ -108,7 +108,13 @@ public class DetermineTable {
 		for (Class<? extends ColumnContents> requiredType : required){
 			if (!tc.contains(requiredType)){
 				if (r.hasAlternative(requiredType)){
-					if (!tc.containsAll(r.getAlternative(requiredType))){
+					boolean alternative = false;
+					for (List<Class<? extends ColumnContents>> alternativeset : r.getAlternatives(requiredType)){
+						if (tc.containsAll(alternativeset)){
+							alternative = true;
+						}
+					}
+					if(!alternative){
 						return false;
 					}
 				} else {
