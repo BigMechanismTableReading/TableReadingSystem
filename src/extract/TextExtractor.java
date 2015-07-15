@@ -73,7 +73,7 @@ public class TextExtractor {
 		return null;
 	}
 	
-	public static List<Reaction> getPossibleReactions(int PMCID){
+	public static List<Reaction> getPossibleReactions(String PMCID){
 		String name = "PMC" + PMCID;
 		HashSet<String> wordSet = new HashSet<String>();
 		Reaction[] allReactions = Reaction.allReactions;
@@ -84,10 +84,9 @@ public class TextExtractor {
 			try {
 				
 				Document doc = Jsoup.parse(document, "UTF-8", "");
-				LinkedList<String> list = new LinkedList<String>();
 				
 				String text = doc.text();
-				String[] words = text.split(" ");
+				String[] words = text.split("\\W");
 				for(int i = 0; i < words.length; i++){
 					String word = words[i].toLowerCase().replaceAll("\\p{Punct}", "");
 					wordSet.add(word);

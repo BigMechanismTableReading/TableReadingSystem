@@ -46,5 +46,6 @@ public class AbbreviationLookup {
 		System.out.println(lookupAbbr("GH"));
 		System.out.println(lookupAbbr("KEGG"));
 		System.out.println(lookupAbbr("RING"));
+		System.out.println(lookupAbbr("RAS"));
 	}
 }

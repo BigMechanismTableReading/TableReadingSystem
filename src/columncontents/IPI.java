@@ -1,5 +1,7 @@
 package columncontents;
 
+import extract.lookup.IPILookup;
+
 public class IPI extends Protein {
 	private String regEx = "IPI[0-9]{8}";
 	private static IPI ipi = null;
@@ -15,8 +17,11 @@ public class IPI extends Protein {
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded ==null)
 			return null;
-		// TODO GROUND IN THE IPI LOOKUP
-		return null;
+		if(IPILookup.getInstance().IPItoUNI.containsKey(ungrounded)){
+			return IPILookup.getInstance().IPItoUNI.get(ungrounded);
+		} else {
+			return null;
+		}
 	}
 	@Override
 	public String cellMatch(String match) {

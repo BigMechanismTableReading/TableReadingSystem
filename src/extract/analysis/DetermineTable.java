@@ -6,6 +6,7 @@ import java.util.List;
 
 import columncontents.ColumnContents;
 import columncontents.Protein;
+import extract.TextExtractor;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.lookup.SpeciesChecker;
@@ -44,7 +45,7 @@ public class DetermineTable {
 	 * @param labels
 	 * @return
 	 */
-	private boolean assignB(TableBuf.Table table, ParticipantB partB, HashMap<ColumnContents, Column> labels){
+	private boolean assignB(TableBuf.Table table, ParticipantB partB, HashMap<ColumnContents, List<TableBuf.Column>> labels){
 		boolean hasProt = false;
 		for(TableBuf.Column col : table.getColumnList()){
 			Protein p = partB.hasParticipantB(col);
@@ -66,9 +67,17 @@ public class DetermineTable {
 			return null;
 		//Checks to make sure that participantB is in the table, setting columnLabels as it iterates through
 		ParticipantB  partB = new ParticipantB();
-		HashMap<ColumnContents,TableBuf.Column> labels = new HashMap<ColumnContents,TableBuf.Column>();
+		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		if(assignB(table,partB,labels)){
-			//TODO Determine the reaction type and relevance
+			List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId());
+			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
+			for (Reaction r : possibleReactions) {
+				requiredContents.addAll(r.getRequiredColumns());
+			}
+			HashSet<Class<? extends ColumnContents>> tableColumns = new HashSet<Class<? extends ColumnContents>>();
+			for (TableBuf.Column col : table.getColumnList()){
+				
+			}
 		}
 		
 		return null;
