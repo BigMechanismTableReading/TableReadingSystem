@@ -1,7 +1,7 @@
 package columncontents;
 
 public class MethylAmino extends Amino {
-	private String cellRegEx = "l|lys";
+	private String cellRegEx = "k|lys";
 	private static MethylAmino methAmino = null;
 	public static MethylAmino getInstance(){
 		if(methAmino == null)

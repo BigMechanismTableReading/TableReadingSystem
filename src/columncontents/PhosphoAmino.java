@@ -2,7 +2,7 @@ package columncontents;
 
 public class PhosphoAmino extends Amino {
 
-	private String cellRegEx = "[SYT]";
+	private String cellRegEx = "[SYT]|ser|tyr|thr";
 	private static PhosphoAmino phosAmino = null;
 	public static PhosphoAmino getInstance(){
 		if(phosAmino == null)
