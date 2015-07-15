@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import extract.analysis.TableType;
 import extract.types.Reaction;
 
 public class TextExtractor {

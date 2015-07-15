@@ -7,12 +7,12 @@ import java.util.List;
 import columncontents.ColumnContents;
 
 public abstract class Reaction {
-	public static Reaction[] allReactions = {Phosphorylation.getInstance()};
-	HashSet<ColumnContents> data = new HashSet<ColumnContents>();
+	public static Reaction[] allReactions = {Phosphorylation.getInstance(), Methylation.getInstance()};
+	HashSet<Class<? extends ColumnContents>> data = new HashSet<Class<? extends ColumnContents>>();
 	ArrayList<String> conjugations = new ArrayList<String>();
 	ArrayList<String> conjugationBase = new ArrayList<String>();
-	public List<ColumnContents> getRequiredColumns() {
-		ArrayList<ColumnContents> requiredTypes = new ArrayList<ColumnContents>();
+	public List<Class<? extends ColumnContents>> getRequiredColumns() {
+		ArrayList<Class<? extends ColumnContents>> requiredTypes = new ArrayList<Class<? extends ColumnContents>>();
 		requiredTypes.addAll(data);
 		return requiredTypes;
 	}

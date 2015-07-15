@@ -1,13 +1,12 @@
 package extract.types;
 
 import columncontents.*;
-import extract.analysis.TableType.ColumnTypes;
 
 public class Phosphorylation extends Reaction{
 	private static Phosphorylation instance = null;
 	public Phosphorylation(){
-		data.add(PhosphoSite.getInstance());
-		data.add(Fold.getInstance());
+		data.add(PhosphoSite.class);
+		data.add(Fold.class);
 		conjugationBase.add("phosphorylat");
 	}
 	
