@@ -23,8 +23,6 @@ import extract.types.Reaction;
 
 public class TextExtractor {
 	
-	private static boolean phosphoOne = false;
-	
 	public static String parseHTMLTitle(String fileName){
 		File document = new File("papers" + File.pathSeparator + fileName + ".html");
 		System.out.println(fileName);
@@ -184,9 +182,6 @@ public class TextExtractor {
 		HashMap<String, Integer> partAs = new HashMap<String, Integer>();
 		if(list == null)
 			return null;
-		if (list.size() > 0){
-			setPhosphoOne(true);
-		}
 	//	System.err.println(PMCID + " phospho? " + phosphoOne);
 	//	System.err.println("list size " + list.size());
 		for(List<List<String>> entry : list){
@@ -266,13 +261,7 @@ public class TextExtractor {
 		Collections.sort(newList, comp);
 		return newList;
 	}
-	
-	public static boolean isPhosphoOne() {
-		return phosphoOne;
-	}
-	public static void setPhosphoOne(boolean phosphoOne) {
-		TextExtractor.phosphoOne = phosphoOne;
-	}
+
 
 	private static class ValueComparator implements Comparator<String> {
 		Map<String, Integer> mapToSort;

@@ -16,6 +16,12 @@ public abstract class Protein implements ColumnContents{
 
 	TabLookup t = TabLookup.getInstance();
 	
+	/**
+	 * Checks that the regEx matches the input and returns the 1st match
+	 * @param input
+	 * @param regEx
+	 * @return
+	 */
 	public String matchesFormat(String input,String regEx) {
 		Pattern p = Pattern.compile(regEx);
 		Matcher m = p.matcher(input);
@@ -29,6 +35,7 @@ public abstract class Protein implements ColumnContents{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	/**
 	 * Returns the grounded ID if found, else returns null
 	 * @param ungrounded
