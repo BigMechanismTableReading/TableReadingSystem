@@ -8,12 +8,21 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
+import columncontents.English;
+import columncontents.GeneName;
+import columncontents.IPI;
+import columncontents.Protein;
+import columncontents.SwisProt;
+import columncontents.Uniprot;
 import extract.analysis.ParticipantB;
 import extract.analysis.TableType.ColumnTypes;
 import extract.buffer.TableBuf;
 
 public class ParticipantBTest {
 
+	/**
+	 * Tests for Uniprot ID
+	 */
 	@Test
 	public void uniprotTest() {
 		String filename = "ParticipantBTestProtobufs/PMC1459033T1.pb";
@@ -28,15 +37,35 @@ public class ParticipantBTest {
 		}	
 		
 		ParticipantB b = new ParticipantB();
-		HashSet<ColumnTypes> colTypesFound = new HashSet<ColumnTypes>();
+		HashSet<Protein> colTypesFound = new HashSet<Protein>();
+		int uniprot = 0;
+		int gene = 0;
+		int swisprot = 0;
+		int ipi = 0;
+		int english = 0;
 		if(table != null){
 			for(TableBuf.Column col : table.getColumnList()){
-				colTypesFound.add(b.hasParticipantB(col));
+				Protein p = b.hasParticipantB(col);
+				if(p instanceof Uniprot){
+					uniprot++;
+				}
+				if(p instanceof GeneName){
+					gene++;
+				}
+				if(p instanceof SwisProt){
+					swisprot++;
+				}
+				if(p instanceof IPI){
+					ipi++;
+				}
+				if(p instanceof English){
+					english++;
+				}
 			}
 		}
-		assertTrue(colTypesFound.contains(ColumnTypes.UNIPROT));
-		assertFalse(colTypesFound.contains(ColumnTypes.SWISPROT));
-		assertTrue(colTypesFound.contains(ColumnTypes.GENE));		
+		assertTrue(uniprot > 0);
+		assertTrue(ipi == 0 && swisprot == 0);
+			
 	}
 	
 	/**
@@ -54,19 +83,18 @@ public class ParticipantBTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		
 		ParticipantB b = new ParticipantB();
-		HashSet<ColumnTypes> colTypesFound = new HashSet<ColumnTypes>();
+		int protein = 0;
 		if(table != null){
 			for(TableBuf.Column col : table.getColumnList()){
-				colTypesFound.add(b.hasParticipantB(col));
+				Protein p = b.hasParticipantB(col);
+				if(p instanceof Protein){
+					System.out.println(p);
+					protein++;
+				}
 			}
 		}
-		
-		assertFalse(colTypesFound.contains(ColumnTypes.UNIPROT));
-		assertFalse(colTypesFound.contains(ColumnTypes.SWISPROT));
-		assertFalse(colTypesFound.contains(ColumnTypes.GENE));	
-		assertFalse(colTypesFound.contains(ColumnTypes.ENGLISH));
+		assertFalse(protein > 0);
 	}
 	
 	/**

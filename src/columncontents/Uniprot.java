@@ -18,9 +18,12 @@ public class Uniprot extends Protein{
 	}
 	
 	public String groundIdentity(String ungrounded) {
-		if(t.uniprot.containsKey(ungrounded))
-			return("Uniprot:" + t.uniprot.get(ungrounded));
-		return null;
+		if(ungrounded != null){
+			if(t.uniprot.containsKey(ungrounded))
+				return("Uniprot:" + t.uniprot.get(ungrounded));
+		}
+			return null;
+			
 	}
 	
 	@Override

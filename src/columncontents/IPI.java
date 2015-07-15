@@ -13,6 +13,8 @@ public class IPI extends Protein {
 	}
 	@Override
 	public String groundIdentity(String ungrounded) {
+		if(ungrounded ==null)
+			return null;
 		// TODO GROUND IN THE IPI LOOKUP
 		return null;
 	}
