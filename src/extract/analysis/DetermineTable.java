@@ -111,17 +111,33 @@ public class DetermineTable {
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {
 				requiredContents.addAll(r.getRequiredColumns());
+				requiredContents.addAll(r.getAllAlternatives());
 			}
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
 			for (Reaction r : possibleReactions) {
-				List<Class<? extends ColumnContents>> required = r.getRequiredColumns();
-				if (tableColumns.containsAll(required)){
+				if (containsAllRequired(r, tableColumns)){
 					return r;
 				}
 			}
 		}
 		
 		return null;
+	}
+	
+	private boolean containsAllRequired(Reaction r, HashSet<Class<? extends ColumnContents>> tc){
+		List<Class<? extends ColumnContents>> required = r.getRequiredColumns();
+		for (Class<? extends ColumnContents> requiredType : required){
+			if (!tc.contains(requiredType)){
+				if (r.hasAlternative(requiredType)){
+					if (!tc.containsAll(r.getAlternative(requiredType))){
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	private boolean labelTable(ColumnContents c, HashMap<ColumnContents,List<TableBuf.Column>> data, TableBuf.Table table) {
