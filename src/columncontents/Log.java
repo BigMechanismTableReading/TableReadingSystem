@@ -9,7 +9,7 @@ import extract.buffer.TableBuf.Column;
  */
 public class Log extends Fold{
 
-	private String headerRegEx = ".*[^A-Z[a-z]]log.*";
+	private String headerRegEx = "\\blog";
 	private String cellRegEx = null;
 	
 	private static Log log = null;
@@ -25,7 +25,6 @@ public class Log extends Fold{
 	
 	@Override
 	public String headerMatch(String match) {
-		System.out.println(super.match(match, headerRegEx));
 		return super.match(match, headerRegEx);
 	}
 

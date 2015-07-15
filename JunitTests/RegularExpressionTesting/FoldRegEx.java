@@ -15,8 +15,14 @@ public class FoldRegEx {
 		assertTrue(l.headerMatch("log") != null);
 		assertTrue(l.headerMatch(" LOG(D/V)") != null);
 		assertTrue(l.headerMatch("log(D/V)") != null);
+		assertTrue(l.headerMatch("Mean log(D/V)") != null);
+		assertTrue(l.headerMatch("Avg log(D/V)") != null);
 		
 		assertTrue(l.headerMatch("OrthoLog") == null);
+	}
+	
+	@Test public void foldHeadeRegExTest(){
+		
 	}
 
 }

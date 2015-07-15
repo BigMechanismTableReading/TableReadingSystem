@@ -3,7 +3,8 @@ package columncontents;
 import extract.buffer.TableBuf.Column;
 
 public class Ratio extends Fold{
-	private String headerRegEx = null;//TODO These RegExp
+	private String headerRegEx = ".*change.*|.*ratio.*|.*silac.*|.*phospho.{0,2}rate|"
+			+ ".*induction.|.*mean.*|.*K[OD]/WT.*";
 	private String cellRegEx = null;
 	
 	private static Ratio rat = null;
@@ -19,8 +20,7 @@ public class Ratio extends Fold{
 	
 	@Override
 	public String headerMatch(String match) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.match(match, headerRegEx);
 	}
 
 	@Override
