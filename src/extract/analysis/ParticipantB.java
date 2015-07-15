@@ -9,35 +9,21 @@ import extract.buffer.TableBuf;
 import extract.lookup.TabLookup;
 
 /**
- * Class used to find the ParticipantBs in different Columns
+ * Identifies if column contains participantB and returns which subtype
  * @author sloates
  *
  */
 public class ParticipantB {
+	
+	//Gets instances of different protein subtypes
 	Uniprot u = Uniprot.getInstance();
 	SwisProt s = SwisProt.getInstance();
 	IPI i = IPI.getInstance();
 	GeneName g = GeneName.getInstance();
 	English e = English.getInstance();
-	/**
-	 * Helper method that handles matching
-	 * @param pattern
-	 * @param data
-	 * @param potential
-	 * @return
-	 */
-	private ColumnTypes matchHelp(Pattern pattern, String data , ColumnTypes potential){
-		Matcher match = pattern.matcher(data);
-		if(match.find()){
-			return potential;
-		}else{
-			return ColumnTypes.NOTPROTEIN;
-		}
-	}
-	
 	
 	/**
-	 * Sees if the column has potential participantBs
+	 * Checks through the columns, matching for participantB
 	 * @param col
 	 * @return
 	 */
@@ -67,7 +53,8 @@ public class ParticipantB {
 	}
 	
 	/**
-	 * Checks to see if the current Column is a participantB column
+	 * Returns a protein subtype if this column contains participantB
+	 * else returns null
 	 * @param header
 	 * @param col
 	 * @return

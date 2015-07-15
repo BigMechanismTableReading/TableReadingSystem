@@ -89,7 +89,6 @@ public class ParticipantBTest {
 			for(TableBuf.Column col : table.getColumnList()){
 				Protein p = b.hasParticipantB(col);
 				if(p instanceof Protein){
-					System.out.println(p);
 					protein++;
 				}
 			}
