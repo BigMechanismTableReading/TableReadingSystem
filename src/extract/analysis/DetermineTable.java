@@ -64,6 +64,36 @@ public class DetermineTable {
 		}
 		return hasProt;
 	}
+	private HashSet<Class<? extends ColumnContents>> getTableColumns(HashSet<Class<? extends ColumnContents>> requiredContents,
+			HashMap<ColumnContents,List<TableBuf.Column>> labels,TableBuf.Table table){
+		HashSet<Class<? extends ColumnContents>> tableColumns = new HashSet<Class<? extends ColumnContents>>();
+		try {
+			for (Class<? extends ColumnContents> columnType : requiredContents){
+				if (Modifier.isAbstract( columnType.getModifiers())){
+					boolean columnTypeExists = false;
+					for (Class<? extends ColumnContents> subType : DynamicTyping.getInstance().getSubTypesOf(columnType)){
+						Method m = subType.getMethod("getInstance");
+						ColumnContents columnContentType = (ColumnContents) m.invoke(null);
+						if (labelTable(columnContentType, labels, table)) {
+							columnTypeExists = true;
+						}
+					}
+					if(columnTypeExists) {
+						tableColumns.add(columnType);
+					}
+				} else {
+					Method m = columnType.getMethod("getInstance");
+					ColumnContents columnContentType = (ColumnContents) m.invoke(null);
+					if (labelTable(columnContentType, labels, table)) {
+						tableColumns.add(columnType);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();	
+		}
+		return tableColumns;
+	}
 	
 	/**
 	 * Pipeline that determines whether a table is relevant and what the table indicates
@@ -82,33 +112,7 @@ public class DetermineTable {
 			for (Reaction r : possibleReactions) {
 				requiredContents.addAll(r.getRequiredColumns());
 			}
-			HashSet<Class<? extends ColumnContents>> tableColumns = new HashSet<Class<? extends ColumnContents>>();
-			try {
-				for (Class<? extends ColumnContents> columnType : requiredContents){
-					if (Modifier.isAbstract( columnType.getModifiers())){
-						boolean columnTypeExists = false;
-						for (Class<? extends ColumnContents> subType : DynamicTyping.getInstance().getSubTypesOf(columnType)){
-							Method m = subType.getMethod("getInstance");
-							ColumnContents columnContentType = (ColumnContents) m.invoke(null);
-							if (labelTable(columnContentType, labels, table)) {
-								columnTypeExists = true;
-							}
-						}
-						if(columnTypeExists) {
-							tableColumns.add(columnType);
-						}
-					} else {
-						Method m = columnType.getMethod("getInstance");
-						ColumnContents columnContentType = (ColumnContents) m.invoke(null);
-						if (labelTable(columnContentType, labels, table)) {
-							tableColumns.add(columnType);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();	
-			}
-			System.out.println(labels);
+			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
 			for (Reaction r : possibleReactions) {
 				List<Class<? extends ColumnContents>> required = r.getRequiredColumns();
 				if (tableColumns.containsAll(required)){
