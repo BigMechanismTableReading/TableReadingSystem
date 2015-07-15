@@ -23,10 +23,11 @@ public abstract class Protein implements ColumnContents{
 	 * @return
 	 */
 	public String matchesFormat(String input,String regEx) {
-		Pattern p = Pattern.compile(regEx);
+		Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(input);
-		if(m.find())
+		if(m.find()){
 			return m.group();
+		}
 		return null;
 	}
 	

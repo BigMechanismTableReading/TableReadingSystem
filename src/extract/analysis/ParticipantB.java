@@ -34,16 +34,26 @@ public class ParticipantB {
 				String cellData = cell.getData();
 				if(cell.getData() != null){
 					//TODO verify that this is needed.
-					if(u.cellMatch(cellData) != null)
+					if(u.matchesFormat(cellData,u.regEx) != null)
 						return u;
-					if(s.cellMatch(cellData) != null)
+					if(s.matchesFormat(cellData,s.regEx) != null)
 						return s;
-					if(i.cellMatch(cellData)!=null)
+					if(i.matchesFormat(cellData,i.regEx) !=null)
 						return i;
-					if(g.groundIdentity(g.cellMatch(cellData)) != null)
+					if(g.matchesFormat(cellData,s.regEx) != null)
 						return g;//TODO Specify this geneset
 					if(e.cellMatch(cellData) != null)
 						return e;
+//					if(u.cellMatch(cellData) != null)
+//						return u;
+//					if(s.cellMatch(cellData) != null)
+//						return s;
+//					if(i.cellMatch(cellData)!=null)
+//						return i;
+//					if(g.cellMatch(cellData) != null)
+//						return g;//TODO Specify this geneset
+//					if(e.cellMatch(cellData) != null)
+//						return e;
 				}
 			}
 			count++;

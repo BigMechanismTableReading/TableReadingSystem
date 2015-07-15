@@ -99,7 +99,6 @@ public class DetermineTable {
 				}
 			}
 		}
-		System.err.println(table.getSource().getSourceFile() + labels.keySet());
 		
 		
 		return null;
