@@ -1,0 +1,20 @@
+package columncontents;
+
+public class PhosphoAmino extends Amino {
+
+	private String cellRegEx = "[SYT]";
+	private static PhosphoAmino phosAmino = null;
+	public static PhosphoAmino getInstance(){
+		if(phosAmino == null)
+			phosAmino = new PhosphoAmino();
+		return phosAmino;
+	}
+	private PhosphoAmino(){
+		
+	}
+
+	@Override
+	public String cellMatch(String match) {
+		return super.cellMatch(match, cellRegEx);
+	}
+}
