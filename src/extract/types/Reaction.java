@@ -50,6 +50,7 @@ public abstract class Reaction {
 	public static Reaction[] getReactions(){
 		return allReactions;
 	}
+	@SuppressWarnings("unchecked")
 	public ArrayList<Class<? extends ColumnContents>> createEntry(Class<? extends ColumnContents> ...list){
 		ArrayList<Class<? extends ColumnContents>> newEntry = new ArrayList<Class<? extends ColumnContents>>();
 		for (Class<? extends ColumnContents> entry : list){
