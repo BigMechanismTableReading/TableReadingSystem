@@ -10,7 +10,9 @@ public class Phosphorylation extends Reaction{
 		data.add(PhosphoSite.class);
 		data.add(Fold.class);
 		ArrayList<Class<? extends ColumnContents>> phosphositeAlt = new ArrayList<Class<? extends ColumnContents>>();
-		
+		phosphositeAlt.add(Position.class);
+		phosphositeAlt.add(PhosphoAmino.class);
+		alternatives.put(PhosphoSite.class, phosphositeAlt);
 		conjugationBase.add("phosphorylat");
 	}
 	

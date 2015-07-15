@@ -8,6 +8,16 @@ public class Position implements ColumnContents{
 	private String headerRegEx = "residue|location|position";
 	private String cellRegEx = "^\\d{1,5}$";//TODO figure out good position regex
 	
+	private static Position pos = null;
+	public static Position getInstance(){
+		if(pos == null)
+			pos = new Position();
+		return pos;
+	}
+	private Position(){
+		
+	}
+	
 	@Override
 	public String headerMatch(String match) {
 		Pattern p = Pattern.compile(headerRegEx,Pattern.CASE_INSENSITIVE);
