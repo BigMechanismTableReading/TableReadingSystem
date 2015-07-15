@@ -3,6 +3,7 @@ package RelevanceCounter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,10 @@ public class RelevanceTest {
 			e.printStackTrace();
 		}
 		File tableDir = new File("tables");
+		File markedRelevant = new File("MarkedRelevant.txt");
+		FileWriter w;
+		try {
+			w = new FileWriter(markedRelevant);
 		for (File file : tableDir.listFiles()){
 			for(Integer pmc : PMCIDs){
 				if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
@@ -50,12 +55,18 @@ public class RelevanceTest {
 							DetermineTable d = new DetermineTable();
 							Reaction r  = d.determine(t).getA();
 							if(r != null){
+								w.write(file.getName());
 								System.out.println(file.getName());
 								relevantCount++;							
 							}
 						}
 				}
 			}
+		}
+		w.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		System.out.println(relevantCount);
 	}
