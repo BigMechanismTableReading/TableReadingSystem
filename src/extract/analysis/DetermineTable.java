@@ -28,25 +28,6 @@ import extract.types.Reaction;
 public class DetermineTable {
 	
 	/**
-	 * Checks the captions for any obvious signs of a wrong species
-	 * @param captionList
-	 * @return
-	 */
-	private boolean invalidSpecies(List<String> captionList){
-		SpeciesChecker spec = new SpeciesChecker();
-		HashSet<String> specSet = spec.getWrongSpecies();
-		for(String sentence : captionList){
-			for(String word : sentence.split("\\W")){
-				if(specSet.contains(word.toUpperCase()))
-					return true;
-			}
-	
-		}
-		
-		return false;
-	}
-	
-	/**
 	 * Identifies any columns that have potential participantB
 	 * @param table
 	 * @param partB
@@ -101,9 +82,6 @@ public class DetermineTable {
 	 * @param table
 	 */
 	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table){
-		//First Checks whether the species is invalid 
-		if(invalidSpecies(table.getCaptionList()))
-			return null;
 		//Checks to make sure that participantB is in the table, setting columnLabels as it iterates through
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
