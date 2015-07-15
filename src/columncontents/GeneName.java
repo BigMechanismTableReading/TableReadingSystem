@@ -2,7 +2,7 @@ package columncontents;
 
 public class GeneName extends Protein {
 
-	private String regEx = "[A-Z]{3}[0-9[A-Z]]{1,5}";//TODO update this regEx
+	private String regEx = "[A-Z]{1}[0-9[A-Z[a-z]]]{1,5}";//TODO update this regEx
 	private static GeneName gene = null;
 	public static GeneName getInstance(){
 		if(gene == null)

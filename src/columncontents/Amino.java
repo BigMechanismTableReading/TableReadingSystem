@@ -3,6 +3,7 @@ package columncontents;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public abstract class Amino implements ColumnContents{
 	String headerRegEx = "\bamino.*|\bbase|\bsyt";
 	
