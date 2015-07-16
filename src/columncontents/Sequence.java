@@ -1,7 +1,11 @@
 package columncontents;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import extract.buffer.TableBuf;
 
 
 public abstract class Sequence implements ColumnContents {
@@ -22,4 +26,9 @@ public abstract class Sequence implements ColumnContents {
 			return m.group();
 		return null;
 	}
+	@Override
+	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+		return null;
+	}
+	
 }

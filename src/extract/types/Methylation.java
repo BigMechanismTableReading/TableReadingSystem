@@ -5,6 +5,8 @@ import columncontents.*;
 public class Methylation extends Reaction{
 	private static Methylation instance = null;
 	public Methylation(){
+		data.add(MethylSite.class);
+		data.add(Fold.class);
 		conjugationBase.add("methylat");
 	}
 	

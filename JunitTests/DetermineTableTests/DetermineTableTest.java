@@ -43,11 +43,10 @@ public class DetermineTableTest {
 	}
 	@Test
 	public void tableTest1() {
-		String filename = "ParticipantBTestProtobufs/PMC2804597T1.pb";
+		String filename = "ParticipantBTestProtobufs/PMC3948310t01.pb";
 		TableBuf.Table table = getTable(filename);
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = dt.determine(table);
-		System.out.println(r);
 	}
 	
 }

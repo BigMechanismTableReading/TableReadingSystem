@@ -1,7 +1,11 @@
 package columncontents;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import extract.buffer.TableBuf;
 
 public class Position implements ColumnContents{
 	//TODO determine matching for this
@@ -35,5 +39,10 @@ public class Position implements ColumnContents{
 			return m.group();
 		return null;
 	}
+	
+	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+		return null;
+	}
+	
 
 }

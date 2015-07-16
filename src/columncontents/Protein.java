@@ -1,14 +1,23 @@
 package columncontents;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import columncontents.ColumnContents;
+import extract.buffer.TableBuf;
 import extract.lookup.TabLookup;
 
 public abstract class Protein implements ColumnContents{
 	
 	private static Protein prot = null;
+	Uniprot u = Uniprot.getInstance();
+	SwisProt s = SwisProt.getInstance();
+	IPI i = IPI.getInstance();
+	GeneName g = GeneName.getInstance();
+	English e = English.getInstance();
+	Protein[] protList = {u,s,i,g,e};
 	
 	public static ColumnContents getInstance(){
 		return prot;
@@ -34,6 +43,33 @@ public abstract class Protein implements ColumnContents{
 	@Override
 	public String headerMatch(String match) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	private String getGrounded(Protein p,HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+		String data;
+		if(cols.containsKey(p)){
+			TableBuf.Column col = cols.get(p).get(0);
+			if(col.getDataCount() > row && col.getData(row) != null){
+				 data = col.getData(row).getData();
+				 String s = p.groundIdentity(data);
+				 if(s != null)
+					 return s;
+				 else if (p instanceof Uniprot)
+					 return "Uniprot:" + data;
+				 else return null;
+			}
+		}
+		return null;
+	}
+	
+	@Override 
+	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+		for(Protein p : protList){
+			String s = getGrounded(p,cols,row);
+			if(s!= null)
+				return s;
+		}
 		return null;
 	}
 	

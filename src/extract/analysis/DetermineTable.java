@@ -86,7 +86,6 @@ public class DetermineTable {
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		if(assignB(table,partB,labels)){
-			System.out.println("HAS B");
 			List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {

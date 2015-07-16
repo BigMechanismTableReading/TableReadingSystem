@@ -1,11 +1,13 @@
 package columncontents;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import columncontents.ColumnContents;
+import extract.buffer.TableBuf;
 
 public abstract class Site implements ColumnContents {
 	private String headerRegEx = "site|residue|syt|location|tyrosine";//|position";//TODO write the header
@@ -29,6 +31,9 @@ public abstract class Site implements ColumnContents {
 		return null;
 	}
 	
+	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+		return null;
+	}
 	
 	public String cellMatch(String match, String regEx) {
 		String sites = "";
