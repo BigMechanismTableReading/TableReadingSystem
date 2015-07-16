@@ -12,12 +12,12 @@ import extract.lookup.TabLookup;
 public abstract class Protein implements ColumnContents{
 	
 	private static Protein prot = null;
-	Uniprot u = Uniprot.getInstance();
-	SwisProt s = SwisProt.getInstance();
-	IPI i = IPI.getInstance();
-	GeneName g = GeneName.getInstance();
-	English e = English.getInstance();
-	Protein[] protList = {u,s,i,g,e};
+	static Uniprot u = Uniprot.getInstance();
+	static  SwisProt s = SwisProt.getInstance();
+	static IPI i = IPI.getInstance();
+	static GeneName g = GeneName.getInstance();
+	static English e = English.getInstance();
+	static Protein[] protList = {u,s,i,g,e};
 	
 	public static ColumnContents getInstance(){
 		return prot;

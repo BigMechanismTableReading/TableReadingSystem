@@ -28,5 +28,6 @@ public class ExtractionPipeline {
 		TableBuf.Table t = getTable(filename);
 		DetermineTable d = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> p = d.determine(t);
+		//TODO determine all participantBs
 	}
 }
