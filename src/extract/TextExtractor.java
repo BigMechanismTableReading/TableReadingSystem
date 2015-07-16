@@ -116,16 +116,16 @@ public class TextExtractor {
 	}
 	
 	/**
-	 * Splits sentences in a paper by a conjugation base (ex: "phosphorylat") 
+	 * Splits sentences in a paper by conjugation bases (ex: "phosphorylat") 
 	 * and returns groups of proteins around it.
 	 * Example using "phosphorylat": 
 	 * A sentence like "LATS1/WARTS phosphorylates MYPT1" will return this entry in the list:
 	 * {{"LATS1","WARTS"},{"phosphorylates"},{"MYPT1"}}
 	 * @param fileName path to html document
-	 * @param conjugationBase the word to parse around
+	 * @param conjugationBaseList the words to parse around
 	 * @return list of sentences
 	 */
-	public static List<List<List<String>>> getReactionPairs(String fileName, String conjugationBase) {
+	public static List<List<List<String>>> getReactionPairs(String fileName, List<String> conjugationBaseList) {
 		File document = new File(fileName);
 		
 		if (document.exists()) {
@@ -137,25 +137,26 @@ public class TextExtractor {
 				String text = doc.text();
 				String[] sentences = text.split("\\.");
 				for(int i = 0; i < sentences.length; i++){
-					int breakpoint = sentences[i].toLowerCase().indexOf(conjugationBase);
-					if(breakpoint != -1){
-						LinkedList<List<String>> entry = new LinkedList<List<String>>();
-						entry.add(findProteins(sentences[i].substring(0, breakpoint)));
-						int start = sentences[i].lastIndexOf(" ", breakpoint);
-						int end = sentences[i].indexOf(" ", breakpoint);
-						LinkedList<String> type = new LinkedList<String>();
-						if (start + 1 > 0 && end > 0)
-						type.add(sentences[i].substring(start + 1, end));
-						if(sentences[i].indexOf("by ", end) == end + 1){
-							type.add("by");
-						} else if(sentences[i].indexOf("of ", end) == end + 1){
-							type.add("of");
-						} 
-						entry.add(type);
-						entry.add(findProteins(sentences[i].substring(breakpoint)));
-						
-						list.add(entry);
-						//list.add(sentences[i]);
+					for (String conjugationBase : conjugationBaseList){
+						int breakpoint = sentences[i].toLowerCase().indexOf(conjugationBase);
+						if(breakpoint != -1){
+							LinkedList<List<String>> entry = new LinkedList<List<String>>();
+							entry.add(findProteins(sentences[i].substring(0, breakpoint)));
+							int start = sentences[i].lastIndexOf(" ", breakpoint);
+							int end = sentences[i].indexOf(" ", breakpoint);
+							LinkedList<String> type = new LinkedList<String>();
+							if (start + 1 > 0 && end > 0)
+							type.add(sentences[i].substring(start + 1, end));
+							if(sentences[i].indexOf("by ", end) == end + 1){
+								type.add("by");
+							} else if(sentences[i].indexOf("of ", end) == end + 1){
+								type.add("of");
+							} 
+							entry.add(type);
+							entry.add(findProteins(sentences[i].substring(breakpoint)));
+							
+							list.add(entry);
+						}
 					}
 				}
 				return list;
@@ -175,7 +176,7 @@ public class TextExtractor {
 	 * @param conjugationBase The base word of the reaction to parse
 	 * @return the sorted list of participant A's
 	 */
-	public static List<String> extractParticipantA(Set<String> participantBs, int PMCID, String conjugationBase){
+	public static List<String> extractParticipantA(Set<String> participantBs, String PMCID, List<String> conjugationBase){
 		//setPhosphoOne(false);
 		String name = "PMC" + PMCID;
 		List<List<List<String>>> list = getReactionPairs("papers" + File.separator + name + ".html", conjugationBase);
