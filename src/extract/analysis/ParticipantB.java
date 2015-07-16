@@ -43,7 +43,7 @@ public class ParticipantB {
 					if(i.matchesFormat(cellData,i.regEx) !=null)
 						return i;
 					if(g.cellMatch(cellData) != null)
-						return g;//TODO Specify this geneset
+						return g;
 					if(e.cellMatch(cellData) != null)
 						return e;
 					//System.out.println(cellData);

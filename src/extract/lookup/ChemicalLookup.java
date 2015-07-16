@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class ChemicalLookup {
-	public static HashMap<String, String> chemicals = new HashMap<String, String>();
+	public static HashMap<String, String> chemicals;
 	private static ChemicalLookup instance = null;
 	
 	public static ChemicalLookup getInstance(){
@@ -17,8 +17,8 @@ public class ChemicalLookup {
 		return instance;
 	}
 	
-	public ChemicalLookup(){
-		
+	private ChemicalLookup(){
+		chemicals = new HashMap<String, String>();
 		File chemicalList = new File("names.tsv");
 		Scanner s;
 		try {
@@ -32,9 +32,7 @@ public class ChemicalLookup {
 				curr = s.nextLine();
 			}
 			s.close();
-			//System.out.println(uniprot.keySet().toString());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

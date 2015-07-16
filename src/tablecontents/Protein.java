@@ -17,7 +17,7 @@ public abstract class Protein implements ColumnContents{
 	static IPI i = IPI.getInstance();
 	static GeneName g = GeneName.getInstance();
 	static English e = English.getInstance();
-	static Protein[] protList = {u,s,i,g,e};
+	public static Protein[] protList = {u,s,i,g,e};
 	
 	public static ColumnContents getInstance(){
 		return prot;
