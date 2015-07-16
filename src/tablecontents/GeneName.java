@@ -2,7 +2,7 @@ package tablecontents;
 
 public class GeneName extends Protein {
 
-	public String regEx = "[A-Z[a-z]]{1}[0-9[A-Z[a-z]]]{1,6}";//TODO update this regEx Look at this
+	 ;//TODO update this regEx Look at this
 	private static GeneName gene = null;
 	public static GeneName getInstance(){
 		if(gene == null)
@@ -11,7 +11,7 @@ public class GeneName extends Protein {
 	}
 	
 	private GeneName(){
-		
+		regEx = "[A-Z[a-z]]{1}[0-9[A-Z[a-z]]]{1,6}";
 	}
 	
 	public String groundIdentity(String ungrounded) {

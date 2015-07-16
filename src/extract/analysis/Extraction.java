@@ -31,9 +31,9 @@ public class Extraction {
 	 */
 	private HashMap<Integer,String> getAllParticipantB(HashMap<ColumnContents, List<TableBuf.Column>> contents){
 		TableBuf.Column col = null;
-		ColumnContents protein = null;
+		ColumnContents protein = null;//TODO error is here
 		for(ColumnContents c : contents.keySet()){
-			if(c instanceof Protein){
+			if(c instanceof Protein && protein == null){
 				col = contents.get(c).get(0);
 				protein = c;
 			}

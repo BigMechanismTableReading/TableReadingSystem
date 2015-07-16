@@ -3,7 +3,7 @@ package tablecontents;
 import extract.lookup.IPILookup;
 
 public class IPI extends Protein {
-	public String regEx = "IPI[0-9]{8}";
+	
 	private static IPI ipi = null;
 	public static IPI getInstance(){
 		if(ipi == null)
@@ -11,7 +11,7 @@ public class IPI extends Protein {
 		return ipi;
 	}
 	private IPI(){
-		
+		regEx = "IPI[0-9]{8}";
 	}
 	@Override
 	public String groundIdentity(String ungrounded) {

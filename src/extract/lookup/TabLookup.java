@@ -61,8 +61,8 @@ public class TabLookup{
 				for(String genes: line[4].split("\\s")){
 					if(swis.contains("HUMAN")){
 						genename.put(genes.toUpperCase(),uni);
-						uniToGene.put(uni, genes.toUpperCase());
 					}
+						uniToGene.put(uni, genes.toUpperCase());
 				}
 				uniprot.put(uni, uni);
 				swisprot.put(swis, uni);

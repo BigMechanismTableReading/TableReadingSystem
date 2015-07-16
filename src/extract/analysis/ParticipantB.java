@@ -13,14 +13,7 @@ import extract.lookup.TabLookup;
  *
  */
 public class ParticipantB {
-	
 	//Gets instances of different protein subtypes
-	Uniprot u = Uniprot.getInstance();
-	SwisProt s = SwisProt.getInstance();
-	IPI i = IPI.getInstance();
-	GeneName g = GeneName.getInstance();
-	English e = English.getInstance();
-	
 	/**
 	 * Checks through the columns, matching for participantB
 	 * @param col
@@ -28,24 +21,24 @@ public class ParticipantB {
 	 */
 	private Protein getCell(TableBuf.Column col){
 		int count = 0;
+		Protein p[] = Protein.protList;
 		while(count < 10 && count < col.getDataCount()){
 			TableBuf.Cell cell = col.getData(count);
 			if(cell != null){
 				String cellData = cell.getData();
 				if(cellData != null){
-					
 					//TODO verify that this is needed.
 					//This way gets better F1 but not grounded here.
-					if(u.matchesFormat(cellData,u.regEx) != null)
-						return u;
-					if(s.matchesFormat(cellData,s.regEx) != null)
-						return s;
-					if(i.matchesFormat(cellData,i.regEx) !=null)
-						return i;
-					if(g.cellMatch(cellData) != null)
-						return g;
-					if(e.cellMatch(cellData) != null)
-						return e;
+					if(p[0].matchesFormat(cellData,p[0].getRegEx()) != null)
+						return p[0];
+					if(p[1].matchesFormat(cellData,p[1].getRegEx())  != null)
+						return p[1];
+					if(p[2].matchesFormat(cellData,p[2].getRegEx())  !=null)
+						return p[2];
+					if(p[3].cellMatch(cellData) != null)
+						return p[3];
+					if(p[4].cellMatch(cellData) != null)
+						return p[4];
 					//System.out.println(cellData);
 					//This way gets actual grounding
 //					if(u.cellMatch(cellData) != null)

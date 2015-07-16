@@ -37,7 +37,7 @@ public class DetermineTable {
 	private boolean assignB(TableBuf.Table table, ParticipantB partB, HashMap<ColumnContents, List<TableBuf.Column>> labels){
 		boolean hasProt = false;
 		for(TableBuf.Column col : table.getColumnList()){
-			Protein p = partB.hasParticipantB(col);
+			ColumnContents p = partB.hasParticipantB(col);
 			if(p instanceof Protein){
 				addToData(p, col, labels);
 				hasProt = true;
@@ -86,6 +86,7 @@ public class DetermineTable {
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
+		
 		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){	
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {

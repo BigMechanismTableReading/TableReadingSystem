@@ -1,7 +1,6 @@
 package tablecontents;
 
 public class SwisProt extends Protein{
-	public String regEx = "([A-Z[0-9]]{1,4}_[A-Z]{0,10})";
 	private static SwisProt swis = null;
 	public static SwisProt getInstance(){
 		if(swis == null)
@@ -9,7 +8,7 @@ public class SwisProt extends Protein{
 		return swis;
 	}
 	private SwisProt(){
-		
+		 regEx = "([A-Z[0-9]]{1,4}_[A-Z]{0,10})";
 	}
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
