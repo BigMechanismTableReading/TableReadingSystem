@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import columncontents.ColumnContents;
 
 public abstract class Site implements ColumnContents {
-	private String headerRegEx = "site|residue|position|syt|location";//TODO write the header
+	private String headerRegEx = "site|residue|syt|location|tyrosine";//|position";//TODO write the header
 	/**
 	 * Returns cutoff values for positions
 	 * @return
@@ -23,8 +23,9 @@ public abstract class Site implements ColumnContents {
 	public String headerMatch(String match) {
 		Pattern p = Pattern.compile(headerRegEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(match);
-		if(m.find())
+		if(m.find()){
 			return m.group();
+		}
 		return null;
 	}
 	

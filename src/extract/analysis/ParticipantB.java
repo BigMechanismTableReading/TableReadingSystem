@@ -32,7 +32,8 @@ public class ParticipantB {
 			TableBuf.Cell cell = col.getData(count);
 			if(cell != null){
 				String cellData = cell.getData();
-				if(cell.getData() != null){
+				if(cellData != null){
+					
 					//TODO verify that this is needed.
 					//This way gets better F1 but not grounded here.
 					if(u.matchesFormat(cellData,u.regEx) != null)
@@ -41,10 +42,11 @@ public class ParticipantB {
 						return s;
 					if(i.matchesFormat(cellData,i.regEx) !=null)
 						return i;
-					if(g.matchesFormat(cellData,s.regEx) != null)
+					if(g.matchesFormat(cellData,g.regEx) != null)
 						return g;//TODO Specify this geneset
 					if(e.cellMatch(cellData) != null)
 						return e;
+					//System.out.println(cellData);
 					//This way gets actual grounding
 //					if(u.cellMatch(cellData) != null)
 //						return u;
