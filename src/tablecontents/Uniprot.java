@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

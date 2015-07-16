@@ -1,6 +1,6 @@
 package extract.types;
 
-import columncontents.*;
+import tablecontents.*;
 
 public class Phosphorylation extends Reaction{
 	private static Phosphorylation instance = null;

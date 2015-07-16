@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import columncontents.ColumnContents;
-import columncontents.Protein;
+import tablecontents.ColumnContents;
+import tablecontents.Protein;
 import extract.analysis.DetermineTable;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;

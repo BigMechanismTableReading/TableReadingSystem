@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 import java.util.HashMap;
 import java.util.List;

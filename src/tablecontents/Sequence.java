@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,9 +8,8 @@ import java.util.regex.Pattern;
 import extract.buffer.TableBuf;
 
 
-public abstract class Amino implements ColumnContents{
-	String headerRegEx = "\bamino.*|\bbase|\bsyt";
-	
+public abstract class Sequence implements ColumnContents {
+	private String headerRegEx = "sequence";
 	
 	@Override
 	public String headerMatch(String match) {
@@ -21,13 +20,12 @@ public abstract class Amino implements ColumnContents{
 		return null;
 	}
 	String cellMatch(String match,String regEx) {
-		Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
+		Pattern p = Pattern.compile(regEx);
 		Matcher m = p.matcher(match);
 		if(m.find())
 			return m.group();
 		return null;
 	}
-	
 	@Override
 	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;

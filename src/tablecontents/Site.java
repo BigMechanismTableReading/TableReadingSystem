@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import columncontents.ColumnContents;
+import tablecontents.ColumnContents;
 import extract.buffer.TableBuf;
 
 public abstract class Site implements ColumnContents {

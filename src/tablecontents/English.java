@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 /**
  * English participantB description class

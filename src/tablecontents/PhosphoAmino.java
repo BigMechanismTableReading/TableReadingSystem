@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 public class PhosphoAmino extends Amino {
 

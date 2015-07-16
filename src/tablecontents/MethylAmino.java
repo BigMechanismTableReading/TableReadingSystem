@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 public class MethylAmino extends Amino {
 	private String cellRegEx = "k|lys";

@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 public class SwisProt extends Protein{
 	public String regEx = "([A-Z[0-9]]{1,4}_[A-Z]{0,10})";

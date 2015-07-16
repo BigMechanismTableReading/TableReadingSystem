@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import columncontents.ColumnContents;
+import tablecontents.ColumnContents;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.types.Reaction;

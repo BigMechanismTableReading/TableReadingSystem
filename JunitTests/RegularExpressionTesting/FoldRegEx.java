@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import columncontents.Log;
+import tablecontents.Log;
 
 public class FoldRegEx {
 

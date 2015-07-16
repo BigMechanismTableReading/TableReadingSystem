@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +7,20 @@ import java.util.regex.Pattern;
 
 import extract.buffer.TableBuf;
 
-
-public abstract class Sequence implements ColumnContents {
-	private String headerRegEx = "sequence";
+public class Position implements ColumnContents{
+	//TODO determine matching for this
+	private String headerRegEx = "residue|location|position";
+	private String cellRegEx = "^\\d{1,5}$";//TODO figure out good position regex
+	
+	private static Position pos = null;
+	public static Position getInstance(){
+		if(pos == null)
+			pos = new Position();
+		return pos;
+	}
+	private Position(){
+		
+	}
 	
 	@Override
 	public String headerMatch(String match) {
@@ -19,16 +30,19 @@ public abstract class Sequence implements ColumnContents {
 			return m.group();
 		return null;
 	}
-	String cellMatch(String match,String regEx) {
-		Pattern p = Pattern.compile(regEx);
+
+	@Override
+	public String cellMatch(String match) {
+		Pattern p = Pattern.compile(cellRegEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(match);
 		if(m.find())
 			return m.group();
 		return null;
 	}
-	@Override
+	
 	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
 	}
 	
+
 }

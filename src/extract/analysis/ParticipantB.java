@@ -3,7 +3,7 @@ package extract.analysis;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import columncontents.*;
+import tablecontents.*;
 import extract.buffer.TableBuf;
 import extract.lookup.TabLookup;
 

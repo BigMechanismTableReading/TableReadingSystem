@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import columncontents.ColumnContents;
+import tablecontents.ColumnContents;
 
 public abstract class Reaction {
 	public static Reaction[] allReactions = {Phosphorylation.getInstance(), Methylation.getInstance()};

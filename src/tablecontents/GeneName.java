@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 public class GeneName extends Protein {
 

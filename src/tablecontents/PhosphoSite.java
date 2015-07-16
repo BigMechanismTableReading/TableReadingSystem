@@ -1,6 +1,6 @@
-package columncontents;
+package tablecontents;
 
-import columncontents.ColumnContents;
+import tablecontents.ColumnContents;
 
 public class PhosphoSite extends Site implements ColumnContents {
 	//TODO fix this up

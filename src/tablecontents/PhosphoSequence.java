@@ -1,4 +1,4 @@
-package columncontents;
+package tablecontents;
 
 public class PhosphoSequence extends Sequence {
 	

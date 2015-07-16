@@ -9,12 +9,12 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
-import columncontents.English;
-import columncontents.GeneName;
-import columncontents.IPI;
-import columncontents.Protein;
-import columncontents.SwisProt;
-import columncontents.Uniprot;
+import tablecontents.English;
+import tablecontents.GeneName;
+import tablecontents.IPI;
+import tablecontents.Protein;
+import tablecontents.SwisProt;
+import tablecontents.Uniprot;
 import extract.analysis.ParticipantB;
 import extract.buffer.TableBuf;
 

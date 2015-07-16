@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import columncontents.ColumnContents;
+import tablecontents.ColumnContents;
 import extract.analysis.DetermineTable;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;

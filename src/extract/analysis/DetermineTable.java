@@ -11,9 +11,9 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
-import columncontents.ColumnContents;
-import columncontents.DynamicTyping;
-import columncontents.Protein;
+import tablecontents.ColumnContents;
+import tablecontents.DynamicTyping;
+import tablecontents.Protein;
 import extract.TextExtractor;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;

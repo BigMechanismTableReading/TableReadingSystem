@@ -1,6 +1,6 @@
 package extract.types;
 
-import columncontents.*;
+import tablecontents.*;
 
 public class Methylation extends Reaction{
 	private static Methylation instance = null;

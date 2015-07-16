@@ -1,6 +1,6 @@
-package columncontents;
+package tablecontents;
 
-import columncontents.ColumnContents;
+import tablecontents.ColumnContents;
 
 public class MethylSite extends Site implements ColumnContents {
 	private String regEx = "lys\\d{2,5}|k\\d{2,5}";
