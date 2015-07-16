@@ -183,8 +183,6 @@ public class TextExtractor {
 		HashMap<String, Integer> partAs = new HashMap<String, Integer>();
 		if(list == null)
 			return null;
-	//	System.err.println(PMCID + " phospho? " + phosphoOne);
-	//	System.err.println("list size " + list.size());
 		for(List<List<String>> entry : list){
 			HashSet<String> partArow = new HashSet<String>();
 			for (String partB : participantBs){
@@ -211,15 +209,8 @@ public class TextExtractor {
 				}
 			}
 		}
-		HashMap<String,Integer> valid = new HashMap<String,Integer>();
-		//TODO try running here
 		
-		for( String a : partAs.keySet()){
-			if(partAs.get(a) >1)
-				valid.put(a,partAs.get(a));
-		}
-		
-		List<String> sortedList = sortByValue(valid);
+		List<String> sortedList = sortByValue(partAs);
 		for (int i = 0; i < sortedList.size(); i++) {
 			System.out.println(sortedList.get(i) + " : " + partAs.get(sortedList.get(i)));
 		}
@@ -237,7 +228,7 @@ public class TextExtractor {
 		sentence = sentence.trim();
 		sentence = sentence.replace("-", "");
 		if(Pattern.matches("^[A-Z[a-z[0-9]]].*", sentence)){	
-			Pattern p = Pattern.compile("([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
+			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
 			Matcher m = p.matcher(sentence);
 			while(m.find()){
 				proteins.add(m.group());

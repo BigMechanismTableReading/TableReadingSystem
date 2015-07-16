@@ -85,8 +85,8 @@ public class DetermineTable {
 		//Checks to make sure that participantB is in the table, setting columnLabels as it iterates through
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
-		if(assignB(table,partB,labels)){
-			List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
+		List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
+		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){	
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {
 				requiredContents.addAll(r.getRequiredColumns());

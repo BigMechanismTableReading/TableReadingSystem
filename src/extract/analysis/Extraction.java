@@ -71,6 +71,7 @@ public class Extraction {
 		HashMap<Integer, String> partB = getAllParticipantB(contents);
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,foldContents(contents), r);
-		
+		for(ParticipantA a : participantACols)
+			System.out.print(a.getName() + "\t");
 	}
 }

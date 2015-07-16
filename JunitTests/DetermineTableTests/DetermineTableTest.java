@@ -12,6 +12,7 @@ import org.junit.Test;
 import tablecontents.ColumnContents;
 import tablecontents.Protein;
 import extract.analysis.DetermineTable;
+import extract.analysis.Extraction;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
@@ -35,11 +36,12 @@ public class DetermineTableTest {
 	
 	@Test
 	public void tableTest() {
-		String filename = "ParticipantBTestProtobufs/PMC2972220pone-0013818-t003.pb";
+		String filename = "ParticipantBTestProtobufs/PMC1459033T1.pb";
 		TableBuf.Table table = getTable(filename);
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = dt.determine(table);
-		assertTrue(r == null);
+		Extraction e = new Extraction();
+		e.ExtractInfo(r, table);
 	}
 	@Test
 	public void tableTest1() {

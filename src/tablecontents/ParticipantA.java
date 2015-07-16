@@ -33,5 +33,7 @@ public class ParticipantA {
 	public boolean equalString(String otherName){
 		return name.equals(otherName);
 	}
-	
+	public String getName(){
+		return name;
+	}
 }

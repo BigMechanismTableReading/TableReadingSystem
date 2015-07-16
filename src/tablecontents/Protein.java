@@ -32,6 +32,7 @@ public abstract class Protein implements ColumnContents{
 	 * @return
 	 */
 	public String matchesFormat(String input,String regEx) {
+		System.out.println(input);
 		Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(input);
 		if(m.find()){
@@ -52,7 +53,9 @@ public abstract class Protein implements ColumnContents{
 			TableBuf.Column col = cols.get(p).get(0);
 			if(col.getDataCount() > row && col.getData(row) != null){
 				 data = col.getData(row).getData();
+				 System.out.println(data);
 				 String s = p.groundIdentity(data);
+				 
 				 if(s != null)
 					 return s;
 				 else if (p instanceof Uniprot)

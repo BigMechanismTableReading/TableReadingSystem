@@ -131,6 +131,14 @@ public class ParticipantAExtractor {
 			Reaction r){
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		Set<String> allB = new HashSet<String>();
+		TabLookup t = TabLookup.getInstance();
+		for(String s : partB.values()){
+			if(t.uniToGene.containsKey(partB)){
+				for(String g : t.uniToGene.get(partB).split("\\s")){
+					allB.add(g);
+				}
+			}
+		}
 		allB.addAll(partB.values());
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){

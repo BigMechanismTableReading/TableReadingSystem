@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class ChemicalLookup {
-	public static HashMap<String, String> chemicals;
+	public HashMap<String, String> chemicals;
 	private static ChemicalLookup instance = null;
 	
 	public static ChemicalLookup getInstance(){

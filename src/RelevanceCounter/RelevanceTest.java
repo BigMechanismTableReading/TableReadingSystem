@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import tablecontents.ColumnContents;
 import extract.analysis.DetermineTable;
+import extract.analysis.Extraction;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
@@ -49,6 +50,7 @@ public class RelevanceTest {
 		File tableDir = new File("tables");
 		File markedRelevant = new File("MarkedRelevant.txt");
 		FileWriter w;
+		Extraction extr = new Extraction();
 		try {
 			w = new FileWriter(markedRelevant);
 		for (File file : tableDir.listFiles()){
@@ -59,8 +61,9 @@ public class RelevanceTest {
 							DetermineTable d = new DetermineTable();
 							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 							if(r != null){
-								w.write(file.getName()+ "\n");
-								relevantCount++;							
+								w.write(t.getSource().getPmcId());
+								System.out.println(t.getSource().getPmcId());
+								extr.ExtractInfo(r, t);					
 							}
 						}
 				}
