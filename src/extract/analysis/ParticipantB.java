@@ -42,7 +42,7 @@ public class ParticipantB {
 						return s;
 					if(i.matchesFormat(cellData,i.regEx) !=null)
 						return i;
-					if(g.matchesFormat(cellData,g.regEx) != null)
+					if(g.cellMatch(cellData) != null)
 						return g;//TODO Specify this geneset
 					if(e.cellMatch(cellData) != null)
 						return e;
