@@ -11,11 +11,12 @@ import extract.buffer.TableBuf.Column;
 import extract.types.Reaction;
 
 public class IndexCard {
+	
 	public HashMap<String, String> data;
-	int row;
+	
 	public IndexCard(Reaction r, String partB, String partBuntrans, int row) {
-		this.row = row;
 		data = new HashMap<String, String>();
+		data.put("row", row+ "");
 		data.put("modification_type", r.toString());
 		data.put("entity_text_b", partBuntrans);
 		data.put("entity_type_b", "protein");
@@ -23,6 +24,7 @@ public class IndexCard {
 	}
 
 	public IndexCard(IndexCard card) {
+		data = new HashMap<String, String>();
 		addInfo(card.data);
 	}
 
@@ -36,7 +38,7 @@ public class IndexCard {
 		return data.get(key);
 	}
 
-	public void addPartA(ParticipantA entry) {
+	public boolean addPartA(ParticipantA entry, int row) {
 		Ratio r = Ratio.getInstance();
 		String aGrounded = entry.getName();
 		data.put("identifier_a",aGrounded);
@@ -51,8 +53,12 @@ public class IndexCard {
 		}
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
 		Fold f = r.bestFold(foldCols);
-		f.extractData(foldCols.get(f),row);
-		
+		HashMap<String, String> foldData = f.extractData(foldCols.get(f),row);
+		if(foldData.isEmpty()){
+			return false;
+		}
+		addInfo(foldData);
+		return true;
 	}
 	
 }

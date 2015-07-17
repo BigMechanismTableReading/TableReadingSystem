@@ -92,7 +92,7 @@ public class ParticipantAExtractor {
 		} else {
 			partA = translatePartA(form);//TODO check for bad words and grounding
 		}
-		if(!partBs.contains(partA)){
+		if(partA != null && !partBs.contains(partA)){
 			return new Pair<String, String>(form, partA);
 		}
 		return null;

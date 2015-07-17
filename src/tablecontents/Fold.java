@@ -15,7 +15,7 @@ public abstract class Fold implements ColumnContents{
 	private HashSet<String> INCREASINGTERMS = set("INCREAS");
 	private HashSet<String> DECREASINGTERMS = set("DECREAS");
 	private static String[] conjugations = new String[]{"E","ES","ING","ED"};
-	private double[] cutOffs = null;
+	 double[] cutOffs = null;
 	
 	/**
 	 * Calculates and returns cutoffValues as array/HASH?
@@ -42,7 +42,6 @@ public abstract class Fold implements ColumnContents{
 
 	public String [] determineMod(double d){
 		if(d < cutOffs[0]){
-			//TODO inhibits
 			return new String [] {"inhibits modification", "false"};
 		}else if(d > cutOffs[1]){
 			return new String [] {"adds modification","false"};
@@ -58,7 +57,7 @@ public abstract class Fold implements ColumnContents{
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
 		//TODO find a way to determine the best column within the types. this needs more data to look at
 		HashMap<String, String> modifs = new HashMap<String,String>();
-		Pattern p = Pattern.compile("\b(\\d{1,3}\\.\\d{1,10})\b");//TODO is this the best one
+		Pattern p = Pattern.compile("\\b(\\d{1,3}\\.\\d{1,10})\\b");//TODO is this the best one
 		for(TableBuf.Column c : cols){
 			TableBuf.Cell cell = c.getData(row);
 			if( cell != null){

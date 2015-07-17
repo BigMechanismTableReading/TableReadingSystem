@@ -11,7 +11,6 @@ public class Log extends Fold{
 
 	private String headerRegEx = "\\blog";
 	private String cellRegEx = null;
-	private double[] cutOffs = new double[]{-.5,.5,0};
 	private static Log log = null;
 	
 	public static Log getInstance(){
@@ -20,7 +19,7 @@ public class Log extends Fold{
 		return log;	
 	}
 	private Log(){
-		
+		cutOffs = new double[]{-.5,.5,0};
 	}
 	
 	@Override

@@ -6,7 +6,6 @@ public class Ratio extends Fold{
 	private String headerRegEx = ".*ratio.*|.*silac.*|.*phospho.{0,2}rate|"
 			+ ".*induction.|.*mean.*|.*K[OD]/WT.*";
 	private String cellRegEx = null;
-	private double[] cutOffs = new double[]{.67,1.5,1};
 	
 	private static Ratio rat = null;
 	
@@ -16,7 +15,7 @@ public class Ratio extends Fold{
 		return rat;	
 	}
 	private Ratio(){
-		
+		cutOffs = new double[]{.67,1.5,1};
 	}
 	
 	@Override

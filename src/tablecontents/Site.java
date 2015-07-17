@@ -13,7 +13,7 @@ import extract.buffer.TableBuf;
 
 public abstract class Site implements ColumnContents {
 	private String headerRegEx = "site|residue|syt|location|tyrosine";//|position";//TODO write the header
-	private String regEx = null;
+	String regEx = null;
 	/**
 	 * Returns cutoff values for positions
 	 * @return
@@ -62,7 +62,8 @@ public abstract class Site implements ColumnContents {
 				if(data != null){
 					Matcher m = site.matcher(data);
 					while(m.find()){
-						String [] both = m.group().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+						String s = m.group();
+						String [] both = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 						if(both.length== 2){
 							sites.add(both[1]);
 							aminos.add((both[0].replaceAll("[^A-Z[a-z]]", "")));

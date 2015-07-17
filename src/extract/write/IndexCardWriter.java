@@ -1,15 +1,22 @@
 package extract.write;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
+import javax.json.JsonWriterFactory;
+import javax.json.stream.JsonGenerator;
 
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
@@ -50,7 +57,7 @@ public class IndexCardWriter {
 		participant.add("entity_text", idx.getData("entity_text" + "_" + part));
 		participant.add("entity_type", idx.getData("entity_type" + "_" + part));
 		participant.add("identifier", idx.getData("identifier" + "_" + part));
-		participant.add("in_model", idx.getData("in_model" + "_" + part));
+		participant.add("in_model", "false");
 	}
 	
 	private void addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB,IndexCard idx) {
@@ -85,16 +92,16 @@ public class IndexCardWriter {
 		infoBuilder.add("modifications",modifications);
 		
 	}
-	private void tableEvidence(JsonArrayBuilder evidence,IndexCard idx){
+	private void tableEvidence(JsonArrayBuilder evidence,IndexCard idx,TableBuf.Table t){
 		JsonObjectBuilder tableEvidence= Json.createObjectBuilder();
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
 		JsonObjectBuilder interiorTableEv = Json.createObjectBuilder();
 		JsonObjectBuilder largeTab = Json.createObjectBuilder();
-		interiorTableEv.add("table",idx.getData("table"));
+		interiorTableEv.add("table",t.getSource().getSourceFile());
 		interiorTableEv.add("row", idx.getData("row"));
 		JsonArrayBuilder headers = Json.createArrayBuilder();
-		for(String s : idx.getData("headers").split(";")){
-			headers.add(s);
+		for(TableBuf.Column c : t.getColumnList()){
+			headers.add(c.getHeader().getData());
 		}
 		interiorTableEv.add("Headers", headers);
 		JsonObjectBuilder foldHeader = Json.createObjectBuilder();
@@ -102,7 +109,7 @@ public class IndexCardWriter {
 		
 		JsonArrayBuilder captions = Json.createArrayBuilder();	
 		if(captions != null){
-			for(String s : idx.getData("captions").split(";")){
+			for(String s : t.getCaptionList()){
 				captions.add(s);
 			}
 		}
@@ -124,9 +131,9 @@ public class IndexCardWriter {
 		textEvidence.add("text_evidence",textArray);
 		evidence.add(textEvidence);
 	}
-	private void createEvidence(JsonObjectBuilder idxBuilder,IndexCard idx){
+	private void createEvidence(JsonObjectBuilder idxBuilder,IndexCard idx,TableBuf.Table t){
 		JsonArrayBuilder evidence = Json.createArrayBuilder();
-		tableEvidence(evidence, idx);
+		tableEvidence(evidence, idx,t);
 		textEvidence(evidence, idx);
 		idxBuilder.add("evidence", evidence);
 	}
@@ -148,9 +155,45 @@ public class IndexCardWriter {
 		String reactionType;
 		addParticipants(participantA,participantB,infoBuilder,idx);
 		idxBuilder.add("extracted_information", infoBuilder.build());
-		createEvidence(idxBuilder,idx);
+		createEvidence(idxBuilder,idx,t);
 		JsonObject finishedCard = idxBuilder.build();
+		jsonToFile(finishedCard,"index_cards",t,idx.getData("row"));//TODO dont hardcode in index_cards
 		return finishedCard;
+	}
+	public void jsonToFile(JsonObject card,String directory,TableBuf.Table t,String row){
+		String fileSubStr = t.getSource().getPmcId()+"/";
+		
+		writeToDir("index_cards",fileSubStr,card, row,t);
+	}
+	
+	private static void writeToDir(String directory, String fileSubStr,JsonObject indexcard,String row,TableBuf.Table t){
+		try {
+			
+			File root = new File(directory + File.separator);
+			if (!root.exists()) {
+				root.mkdir();	
+			}
+			File f = new File(directory + File.separator+fileSubStr);
+			if (!f.exists()) {
+				f.mkdir();
+			}
+			Map<String, Object> properties = new HashMap<String, Object>(1);
+        	properties.put(JsonGenerator.PRETTY_PRINTING, true);
+        	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
+        	String tbl = t.getSource().getSourceFile() + "sheet"+ t.getSource().getSheetNo();
+        	/*int start = 0;
+        	start =  tbl.lastIndexOf('t');
+        	if(start == -1){
+        	start = tbl.lastIndexOf('T');
+        	}*/
+        	FileOutputStream fis = new FileOutputStream(new File(directory + File.separator + fileSubStr + tbl +"Row"+ row +".json"));
+			JsonWriter writer = writerFactory.createWriter(fis);
+			writer.write(indexcard);
+			fis.close();
+			writer.close();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
 }

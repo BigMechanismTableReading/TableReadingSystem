@@ -111,14 +111,16 @@ public class Extraction {
 			//First get the site/sequence column, then do fold
 			for(ParticipantA entry: participantACols){
 				IndexCard dupl = new IndexCard(card);
-				dupl.addPartA(entry);
-				cards.add(dupl);
+				if (dupl.addPartA(entry,i)){
+					cards.add(dupl);
+				}
 			}
 		}
 		
 		for (IndexCard card : cards){
 			IndexCardWriter w = new IndexCardWriter();
-			w.writeIndexCard("TIME", "TIME", table, card);
+			System.out.println("e");
+			System.out.println(w.writeIndexCard("TIME", "TIME", table, card).entrySet().toString());
 		}
 		
 	}

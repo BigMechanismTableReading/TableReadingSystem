@@ -3,7 +3,6 @@ package tablecontents;
 import tablecontents.ColumnContents;
 
 public class MethylSite extends Site implements ColumnContents {
-	private String regEx = "lys\\d{2,5}|k\\d{2,5}";
 	private static MethylSite meth = null;
 	public static ColumnContents getInstance() {
 		if(meth == null)
@@ -11,7 +10,7 @@ public class MethylSite extends Site implements ColumnContents {
 		return meth;
 	}
 	private MethylSite(){
-		
+		regEx = "lys\\d{2,5}|k\\d{2,5}";
 	}
 
 	@Override
