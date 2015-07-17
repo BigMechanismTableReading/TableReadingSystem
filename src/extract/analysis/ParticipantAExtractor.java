@@ -23,7 +23,7 @@ import extract.types.Reaction;
 public class ParticipantAExtractor {
 
 	private void addPartA(List<ParticipantA> participantAs,
-			String partA, ColumnContents f, Column col) {
+			String partAuntrans, String partA, ColumnContents f, Column col) {
 		//TODO make this structure into a class.
 		for (ParticipantA partAentry : participantAs){
 			if (partAentry.equalString(partA)){
@@ -31,7 +31,7 @@ public class ParticipantAExtractor {
 				return;
 			}
 		}
-		ParticipantA newA = new ParticipantA(partA);
+		ParticipantA newA = new ParticipantA(partA, partAuntrans);
 		newA.addToData(f, col);
 		participantAs.add(newA);
 	}
@@ -85,7 +85,7 @@ public class ParticipantAExtractor {
 		}
 		return null;
 	}
-	private String groundPartA(String form,Set<String>partBs){
+	private Pair<String, String> groundPartA(String form,Set<String>partBs){
 		String partA = null;
 		if (form.toUpperCase().equals(form)){
 			partA = abbrLookup(form);
@@ -93,17 +93,17 @@ public class ParticipantAExtractor {
 			partA = translatePartA(form);//TODO check for bad words and grounding
 		}
 		if(!partBs.contains(partA)){
-			return partA;
+			return new Pair<String, String>(form, partA);
 		}
 		return null;
 	}
-	private String checkPartA(TableBuf.Column col, Set<String> partBs){
+	private Pair<String,String> checkPartA(TableBuf.Column col, Set<String> partBs){
 		
 		String [] split = col.getHeader().getData().split("\\s|;");
-		List<String> possA = new ArrayList<String>();
+		List<Pair<String,String>> possA = new ArrayList<Pair<String,String>>();
 		for(String word: split){
 			for (String form : allForms(word)){
-				String partA = groundPartA(form,partBs);
+				Pair<String,String> partA = groundPartA(form,partBs);
 				if (partA != null)
 					possA.add(partA);
 			}
@@ -114,7 +114,7 @@ public class ParticipantAExtractor {
 		return null;
 	}
 	
-	private String checkPartAText(Set<String> allB,String pmcid, Reaction r, List<String> possA){
+	private String checkPartAText(Set<String> allB,String pmcid, Reaction r, Set<String> possA){
 		List<String>  textA= TextExtractor.extractParticipantA(allB, pmcid,r.getConjugationBase());
 		for(String aText : textA){
 			String transTextA = translatePartA(aText);
@@ -141,33 +141,34 @@ public class ParticipantAExtractor {
 		allB.addAll(partB.values());
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
-				String partA = checkPartA(col, allB);
+				Pair<String,String> partA = checkPartA(col, allB);
 				if (partA != null){
-					addPartA(participantAs, partA, f, col);
+					addPartA(participantAs, partA.getA(), partA.getB(), f, col);
 				}
 			}
 		}
 		if (participantAs.isEmpty()){
-			List<String> possA = new ArrayList<String>();
+			//Translated maps to Untranslated
+			HashMap<String, String> possA = new HashMap<String, String>();
 			for(String caption : table.getCaptionList()){
 				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z]+[\\w]*");
 				Matcher m = p.matcher(caption);
 				while(m.find()){
-					String word = groundPartA(m.group(),allB);
+					Pair<String, String> word = groundPartA(m.group(),allB);
 					if(word!= null){
-						possA.add(word);
+						possA.put(word.getB(), word.getA());
 					}
 				}
 			}
-			String partA = checkPartAText(allB, table.getSource().getPmcId().substring(3), r,possA);
+			String partA = checkPartAText(allB, table.getSource().getPmcId().substring(3), r, possA.keySet());
 			if(partA!= null){
-				participantAs.add(new ParticipantA(partA, contents));
+				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
 				return participantAs;
 			}
 		}else{
 			return participantAs;
 		}
-		participantAs.add(new ParticipantA("unknown", contents));
+		participantAs.add(new ParticipantA("unknown", "unknown", contents));
 		return participantAs;
 	}
 

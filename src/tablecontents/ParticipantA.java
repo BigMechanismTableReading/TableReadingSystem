@@ -8,15 +8,18 @@ import extract.buffer.TableBuf;
 
 public class ParticipantA {
 	private String name = null;
+	private String untransName = null;
 	HashMap<ColumnContents,List<TableBuf.Column>> foldCols= null;
 	
-	public ParticipantA(String name){
+	public ParticipantA(String name, String untransName){
 		this.name = name;
+		this.untransName = untransName;
 		foldCols = new HashMap<ColumnContents,List<TableBuf.Column>>();
 	}
 	
-	public ParticipantA(String name, HashMap<ColumnContents,List<TableBuf.Column>> cols){
+	public ParticipantA(String name, String untransName, HashMap<ColumnContents,List<TableBuf.Column>> cols){
 		this.name = name;
+		this.untransName = untransName;
 		foldCols = cols;
 	}
 	
@@ -35,5 +38,8 @@ public class ParticipantA {
 	}
 	public String getName(){
 		return name;
+	}
+	public String getUntranslatedName(){
+		return untransName;
 	}
 }

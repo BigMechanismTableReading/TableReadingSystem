@@ -12,6 +12,7 @@ public class IndexCard {
 		data = new HashMap<String, String>();
 		data.put("modification_type", r.toString());
 		data.put("entity_text_b", partBuntrans);
+		data.put("entity_type_b", "protein");
 		data.put("identifier_b", partB);
 	}
 
