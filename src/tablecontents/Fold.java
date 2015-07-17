@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import extract.buffer.TableBuf;
+import extract.buffer.TableBuf.Cell;
 
 //TODO Decide on best implementation, abstract or not
 public abstract class Fold implements ColumnContents{
@@ -23,35 +24,64 @@ public abstract class Fold implements ColumnContents{
 	public abstract double[] cutoffValues(TableBuf.Column col);//TODO Determine best way to do this
 	
 	//TODO Make actual method Look at Data 
-	public TableBuf.Column bestFold(HashMap<ColumnContents,List<TableBuf.Column>> foldCols){
+	public Fold bestFold(HashMap<ColumnContents,List<TableBuf.Column>> foldCols){
 		Log l = Log.getInstance();
 		FoldChange c = FoldChange.getInstance();
 		Ratio r = Ratio.getInstance();
 		if(foldCols.containsKey(l)){
-			return foldCols.get(l).get(0);
+			return l;
 		}else if (foldCols.containsKey(c)){
-			return foldCols.get(c).get(0);
+			return c;
 		}else if(foldCols.containsKey(r)){
-			return foldCols.get(r).get(0);
+			return r;
 		}
 		return null;
 		
 	}
-	
-	public void determineMod(double d){
+
+	public String [] determineMod(double d){
 		if(d < cutOffs[0]){
 			//TODO inhibits
-			return;
+			return new String [] {"inhibits modification", "false"};
 		}else if(d > cutOffs[1]){
-			//TODO adds
-			return;
+			return new String [] {"adds modification","false"};
 		}else if (d < cutOffs[2]){
-			//TODO inhibits nege
-			return;
+			return new String [] {"inhibits modification","true"};
 		}else if(d > cutOffs[2]){
-			//TODO adds neg
-			return;
+			return new String [] {"adds modification","true"};
 		}
+		return null;
+	}
+	
+	@Override
+	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
+		//TODO find a way to determine the best column within the types. this needs more data to look at
+		HashMap<String, String> modifs = new HashMap<String,String>();
+		Pattern p = Pattern.compile("\b(\\d{1,3}\\.\\d{1,10})\b");//TODO is this the best one
+		for(TableBuf.Column c : cols){
+			TableBuf.Cell cell = c.getData(row);
+			if( cell != null){
+				String data = cell.getData();
+				Matcher m = p.matcher(data);
+				double num = Double.POSITIVE_INFINITY;
+				if(m.find()){
+					try{
+						num = Double.parseDouble(m.group());
+					}catch(NumberFormatException e){
+						
+					}
+				}
+				if(num != Double.POSITIVE_INFINITY){
+					String [] mods = determineMod(num);
+					if(mods != null){
+						modifs.put("interaction_type",mods[0]);
+						modifs.put("negative_information", mods[1]);
+					}
+				}
+					
+			}
+		}
+		return modifs;
 	}
 	
 	/**
