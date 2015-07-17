@@ -13,6 +13,7 @@ public abstract class Fold implements ColumnContents{
 	private HashSet<String> INCREASINGTERMS = set("INCREAS");
 	private HashSet<String> DECREASINGTERMS = set("DECREAS");
 	private static String[] conjugations = new String[]{"E","ES","ING","ED"};
+	private double[] cutOffs = null;
 	
 	/**
 	 * Calculates and returns cutoffValues as array/HASH?
@@ -20,6 +21,38 @@ public abstract class Fold implements ColumnContents{
 	 * @return
 	 */
 	public abstract double[] cutoffValues(TableBuf.Column col);//TODO Determine best way to do this
+	
+	//TODO Make actual method Look at Data 
+	public TableBuf.Column bestFold(HashMap<ColumnContents,List<TableBuf.Column>> foldCols){
+		Log l = Log.getInstance();
+		FoldChange c = FoldChange.getInstance();
+		Ratio r = Ratio.getInstance();
+		if(foldCols.containsKey(l)){
+			return foldCols.get(l).get(0);
+		}else if (foldCols.containsKey(c)){
+			return foldCols.get(c).get(0);
+		}else if(foldCols.containsKey(r)){
+			return foldCols.get(r).get(0);
+		}
+		return null;
+		
+	}
+	
+	public void determineMod(double d){
+		if(d < cutOffs[0]){
+			//TODO inhibits
+			return;
+		}else if(d > cutOffs[1]){
+			//TODO adds
+			return;
+		}else if (d < cutOffs[2]){
+			//TODO inhibits nege
+			return;
+		}else if(d > cutOffs[2]){
+			//TODO adds neg
+			return;
+		}
+	}
 	
 	/**
 	 * If there is a word indication whether it increases or decreases,

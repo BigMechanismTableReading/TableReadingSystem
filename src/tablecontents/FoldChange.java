@@ -5,6 +5,7 @@ import extract.buffer.TableBuf.Column;
 public class FoldChange extends Fold{
 	private String headerRegEx = ".*change.*";
 	private String cellRegEx = null;
+	private double[] cutOffs = new double[]{-1.5,1.5,1};
 	
 	private static FoldChange cha = null;
 	
