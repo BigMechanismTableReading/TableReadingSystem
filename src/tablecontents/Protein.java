@@ -76,6 +76,13 @@ public abstract class Protein implements ColumnContents{
 	}
 	
 	/**
+	 * returns null since this method will never be used
+	 */
+	@Override
+	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
+		return null;
+	}
+	/**
 	 * Returns the grounded ID if found, else returns null
 	 * @param ungrounded
 	 * @return
