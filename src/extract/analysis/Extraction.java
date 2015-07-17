@@ -23,6 +23,7 @@ import extract.lookup.ChemicalLookup;
 import extract.lookup.TabLookup;
 import extract.types.Reaction;
 import extract.write.IndexCard;
+import extract.write.IndexCardWriter;
 
 public class Extraction {
 	
@@ -103,7 +104,7 @@ public class Extraction {
 		Iterator<Integer> iter = partB.keySet().iterator();
 		while(iter.hasNext()){
 			int i = iter.next();
-			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i));
+			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
 			for (ColumnContents content : cols){
 				card.addInfo(content.extractData(contents.get(content), i));
 			}
@@ -116,7 +117,8 @@ public class Extraction {
 		}
 		
 		for (IndexCard card : cards){
-			printIndexCard(card);
+			IndexCardWriter w = new IndexCardWriter();
+			w.writeIndexCard("TIME", "TIME", table, card);
 		}
 		
 	}
