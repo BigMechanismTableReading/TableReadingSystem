@@ -1,6 +1,7 @@
 package tablecontents;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -50,9 +51,9 @@ public abstract class Site implements ColumnContents {
 	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
 		HashMap<String,String> siteBase = new HashMap<String,String>();
-		String sites = "";
-		String aminos = "";
-		Pattern site = Pattern.compile(regEx);
+		List<String> sites = new ArrayList<String>();
+		List<String> aminos = new ArrayList<String>();
+		Pattern site = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
 		for(TableBuf.Column c : cols){
 			TableBuf.Cell cell = c.getData(row);
 			if(cell != null){
@@ -62,18 +63,18 @@ public abstract class Site implements ColumnContents {
 					while(m.find()){
 						String [] both = m.group().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 						if(both.length== 2){
-							sites += both[1] + ", ";
-							aminos += both[0].replaceAll("[^A-Z[a-z]]", "") + ", ";
+							sites.add(both[1]);
+							aminos.add((both[0].replaceAll("[^A-Z[a-z]]", "")));
 						}
 					}
 				}
 			}
 		}
 		if(!sites.equals("")){
-			siteBase.put("site", sites.substring(0, sites.length()-1));
+			siteBase.put("site", Arrays.toString(sites.toArray()));
 		}
 		if(!aminos.equals("")){
-			siteBase.put("base",sites.substring(0,sites.length() - 1 ) );
+			siteBase.put("base",Arrays.toString(aminos.toArray()));
 		}
 		return siteBase;		
 	}

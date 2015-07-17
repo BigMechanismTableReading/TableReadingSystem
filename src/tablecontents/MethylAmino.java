@@ -1,7 +1,7 @@
 package tablecontents;
 
 public class MethylAmino extends Amino {
-	private String cellRegEx = "k|lys";
+	private String cellRegEx = "\bk\b|\blys\b";
 	private static MethylAmino methAmino = null;
 	public static MethylAmino getInstance(){
 		if(methAmino == null)

@@ -1,15 +1,17 @@
 package tablecontents;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import extract.buffer.TableBuf;
+import extract.buffer.TableBuf.Column;
 
 public class Position implements ColumnContents{
 	//TODO determine matching for this
-	private String headerRegEx = "residue|location|position";
+	private String headerRegEx = "residue|location|position|site|tyrosine|serine|lysine";
 	private String cellRegEx = "^\\d{1,5}$";//TODO figure out good position regex
 	
 	private static Position pos = null;
@@ -41,6 +43,21 @@ public class Position implements ColumnContents{
 	}
 	
 	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+		return null;
+	}
+	@Override
+	public HashMap<String, String> extractData(List<TableBuf.Column> cols, int row) {
+		// TODO Auto-generated method stub
+		//TODO determine the best position possible by using valid pos or something similar in here.
+		HashMap<String,String> position = new HashMap<String, String>();
+		for(TableBuf.Column col : cols){
+			TableBuf.Cell c = col.getData(row);
+			if(c!=null){
+				String data = c.getData();
+				position.put("site", Arrays.toString(data.split("^\\d")));
+				return position;
+			}
+		}
 		return null;
 	}
 	

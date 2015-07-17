@@ -16,7 +16,7 @@ import extract.buffer.TableBuf;
 import extract.types.Phosphorylation;
 import extract.types.Reaction;
 
-public class IndexCard {
+public class IndexCardWriter {
 	//TODO delete the information that is contained here
 	private TableBuf.Table getTable(String fileName){
 		
