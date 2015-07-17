@@ -1,14 +1,20 @@
 package extract.write;
 
 import java.util.HashMap;
+import java.util.List;
 
+import tablecontents.ColumnContents;
+import tablecontents.Fold;
 import tablecontents.ParticipantA;
+import tablecontents.Ratio;
+import extract.buffer.TableBuf.Column;
 import extract.types.Reaction;
 
 public class IndexCard {
 	public HashMap<String, String> data;
-
-	public IndexCard(Reaction r, String partB, String partBuntrans) {
+	int row;
+	public IndexCard(Reaction r, String partB, String partBuntrans, int row) {
+		this.row = row;
 		data = new HashMap<String, String>();
 		data.put("modification_type", r.toString());
 		data.put("entity_text_b", partBuntrans);
@@ -31,6 +37,7 @@ public class IndexCard {
 	}
 
 	public void addPartA(ParticipantA entry) {
+		Ratio r = Ratio.getInstance();
 		String aGrounded = entry.getName();
 		data.put("identifier_a",aGrounded);
 		data.put("entity_text_a",entry.getUntranslatedName());
@@ -42,6 +49,9 @@ public class IndexCard {
 		}else{
 			data.put("entity_type_a","unknown");
 		}
+		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
+		Fold f = r.bestFold(foldCols);
+		f.extractData(foldCols.get(f),row);
 		
 	}
 	

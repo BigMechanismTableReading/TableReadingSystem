@@ -42,4 +42,7 @@ public class ParticipantA {
 	public String getUntranslatedName(){
 		return untransName;
 	}
+	public HashMap<ColumnContents,List<TableBuf.Column>> getFoldCols(){
+		return foldCols;
+	}
 }
