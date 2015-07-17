@@ -16,6 +16,11 @@ import extract.buffer.TableBuf;
 import extract.types.Phosphorylation;
 import extract.types.Reaction;
 
+/**
+ * Writes index cards to proper json format
+ * @author sloates
+ *
+ */
 public class IndexCardWriter {
 	//TODO delete the information that is contained here
 	private TableBuf.Table getTable(String fileName){
@@ -39,15 +44,7 @@ public class IndexCardWriter {
 		idxBuild.add("submitter", "Leidos");
 		idxBuild.add("reader_type", "machine");
 	}
-	private void addModelRelation(JsonArrayBuilder elements,  JsonObjectBuilder idxBuilder, IndexCard idx){
-		if(idx.getData("model_relation")!= null){
-			Iterator<String> elementIter = idx.getData("model_elements").iterator();//TODO fix this
-			while(elementIter.hasNext()){
-				elements.add(elementIter.next());
-			}
-			idxBuilder.add("model_relation", elements.build());
-		}
-	}
+
 	private void buildParticipant(JsonObjectBuilder participant, IndexCard idx, String part){
 		//TODO
 		participant.add("entity_text", idx.getData("entity_text" + "_" + part));
@@ -93,30 +90,30 @@ public class IndexCardWriter {
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
 		JsonObjectBuilder interiorTableEv = Json.createObjectBuilder();
 		JsonObjectBuilder largeTab = Json.createObjectBuilder();
-		interiorTableEv.add("table",table);
-		interiorTableEv.add("row", row);
+		interiorTableEv.add("table",idx.getData("table"));
+		interiorTableEv.add("row", idx.getData("row"));
 		JsonArrayBuilder headers = Json.createArrayBuilder();
-		for(String s : headers){
+		for(String s : idx.getData("headers").split(";")){
 			headers.add(s);
 		}
 		interiorTableEv.add("Headers", headers);
 		JsonObjectBuilder foldHeader = Json.createObjectBuilder();
-		foldHeader.add("fold information used", card.getFoldHeader());
+		foldHeader.add("fold_information_used", idx.getData("fold_information_used"));
 		
 		JsonArrayBuilder captions = Json.createArrayBuilder();	
 		if(captions != null){
-			for(String s : captions){
+			for(String s : idx.getData("captions").split(";")){
 				captions.add(s);
 			}
 		}
 		
-		tableArray.add(interiorTable);
+		tableArray.add(interiorTableEv);
 		tableArray.add(foldHeader);
 		tableEvidence.add("table_evidence", tableArray);
 		tableEvidence.add("captions",captions);
 		evidence.add(tableEvidence);
 	}
-	private void textEvidence(JsonArrayBuilder evidence){
+	private void textEvidence(JsonArrayBuilder evidence,IndexCard idx){
 		JsonObjectBuilder textEvidence = Json.createObjectBuilder();
 		JsonArrayBuilder textArray = Json.createArrayBuilder();
 		JsonObjectBuilder interiorText = Json.createObjectBuilder();
@@ -127,10 +124,10 @@ public class IndexCardWriter {
 		textEvidence.add("text_evidence",textArray);
 		evidence.add(textEvidence);
 	}
-	private void createEvidence(JsonObjectBuilder idxBuilder){
+	private void createEvidence(JsonObjectBuilder idxBuilder,IndexCard idx){
 		JsonArrayBuilder evidence = Json.createArrayBuilder();
-		tableEvidence(evidence);
-		textEvidence(evidence);
+		tableEvidence(evidence, idx);
+		textEvidence(evidence, idx);
 		idxBuilder.add("evidence", evidence);
 	}
 
@@ -140,20 +137,18 @@ public class IndexCardWriter {
 		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
 		basicInfo(idxBuilder,t,readingStart,readingStop);
 		JsonArrayBuilder elements = Json.createArrayBuilder();
-		List<String> modelElements = null; //TODO model elements add
-		addModelRelation(elements,modelElements,idxBuilder,idx);//TODO figure this out
 		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
 		infoBuilder.add("negative_information", idx.getData("negative_information"));
 		JsonObjectBuilder participantA = Json.createObjectBuilder();
-		buildParticipant(participantA,idx);
+		buildParticipant(participantA,idx, "a");
 		JsonObjectBuilder participantB = Json.createObjectBuilder();
-		buildParticipant(participantB,idx);
+		buildParticipant(participantB,idx,"b");
 		JsonObjectBuilder featuresB = Json.createObjectBuilder();
 		addFeatures(featuresB,participantB,idx);
 		String reactionType;
-		addParticipants(participantA,participantB,reactionType,infoBuilder);
+		addParticipants(participantA,participantB,infoBuilder,idx);
 		idxBuilder.add("extracted_information", infoBuilder.build());
-		createEvidence(idxBuilder);
+		createEvidence(idxBuilder,idx);
 		JsonObject finishedCard = idxBuilder.build();
 		return finishedCard;
 	}
