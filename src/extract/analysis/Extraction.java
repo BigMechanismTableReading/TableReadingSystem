@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -71,9 +72,9 @@ public class Extraction {
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,foldContents(contents), r);
 		//TODO run the rest of the table, first choosing fold then going through the table
+		List<ColumnContents> cols = new ArrayList<ColumnContents>();
 		for(Class<? extends ColumnContents> c : r.getRequiredColumns()){
 			if (!(c == Fold.class)) {
-				List<ColumnContents> cols = new ArrayList<ColumnContents>();
 				for (ColumnContents a : contents.keySet()){
 					if (c.isAssignableFrom(a.getClass())){
 						cols.add(a);
@@ -85,7 +86,6 @@ public class Extraction {
 							for (ColumnContents a : contents.keySet()){
 								if (alts.isAssignableFrom(a.getClass())){
 									cols.add(a);
-									//Note: need to restructure Reaction.
 								}
 							}
 						}
@@ -94,11 +94,22 @@ public class Extraction {
 			}
 		}
 		//Go through the other columns storing all the information
-		
-		//First get the site/sequence column, then do fold
-		for(ParticipantA: participantACols){
-			
+		List<IndexCard> cards = new LinkedList<IndexCard>();
+		Iterator<Integer> iter = partB.keySet().iterator();
+		while(iter.hasNext()){
+			int i = iter.next();
+			IndexCard card = new IndexCard();
+			for (ColumnContents content : cols){
+				card.addInfo(content.extractData(contents.get(content), i));
+			}
+			//First get the site/sequence column, then do fold
+			for(ParticipantA partA: participantACols){
+				IndexCard dupl = new IndexCard(card);
+				dupl.addPartA(partA);
+			}
 		}
+		
+		
 		
 	}
 }
