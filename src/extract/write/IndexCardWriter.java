@@ -39,57 +39,56 @@ public class IndexCardWriter {
 		idxBuild.add("submitter", "Leidos");
 		idxBuild.add("reader_type", "machine");
 	}
-	private void addModelRelation(JsonArrayBuilder elements, List<String> modelElements, JsonObjectBuilder idxBuilder){
-		if(modelElements!= null){
-			Iterator<String> elementIter = modelElements.iterator();
+	private void addModelRelation(JsonArrayBuilder elements,  JsonObjectBuilder idxBuilder, IndexCard idx){
+		if(idx.getData("model_relation")!= null){
+			Iterator<String> elementIter = idx.getData("model_elements").iterator();//TODO fix this
 			while(elementIter.hasNext()){
 				elements.add(elementIter.next());
 			}
 			idxBuilder.add("model_relation", elements.build());
 		}
 	}
-	private void buildParticipantA(JsonObjectBuilder participant){
+	private void buildParticipant(JsonObjectBuilder participant, IndexCard idx, String part){
 		//TODO
-		participant.add("entity_text", name);
-		participant.add("entity_type", type);
-		participant.add("identifier", ground);
-		participant.add("in_model", inModel);
+		participant.add("entity_text", idx.getData("entity_text" + "_" + part));
+		participant.add("entity_type", idx.getData("entity_type" + "_" + part));
+		participant.add("identifier", idx.getData("identifier" + "_" + part));
+		participant.add("in_model", idx.getData("in_model" + "_" + part));
 	}
 	
-	private void addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB) {
-		
-		if(site.length >0){
-			if(site[0] > = 0)
-				features.add("site", Arrays.toString(site))
+	private void addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB,IndexCard idx) {
+		String site = idx.getData("site");
+		if(site!= null){
+				features.add("site", site);
 		}
-		if(amino.length>=1){
-			if (amino[0] != "")
-				features.add("base", Arrays.toString(amino));
+		String amino = idx.getData("base");
+		if(amino!=null){
+				features.add("base", amino);
 		}
 		participantB.add("features", features.build());
 	}
 
 	private void addParticipants(JsonObjectBuilder participantA,
-			JsonObjectBuilder participantB, String reactionType,
-			JsonObjectBuilder infoBuilder,Reaction r) {
+			JsonObjectBuilder participantB,	JsonObjectBuilder infoBuilder,IndexCard idx) {
 		
 		infoBuilder.add("participant_a", participantA.build());
 		infoBuilder.add("participant_b", participantB.build());
-		infoBuilder.add("interaction_type", reactionType);
+		infoBuilder.add("interaction_type", idx.getData("interaction_type"));
 		//Adds modificationType
 		JsonArrayBuilder modifications = Json.createArrayBuilder();
 		JsonArrayBuilder positions = Json.createArrayBuilder();
-		for (int i : site){
+		
+		for (String i : idx.getData("site").split("^\\d")){
 			positions.add(i);
 		}
 		//Change it from r to the actual name of the reaction
-		modifications.add(Json.createObjectBuilder().add("modification_type", r)
-				.add("position", positions.build()).build());
-		
+		modifications.add(Json.createObjectBuilder().add("modification_type", 
+				idx.getData("modification_type")).add("position", positions.build()).build());
+	
 		infoBuilder.add("modifications",modifications);
 		
 	}
-	private void tableEvidence(JsonArrayBuilder evidence){
+	private void tableEvidence(JsonArrayBuilder evidence,IndexCard idx){
 		JsonObjectBuilder tableEvidence= Json.createObjectBuilder();
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
 		JsonObjectBuilder interiorTableEv = Json.createObjectBuilder();
@@ -135,27 +134,28 @@ public class IndexCardWriter {
 		idxBuilder.add("evidence", evidence);
 	}
 
-	public JsonObject writeIndexCard(String readingStart, String readingStop, TableBuf.Table t, Pair<Reaction,?> info){
+	public JsonObject writeIndexCard(String readingStart, String readingStop, TableBuf.Table t, IndexCard idx){
 		//TODO decide what to send into here, should send it in all at once not seperately,
 		//Why not write a card for each partA and do fold, it doesnt need to be seperate at all.
 		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
 		basicInfo(idxBuilder,t,readingStart,readingStop);
 		JsonArrayBuilder elements = Json.createArrayBuilder();
 		List<String> modelElements = null; //TODO model elements add
-		addModelRelation(elements,modelElements,idxBuilder);//TODO figure this out
+		addModelRelation(elements,modelElements,idxBuilder,idx);//TODO figure this out
 		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
-		infoBuilder.add("negative_information", negativeInfo);
+		infoBuilder.add("negative_information", idx.getData("negative_information"));
 		JsonObjectBuilder participantA = Json.createObjectBuilder();
-		buildParticipant(participantA);
+		buildParticipant(participantA,idx);
 		JsonObjectBuilder participantB = Json.createObjectBuilder();
-		buildParticipant(participantB);
+		buildParticipant(participantB,idx);
 		JsonObjectBuilder featuresB = Json.createObjectBuilder();
-		addFeatures(featuresB,participantB);
+		addFeatures(featuresB,participantB,idx);
 		String reactionType;
 		addParticipants(participantA,participantB,reactionType,infoBuilder);
 		idxBuilder.add("extracted_information", infoBuilder.build());
 		createEvidence(idxBuilder);
-		JsonObject idx = idxBuilder.build();
+		JsonObject finishedCard = idxBuilder.build();
+		return finishedCard;
 	}
 
 }
