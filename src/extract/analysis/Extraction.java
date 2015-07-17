@@ -22,6 +22,7 @@ import extract.lookup.AbbreviationLookup;
 import extract.lookup.ChemicalLookup;
 import extract.lookup.TabLookup;
 import extract.types.Reaction;
+import extract.write.IndexCard;
 
 public class Extraction {
 	
@@ -99,17 +100,21 @@ public class Extraction {
 		while(iter.hasNext()){
 			int i = iter.next();
 			IndexCard card = new IndexCard();
+			card.addPartB(partB.get(i));
 			for (ColumnContents content : cols){
 				card.addInfo(content.extractData(contents.get(content), i));
 			}
 			//First get the site/sequence column, then do fold
-			for(ParticipantA partA: participantACols){
+			for(ParticipantA entry: participantACols){
 				IndexCard dupl = new IndexCard(card);
-				dupl.addPartA(partA);
+				dupl.addPartA(entry);
+				cards.add(dupl);
 			}
 		}
 		
-		
+		for (IndexCard card : cards){
+			printIndexCard(card);
+		}
 		
 	}
 }
