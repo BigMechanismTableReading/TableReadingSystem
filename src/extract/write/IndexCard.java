@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 import extract.analysis.Pair;
@@ -17,7 +18,7 @@ import extract.types.Reaction;
 
 public class IndexCard {
 	//TODO delete the information that is contained here
-	private static TableBuf.Table getTable(String fileName){
+	private TableBuf.Table getTable(String fileName){
 		
 		TableBuf.Table table = null;
 		try {
@@ -31,14 +32,14 @@ public class IndexCard {
 		return table;
 	}
 	
-	private static void basicInfo(JsonObjectBuilder idxBuild,TableBuf.Table t, String readingStart, String readingStop){
+	private void basicInfo(JsonObjectBuilder idxBuild,TableBuf.Table t, String readingStart, String readingStop){
 		idxBuild.add( "pmc_id", t.getSource().getPmcId());
 		idxBuild.add("reading_started", readingStart);
 		idxBuild.add("reading_complete", readingStop);
 		idxBuild.add("submitter", "Leidos");
 		idxBuild.add("reader_type", "machine");
 	}
-	private static void addModelRelation(JsonArrayBuilder elements, List<String> modelElements, JsonObjectBuilder idxBuilder){
+	private void addModelRelation(JsonArrayBuilder elements, List<String> modelElements, JsonObjectBuilder idxBuilder){
 		if(modelElements!= null){
 			Iterator<String> elementIter = modelElements.iterator();
 			while(elementIter.hasNext()){
@@ -47,14 +48,15 @@ public class IndexCard {
 			idxBuilder.add("model_relation", elements.build());
 		}
 	}
-	private static void buildParticipantA(JsonObjectBuilder participant){
+	private void buildParticipantA(JsonObjectBuilder participant){
 		//TODO
 		participant.add("entity_text", name);
 		participant.add("entity_type", type);
 		participant.add("identifier", ground);
 		participant.add("in_model", inModel);
 	}
-	private static void addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB) {
+	
+	private void addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB) {
 		
 		if(site.length >0){
 			if(site[0] > = 0)
@@ -67,7 +69,7 @@ public class IndexCard {
 		participantB.add("features", features.build());
 	}
 
-	private static void addParticipants(JsonObjectBuilder participantA,
+	private void addParticipants(JsonObjectBuilder participantA,
 			JsonObjectBuilder participantB, String reactionType,
 			JsonObjectBuilder infoBuilder,Reaction r) {
 		
@@ -87,7 +89,7 @@ public class IndexCard {
 		infoBuilder.add("modifications",modifications);
 		
 	}
-	private static void tableEvidence(JsonArrayBuilder evidence){
+	private void tableEvidence(JsonArrayBuilder evidence){
 		JsonObjectBuilder tableEvidence= Json.createObjectBuilder();
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
 		JsonObjectBuilder interiorTableEv = Json.createObjectBuilder();
@@ -115,7 +117,7 @@ public class IndexCard {
 		tableEvidence.add("captions",captions);
 		evidence.add(tableEvidence);
 	}
-	private static void textEvidence(JsonArrayBuilder evidence){
+	private void textEvidence(JsonArrayBuilder evidence){
 		JsonObjectBuilder textEvidence = Json.createObjectBuilder();
 		JsonArrayBuilder textArray = Json.createArrayBuilder();
 		JsonObjectBuilder interiorText = Json.createObjectBuilder();
@@ -126,14 +128,14 @@ public class IndexCard {
 		textEvidence.add("text_evidence",textArray);
 		evidence.add(textEvidence);
 	}
-	private static void createEvidence(JsonObjectBuilder idxBuilder){
+	private void createEvidence(JsonObjectBuilder idxBuilder){
 		JsonArrayBuilder evidence = Json.createArrayBuilder();
 		tableEvidence(evidence);
 		textEvidence(evidence);
 		idxBuilder.add("evidence", evidence);
 	}
 
-	public static void writeIndexCard(String readingStart, String readingStop, TableBuf.Table t, Pair<Reaction,?> info){
+	public JsonObject writeIndexCard(String readingStart, String readingStop, TableBuf.Table t, Pair<Reaction,?> info){
 		//TODO decide what to send into here, should send it in all at once not seperately,
 		//Why not write a card for each partA and do fold, it doesnt need to be seperate at all.
 		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
@@ -153,14 +155,7 @@ public class IndexCard {
 		addParticipants(participantA,participantB,reactionType,infoBuilder);
 		idxBuilder.add("extracted_information", infoBuilder.build());
 		createEvidence(idxBuilder);
-		
-	
+		JsonObject idx = idxBuilder.build();
 	}
 
-	//TODO test this then delete the test later
-	public static void main(String[]args){
-		String filename = "ParticipantBTestProtobufs/PMC1459033T1.pb";
-		TableBuf.Table table = getTable(filename);
-		writeIndexCard("1","2",table,new Pair<Reaction,List>(Phosphorylation.getInstance(),null));
-	}
 }
