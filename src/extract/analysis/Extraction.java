@@ -99,8 +99,7 @@ public class Extraction {
 		Iterator<Integer> iter = partB.keySet().iterator();
 		while(iter.hasNext()){
 			int i = iter.next();
-			IndexCard card = new IndexCard();
-			card.addPartB(partB.get(i));
+			IndexCard card = new IndexCard(r, partB.get(i));
 			for (ColumnContents content : cols){
 				card.addInfo(content.extractData(contents.get(content), i));
 			}
