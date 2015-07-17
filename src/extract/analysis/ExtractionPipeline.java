@@ -25,6 +25,9 @@ public class ExtractionPipeline {
 	}
 	public static void main(String[]args){
 		String filename = null;
+		if(args.length > 1){
+			filename = args[0];
+		}
 		TableBuf.Table t = getTable(filename);
 		DetermineTable d = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> p = d.determine(t);

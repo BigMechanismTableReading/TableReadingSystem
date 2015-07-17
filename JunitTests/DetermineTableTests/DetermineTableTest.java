@@ -36,12 +36,15 @@ public class DetermineTableTest {
 	
 	@Test
 	public void tableTest() {
-		String filename = "ParticipantBTestProtobufs/PMC1459033T1.pb";
+		String filename = "ParticipantBTestProtobufs/PMC3181483Suppemboj2011251s3Sheet1.pb";
 		TableBuf.Table table = getTable(filename);
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = dt.determine(table);
-		Extraction e = new Extraction();
-		e.ExtractInfo(r, table);
+		if (r != null){
+			System.out.println(r.getB().keySet());
+			Extraction e = new Extraction();
+			e.ExtractInfo(r, table);
+		}
 	}
 	@Test
 	public void tableTest1() {

@@ -82,8 +82,11 @@ public class IndexCardWriter {
 		JsonArrayBuilder modifications = Json.createArrayBuilder();
 		JsonArrayBuilder positions = Json.createArrayBuilder();
 		
-		for (String i : idx.getData("site").split("^\\d")){
-			positions.add(i);
+		String site = idx.getData("site");
+		if (site != null){
+			for (String i : idx.getData("site").split("^\\d")){
+				positions.add(i);
+			}
 		}
 		//Change it from r to the actual name of the reaction
 		modifications.add(Json.createObjectBuilder().add("modification_type", 

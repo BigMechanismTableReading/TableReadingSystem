@@ -61,6 +61,7 @@ public class RelevanceTest {
 							DetermineTable d = new DetermineTable();
 							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 							if(r != null){
+								System.out.println(r.getA() + " " + r.getB().keySet());
 								w.write(t.getSource().getPmcId());
 								System.out.println(t.getSource().getPmcId());
 								extr.ExtractInfo(r, t);					

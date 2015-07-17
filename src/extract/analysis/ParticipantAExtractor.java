@@ -133,9 +133,11 @@ public class ParticipantAExtractor {
 		Set<String> allB = new HashSet<String>();
 		TabLookup t = TabLookup.getInstance();
 		for(String s : partB.values()){
-			String cut = s.substring(8);
-			if(t.uniToGene.containsKey(cut)){	
-				allB.add(t.uniToGene.get(cut));
+			if (s.contains("Uniprot")){
+				String cut = s.substring(8);
+				if(t.uniToGene.containsKey(cut)){	
+					allB.add(t.uniToGene.get(cut));
+				}
 			}
 		}
 		allB.addAll(partB.values());

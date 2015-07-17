@@ -10,6 +10,7 @@ import tablecontents.ColumnContents;
 public abstract class Reaction {
 	public static Reaction[] allReactions = {Phosphorylation.getInstance(), Methylation.getInstance()};
 	HashSet<Class<? extends ColumnContents>> data = new HashSet<Class<? extends ColumnContents>>();
+	HashSet<Class<? extends ColumnContents>> optionalColumns = new HashSet<Class<? extends ColumnContents>>();
 	HashMap<Class<? extends ColumnContents>, List<List<Class<? extends ColumnContents>>>> alternatives = 
 			new HashMap<Class<? extends ColumnContents>, List<List<Class<? extends ColumnContents>>>>();
 	ArrayList<String> conjugations = new ArrayList<String>();
@@ -18,6 +19,11 @@ public abstract class Reaction {
 		ArrayList<Class<? extends ColumnContents>> requiredTypes = new ArrayList<Class<? extends ColumnContents>>();
 		requiredTypes.addAll(data);
 		return requiredTypes;
+	}
+	public List<Class<? extends ColumnContents>> getOptionalColumns() {
+		ArrayList<Class<? extends ColumnContents>> optionalTypes = new ArrayList<Class<? extends ColumnContents>>();
+		optionalTypes.addAll(optionalColumns);
+		return optionalTypes;
 	}
 	public List<Class<? extends ColumnContents>> getAllAlternatives(){
 		List<Class<? extends ColumnContents>> newList = new ArrayList<Class<? extends ColumnContents>>();
