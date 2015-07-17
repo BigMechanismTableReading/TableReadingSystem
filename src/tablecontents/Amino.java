@@ -39,7 +39,7 @@ public abstract class Amino implements ColumnContents{
 			Cell cell = c.getData(row);
 			if(cell != null){
 				String base = cell.getData();
-				amino.put("base", Arrays.toString(base.split("^\\d")));
+				amino.put("base", Arrays.toString(base.split("\\W")));
 			}
 		}
 		return amino;

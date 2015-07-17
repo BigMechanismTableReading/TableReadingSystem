@@ -31,7 +31,17 @@ public class IndexCard {
 	}
 
 	public void addPartA(ParticipantA entry) {
-		// TODO Auto-generated method stub
+		String aGrounded = entry.getName();
+		data.put("identifier_a",aGrounded);
+		data.put("entity_text_a",entry.getUntranslatedName());
+		String identifierB = "";
+		if(aGrounded.charAt(0) == 'U'){
+			data.put("entity_type_a","protein");
+		}else if (aGrounded.charAt(0) == 'C'){
+			data.put("entity_type_a","chemical");
+		}else{
+			data.put("entity_type_a","unknown");
+		}
 		
 	}
 	

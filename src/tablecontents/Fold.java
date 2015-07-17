@@ -77,6 +77,7 @@ public abstract class Fold implements ColumnContents{
 					if(mods != null){
 						modifs.put("interaction_type",mods[0]);
 						modifs.put("negative_information", mods[1]);
+						modifs.put("fold_information_used",c.getHeader().getData());
 					}
 				}
 					
