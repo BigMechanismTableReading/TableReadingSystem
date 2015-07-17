@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tablecontents.ColumnContents;
+import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.lookup.TabLookup;
 
@@ -43,7 +44,7 @@ public abstract class Protein implements ColumnContents{
 		return null;
 	}
 	
-	private String getGrounded(Protein p,HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+	private Pair<String, String> getGrounded(Protein p,HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		String data;
 		if(cols.containsKey(p)){
 			TableBuf.Column col = cols.get(p).get(0);
@@ -52,9 +53,9 @@ public abstract class Protein implements ColumnContents{
 				 String s = p.groundIdentity(data);
 				 
 				 if(s != null)
-					 return s;
+					 return new Pair<String,String>(data, s);
 				 else if (p instanceof Uniprot)
-					 return "Uniprot:" + data;
+					 return  new Pair<String,String>(data, "Uniprot:" + data);
 				 else return null;
 			}
 		}
@@ -62,9 +63,9 @@ public abstract class Protein implements ColumnContents{
 	}
 	
 	@Override 
-	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+	public Pair<String, String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		for(Protein p : protList){
-			String s = getGrounded(p,cols,row);
+			Pair<String,String> s = getGrounded(p,cols,row);
 			if(s!= null)
 				return s;
 		}

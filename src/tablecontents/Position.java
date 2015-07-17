@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 
@@ -42,7 +43,7 @@ public class Position implements ColumnContents{
 		return null;
 	}
 	
-	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+	public Pair<String, String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
 	}
 	@Override

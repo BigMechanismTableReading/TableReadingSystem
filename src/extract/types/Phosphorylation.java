@@ -21,4 +21,5 @@ public class Phosphorylation extends Reaction{
 			return instance;
 		}
 	}
+	
 }

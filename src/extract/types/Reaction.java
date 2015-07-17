@@ -68,4 +68,8 @@ public abstract class Reaction {
 			alternatives.put(base, newList);
 		}
 	}
+	
+	public String toString(){
+		return this.getConjugationBase().get(0) + "ion";
+	}
 }

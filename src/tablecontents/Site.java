@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tablecontents.ColumnContents;
+import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 
 public abstract class Site implements ColumnContents {
@@ -33,7 +34,7 @@ public abstract class Site implements ColumnContents {
 		return null;
 	}
 	
-	public String bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+	public Pair<String,String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
 	}
 	

@@ -31,7 +31,7 @@ public class Extraction {
 	 * @param contents
 	 * @return
 	 */
-	private HashMap<Integer,String> getAllParticipantB(HashMap<ColumnContents, List<TableBuf.Column>> contents){
+	private Pair<HashMap<Integer,String>, HashMap<Integer,String>> getAllParticipantB(HashMap<ColumnContents, List<TableBuf.Column>> contents){
 		TableBuf.Column col = null;
 		ColumnContents protein = null;//TODO error is here
 		for(ColumnContents c : contents.keySet()){
@@ -41,17 +41,19 @@ public class Extraction {
 			}
 		}
 		HashMap<Integer,String> partB = new HashMap<Integer,String>();
+		HashMap<Integer,String> partBuntrans = new HashMap<Integer,String>();
 		int row = 0;
 		if(col != null){
 			while(row < col.getDataCount()){
-				String ground = protein.bestColumn(contents, row);
+				Pair<String, String> ground = protein.bestColumn(contents, row);
 				if(ground != null){
-					partB.put(row, ground);
+					partB.put(row, ground.getB());
+					partBuntrans.put(row, ground.getA());
 				}
 				row++;
 			}
 		}
-		return partB;
+		return new Pair<HashMap<Integer,String>, HashMap<Integer,String>>(partB, partBuntrans);
 	}
 	
 	private HashMap<ColumnContents, List<TableBuf.Column>> foldContents(
@@ -69,7 +71,9 @@ public class Extraction {
 			
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
-		HashMap<Integer, String> partB = getAllParticipantB(contents);
+		Pair<HashMap<Integer, String>, HashMap<Integer, String>> partBinfo = getAllParticipantB(contents);
+		HashMap<Integer, String> partB = partBinfo.getA();
+		HashMap<Integer, String> partBuntrans = partBinfo.getB();
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,foldContents(contents), r);
 		//TODO run the rest of the table, first choosing fold then going through the table
@@ -99,7 +103,7 @@ public class Extraction {
 		Iterator<Integer> iter = partB.keySet().iterator();
 		while(iter.hasNext()){
 			int i = iter.next();
-			IndexCard card = new IndexCard(r, partB.get(i));
+			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i));
 			for (ColumnContents content : cols){
 				card.addInfo(content.extractData(contents.get(content), i));
 			}
