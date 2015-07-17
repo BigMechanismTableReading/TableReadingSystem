@@ -2,19 +2,18 @@ package tablecontents;
 
 import extract.buffer.TableBuf.Column;
 
-public class Ratio extends Fold{
-	private String headerRegEx = ".*ratio.*|.*silac.*|.*phospho.{0,2}rate|"
-			+ ".*induction.|.*mean.*|.*K[OD]/WT.*";
+public class FoldChange extends Fold{
+	private String headerRegEx = ".*change.*";
 	private String cellRegEx = null;
 	
-	private static Ratio rat = null;
+	private static FoldChange cha = null;
 	
-	public static Ratio getInstance(){
-		if(rat == null)
-			rat = new Ratio();
-		return rat;	
+	public static FoldChange getInstance(){
+		if(cha == null)
+			cha = new FoldChange();
+		return cha;	
 	}
-	private Ratio(){
+	private FoldChange(){
 		
 	}
 	
@@ -33,6 +32,6 @@ public class Ratio extends Fold{
 	@Override
 	public double[] cutoffValues(Column col) {
 		//TODO see if a negative check is needed here
-		return new double[]{.67,1.5,1};
+		return new double[]{-1.5,1.5,1};
 	}
 }

@@ -64,14 +64,41 @@ public class Extraction {
 	}
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
 							TableBuf.Table table){
-		//TODO add the reaction to the index card; idx.setReaction, colInfo.getA().toString
-		
+			
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
 		HashMap<Integer, String> partB = getAllParticipantB(contents);
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,foldContents(contents), r);
-		for(ParticipantA a : participantACols)
-			System.out.print(a.getName() + "\t");
+		//TODO run the rest of the table, first choosing fold then going through the table
+		for(Class<? extends ColumnContents> c : r.getRequiredColumns()){
+			if (!(c == Fold.class)) {
+				List<ColumnContents> cols = new ArrayList<ColumnContents>();
+				for (ColumnContents a : contents.keySet()){
+					if (c.isAssignableFrom(a.getClass())){
+						cols.add(a);
+					}
+				}
+				if(cols.isEmpty()){
+					for(List<Class<? extends ColumnContents>> list : r.getAlternatives(c)){
+						for(Class<? extends ColumnContents> alts : list){
+							for (ColumnContents a : contents.keySet()){
+								if (alts.isAssignableFrom(a.getClass())){
+									cols.add(a);
+									//Note: need to restructure Reaction.
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		//Go through the other columns storing all the information
+		
+		//First get the site/sequence column, then do fold
+		for(ParticipantA: participantACols){
+			
+		}
+		
 	}
 }
