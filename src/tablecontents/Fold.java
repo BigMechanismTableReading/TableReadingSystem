@@ -24,11 +24,11 @@ public abstract class Fold implements ColumnContents{
 	 */
 	public abstract double[] cutoffValues(TableBuf.Column col);//TODO Determine best way to do this
 	
-	//TODO Make actual method Look at Data 
 	public Fold bestFold(HashMap<ColumnContents,List<TableBuf.Column>> foldCols){
 		Log l = Log.getInstance();
 		FoldChange c = FoldChange.getInstance();
 		Ratio r = Ratio.getInstance();
+		
 		if(foldCols.containsKey(l)){
 			return l;
 		}else if (foldCols.containsKey(c)){
@@ -53,34 +53,47 @@ public abstract class Fold implements ColumnContents{
 		return null;
 	}
 	
+	private TableBuf.Column bestSubColumn(List<TableBuf.Column> cols){
+		String headerReg = "avg";//TODO add to this list after looking at more data
+		Pattern p = Pattern.compile(headerReg,Pattern.CASE_INSENSITIVE);
+		for(TableBuf.Column c : cols){
+			Matcher m = p.matcher(c.getHeader().getData());
+			if(m.find()){
+				return c;
+			}
+		}
+		if(cols.size() > 0){
+			return cols.get(0);
+		}
+		return null;
+	}
+	
 	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
-		//TODO find a way to determine the best column within the types. this needs more data to look at
+		TableBuf.Column c = bestSubColumn(cols);
 		HashMap<String, String> modifs = new HashMap<String,String>();
-		Pattern p = Pattern.compile("\\b(\\d{1,3}\\.\\d{1,10})\\b");//TODO is this the best one
-		for(TableBuf.Column c : cols){
-			TableBuf.Cell cell = c.getData(row);
-			if( cell != null){
-				String data = cell.getData();
-				Matcher m = p.matcher(data);
-				double num = Double.POSITIVE_INFINITY;
-				if(m.find()){
-					try{
-						num = Double.parseDouble(m.group());
-					}catch(NumberFormatException e){
-						
-					}
+		Pattern p = Pattern.compile("\\b(\\d{1,3}\\.\\d{1,10})\\b");
+		TableBuf.Cell cell = c.getData(row);
+		if(cell != null){
+			String data = cell.getData();
+			Matcher m = p.matcher(data);
+			double num = Double.POSITIVE_INFINITY;
+			if(m.find()){
+				try{
+					num = Double.parseDouble(m.group());
+				}catch(NumberFormatException e){
+
 				}
-				if(num != Double.POSITIVE_INFINITY){
-					String [] mods = determineMod(num);
-					if(mods != null){
-						modifs.put("interaction_type",mods[0]);
-						modifs.put("negative_information", mods[1]);
-						modifs.put("fold_information_used",c.getHeader().getData());
-					}
-				}
-					
 			}
+			if(num != Double.POSITIVE_INFINITY){
+				String [] mods = determineMod(num);
+				if(mods != null){
+					modifs.put("interaction_type",mods[0]);
+					modifs.put("negative_information", mods[1]);
+					modifs.put("fold_information_used",c.getHeader().getData());
+				}
+			}
+
 		}
 		return modifs;
 	}
@@ -96,11 +109,12 @@ public abstract class Fold implements ColumnContents{
 		for(String word : title.split("\\W")){
 			word = word.toUpperCase();
 			if(INCREASINGTERMS.contains(word)){
-				return null;//TODO what should be returned? ENUM?
+				return null;
 			}else if (DECREASINGTERMS.contains(word)){
-				return null; //TODO what should be returned? ENUM?
+				return null; 
 			}
 		}
+		//TODO what should be returned? ENUM?
 		return null;
 	}
 	
