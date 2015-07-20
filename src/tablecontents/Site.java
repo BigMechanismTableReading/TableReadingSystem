@@ -12,7 +12,7 @@ import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 
 public abstract class Site implements ColumnContents {
-	private String headerRegEx = "site|residue|syt|location|tyrosine";//|position";//TODO write the header
+	private String headerRegEx = "site|residue|location|tyrosine";//|position";//TODO write the header
 	String regEx = null;
 	/**
 	 * Returns cutoff values for positions

@@ -35,6 +35,11 @@ import extract.types.Reaction;
 import extract.write.IndexCard;
 import extract.write.IndexCardWriter;
 
+/**
+ * Extracts index card information from a table
+ * @author sloates
+ *
+ */
 public class Extraction {
 	
 	/**
@@ -67,6 +72,11 @@ public class Extraction {
 		return new Pair<HashMap<Integer,String>, HashMap<Integer,String>>(partB, partBuntrans);
 	}
 	
+	/**
+	 * Returns a columns labeled with a foldtype
+	 * @param contents
+	 * @return
+	 */
 	private HashMap<ColumnContents, List<TableBuf.Column>> foldContents(
 			HashMap<ColumnContents, List<TableBuf.Column>> contents) {
 		HashMap<ColumnContents, List<TableBuf.Column>> foldCols = new HashMap<ColumnContents, List<TableBuf.Column>>();
@@ -77,6 +87,12 @@ public class Extraction {
 		}
 		return foldCols;
 	}
+	
+	/**
+	 * Extracts the information and writes it to an index card.
+	 * @param colInfo
+	 * @param table
+	 */
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
 							TableBuf.Table table){
 			
@@ -129,8 +145,7 @@ public class Extraction {
 		
 		for (IndexCard card : cards){
 			IndexCardWriter w = new IndexCardWriter();
-			System.out.println("e");
-			System.out.println(w.writeIndexCard("TIME", "TIME", table, card).entrySet().toString());
+			w.writeIndexCard("TIMe", "TIME", table, card);
 		}
 		
 	}

@@ -13,7 +13,7 @@ import extract.buffer.TableBuf.Column;
 public class Position implements ColumnContents{
 	//TODO determine matching for this
 	private String headerRegEx = "residue|location|position|site|tyrosine|serine|lysine";
-	private String cellRegEx = "^\\d{1,5}$";//TODO figure out good position regex
+	//private String cellRegEx = "^\\d{1,5}$";//TODO figure out good position regex
 	
 	private static Position pos = null;
 	public static Position getInstance(){
@@ -36,10 +36,10 @@ public class Position implements ColumnContents{
 
 	@Override
 	public String cellMatch(String match) {
-		Pattern p = Pattern.compile(cellRegEx,Pattern.CASE_INSENSITIVE);
+		/*Pattern p = Pattern.compile(cellRegEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(match);
 		if(m.find())
-			return m.group();
+			return m.group();*/
 		return null;
 	}
 	
@@ -55,8 +55,8 @@ public class Position implements ColumnContents{
 			TableBuf.Cell c = col.getData(row);
 			if(c!=null){
 				String data = c.getData();
-				data.replaceAll("\\.0", "");
-				position.put("site", Arrays.toString(data.split("^\\d")));
+				data = data.replaceAll("\\.0", "");
+				position.put("site", Arrays.toString(data.split("[^\\d]")));
 				return position;
 			}
 		}

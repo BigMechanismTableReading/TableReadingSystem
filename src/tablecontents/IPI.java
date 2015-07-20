@@ -11,7 +11,7 @@ public class IPI extends Protein {
 		return ipi;
 	}
 	private IPI(){
-		regEx = "IPI[0-9]{8}";
+		regEx = "(IPI[0-9]{8})";
 	}
 	@Override
 	public String groundIdentity(String ungrounded) {
@@ -27,6 +27,6 @@ public class IPI extends Protein {
 	public String cellMatch(String match) {
 		//TODO fix when IPI is added in
 		//String grounded = groundIdentity(super.matchesFormat(match, regEx));
-		return super.matchesFormat(match, regEx);
+		return groundIdentity(super.matchesFormat(match, regEx));
 	}
 }

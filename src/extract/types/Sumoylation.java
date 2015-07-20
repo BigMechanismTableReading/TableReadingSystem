@@ -11,6 +11,7 @@ public class Sumoylation extends Reaction{
 		data.add(SumoSite.class);
 		conjugationBase.add("sumoylat");
 	}
+	
 	public static Reaction getInstance(){
 		if(instance == null){
 			instance = new Sumoylation();
