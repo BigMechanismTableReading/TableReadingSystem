@@ -9,9 +9,8 @@ public class AcetylSite extends Site{
 	}
 	private AcetylSite(){
 		//TODO how to match something like this
-		headerRegEx = "acetyl site|acetyl residue|acetyl location";//TODO look at this
-		regEx = "\\b(\\d{2,5})\\b";
-		
+		headerRegEx = "acetyl\\s*site|acetyl\\s*residue|acetyl\\s*location|acetyl\\s*position";//TODO look at this
+		regEx = "\\b((k|lys)\\d{2,5})\\b";
 	}
 	
 	@Override
