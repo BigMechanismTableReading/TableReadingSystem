@@ -45,6 +45,16 @@ public class DetermineTable {
 		}
 		return hasProt;
 	}
+	
+	/**
+	 * Takes in the required classes for the table to be recognized as a reaction type.
+	 * Labels the table by columncontents
+	 * Returns a HashSet of ColumnContents
+	 * @param requiredContents
+	 * @param labels
+	 * @param table
+	 * @return
+	 */
 	private HashSet<Class<? extends ColumnContents>> getTableColumns(HashSet<Class<? extends ColumnContents>> requiredContents,
 			HashMap<ColumnContents,List<TableBuf.Column>> labels,TableBuf.Table table){
 		HashSet<Class<? extends ColumnContents>> tableColumns = new HashSet<Class<? extends ColumnContents>>();
@@ -106,6 +116,12 @@ public class DetermineTable {
 		return null;
 	}
 	
+	/**
+	 * Checks to see that all the required contents (or their alternatives) are their for a specific reaction
+	 * @param r
+	 * @param tc
+	 * @return
+	 */
 	private boolean containsAllRequired(Reaction r, HashSet<Class<? extends ColumnContents>> tc){
 		List<Class<? extends ColumnContents>> required = r.getRequiredColumns();
 		for (Class<? extends ColumnContents> requiredType : required){
@@ -128,6 +144,13 @@ public class DetermineTable {
 		return true;
 	}
 	
+	/**
+	 * Labels the columns of the tables
+	 * @param c
+	 * @param data
+	 * @param table
+	 * @return
+	 */
 	private boolean labelTable(ColumnContents c, HashMap<ColumnContents,List<TableBuf.Column>> data, TableBuf.Table table) {
 		for (TableBuf.Column col : table.getColumnList()){
 			if(c.headerMatch(col.getHeader().getData()) != null){
@@ -145,6 +168,12 @@ public class DetermineTable {
 		return false;
 	}
 	
+	/**
+	 * Helper method for labeling the columnns
+	 * @param c
+	 * @param col
+	 * @param data
+	 */
 	private void addToData(ColumnContents c, TableBuf.Column col, HashMap<ColumnContents,List<TableBuf.Column>> data){
 		if (data.containsKey(c)){
 			data.get(c).add(col);
