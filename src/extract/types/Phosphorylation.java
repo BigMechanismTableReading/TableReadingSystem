@@ -5,7 +5,7 @@ import tablecontents.*;
 public class Phosphorylation extends Reaction{
 	private static Phosphorylation instance = null;
 	@SuppressWarnings("unchecked")
-	public Phosphorylation(){
+	private Phosphorylation(){
 		data.add(PhosphoSite.class);
 		data.add(Fold.class);
 		addAlternativeEntry(PhosphoSite.class, createEntry(Position.class, PhosphoAmino.class));
@@ -16,10 +16,8 @@ public class Phosphorylation extends Reaction{
 	public static Reaction getInstance() {
 		if (instance == null){
 			instance = new Phosphorylation();
-			return instance;
-		} else {
-			return instance;
 		}
+		return instance;
 	}
 	
 }
