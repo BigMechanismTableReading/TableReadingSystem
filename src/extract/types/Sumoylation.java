@@ -8,9 +8,10 @@ public class Sumoylation extends Reaction{
 	@SuppressWarnings("unchecked")
 	private Sumoylation(){
 		//TODO add the neccesary requirements
-		instance.createEntry(SumoSite.class);
+		data.add(SumoSite.class);
 		conjugationBase.add("sumoylat");
 	}
+	
 	public static Reaction getInstance(){
 		if(instance == null){
 			instance = new Sumoylation();

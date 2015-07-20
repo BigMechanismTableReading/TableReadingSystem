@@ -11,12 +11,12 @@ public class GeneName extends Protein {
 	}
 	
 	private GeneName(){
-		regEx = "[A-Z[a-z]]{1}[0-9[A-Z[a-z]]]{1,6}";
+		regEx = "([A-Z[a-z]]{1}[0-9[A-Z[a-z]]]{1,6})";
 	}
 	
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
-			ungrounded = ungrounded.toUpperCase();
+			ungrounded =  super.matchesFormat(ungrounded,regEx).toUpperCase();
 			if(t.genename.containsKey(ungrounded))
 				return("Uniprot:" + t.genename.get(ungrounded));
 		}

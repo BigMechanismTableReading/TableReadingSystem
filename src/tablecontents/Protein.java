@@ -50,12 +50,11 @@ public abstract class Protein implements ColumnContents{
 			TableBuf.Column col = cols.get(p).get(0);
 			if(col.getDataCount() > row && col.getData(row) != null){
 				 data = col.getData(row).getData();
-				 String s = p.groundIdentity(data);
-				 
+				 String s = p.cellMatch(data);
 				 if(s != null)
 					 return new Pair<String,String>(data, s);
-				 else if (p instanceof Uniprot)
-					 return  new Pair<String,String>(data, "Uniprot:" + data);
+				// else if (p instanceof Uniprot)
+					// return  new Pair<String,String>(data, "Uniprot:" + data);
 				 else return null;
 			}
 		}

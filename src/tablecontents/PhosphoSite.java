@@ -14,9 +14,10 @@ public class PhosphoSite extends Site implements ColumnContents {
 		return phos;
 	}
 	private PhosphoSite(){
-		regEx = "\\b(p?[SYT].{0,1}\\d{1,4})\\b|\\b(([Ss][Ee][Rr])|([Tt][Yy][Rr])|([Tt][Hh][Rr]))-*.{0,1}\\d{1,4}\\b";
+		//TODO change regex
+		//Need to account for being in a sequence
+		regEx = "\\b(p?[SYT].{0,1}\\d{2,5})\\b|\\b(([Ss][Ee][Rr])|([Tt][Yy][Rr])|([Tt][Hh][Rr]))-*.{0,1}\\d{2,5}\\b";
 	}
-
 	@Override
 	public String headerMatch(String match) {
 		return null;
