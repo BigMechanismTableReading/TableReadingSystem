@@ -228,7 +228,7 @@ public class TableExtractor {
 								//System.err.println("Multiple table regions : " + sheet.getSheetName());
 								//return false;
 								if( width * height > (regions.get(0)[1] - regions.get(0)[0]) 
-										* (regions.get(0)[3] - regions.get(0)[2]) && width < 50){
+										* (regions.get(0)[3] - regions.get(0)[2]) && width < 100){
 									Random rand = new Random();
 									int emptycells = 0;
 									for (int i = 0; i < 25; i++){
@@ -266,27 +266,18 @@ public class TableExtractor {
 			}
 			counter++;
 		}
-		//TODO align the tables that have multiple table_regions so theat there is no issue
+		//Fill in empty cells
 		if(table_regions > 0) {
 			int[] a = regions.get(0);
 			Row row = sheet.getRow(a[2]);
-			CellStyle headerStyle = sheet.getWorkbook().createCellStyle();
-			headerStyle.setFillForegroundColor(HSSFColor.BLUE.index);
-			for(int i = a[0]; i < a[1]; i++){
-				Cell cell = row.getCell(i);
-				cell.setCellStyle(headerStyle);
-			}
 			
-			CellStyle rowStyle = sheet.getWorkbook().createCellStyle();
-			rowStyle.setFillForegroundColor(HSSFColor.RED.index);
-			for(int i = a[2] + 1; i < a[3]; i++){
+			for(int i = a[2]; i < a[3]; i++){
 				Row row2 = sheet.getRow(i);
 				for(int j = a[0]; j < a[1]; j++){
 					Cell cell = row2.getCell(j);
 					if (cell == null) {
 						cell = row2.createCell(j);
 					}
-					cell.setCellStyle(rowStyle);
 				}
 			}
 			return regions;
@@ -314,7 +305,7 @@ public class TableExtractor {
 	 * @return the data as a 2D List
 	 */
 	private Collection<List<String>> getDataFromExcelFile(Sheet sheet, List<int []> regions){
-		int rows = sheet.getLastRowNum();
+		int rows = regions.get(0)[3];
 		//int counter = 0;
 		
 		//Un-merge all merged regions
@@ -354,125 +345,40 @@ public class TableExtractor {
 		captions.add("Captions");
 		table.put(-1, captions); //TODO: -1
 		
-		for (int counter=0; counter < rows; counter++){
+		for (int counter= regions.get(0)[2]; counter < rows; counter++){
 			Row row = sheet.getRow(counter);
 		
 			if (row != null && row.getFirstCellNum()!=-1) {
 				Cell cell = row.getCell(row.getFirstCellNum());
-				Color color = cell.getCellStyle().getFillForegroundColorColor();
-				if (color != null && regions.size()>1) {
-					if(checkBlue(color)) {
+			
+				int cols = row.getLastCellNum();
+				int cell_counter = row.getFirstCellNum();
+				Cell following_cell;
+				//Iterate through row
+				while(cell_counter < cols) {
+					if((following_cell = row.getCell(cell_counter)) != null){
 						
-						int cols = row.getLastCellNum();
-						int cell_counter = row.getFirstCellNum();
-						
-						Cell following_cell;
-						//Iterate through row
-						while(cell_counter < cols) {
-							
-							//Check for separated headers
-							if((following_cell = row.getCell(cell_counter)) != null
-									&& following_cell.getCellStyle().getFillForegroundColorColor() != null 
-									&& checkBlue(following_cell.getCellStyle().getFillForegroundColorColor())){
-								int type = following_cell.getCellType();
-								String header;
-								
-								if (type == Cell.CELL_TYPE_NUMERIC || type == Cell.CELL_TYPE_FORMULA || type == Cell.CELL_TYPE_ERROR){
-									try {
-										header = "" + following_cell.getNumericCellValue();
-									} catch (java.lang.IllegalStateException ise){
-										header = "" + FormulaError.forInt(following_cell.getErrorCellValue()).toString();
-									}
-								} else {
-									header = following_cell.getStringCellValue();
-								}
-								if(table.containsKey(cell_counter)){
-									List<String> entry = table.get(cell_counter);
-									entry.set(0, entry.get(0) + ";" + header);
-								} else {
-									ArrayList<String> column = new ArrayList<String>();
-									column.add(header);
-									table.put(cell_counter, column);
-								}
-							}
-							cell_counter++;
-						}
-					} else if(checkRed(color)) {
-						int cols = row.getLastCellNum();
-						int cell_counter = row.getFirstCellNum();
-						Cell following_cell;
-						//Iterate through row
-						while(cell_counter < cols && (following_cell = row.getCell(cell_counter)) != null) {
-							int type = following_cell.getCellType();
-							String value;
-							if (type == Cell.CELL_TYPE_NUMERIC || type == Cell.CELL_TYPE_FORMULA || type == Cell.CELL_TYPE_ERROR){
-								try {
-									value = "" + following_cell.getNumericCellValue();
-								} catch (java.lang.IllegalStateException ise){
-									try {
-										value = "" + FormulaError.forInt(following_cell.getErrorCellValue()).toString();
-									} catch (java.lang.IllegalStateException ise2){
-										value = "" + following_cell.getCellFormula();
-									}
-								}
-							} else {
-								if (following_cell.getCellType() == Cell.CELL_TYPE_BOOLEAN){
-									value = Boolean.toString(following_cell.getBooleanCellValue());
-								}
-								
-								else{ value = following_cell.getStringCellValue();}
-							}
-							//Print Debug
-							//System.out.println(value);
-							if(value.length() > 0) {
-								//Check for extraneous characters
-								if((int)value.charAt(0) == 8722){
-									value = "-" + value.substring(1);
-								} else if (value.charAt(0) == 8195){
-									value = value.substring(1);
-								}	
-							}
-							
-							if (table.get(cell_counter) != null) {
-								table.get(cell_counter).add(value);
-							}
-							
-							cell_counter++;
-						}
-					} 
-				} else {
-
-					int cols = row.getLastCellNum();
-					int cell_counter = row.getFirstCellNum();
-					Cell following_cell;
-					//Iterate through row
-					while(cell_counter < cols) {
-						if((following_cell = row.getCell(cell_counter)) != null){
-							
-							String value = getCellValue(following_cell);
-							if(value.length() > 0) {
-								//Check for extraneous characters
-								if((int)value.charAt(0) == 8722){
-									value = "-" + value.substring(1);
-								} else if (value.charAt(0) == 8195){
-									value = value.substring(1);
-								}	
-							}
-							
-							List<String> values = table.get(cell_counter);
-							if (values==null){
-								values = new ArrayList<String>();
-							}
-							values.add(value);
-							table.put(cell_counter, values);
-							/*if(!table.get(-1).contains(value)){
-								table.get(-1).add(value);
-							}*/
+						String value = getCellValue(following_cell);
+						if(value.length() > 0) {
+							//Check for extraneous characters
+							if((int)value.charAt(0) == 8722){
+								value = "-" + value.substring(1);
+							} else if (value.charAt(0) == 8195){
+								value = value.substring(1);
+							}	
 						}
 						
-						cell_counter++;
+						List<String> values = table.get(cell_counter);
+						if (values == null){
+							values = new ArrayList<String>();
+						}
+						values.add(value);
+						table.put(cell_counter, values);
 					}
+					
+					cell_counter++;
 				}
+			
 			}
 			
 		}
@@ -518,10 +424,14 @@ public class TableExtractor {
 		//PMC3404884TableS1
 		//PMC3643591TableS2
 		//PMC2711022Resource1
-		String name = "PMC3989651Resource1";
-		/*Collection<List<String>> data = extractor.parseExcelTable(name + ".xlsx");
+		String name = "PMC3181483Suppemboj2011251s3.xls";
+		Collection<List<String>> data = extractor.parseExcelTable(name,0);
 		
-		extractor.createTableBuf(table, data);(/
+		extractor.createTableBuf(table, data);
+		
+		/*for (TableBuf.Column col : table.getColumnList()){
+			System.out.println(col.getHeader().getData() + " " + col.getDataCount());
+		}*/
 		
 		/*TableBuf.Column.Builder colA = table.addColumnBuilder();
 		colA.setHeader(TableBuf.Cell.newBuilder().setData("A"));
