@@ -223,7 +223,7 @@ public class TableExtractor {
 						if(width + height > 6 && width > 1 ) {
 							table_regions++;
 							int[] region = {start, start + width, counter, counter + height};
-							//System.out.println(region[0] + " " + region[1] + " " + region[2] + " " + region[3]);
+							System.out.println(region[0] + " " + region[1] + " " + region[2] + " " + region[3]);
 							if(table_regions > 1){
 								//System.err.println("Multiple table regions : " + sheet.getSheetName());
 								//return false;
@@ -412,7 +412,7 @@ public class TableExtractor {
 		table.addCaption("Text Extracted from excel");
 		TableBuf.Source.Builder source = table.getSourceBuilder();
 		source.setAuthor("Paul Revere Et Al");
-		source.setPmcId("PMC12342622");
+		source.setPmcId("PMC4335977");
 		source.setPaperTitle("Biochemical Paper");
 		//A		B	C
 		//A1	B1 	C1
@@ -424,7 +424,7 @@ public class TableExtractor {
 		//PMC3404884TableS1
 		//PMC3643591TableS2
 		//PMC2711022Resource1
-		String name = "PMC3181483Suppemboj2011251s3.xls";
+		String name = "files"+File.separator +  "PMC4335977mbo30004-0066-sd2_Table1.xlsx";
 		Collection<List<String>> data = extractor.parseExcelTable(name,0);
 		
 		extractor.createTableBuf(table, data);

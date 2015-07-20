@@ -8,7 +8,8 @@ import java.util.List;
 import tablecontents.ColumnContents;
 
 public abstract class Reaction {
-	public static Reaction[] allReactions = {Phosphorylation.getInstance(), Methylation.getInstance(),Sumoylation.getInstance()};
+	public static Reaction[] allReactions = {Phosphorylation.getInstance(), Methylation.getInstance(),
+		Sumoylation.getInstance(),Acetylation.getInstance()};
 	HashSet<Class<? extends ColumnContents>> data = new HashSet<Class<? extends ColumnContents>>();
 	HashSet<Class<? extends ColumnContents>> optionalColumns = new HashSet<Class<? extends ColumnContents>>();
 	HashMap<Class<? extends ColumnContents>, List<List<Class<? extends ColumnContents>>>> alternatives = 
