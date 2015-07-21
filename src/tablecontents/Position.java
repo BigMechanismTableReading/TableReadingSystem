@@ -58,9 +58,15 @@ public class Position implements ColumnContents{
 				
 				data = data.replaceAll("\\.0", "");
 				String []nums = data.split("[^\\d]");
+				boolean badPos = false;
 				for(String pos : nums){
-					if(pos.length() > 7)
-						return null;
+					if(pos.charAt(0) == '0'){
+						badPos = true;
+					}
+				}
+				if(badPos){
+					position.put("site", null);
+					return null;
 				}
 				position.put("site", Arrays.toString(nums));
 				return position;

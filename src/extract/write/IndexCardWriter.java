@@ -60,19 +60,22 @@ public class IndexCardWriter {
 		participant.add("in_model", "false");
 	}
 	
-	private void addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB,IndexCard idx) {
+	private boolean addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB,IndexCard idx) {
 		String site = idx.getData("site");
 		if(site!= null){
 				features.add("site", site);
+		}else{
+			return false;
 		}
 		String amino = idx.getData("base");
 		if(amino!=null){
 				features.add("base", amino);
 		}
 		participantB.add("features", features.build());
+		return true;
 	}
 
-	private void addParticipants(JsonObjectBuilder participantA,
+	private boolean addParticipants(JsonObjectBuilder participantA,
 			JsonObjectBuilder participantB,	JsonObjectBuilder infoBuilder,IndexCard idx) {
 		
 		infoBuilder.add("participant_a", participantA.build());
@@ -87,12 +90,15 @@ public class IndexCardWriter {
 			for (String i : idx.getData("site").split("^\\d")){
 				positions.add(i);
 			}
+		}else{
+			return false;
 		}
 		//Change it from r to the actual name of the reaction
 		modifications.add(Json.createObjectBuilder().add("modification_type", 
 				idx.getData("modification_type")).add("position", positions.build()).build());
 	
 		infoBuilder.add("modifications",modifications);
+		return true;
 		
 	}
 	private void tableEvidence(JsonArrayBuilder evidence,IndexCard idx,TableBuf.Table t){
@@ -154,9 +160,13 @@ public class IndexCardWriter {
 		JsonObjectBuilder participantB = Json.createObjectBuilder();
 		buildParticipant(participantB,idx,"b");
 		JsonObjectBuilder featuresB = Json.createObjectBuilder();
-		addFeatures(featuresB,participantB,idx);
+		if(!addFeatures(featuresB,participantB,idx)){
+			return null;
+		}
 		String reactionType;
-		addParticipants(participantA,participantB,infoBuilder,idx);
+		if(addParticipants(participantA,participantB,infoBuilder,idx) == false){
+			return null;
+		}
 		idxBuilder.add("extracted_information", infoBuilder.build());
 		createEvidence(idxBuilder,idx,t);
 		JsonObject finishedCard = idxBuilder.build();
