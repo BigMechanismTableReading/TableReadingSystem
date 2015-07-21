@@ -100,7 +100,7 @@ public class IndexCardWriter {
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
 		JsonObjectBuilder interiorTableEv = Json.createObjectBuilder();
 		JsonObjectBuilder largeTab = Json.createObjectBuilder();
-		interiorTableEv.add("table",t.getSource().getSourceFile());
+		interiorTableEv.add("table",t.getSource().getSourceFile()+ "sheet" + t.getSource().getSheetNo());
 		interiorTableEv.add("row", idx.getData("row"));
 		JsonArrayBuilder headers = Json.createArrayBuilder();
 		for(TableBuf.Column c : t.getColumnList()){

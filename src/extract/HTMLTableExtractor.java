@@ -256,7 +256,7 @@ public class HTMLTableExtractor {
 		table.addCaption("Text Extracted from html");
 		TableBuf.Source.Builder source = table.getSourceBuilder();
 		source.setAuthor("Paul Revere Et Al");
-		source.setPmcId("PMC12342622");
+		source.setPmcId("PMC3102680");
 		source.setPaperTitle("Biochemical Paper");
 		//A		B	C
 		//A1	B1 	C1
@@ -267,7 +267,7 @@ public class HTMLTableExtractor {
 		//PMC3725062Resource5
 		//PMC4133982Resource1
 		String name = "PMC3725062Resource1";
-		Collection<List<String>> data = extractor.parseHTMLTable(name + ".html");
+		Collection<List<String>> data = extractor.parseHTMLTable("files" + File.separator +"PMC3102680pone-0020199-t001" + ".html");
 		
 		extractor.createTableBuf(table, data);
 		

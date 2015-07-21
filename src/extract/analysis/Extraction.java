@@ -76,7 +76,7 @@ public class Extraction {
 	}
 	
 	/**
-	 * Returns a columns labeled with a foldtype
+	 * Returns a columns labeled with a subtype of Fold
 	 * @param contents
 	 * @return
 	 */
@@ -91,13 +91,38 @@ public class Extraction {
 		return foldCols;
 	}
 	
-	private void makeIndexCards(String readingStart,TableBuf.Table table,Reaction r,
-			List<ParticipantA> participantACols,HashMap<Integer, String> partB,
+	/**
+	 * Writes list of index cards to json files
+	 * @param cards
+	 * @param readingStart
+	 * @param table
+	 */
+	private void makeIdx(List<IndexCard> cards, String readingStart,TableBuf.Table table){
+		String readingEnd = new Date(System.currentTimeMillis()).toString();
+		IndexCardWriter w = new IndexCardWriter();
+		for (IndexCard card : cards){
+			w.writeIndexCard(readingStart, readingEnd, table, card);
+		}
+	}
+	
+	/**
+	 * Creates s list of index cards
+	 * @param r
+	 * @param participantACols
+	 * @param partB
+	 * @param partBuntrans
+	 * @param cols
+	 * @param contents
+	 * @return
+	 */
+	private List<IndexCard> getCards(Reaction r,List<ParticipantA> participantACols,
+			HashMap<Integer, String> partB,
 			HashMap<Integer, String> partBuntrans,List<ColumnContents> cols,
 			HashMap<ColumnContents,List<TableBuf.Column>> contents){
 		
 		List<IndexCard> cards = new LinkedList<IndexCard>();
 		Iterator<Integer> iter = partB.keySet().iterator();
+		System.out.println(partB.keySet());
 		while(iter.hasNext()){
 			int i = iter.next();
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
@@ -112,15 +137,12 @@ public class Extraction {
 				}
 			}
 		}
-		String readingEnd = new Date(System.currentTimeMillis()).toString();
-		for (IndexCard card : cards){
-			IndexCardWriter w = new IndexCardWriter();
-			w.writeIndexCard(readingStart, readingEnd, table, card);
-		}
+		return cards;
+		
 	}
 	
 	/**
-	 * Extracts the information and writes it to an index card.
+	 * Extracts information and writes it to index cards
 	 * @param colInfo
 	 * @param table
 	 */
@@ -159,7 +181,8 @@ public class Extraction {
 				}
 			}
 		}
-		makeIndexCards(readingStart, table, r, participantACols, partB, partBuntrans, cols, contents);
+		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents);
+		makeIdx(cards, readingStart, table);
 		
 	}
 }

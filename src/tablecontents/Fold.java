@@ -77,10 +77,15 @@ public abstract class Fold implements ColumnContents{
 		if(cell != null){
 			String data = cell.getData();
 			Matcher m = p.matcher(data);
+			boolean neg = false;
+			if(data.contains("-"))
+				neg = true;
 			double num = Double.POSITIVE_INFINITY;
 			if(m.find()){
 				try{
 					num = Double.parseDouble(m.group());
+					if(neg)
+						num *= -1;
 				}catch(NumberFormatException e){
 
 				}

@@ -423,7 +423,7 @@ public class TableExtractor {
 		//PMC3404884TableS1
 		//PMC3643591TableS2
 		//PMC2711022Resource1
-		String name = "files"+File.separator +  "PMC3691183Supppone.0066733.s004.xlsx";
+		String name = "files"+File.separator +  "PMC3102680pone-0020199-t001";
 		Collection<List<String>> data = extractor.parseExcelTable(name,0);
 		
 		extractor.createTableBuf(table, data);
