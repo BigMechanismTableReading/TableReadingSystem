@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import tablecontents.ColumnContents;
+import extract.MasterExtractor;
 import extract.analysis.DetermineTable;
 import extract.analysis.Extraction;
 import extract.analysis.Pair;
@@ -47,17 +48,17 @@ public class RelevanceTest {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		File tableDir = new File("tables");
+		File tableDir = new File("files");
 		File markedRelevant = new File("MarkedRelevant.txt");
 		FileWriter w;
 		Extraction extr = new Extraction();
 		try {
 			w = new FileWriter(markedRelevant);
-		for (File file : tableDir.listFiles()){
-			for(Integer pmc : PMCIDs){
-				if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
-						TableBuf.Table t = getTable(file);
-						if(t!=null){
+			for (File file : tableDir.listFiles()){
+				for(Integer pmc : PMCIDs){
+					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
+						List<TableBuf.Table> tableList = MasterExtractor.buildTable(file, pmc.toString());
+						for (TableBuf.Table t : tableList){
 							DetermineTable d = new DetermineTable();
 							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 							if(r != null){
@@ -67,10 +68,11 @@ public class RelevanceTest {
 								extr.ExtractInfo(r, t);					
 							}
 						}
+						
+					}
 				}
 			}
-		}
-		w.close();
+			w.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
