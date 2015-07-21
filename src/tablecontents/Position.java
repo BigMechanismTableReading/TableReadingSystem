@@ -55,18 +55,17 @@ public class Position implements ColumnContents{
 			TableBuf.Cell c = col.getData(row);
 			if(c!=null){
 				String data = c.getData();
-				
 				data = data.replaceAll("\\.0", "");
 				String []nums = data.split("[^\\d]");
 				boolean badPos = false;
 				for(String pos : nums){
-					if(pos.charAt(0) == '0'){
+					if(pos.length() > 0 && pos.charAt(0) == '0'){
 						badPos = true;
 					}
 				}
 				if(badPos){
 					position.put("site", null);
-					return null;
+					return position;
 				}
 				position.put("site", Arrays.toString(nums));
 				return position;

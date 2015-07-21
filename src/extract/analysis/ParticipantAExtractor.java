@@ -80,7 +80,7 @@ public class ParticipantAExtractor {
 		List<String> allForms = new ArrayList<String>();
 		allForms.add(partA);
 		for(int i = partA.length()-1; i >= 0; i--){
-			if(firstCap == -1 && Character.isUpperCase(partA.charAt(i)) ){
+			if(firstCap == -1 && !Character.isLowerCase(partA.charAt(i)) ){
 				firstCap = i;
 			}else if(firstCap != -1 && Character.isLowerCase(partA.charAt(i))){
 				allForms.add(partA.substring(i+1,partA.length()));
@@ -125,13 +125,13 @@ public class ParticipantAExtractor {
 	 */
 	private Pair<String, String> groundPartA(String form,Set<String>partBs,boolean fold,boolean title){
 		String partA = null;
-		if(form.length() > 3){
+		if(form.length() > 2){
 			partA = translatePartA(form);
 		}
 		if (partA == null && form.toUpperCase().equals(form)){
 			partA = abbrLookup(form);
 		}		
-		
+		System.out.println(form + "     " + partA);
 		if(partA != null &&  (!partBs.contains(partA) || fold == true ||title == true)){
 			return new Pair<String, String>(form, partA);
 		}
@@ -213,7 +213,7 @@ public class ParticipantAExtractor {
 	 */
 	private List<ParticipantA> getFoldPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r, Set<String> allB,TableBuf.Table table){
-		//TODO verify correctness of this table
+		//TODO Verify the ordering
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
@@ -221,12 +221,16 @@ public class ParticipantAExtractor {
 				if (possA != null){
 					String partA = checkPartAText(allB, table.getSource().getPmcId().substring(3), r,possA.keySet());
 					if(partA != null){
-						addPartA(participantAs, partA, possA.get(partA), f, col);
+						addPartA(participantAs, possA.get(partA),partA, f, col);
 					}
 				}
 			}
 		}
 		return participantAs;
+	}
+	
+	private List<ParticipantA> getCaptionA(){
+		return null;
 	}
 	/**
 	 * First checks the fold column for potential participantA then checks the title and caption.
