@@ -345,14 +345,13 @@ public class TableExtractor {
 		captions.add("Captions");
 		table.put(-1, captions); //TODO: -1
 		
+		int cols = regions.get(0)[1];
+		
 		for (int counter= regions.get(0)[2]; counter < rows; counter++){
 			Row row = sheet.getRow(counter);
 		
 			if (row != null && row.getFirstCellNum()!=-1) {
-				Cell cell = row.getCell(row.getFirstCellNum());
-			
-				int cols = row.getLastCellNum();
-				int cell_counter = row.getFirstCellNum();
+				int cell_counter = regions.get(0)[0];
 				Cell following_cell;
 				//Iterate through row
 				while(cell_counter < cols) {
