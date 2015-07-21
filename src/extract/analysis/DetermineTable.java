@@ -29,6 +29,7 @@ import extract.types.Reaction;
  */
 public class DetermineTable {
 	
+	public static final int CONFIDENCE_LEVEL = 3;
 	/**
 	 * Identifies any columns that have potential participantB
 	 * @param table
@@ -183,6 +184,7 @@ public class DetermineTable {
 	 */
 	private boolean labelTable(ColumnContents c, HashMap<ColumnContents,List<TableBuf.Column>> data, TableBuf.Table table) {
 		for (TableBuf.Column col : table.getColumnList()){
+			int correctCells = 0;
 			if(c.headerMatch(col.getHeader().getData()) != null){
 				addToData(c, col, data);
 				return true;
@@ -190,7 +192,9 @@ public class DetermineTable {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						addToData(c, col, data);
-						return true;
+						correctCells++;
+						if(correctCells > CONFIDENCE_LEVEL)
+							return true;
 					}
 				}
 			}

@@ -112,7 +112,6 @@ public class ParticipantAExtractor {
 		List<Pair<String,String>> possA = new ArrayList<Pair<String,String>>();
 		for(String word: split){
 			for (String form : allForms(word)){
-				if(fold)System.out.println(form);
 				Pair<String,String> partA = groundPartA(form,partBs,fold,title);
 				if (partA != null)
 					possA.add(partA);
@@ -155,7 +154,6 @@ public class ParticipantAExtractor {
 		Set<String> allB = new HashSet<String>();
 		TabLookup t = TabLookup.getInstance();
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
-		System.out.println(allB);
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
 				Pair<String,String> partA = checkPartA(col.getHeader().getData(), allB,true,false);
@@ -181,7 +179,6 @@ public class ParticipantAExtractor {
 				}
 				title = false;
 			}
-			System.out.println(possA);
 			String partA = checkPartAText(allB, table.getSource().getPmcId().substring(3), r, possA.keySet());
 			if(partA!= null){
 				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
