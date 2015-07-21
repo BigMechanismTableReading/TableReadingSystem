@@ -32,7 +32,7 @@ public class HTMLTableExtractor {
 				}
 			}
 		}
-		return count > 2;
+		return count > 1;
 		
 	}
 	

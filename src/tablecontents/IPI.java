@@ -18,7 +18,7 @@ public class IPI extends Protein {
 		if(ungrounded ==null)
 			return null;
 		if(IPILookup.getInstance().IPItoUNI.containsKey(ungrounded)){
-			return IPILookup.getInstance().IPItoUNI.get(ungrounded);
+			return "Uniprot:" + IPILookup.getInstance().IPItoUNI.get(ungrounded);
 		} else {
 			return null;
 		}

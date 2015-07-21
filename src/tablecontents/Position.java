@@ -55,8 +55,14 @@ public class Position implements ColumnContents{
 			TableBuf.Cell c = col.getData(row);
 			if(c!=null){
 				String data = c.getData();
+				
 				data = data.replaceAll("\\.0", "");
-				position.put("site", Arrays.toString(data.split("[^\\d]")));
+				String []nums = data.split("[^\\d]");
+				for(String pos : nums){
+					if(pos.length() > 7)
+						return null;
+				}
+				position.put("site", Arrays.toString(nums));
 				return position;
 			}
 		}

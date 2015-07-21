@@ -44,13 +44,8 @@ public class IndexCard {
 		data.put("identifier_a",aGrounded);
 		data.put("entity_text_a",entry.getUntranslatedName());
 		String identifierB = "";
-		if(aGrounded.charAt(0) == 'U'){
-			data.put("entity_type_a","protein");
-		}else if (aGrounded.charAt(0) == 'C'){
-			data.put("entity_type_a","chemical");
-		}else{
-			data.put("entity_type_a","unknown");
-		}
+		data.put("entity_type_a",entry.getType());
+		
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
 		Fold f = r.bestFold(foldCols);
 		HashMap<String, String> foldData = f.extractData(foldCols.get(f),row);
