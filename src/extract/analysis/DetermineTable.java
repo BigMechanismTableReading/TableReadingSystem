@@ -30,6 +30,7 @@ import extract.types.Reaction;
 public class DetermineTable {
 	
 	public static final int CONFIDENCE_LEVEL = 3;
+	
 	/**
 	 * Identifies any columns that have potential participantB
 	 * @param table
@@ -203,7 +204,7 @@ public class DetermineTable {
 	}
 	
 	/**
-	 * Helper method for labeling the columnns
+	 * Helper method for labeling the columns
 	 * @param c
 	 * @param col
 	 * @param data

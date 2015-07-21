@@ -36,7 +36,7 @@ public class DetermineTableTest {
 	
 	@Test
 	public void tableTest() {
-		String filename = "ParticipantBTestProtobufs/PMC3691183Supppone.0066733.s004.xlsx.pb";
+		String filename = "ParticipantBTestProtobufs/PMC1459033T1.pb";
 		TableBuf.Table table = getTable(filename);
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = dt.determine(table);

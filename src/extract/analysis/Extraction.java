@@ -40,7 +40,7 @@ import extract.write.IndexCardWriter;
 
 /**
  * Extracts index card information from a table
- * @author sloates
+ * @author sloates vincenth
  *
  */
 public class Extraction {
@@ -91,6 +91,34 @@ public class Extraction {
 		return foldCols;
 	}
 	
+	private void makeIndexCards(String readingStart,TableBuf.Table table,Reaction r,
+			List<ParticipantA> participantACols,HashMap<Integer, String> partB,
+			HashMap<Integer, String> partBuntrans,List<ColumnContents> cols,
+			HashMap<ColumnContents,List<TableBuf.Column>> contents){
+		
+		List<IndexCard> cards = new LinkedList<IndexCard>();
+		Iterator<Integer> iter = partB.keySet().iterator();
+		while(iter.hasNext()){
+			int i = iter.next();
+			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
+			for (ColumnContents content : cols){
+				card.addInfo(content.extractData(contents.get(content), i));
+			}
+			//First get the site/sequence column, then do fold
+			for(ParticipantA entry: participantACols){
+				IndexCard dupl = new IndexCard(card);
+				if (dupl.addPartA(entry,i)){
+					cards.add(dupl);
+				}
+			}
+		}
+		String readingEnd = new Date(System.currentTimeMillis()).toString();
+		for (IndexCard card : cards){
+			IndexCardWriter w = new IndexCardWriter();
+			w.writeIndexCard(readingStart, readingEnd, table, card);
+		}
+	}
+	
 	/**
 	 * Extracts the information and writes it to an index card.
 	 * @param colInfo
@@ -131,28 +159,7 @@ public class Extraction {
 				}
 			}
 		}
-		//Go through the other columns storing all the information
-		List<IndexCard> cards = new LinkedList<IndexCard>();
-		Iterator<Integer> iter = partB.keySet().iterator();
-		while(iter.hasNext()){
-			int i = iter.next();
-			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
-			for (ColumnContents content : cols){
-				card.addInfo(content.extractData(contents.get(content), i));
-			}
-			//First get the site/sequence column, then do fold
-			for(ParticipantA entry: participantACols){
-				IndexCard dupl = new IndexCard(card);
-				if (dupl.addPartA(entry,i)){
-					cards.add(dupl);
-				}
-			}
-		}
-		String readingEnd = new Date(System.currentTimeMillis()).toString();
-		for (IndexCard card : cards){
-			IndexCardWriter w = new IndexCardWriter();
-			w.writeIndexCard(readingStart, readingEnd, table, card);
-		}
+		makeIndexCards(readingStart, table, r, participantACols, partB, partBuntrans, cols, contents);
 		
 	}
 }
