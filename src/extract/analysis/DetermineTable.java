@@ -192,10 +192,11 @@ public class DetermineTable {
 			} else {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
-						addToData(c, col, data);
 						correctCells++;
-						if(correctCells > CONFIDENCE_LEVEL)
+						if(correctCells > CONFIDENCE_LEVEL){
+							addToData(c, col, data);
 							return true;
+						}
 					}
 				}
 			}
