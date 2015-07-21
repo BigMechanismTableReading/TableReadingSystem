@@ -223,7 +223,7 @@ public class TableExtractor {
 						if(width + height > 6 && width > 1 ) {
 							table_regions++;
 							int[] region = {start, start + width, counter, counter + height};
-							//System.out.println(region[0] + " " + region[1] + " " + region[2] + " " + region[3]);
+							System.out.println(region[0] + " " + region[1] + " " + region[2] + " " + region[3]);
 							if(table_regions > 1){
 								//System.err.println("Multiple table regions : " + sheet.getSheetName());
 								//return false;
@@ -345,14 +345,13 @@ public class TableExtractor {
 		captions.add("Captions");
 		table.put(-1, captions); //TODO: -1
 		
+		int cols = regions.get(0)[1];
+		
 		for (int counter= regions.get(0)[2]; counter < rows; counter++){
 			Row row = sheet.getRow(counter);
 		
 			if (row != null && row.getFirstCellNum()!=-1) {
-				Cell cell = row.getCell(row.getFirstCellNum());
-			
-				int cols = row.getLastCellNum();
-				int cell_counter = row.getFirstCellNum();
+				int cell_counter = regions.get(0)[0];
 				Cell following_cell;
 				//Iterate through row
 				while(cell_counter < cols) {
@@ -412,7 +411,7 @@ public class TableExtractor {
 		table.addCaption("Text Extracted from excel");
 		TableBuf.Source.Builder source = table.getSourceBuilder();
 		source.setAuthor("Paul Revere Et Al");
-		source.setPmcId("PMC12342622");
+		source.setPmcId("PMC4335977");
 		source.setPaperTitle("Biochemical Paper");
 		//A		B	C
 		//A1	B1 	C1
@@ -424,8 +423,8 @@ public class TableExtractor {
 		//PMC3404884TableS1
 		//PMC3643591TableS2
 		//PMC2711022Resource1
-		String name = "PMC3181483Suppemboj2011251s3.xls";
-		Collection<List<String>> data = extractor.parseExcelTable(name,0);
+		String name = "files"+File.separator +  "PMC4125731Suppsupp_O113.035683_Tables_S2-S11.xlsx";
+		Collection<List<String>> data = extractor.parseExcelTable(name,1);
 		
 		extractor.createTableBuf(table, data);
 		

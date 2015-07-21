@@ -54,7 +54,7 @@ public abstract class Fold implements ColumnContents{
 	}
 	
 	private TableBuf.Column bestSubColumn(List<TableBuf.Column> cols){
-		String headerReg = "avg";//TODO add to this list after looking at more data
+		String headerReg = "avg|average";//TODO add to this list after looking at more data
 		Pattern p = Pattern.compile(headerReg,Pattern.CASE_INSENSITIVE);
 		for(TableBuf.Column c : cols){
 			Matcher m = p.matcher(c.getHeader().getData());

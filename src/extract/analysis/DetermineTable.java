@@ -3,6 +3,8 @@ package extract.analysis;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -86,6 +88,30 @@ public class DetermineTable {
 		return tableColumns;
 	}
 	
+	
+	/**
+	 * Gets the reactions mentioned in the table
+	 * @param table
+	 * @return
+	 */
+	private Set<Reaction> getTableReactions(TableBuf.Table table,List<Reaction> reactList){
+		Set<Reaction> reactions = new HashSet<Reaction>();
+		for(String s : table.getCaptionList()){
+			for(Reaction r : reactList){
+				for(String base : r.getConjugationBase()){
+					for(String w : s.split("\\s")){	
+						if(w.contains(base)){
+							reactions.add(r);
+						}
+					}
+				}
+			}
+			for(Reaction r : reactions){
+				reactList.remove(r);
+			}
+		}
+		return reactions;
+	}
 	/**
 	 * Pipeline that determines whether a table is relevant and what the table indicates
 	 * Returns a pair containing the interaction type and the ColumnTypes mapped to a list of columns
@@ -96,7 +122,11 @@ public class DetermineTable {
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
-
+		Set<Reaction> tableReactions = getTableReactions(table,possibleReactions);
+		if(tableReactions.size() > 0){
+			possibleReactions.clear();
+			possibleReactions.addAll(tableReactions);
+		}
 		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){	
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {
