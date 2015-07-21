@@ -24,7 +24,6 @@ public class ParticipantAExtractor {
 
 	private void addPartA(List<ParticipantA> participantAs,
 			String partAuntrans, String partA, ColumnContents f, Column col) {
-		//TODO make this structure into a class.
 		for (ParticipantA partAentry : participantAs){
 			if (partAentry.equalString(partA)){
 				partAentry.addToData(f, col);
@@ -87,19 +86,20 @@ public class ParticipantAExtractor {
 	}
 	private Pair<String, String> groundPartA(String form,Set<String>partBs){
 		String partA = null;
-		if (form.toUpperCase().equals(form)){
+		partA = translatePartA(form);
+		if (partA == null && form.toUpperCase().equals(form)){
 			partA = abbrLookup(form);
-		} else {
-			partA = translatePartA(form);//TODO check for bad words and grounding
 		}
-		if(partA != null && !partBs.contains(partA)){
+		//TODO check this partB thing
+		if(partA != null){ //&& !partBs.contains(partA)){
 			return new Pair<String, String>(form, partA);
 		}
 		return null;
 	}
 	private Pair<String,String> checkPartA(TableBuf.Column col, Set<String> partBs){
 		
-		String [] split = col.getHeader().getData().split("\\s|;");
+		String normalized = col.getHeader().getData().replaceAll("-","");
+		String [] split = normalized.split("\\s|;");//TODO look at removing / from it
 		List<Pair<String,String>> possA = new ArrayList<Pair<String,String>>();
 		for(String word: split){
 			for (String form : allForms(word)){
@@ -110,7 +110,6 @@ public class ParticipantAExtractor {
 		}
 		if(!possA.isEmpty())
 			return possA.get(0);
-		//TODO check against participantB List
 		return null;
 	}
 	
@@ -144,19 +143,24 @@ public class ParticipantAExtractor {
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
 				Pair<String,String> partA = checkPartA(col, allB);
+				
 				if (partA != null){
 					addPartA(participantAs, partA.getA(), partA.getB(), f, col);
 				}
 			}
 		}
 		if (participantAs.isEmpty()){
+			System.out.println("NO FOLD A");
 			//Translated maps to Untranslated
 			HashMap<String, String> possA = new HashMap<String, String>();
 			for(String caption : table.getCaptionList()){
-				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z]+[\\w]*");
+				caption = caption.replaceAll("-", "");
+				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z]+[\\w]*");//TODO examine this regex
 				Matcher m = p.matcher(caption);
 				while(m.find()){
-					Pair<String, String> word = groundPartA(m.group(),allB);
+					String a = m.group();
+					System.out.println(a);
+					Pair<String, String> word = groundPartA(a,allB);
 					if(word!= null){
 						possA.put(word.getB(), word.getA());
 					}
