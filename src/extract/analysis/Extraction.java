@@ -122,7 +122,6 @@ public class Extraction {
 		
 		List<IndexCard> cards = new LinkedList<IndexCard>();
 		Iterator<Integer> iter = partB.keySet().iterator();
-		System.out.println(partB.keySet());
 		while(iter.hasNext()){
 			int i = iter.next();
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
@@ -155,7 +154,6 @@ public class Extraction {
 		Pair<HashMap<Integer, String>, HashMap<Integer, String>> partBinfo = getAllParticipantB(contents);
 		HashMap<Integer, String> partB = partBinfo.getA();
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();
-		System.out.println(partB);
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,partBuntrans,foldContents(contents), r);
 		//TODO run the rest of the table, first choosing fold then going through the table

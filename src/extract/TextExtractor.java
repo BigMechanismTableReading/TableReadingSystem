@@ -211,9 +211,9 @@ public class TextExtractor {
 		}
 		
 		List<String> sortedList = sortByValue(partAs);
-		for (int i = 0; i < sortedList.size(); i++) {
-			System.out.println(sortedList.get(i) + " : " + partAs.get(sortedList.get(i)));
-		}
+//		for (int i = 0; i < sortedList.size(); i++) {
+//			System.out.println(sortedList.get(i) + " : " + partAs.get(sortedList.get(i)));
+//		}
 		return sortedList;
 	}
 	
