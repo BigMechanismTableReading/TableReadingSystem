@@ -131,7 +131,6 @@ public class ParticipantAExtractor {
 		if (partA == null && form.toUpperCase().equals(form)){
 			partA = abbrLookup(form);
 		}		
-		System.out.println(form + "     " + partA);
 		if(partA != null &&  (!partBs.contains(partA) || fold == true ||title == true)){
 			return new Pair<String, String>(form, partA);
 		}
@@ -175,10 +174,15 @@ public class ParticipantAExtractor {
 	private String checkPartAText(Set<String> allB,String pmcid, Reaction r, Set<String> possA){
 		List<String>  textA= TextExtractor.extractParticipantA(allB, pmcid,r.getConjugationBase());
 		for(String aText : textA){
-			String transTextA = translatePartA(aText);
-			for(String aTable : possA){
-				if(aTable.equals(transTextA))
-					return aTable;
+			Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
+			if(transTextApair != null){
+				String transTextA = transTextApair.getB();
+				System.out.println(transTextA + "  " + aText);
+				for(String aTable : possA){
+
+					if(aTable.equals(transTextA))
+						return aTable;
+				}
 			}
 		}
 		return null;

@@ -227,7 +227,7 @@ public class TextExtractor {
 		List<String> proteins = new LinkedList<String>();
 		sentence = sentence.trim();
 		sentence = sentence.replace("-", "");
-		if(Pattern.matches("^[A-Z[a-z[0-9]]].*", sentence)){	
+		if(Pattern.matches("^[\\w].*", sentence)){	
 			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
 			Matcher m = p.matcher(sentence);
 			while(m.find()){
