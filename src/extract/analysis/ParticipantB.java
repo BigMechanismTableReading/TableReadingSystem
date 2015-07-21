@@ -29,11 +29,11 @@ public class ParticipantB {
 				if(cellData != null){
 					//TODO verify that this is needed.
 					//This way gets better F1 but not grounded here.
-					if(p[0].matchesFormat(cellData,p[0].getRegEx()) != null)
+					if(p[0].matchesFormat(cellData,p[0].getRegEx(),false) != null)
 						return p[0];
-					if(p[1].matchesFormat(cellData,p[1].getRegEx())  != null)
+					if(p[1].matchesFormat(cellData,p[1].getRegEx(),false)  != null)
 						return p[1];
-					if(p[2].matchesFormat(cellData,p[2].getRegEx())  !=null)
+					if(p[2].matchesFormat(cellData,p[2].getRegEx(),false)  !=null)
 						return p[2];
 					if(p[3].cellMatch(cellData) != null)
 						return p[3];

@@ -1,6 +1,7 @@
 package extract.analysis;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 
 import tablecontents.ColumnContents;
 import tablecontents.Fold;
+import tablecontents.GeneName;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import extract.TextExtractor;
@@ -56,15 +58,19 @@ public class ParticipantAExtractor {
 	 * @return
 	 */
 	private List<String> allForms(String partA){
-		boolean cap = false;
+		int firstCap = -1;
 		List<String> allForms = new ArrayList<String>();
 		allForms.add(partA);
 		for(int i = partA.length()-1; i >= 0; i--){
-			if(cap == false && Character.isUpperCase(partA.charAt(i)) ){
-				cap = true;
-			}else if(cap == true && !Character.isUpperCase(partA.charAt(i))){
+			if(firstCap == -1 && Character.isUpperCase(partA.charAt(i)) ){
+				firstCap = i;
+			}else if(firstCap != -1 && Character.isLowerCase(partA.charAt(i))){
 				allForms.add(partA.substring(i+1,partA.length()));
+				allForms.add(partA.substring(i+1, firstCap+1));
 			}
+		}
+		if(firstCap != -1){
+			allForms.add(partA.substring(0,firstCap+1));
 		}
 		return allForms;	
 	}
@@ -84,26 +90,30 @@ public class ParticipantAExtractor {
 		}
 		return null;
 	}
-	private Pair<String, String> groundPartA(String form,Set<String>partBs){
+	private Pair<String, String> groundPartA(String form,Set<String>partBs,boolean fold,boolean title){
 		String partA = null;
-		partA = translatePartA(form);
+		if(form.length() > 2){
+			partA = translatePartA(form);
+		}
 		if (partA == null && form.toUpperCase().equals(form)){
 			partA = abbrLookup(form);
-		}
-		//TODO check this partB thing
-		if(partA != null){ //&& !partBs.contains(partA)){
+		}		
+		
+		if(partA != null &&  (!partBs.contains(partA) || fold == true ||title == true)){
 			return new Pair<String, String>(form, partA);
 		}
 		return null;
 	}
-	private Pair<String,String> checkPartA(TableBuf.Column col, Set<String> partBs){
+	
+	private Pair<String,String> checkPartA(String guess, Set<String> partBs, boolean fold,boolean title){
 		
-		String normalized = col.getHeader().getData().replaceAll("-","");
-		String [] split = normalized.split("\\s|;");//TODO look at removing / from it
+		String normalized = guess.replaceAll("-","");
+		String [] split = normalized.split("\\s|;|/|\\(|\\)");//TODO look at removing / from it
 		List<Pair<String,String>> possA = new ArrayList<Pair<String,String>>();
 		for(String word: split){
 			for (String form : allForms(word)){
-				Pair<String,String> partA = groundPartA(form,partBs);
+				if(fold)System.out.println(form);
+				Pair<String,String> partA = groundPartA(form,partBs,fold,title);
 				if (partA != null)
 					possA.add(partA);
 			}
@@ -124,48 +134,54 @@ public class ParticipantAExtractor {
 		}
 		return null;
 	}
+	
+	private void makeAllBs(Set<String> allB, Collection<String> trans, Collection<String> untrans,TabLookup t){
+		allB.addAll(trans);
+		allB.addAll(untrans);		
+		for(String fullB : trans){
+			if(fullB.length()>9){
+				String b = fullB.substring(8);
+				if(t.uniToGene.containsKey(b))
+					allB.add(t.uniToGene.get(b));
+			}
+		}
+	}
 
 	public List<ParticipantA> getParticipantAs(TableBuf.Table table,
-			HashMap<Integer,String> partB, HashMap<ColumnContents,List<TableBuf.Column>> contents,
+			HashMap<Integer,String> partB, 	HashMap<Integer,String> partBUntrans,
+			HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r){
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		Set<String> allB = new HashSet<String>();
 		TabLookup t = TabLookup.getInstance();
-		for(String s : partB.values()){
-			if (s.contains("Uniprot")){
-				String cut = s.substring(8);
-				if(t.uniToGene.containsKey(cut)){	
-					allB.add(t.uniToGene.get(cut));
-				}
-			}
-		}
-		allB.addAll(partB.values());
+		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
+		System.out.println(allB);
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
-				Pair<String,String> partA = checkPartA(col, allB);
-				
+				Pair<String,String> partA = checkPartA(col.getHeader().getData(), allB,true,false);
 				if (partA != null){
 					addPartA(participantAs, partA.getA(), partA.getB(), f, col);
 				}
 			}
 		}
+		
 		if (participantAs.isEmpty()){
-			System.out.println("NO FOLD A");
-			//Translated maps to Untranslated
 			HashMap<String, String> possA = new HashMap<String, String>();
+			boolean title = true;
 			for(String caption : table.getCaptionList()){
 				caption = caption.replaceAll("-", "");
 				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z]+[\\w]*");//TODO examine this regex
 				Matcher m = p.matcher(caption);
 				while(m.find()){
 					String a = m.group();
-					System.out.println(a);
-					Pair<String, String> word = groundPartA(a,allB);
+					Pair<String, String> word = checkPartA(a,allB,false,title);//TODO decide how many checks are good
 					if(word!= null){
 						possA.put(word.getB(), word.getA());
 					}
 				}
+				title = false;
 			}
+			System.out.println(possA);
 			String partA = checkPartAText(allB, table.getSource().getPmcId().substring(3), r, possA.keySet());
 			if(partA!= null){
 				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));

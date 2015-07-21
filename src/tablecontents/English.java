@@ -21,7 +21,7 @@ public class English extends Protein{
 		if(ungrounded != null){
 			ungrounded = ungrounded.replaceAll("\\W+"," ").toUpperCase();
 			if(t.english.containsKey(ungrounded))
-				return("Uniprot:" + t.english.get(ungrounded));
+				return("Uniprot:" + t.english.get(ungrounded).get(0));
 		}
 		return null;
 	}

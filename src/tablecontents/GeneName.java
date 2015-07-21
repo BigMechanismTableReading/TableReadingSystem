@@ -2,7 +2,7 @@ package tablecontents;
 
 public class GeneName extends Protein {
 
-	 ;//TODO update this regEx Look at this
+	 //TODO update this regEx Look at this
 	private static GeneName gene = null;
 	public static GeneName getInstance(){
 		if(gene == null)
@@ -11,12 +11,12 @@ public class GeneName extends Protein {
 	}
 	
 	private GeneName(){
-		regEx = "([A-Z[a-z]]{1}[0-9[A-Z[a-z]]]{1,6})";
+		regEx = "([A-Z]{1}[0-9[A-Z[a-z]]]{1,7})";
 	}
 	
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
-			ungrounded =  super.matchesFormat(ungrounded,regEx).toUpperCase();
+			ungrounded = ungrounded.toUpperCase();
 			if(t.genename.containsKey(ungrounded))
 				return("Uniprot:" + t.genename.get(ungrounded));
 		}
@@ -25,7 +25,8 @@ public class GeneName extends Protein {
 
 	@Override
 	public String cellMatch(String match) {
-		String grounded = groundIdentity(super.matchesFormat(match, regEx));
+		match = match.replaceAll("\\W", "");
+		String grounded = groundIdentity(super.matchesFormat(match, regEx,true));
 		return grounded;
 	}
 }

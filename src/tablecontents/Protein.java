@@ -29,8 +29,11 @@ public abstract class Protein implements ColumnContents{
 	 * @param regEx
 	 * @return
 	 */
-	public String matchesFormat(String input,String regEx) {
+	public String matchesFormat(String input,String regEx,boolean caseSensitive) {
 		Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
+		if (caseSensitive){
+			p = Pattern.compile(regEx);
+		}
 		Matcher m = p.matcher(input);
 		if(m.find()){
 			return m.group();
@@ -47,15 +50,15 @@ public abstract class Protein implements ColumnContents{
 	private Pair<String, String> getGrounded(Protein p,HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		String data;
 		if(cols.containsKey(p)){
-			TableBuf.Column col = cols.get(p).get(0);
-			if(col.getDataCount() > row && col.getData(row) != null){
-				 data = col.getData(row).getData();
-				 String s = p.cellMatch(data);
-				 if(s != null)
-					 return new Pair<String,String>(data, s);
-				// else if (p instanceof Uniprot)
-					// return  new Pair<String,String>(data, "Uniprot:" + data);
-				 else return null;
+			for (TableBuf.Column col :cols.get(p)){
+				if(col.getDataCount() > row && col.getData(row) != null){
+					data = col.getData(row).getData();
+					String s = p.cellMatch(data);
+					if(s != null)
+						return new Pair<String,String>(data, s);
+					// else if (p instanceof Uniprot)
+						// return  new Pair<String,String>(data, "Uniprot:" + data);
+				}
 			}
 		}
 		return null;

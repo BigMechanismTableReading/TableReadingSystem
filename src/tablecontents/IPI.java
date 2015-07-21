@@ -27,6 +27,6 @@ public class IPI extends Protein {
 	public String cellMatch(String match) {
 		//TODO fix when IPI is added in
 		//String grounded = groundIdentity(super.matchesFormat(match, regEx));
-		return groundIdentity(super.matchesFormat(match, regEx));
+		return groundIdentity(super.matchesFormat(match, regEx,false));
 	}
 }

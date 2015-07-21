@@ -3,8 +3,10 @@ package extract.analysis;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +25,7 @@ import javax.json.stream.JsonGenerator;
 
 import tablecontents.ColumnContents;
 import tablecontents.Fold;
+import tablecontents.GeneName;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import extract.TextExtractor;
@@ -96,14 +99,17 @@ public class Extraction {
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
 							TableBuf.Table table){
 			
+		String readingStart = new Date(System.currentTimeMillis()).toString();
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
 		Pair<HashMap<Integer, String>, HashMap<Integer, String>> partBinfo = getAllParticipantB(contents);
 		HashMap<Integer, String> partB = partBinfo.getA();
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();
+		System.out.println(partB);
 		ParticipantAExtractor partA = new ParticipantAExtractor();
-		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,foldContents(contents), r);
+		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,partBuntrans,foldContents(contents), r);
 		//TODO run the rest of the table, first choosing fold then going through the table
+		System.out.println(participantACols.size() + " " + participantACols.get(0).getUntranslatedName());
 		List<ColumnContents> cols = new ArrayList<ColumnContents>();
 		for(Class<? extends ColumnContents> c : r.getRequiredColumns()){
 			if (!(c == Fold.class)) {
@@ -142,10 +148,10 @@ public class Extraction {
 				}
 			}
 		}
-		
+		String readingEnd = new Date(System.currentTimeMillis()).toString();
 		for (IndexCard card : cards){
 			IndexCardWriter w = new IndexCardWriter();
-			w.writeIndexCard("TIMe", "TIME", table, card);
+			w.writeIndexCard(readingStart, readingEnd, table, card);
 		}
 		
 	}

@@ -24,7 +24,7 @@ public class Uniprot extends Protein{
 	
 	@Override
 	public String cellMatch(String match) {
-		String grounded = groundIdentity(super.matchesFormat(match, regEx));
+		String grounded = groundIdentity(super.matchesFormat(match, regEx,false));
 		return grounded;
 	}
 	
