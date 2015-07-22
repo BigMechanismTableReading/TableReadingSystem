@@ -47,6 +47,10 @@ public abstract class Protein implements ColumnContents{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public boolean needsBoth(){
+		return false;
+	}
 	
 	private Pair<String, String> getGrounded(Protein p,HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		String data;

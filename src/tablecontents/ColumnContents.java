@@ -8,7 +8,11 @@ import extract.buffer.TableBuf;
 
 public interface ColumnContents {
 	
-
+	/**
+	 * Must match header and cell regular expression
+	 * @return
+	 */
+	public boolean needsBoth();
 	/**
 	 * Returns the confidence level needed for this type to be labeled
 	 * @return

@@ -13,7 +13,7 @@ import extract.buffer.TableBuf.Column;
 public class Position implements ColumnContents{
 	//TODO determine matching for this
 	private String headerRegEx = "residue|location|position|site|tyrosine|serine|lysine";
-	//private String cellRegEx = "^\\d{3,5}$";//TODO figure out good position regex
+	private String cellRegEx = "\\d{3,5}";//TODO figure out good position regex
 	public int confidenceNeeded = 5;
 	
 	private static Position pos = null;
@@ -37,13 +37,16 @@ public class Position implements ColumnContents{
 
 	@Override
 	public String cellMatch(String match) {
-		/*Pattern p = Pattern.compile(cellRegEx,Pattern.CASE_INSENSITIVE);
+		Pattern p = Pattern.compile(cellRegEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(match);
 		if(m.find())
-			return m.group();*/
+			return m.group();
 		return null;
 	}
-	
+	@Override
+	public boolean needsBoth(){
+		return true;
+	}
 	public Pair<String, String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
 	}

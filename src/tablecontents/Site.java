@@ -34,7 +34,10 @@ public abstract class Site implements ColumnContents {
 		}
 		return null;
 	}
-	
+	@Override
+	public boolean needsBoth(){
+		return false;
+	}
 	public Pair<String,String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
 	}

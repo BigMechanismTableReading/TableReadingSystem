@@ -73,6 +73,10 @@ public abstract class Fold implements ColumnContents{
 	public int getCellConfNeeded(){
 		return confidenceNeeded;
 	}
+	@Override
+	public boolean needsBoth(){
+		return false;
+	}
 	
 	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){

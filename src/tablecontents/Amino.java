@@ -32,6 +32,10 @@ public abstract class Amino implements ColumnContents{
 	}
 	
 	@Override
+	public boolean needsBoth(){
+		return false;
+	}
+	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
 		HashMap<String,String> amino = new HashMap<String,String>();
 		for(TableBuf.Column c : cols){

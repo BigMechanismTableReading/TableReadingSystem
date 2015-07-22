@@ -118,7 +118,6 @@ public class DetermineTable {
 	 * @param table
 	 */
 	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table){
-		//Checks to make sure that participantB is in the table, setting columnLabels as it iterates through
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
@@ -128,12 +127,14 @@ public class DetermineTable {
 			possibleReactions.addAll(tableReactions);
 		}
 		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){	
+			
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {
 				requiredContents.addAll(r.getRequiredColumns());
 				requiredContents.addAll(r.getAllAlternatives());
 			}
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
+			System.out.println(tableColumns);
 			for (Reaction r : possibleReactions) {
 				if (containsAllRequired(r, tableColumns)){
 					HashSet<Class<? extends ColumnContents>> optionalContents = new HashSet<Class<? extends ColumnContents>>();
@@ -166,7 +167,7 @@ public class DetermineTable {
 					if(!alternative){
 						return false;
 					}
-				} else {
+				} else { 
 					return false;
 				}
 			}
@@ -183,12 +184,18 @@ public class DetermineTable {
 	 */
 	private boolean labelTable(ColumnContents c, HashMap<ColumnContents,List<TableBuf.Column>> data, TableBuf.Table table) {
 		int confidenceLevel = c.getCellConfNeeded();
+		boolean both = c.needsBoth();
+		boolean head = false;
 		for (TableBuf.Column col : table.getColumnList()){
 			int correctCells = 0;
 			if(c.headerMatch(col.getHeader().getData()) != null){
-				addToData(c, col, data);
-				return true;
-			} else {
+				if(!both){
+					addToData(c, col, data);
+					return true;
+				}
+				head = true;
+			}
+			if (!both || head) {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;

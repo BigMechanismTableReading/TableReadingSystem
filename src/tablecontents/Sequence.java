@@ -28,6 +28,10 @@ public abstract class Sequence implements ColumnContents {
 			return m.group();
 		return null;
 	}
+	@Override
+	public boolean needsBoth(){
+		return false;
+	}
 	
 	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
