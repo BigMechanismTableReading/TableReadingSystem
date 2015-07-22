@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -106,7 +107,8 @@ public class ParticipantAExtractor {
 		if(proteinBase.english.containsKey(longForm)){
 			List<String> intersect = proteinBase.english.get(longForm);
 			if(proteinBase.english.containsKey(abbr)){
-				List<String> abbrList = proteinBase.english.get(abbr);
+				List<String> abbrList = new LinkedList<String>();
+				abbrList.addAll(proteinBase.english.get(abbr));
 				abbrList.retainAll(intersect);
 				if(abbrList.size() > 0)
 					return abbrList.get(0);
