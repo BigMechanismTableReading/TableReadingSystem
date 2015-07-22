@@ -59,7 +59,7 @@ public class RelevanceTest {
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
 						List<TableBuf.Table> tableList = MasterExtractor.buildTable(file, pmc.toString());
 						for (TableBuf.Table t : tableList){
-						//	TableBuf.Table t = getTable(file);
+							//TableBuf.Table t = getTable(file);
 							System.out.println(file.getName());
 							DetermineTable d = new DetermineTable();
 							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);

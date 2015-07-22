@@ -133,6 +133,7 @@ public class DetermineTable {
 				requiredContents.addAll(r.getRequiredColumns());
 				requiredContents.addAll(r.getAllAlternatives());
 			}
+			
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
 			for (Reaction r : possibleReactions) {
 				if (containsAllRequired(r, tableColumns)){
@@ -185,12 +186,13 @@ public class DetermineTable {
 		int confidenceLevel = c.getCellConfNeeded();
 		boolean both = c.needsBoth();
 		boolean head = false;
+		boolean hasCol = false;
 		for (TableBuf.Column col : table.getColumnList()){
 			int correctCells = 0;
-			if(c.headerMatch(col.getHeader().getData()) != null){
+			if(c.headerMatch(col.getHeader().getData()) != null){	
 				if(!both){
 					addToData(c, col, data);
-					return true;
+					hasCol =  true;
 				}
 				head = true;
 			}
@@ -198,16 +200,16 @@ public class DetermineTable {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
-						System.out.println(c + "  " + correctCells);
 						if(correctCells > confidenceLevel){
 							addToData(c, col, data);
-							return true;
+							hasCol =  true;
+							i = 10;
 						}
 					}
 				}
 			}
 		}
-		return false;
+		return hasCol;
 	}
 	
 	/**

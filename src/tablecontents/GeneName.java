@@ -15,7 +15,6 @@ public class GeneName extends Protein {
 	}
 	
 	public String groundIdentity(String ungrounded) {
-		System.out.println(ungrounded);
 		if(ungrounded != null){
 			ungrounded = ungrounded.toUpperCase();
 			if(t.genename.containsKey(ungrounded))

@@ -62,7 +62,7 @@ public class ParticipantAExtractor {
 		if(chem.chemicals.containsKey(partA.toUpperCase()))
 			return chem.chemicals.get(partA.toUpperCase());
 		for (Protein p : Protein.protList){
-			String trans = p.cellMatch(partA);
+			String trans = p.cellMatch(partA.toUpperCase());
 			if (trans != null){
 				return trans;
 			}
@@ -111,7 +111,7 @@ public class ParticipantAExtractor {
 				abbrList.addAll(proteinBase.english.get(abbr));
 				abbrList.retainAll(intersect);
 				if(abbrList.size() > 0)
-					return abbrList.get(0);
+					return "Uniprot:" + abbrList.get(0);
 			}
 		}
 		return null;
@@ -155,9 +155,9 @@ public class ParticipantAExtractor {
 		for(String word: split){
 			for (String form : allForms(word)){
 				Pair<String,String> partA = groundPartA(form,partBs,fold,title);
-				if (partA != null)
-					//translated to untranslated
+				if (partA != null){
 					possA.put(partA.getB(),partA.getA());
+				}
 			}
 		}
 		if(!possA.isEmpty())
@@ -175,7 +175,9 @@ public class ParticipantAExtractor {
 	 */
 	private String checkPartAText(Set<String> allB,String pmcid, Reaction r, Set<String> possA){
 		List<String>  textA= TextExtractor.extractParticipantA(allB, pmcid,r.getConjugationBase());
-//		System.out.println(possA);
+		System.out.println(possA);
+		System.out.println(allB);
+		System.out.println(textA);
 //		System.out.println(textA);
 		for(String aWord : textA){
 			for(String aText : allForms(aWord)){
@@ -260,12 +262,13 @@ public class ParticipantAExtractor {
 		TabLookup t = TabLookup.getInstance();
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table);
+		
 		if (participantAs.isEmpty()){
 			HashMap<String, String> possA = new HashMap<String, String>();
 			boolean title = true;
 			for(String caption : table.getCaptionList()){
 				caption = caption.replaceAll("-", "");
-				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z]+[\\w]*");//TODO examine this regex
+				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");//TODO examine this regex
 				Matcher m = p.matcher(caption);
 				while(m.find()){
 					String a = m.group();
