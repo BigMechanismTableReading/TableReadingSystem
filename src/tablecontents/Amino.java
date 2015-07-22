@@ -14,8 +14,7 @@ import extract.buffer.TableBuf.Cell;
 public abstract class Amino implements ColumnContents{
 	String headerRegEx = "\bamino.*|\bbase\b|syt";
 	private String cellRegEx = null;
-	
-	
+	public int confidenceNeeded = 5;
 	@Override
 	public String headerMatch(String match) {
 		Pattern p = Pattern.compile(headerRegEx,Pattern.CASE_INSENSITIVE);
@@ -48,6 +47,10 @@ public abstract class Amino implements ColumnContents{
 	@Override
 	public Pair<String,String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
+	}
+	@Override
+	public int getCellConfNeeded(){
+		return confidenceNeeded;
 	}
 	
 }

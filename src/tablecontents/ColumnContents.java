@@ -7,6 +7,13 @@ import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 
 public interface ColumnContents {
+	
+
+	/**
+	 * Returns the confidence level needed for this type to be labeled
+	 * @return
+	 */
+	public int getCellConfNeeded();
 	/**
 	 * Attempts to match the header with a known type, returning null if no match
 	 * @param match

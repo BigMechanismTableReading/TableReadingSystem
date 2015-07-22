@@ -15,7 +15,8 @@ public abstract class Fold implements ColumnContents{
 	private HashSet<String> INCREASINGTERMS = set("INCREAS");
 	private HashSet<String> DECREASINGTERMS = set("DECREAS");
 	private static String[] conjugations = new String[]{"E","ES","ING","ED"};
-	 double[] cutOffs = null;
+	double[] cutOffs = null;
+	public int confidenceNeeded = 3;
 	
 	/**
 	 * Calculates and returns cutoffValues as array/HASH?
@@ -66,6 +67,11 @@ public abstract class Fold implements ColumnContents{
 			return cols.get(0);
 		}
 		return null;
+	}
+	
+	@Override
+	public int getCellConfNeeded(){
+		return confidenceNeeded;
 	}
 	
 	@Override

@@ -14,6 +14,7 @@ import extract.buffer.TableBuf;
 public abstract class Site implements ColumnContents {
 	public String headerRegEx = "site|residue|location|tyrosine";//|position";//TODO write the header
 	String regEx = null;
+	public int confidenceNeeded = 5;
 	/**
 	 * Returns cutoff values for positions
 	 * @return
@@ -79,6 +80,10 @@ public abstract class Site implements ColumnContents {
 			siteBase.put("base",Arrays.toString(aminos.toArray()));
 		}
 		return siteBase;		
+	}	
+	@Override
+	public int getCellConfNeeded(){
+		return confidenceNeeded;
 	}
 }
  

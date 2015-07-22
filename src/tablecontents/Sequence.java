@@ -12,7 +12,7 @@ import extract.buffer.TableBuf.Cell;
 
 public abstract class Sequence implements ColumnContents {
 	private String headerRegEx = "sequence";
-	
+	public int confidenceNeeded = 3;
 	@Override
 	public String headerMatch(String match) {
 		/*Pattern p = Pattern.compile(headerRegEx,Pattern.CASE_INSENSITIVE);
@@ -45,6 +45,10 @@ public abstract class Sequence implements ColumnContents {
 	@Override
 	public Pair<String, String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
+	}
+	@Override
+	public int getCellConfNeeded(){
+		return confidenceNeeded;
 	}
 	
 }

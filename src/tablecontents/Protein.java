@@ -13,6 +13,7 @@ import extract.lookup.TabLookup;
 public abstract class Protein implements ColumnContents{
 	
 	private static Protein prot = null;
+	public int confidenceNeeded = 3;
 	static Uniprot u = Uniprot.getInstance();
 	static  SwisProt s = SwisProt.getInstance();
 	static IPI i = IPI.getInstance();
@@ -84,6 +85,11 @@ public abstract class Protein implements ColumnContents{
 	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
 		return null;
+	}
+	
+	@Override
+	public int getCellConfNeeded(){
+		return confidenceNeeded;
 	}
 	/**
 	 * Returns the grounded ID if found, else returns null
