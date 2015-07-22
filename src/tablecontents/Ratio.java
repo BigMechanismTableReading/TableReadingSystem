@@ -4,7 +4,7 @@ import extract.buffer.TableBuf.Column;
 
 public class Ratio extends Fold{
 	private String headerRegEx = ".*ratio.*|.*silac.*|.*phospho.{0,2}rate|"
-			+ ".*induction.|.*K[OD]/WT.*|mean";
+			+ ".*induction.|.*K[OD]/WT.*|mean|\\bvs\\b|/control|\\bover\\b";
 	private String cellRegEx = null;
 	
 	private static Ratio rat = null;
