@@ -175,9 +175,9 @@ public class ParticipantAExtractor {
 	 */
 	private String checkPartAText(Set<String> allB,String pmcid, Reaction r, Set<String> possA){
 		List<String>  textA= TextExtractor.extractParticipantA(allB, pmcid,r.getConjugationBase());
-		System.out.println(possA);
-		System.out.println(allB);
-		System.out.println(textA);
+//		System.out.println(possA);
+//		System.out.println(allB);
+//		System.out.println(textA);
 //		System.out.println(textA);
 		for(String aWord : textA){
 			for(String aText : allForms(aWord)){
