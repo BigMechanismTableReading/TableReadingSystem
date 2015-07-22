@@ -13,7 +13,7 @@ import extract.buffer.TableBuf.Column;
 public class Position implements ColumnContents{
 	//TODO determine matching for this
 	private String headerRegEx = "residue|location|position|site|tyrosine|serine|lysine";
-	private String cellRegEx = "\\b\\d{3,5}\b";//TO\DO figure out good position regex
+	private String cellRegEx = "(\\d{3,5})";//TO\DO figure out good position regex
 	public int confidenceNeeded = 5;
 	
 	private static Position pos = null;
