@@ -17,6 +17,7 @@ public abstract class Fold implements ColumnContents{
 	private static String[] conjugations = new String[]{"E","ES","ING","ED"};
 	double[] cutOffs = null;
 	public int confidenceNeeded = 3;
+	public String cellRegEx = "";
 	
 	/**
 	 * Calculates and returns cutoffValues as array/HASH?

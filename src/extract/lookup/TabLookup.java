@@ -13,9 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,7 +37,7 @@ public class TabLookup{
 	public HashMap<String,String> swisprot = new HashMap<String,String>();
 	public HashMap<String,String> genename = new HashMap<String,String>();
 	public HashMap<String, LinkedList<String>> english = new HashMap<String,LinkedList<String>>();
-	public HashMap<String, String> uniToGene = new HashMap<String, String>();
+	public HashMap<String, Set<String>> uniToGene = new HashMap<String, Set<String>>();
 	
 	private static TabLookup instance=null;
 	
@@ -62,7 +64,13 @@ public class TabLookup{
 					if(swis.contains("HUMAN")){
 						genename.put(genes.toUpperCase(),uni);
 					}
-						uniToGene.put(uni, genes.toUpperCase());
+					if(uniToGene.get(uni)== null){
+						HashSet<String> g = new HashSet<String>();
+						g.add(genes.toUpperCase());
+						uniToGene.put(uni, g);
+					}else{
+						uniToGene.get(uni).add(genes.toUpperCase());
+					}
 				}
 				uniprot.put(uni, uni);
 				swisprot.put(swis, uni);

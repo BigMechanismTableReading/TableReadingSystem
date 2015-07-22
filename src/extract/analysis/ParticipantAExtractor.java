@@ -173,15 +173,19 @@ public class ParticipantAExtractor {
 	 */
 	private String checkPartAText(Set<String> allB,String pmcid, Reaction r, Set<String> possA){
 		List<String>  textA= TextExtractor.extractParticipantA(allB, pmcid,r.getConjugationBase());
-		for(String aText : textA){
-			Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
-			if(transTextApair != null){
-				String transTextA = transTextApair.getB();
-				System.out.println(transTextA + "  " + aText);
-				for(String aTable : possA){
-
-					if(aTable.equals(transTextA))
-						return aTable;
+//		System.out.println(possA);
+//		System.out.println(textA);
+		for(String aWord : textA){
+			for(String aText : allForms(aWord)){
+				Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
+				if(transTextApair != null){
+					String transTextA = transTextApair.getB();
+//					System.out.println(transTextA);
+//					System.out.println(transTextA + "  " + aText);
+					for(String aTable : possA){
+						if(aTable.equals(transTextA))
+							return aTable;
+					}
 				}
 			}
 		}
@@ -202,7 +206,7 @@ public class ParticipantAExtractor {
 			if(fullB.length()>9){
 				String b = fullB.substring(8);
 				if(t.uniToGene.containsKey(b))
-					allB.add(t.uniToGene.get(b));
+					allB.addAll(t.uniToGene.get(b));
 			}
 		}
 	}

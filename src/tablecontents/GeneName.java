@@ -15,6 +15,7 @@ public class GeneName extends Protein {
 	}
 	
 	public String groundIdentity(String ungrounded) {
+		System.out.println(ungrounded);
 		if(ungrounded != null){
 			ungrounded = ungrounded.toUpperCase();
 			if(t.genename.containsKey(ungrounded))
@@ -25,7 +26,7 @@ public class GeneName extends Protein {
 
 	@Override
 	public String cellMatch(String match) {
-		match = match.replaceAll("\\W", "");
+		match = match.replaceAll("-", "");
 		String grounded = groundIdentity(super.matchesFormat(match, regEx,true));
 		return grounded;
 	}

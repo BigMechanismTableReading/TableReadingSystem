@@ -18,10 +18,18 @@ public class English extends Protein{
 		
 	}
 	public String groundIdentity(String ungrounded) {
-		if(ungrounded != null){
-			ungrounded = ungrounded.replaceAll("\\W+"," ").toUpperCase();
-			if(t.english.containsKey(ungrounded))
-				return("Uniprot:" + t.english.get(ungrounded).get(0));
+		try{
+			if(ungrounded != null){
+				ungrounded = ungrounded.replaceAll("\\W+"," ").toUpperCase();
+				if(t.english.containsKey(ungrounded))
+					return("Uniprot:" + t.english.get(ungrounded).get(0));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			System.err.println(ungrounded);
+			System.err.println(t.english.containsKey(ungrounded));
+			System.err.println(t.english.get(ungrounded));
+			System.exit(0);
 		}
 		return null;
 	}

@@ -5,7 +5,7 @@ import extract.buffer.TableBuf.Column;
 public class Ratio extends Fold{
 	private String headerRegEx = ".*ratio.*|.*silac.*|.*phospho.{0,2}rate|"
 			+ ".*induction.|.*K[OD]/WT.*|mean|\\bvs\\b|/control|\\bover\\b";
-	private String cellRegEx = null;
+	private String cellRegEx = "(\\d{1,2}\\.\\d{1,3}\\s?±\\s?\\d{1,2}\\.\\d{1,3})";
 	
 	private static Ratio rat = null;
 	
@@ -26,7 +26,7 @@ public class Ratio extends Fold{
 	@Override
 	public String cellMatch(String match) {
 		// TODO Auto-generated method stub
-		return null;
+		return super.match(match, cellRegEx);
 	}
 
 

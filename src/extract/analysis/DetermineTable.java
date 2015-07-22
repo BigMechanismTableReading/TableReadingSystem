@@ -126,15 +126,14 @@ public class DetermineTable {
 			possibleReactions.clear();
 			possibleReactions.addAll(tableReactions);
 		}
+		
 		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){	
-			
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {
 				requiredContents.addAll(r.getRequiredColumns());
 				requiredContents.addAll(r.getAllAlternatives());
 			}
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
-			System.out.println(tableColumns);
 			for (Reaction r : possibleReactions) {
 				if (containsAllRequired(r, tableColumns)){
 					HashSet<Class<? extends ColumnContents>> optionalContents = new HashSet<Class<? extends ColumnContents>>();
@@ -199,6 +198,7 @@ public class DetermineTable {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
+						System.out.println(c + "  " + correctCells);
 						if(correctCells > confidenceLevel){
 							addToData(c, col, data);
 							return true;
