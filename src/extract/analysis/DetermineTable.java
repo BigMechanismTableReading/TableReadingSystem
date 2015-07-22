@@ -193,10 +193,10 @@ public class DetermineTable {
 				if(!both){
 					addToData(c, col, data);
 					hasCol =  true;
-				}
+				} 
 				head = true;
 			}
-			if (!both || head) {
+			if ((both && head) || !hasCol) {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
