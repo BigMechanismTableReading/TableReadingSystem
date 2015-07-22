@@ -15,7 +15,7 @@ public class IPI extends Protein {
 	}
 	@Override
 	public String groundIdentity(String ungrounded) {
-		if(ungrounded ==null)
+		if(ungrounded == null)
 			return null;
 		if(IPILookup.getInstance().IPItoUNI.containsKey(ungrounded)){
 			return "Uniprot:" + IPILookup.getInstance().IPItoUNI.get(ungrounded);

@@ -48,7 +48,7 @@ public class RelevanceTest {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		File tableDir = new File("files");
+		File tableDir = new File("tables");
 		File markedRelevant = new File("MarkedRelevant.txt");
 		FileWriter w;
 		Extraction extr = new Extraction();
@@ -57,9 +57,9 @@ public class RelevanceTest {
 			for (File file : tableDir.listFiles()){
 				for(Integer pmc : PMCIDs){
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
-						List<TableBuf.Table> tableList = MasterExtractor.buildTable(file, pmc.toString());
-						for (TableBuf.Table t : tableList){
-							//TableBuf.Table t = getTable(file);
+						//List<TableBuf.Table> tableList = MasterExtractor.buildTable(file, pmc.toString());
+						//for (TableBuf.Table t : tableList){
+							TableBuf.Table t = getTable(file);
 							DetermineTable d = new DetermineTable();
 							Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 							if(r != null){
@@ -68,7 +68,7 @@ public class RelevanceTest {
 								System.out.println(t.getSource().getPmcId());
 								extr.ExtractInfo(r, t);					
 							}
-						}
+						//}
 						
 					}
 				}
