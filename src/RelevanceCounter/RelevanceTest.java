@@ -78,11 +78,11 @@ public class RelevanceTest {
 				for(Integer pmc : PMCIDs){
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
 						if(extractType == 0){
-							if(file.getName().toLowerCase().contains("supp")){
+							if(!file.getName().toLowerCase().contains("supp")){
 								tableList = MasterExtractor.buildTable(file, pmc.toString());
-//								for(TableBuf.Table t : tableList){
-//									extract(t,w,extr);
-//								}
+								for(TableBuf.Table t : tableList){
+									extract(t,w,extr);
+								}
 							}
 						}else if (extractType == 2 ){
 							if(!file.getName().contains("Supp")){

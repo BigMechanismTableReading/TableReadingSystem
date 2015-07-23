@@ -194,13 +194,14 @@ public class DetermineTable {
 		for (TableBuf.Column col : table.getColumnList()){
 			int correctCells = 0;
 			if(c.headerMatch(col.getHeader().getData()) != null){	
+				System.out.println(c + "" + col.getHeader());
 				if(!both){
 					addToData(c, col, data);
 					hasCol =  true;
 				} 
 				head = true;
 			}
-			if ((both && head) || !hasCol) {
+			if ((both && head) || (!both && !hasCol)) {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
