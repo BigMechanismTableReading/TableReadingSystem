@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
+import tablecontents.AbstractPosition;
 import tablecontents.ColumnContents;
 import tablecontents.DynamicTyping;
 import tablecontents.Protein;
@@ -216,11 +217,12 @@ public class DetermineTable {
 	private boolean labelTable(ColumnContents c, HashMap<ColumnContents,List<TableBuf.Column>> data, TableBuf.Table table) {
 		int confidenceLevel = c.getCellConfNeeded();
 		boolean both = c.needsBoth();
-		boolean head = false;
 		boolean hasCol = false;
 		for (TableBuf.Column col : table.getColumnList()){
 			int correctCells = 0;
+			boolean head = false;
 			if(c.headerMatch(col.getHeader().getData()) != null){	
+				
 				if(!both){
 					addToData(c, col, data);
 					hasCol =  true;
@@ -232,6 +234,9 @@ public class DetermineTable {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
 						if(correctCells > confidenceLevel){
+							if(c instanceof AbstractPosition){
+								System.out.println(col.getHeader() + " " + both);
+							}
 							addToData(c, col, data);
 							hasCol =  true;
 							i = 10;
