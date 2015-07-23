@@ -1,5 +1,10 @@
 package tablecontents;
 
+/**
+ * Acetylation Site
+ * @author sloates
+ *
+ */
 public class AcetylSite extends Site{
 	private static AcetylSite acetyl = null;
 	public static ColumnContents getInstance() {

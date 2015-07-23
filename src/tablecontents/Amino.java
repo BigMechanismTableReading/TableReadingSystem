@@ -11,6 +11,11 @@ import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Cell;
 
 
+/**
+ * Abstract class for seperated amino acids
+ * @author sloates
+ *
+ */
 public abstract class Amino implements ColumnContents{
 	String headerRegEx = "\bamino.*|\bbase\b|syt";
 	private String cellRegEx = null;

@@ -25,7 +25,7 @@ import extract.types.Reaction;
 
 /**
  * Gets the possible participantA
- * @author sloates
+ * @author sloates vincenth
  *
  */
 public class ParticipantAExtractor {
@@ -108,7 +108,7 @@ public class ParticipantAExtractor {
 		if(form.length() > 2){
 			partA = translatePartA(form);
 		}
-		if (partA == null && form.toUpperCase().equals(form)){
+		if (partA == null && form.length() > 1 && form.toUpperCase().equals(form)){
 			partA = AbbreviationLookup.abbrLookup(form);
 		}		
 		if(partA != null &&  (!partBs.contains(partA) || fold == true ||title == true)){
@@ -293,10 +293,12 @@ public class ParticipantAExtractor {
 		//_______________________________________________________________________________________________________________
 		//BEST A IF NOTHING IS GOTTEN
 		for(String a : textA){
-			String aTrans = translatePartA(a);
-			if(aTrans != null){
-				participantAs.add(new ParticipantA(aTrans,a,contents));
-				return participantAs;
+			if(a.length() > 2){
+				String aTrans = translatePartA(a);
+				if(aTrans != null){
+					participantAs.add(new ParticipantA(aTrans,a,contents));
+					return participantAs;
+				}
 			}
 		}
 		//_________________________________________________________________________________________________________________

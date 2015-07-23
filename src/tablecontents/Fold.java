@@ -10,7 +10,11 @@ import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Cell;
 
-//TODO Decide on best implementation, abstract or not
+/**
+ * Abstract class for different fold measurements
+ * @author sloates
+ *
+ */
 public abstract class Fold implements ColumnContents{
 	private HashSet<String> INCREASINGTERMS = set("INCREAS");
 	private HashSet<String> DECREASINGTERMS = set("DECREAS");

@@ -9,6 +9,11 @@ import java.util.regex.Pattern;
 
 import extract.buffer.TableBuf;
 
+/**
+ * Abstract classes for bare number sites
+ * @author sloates
+ *
+ */
 public abstract class AbstractPosition  implements ColumnContents{
 	public String headerRegEx = null;
 	public String cellRegEx = null;
