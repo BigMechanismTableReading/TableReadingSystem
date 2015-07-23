@@ -95,29 +95,6 @@ public class ParticipantAExtractor {
 	}
 	
 	/**
-	 * Used to lookup the abbreviation and see if it is in the allie database,
-	 * If so it is then checked against the database of proteins
-	 * @param abbr
-	 * @return
-	 */
-	private String abbrLookup(String abbr) {
-		String longForm = AbbreviationLookup.lookupAbbr(abbr.trim()).replaceAll("\\W", " ").toUpperCase();
-		TabLookup proteinBase = TabLookup.getInstance();
-		ChemicalLookup chem = ChemicalLookup.getInstance();
-		if(proteinBase.english.containsKey(longForm)){
-			List<String> intersect = proteinBase.english.get(longForm);
-			if(proteinBase.english.containsKey(abbr)){
-				List<String> abbrList = new LinkedList<String>();
-				abbrList.addAll(proteinBase.english.get(abbr));
-				abbrList.retainAll(intersect);
-				if(abbrList.size() > 0)
-					return "Uniprot:" + abbrList.get(0);
-			}
-		}
-		return null;
-	}
-	
-	/**
 	 * Grounds partA in various Databases
 	 * @param form
 	 * @param partBs
@@ -131,7 +108,7 @@ public class ParticipantAExtractor {
 			partA = translatePartA(form);
 		}
 		if (partA == null && form.toUpperCase().equals(form)){
-			partA = abbrLookup(form);
+			partA = AbbreviationLookup.abbrLookup(form);
 		}		
 		if(partA != null &&  (!partBs.contains(partA) || fold == true ||title == true)){
 			return new Pair<String, String>(form, partA);
