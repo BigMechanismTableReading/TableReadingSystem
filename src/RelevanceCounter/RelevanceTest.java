@@ -55,16 +55,20 @@ public class RelevanceTest {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
 		int extractType = 1;
 		if(args.length ==2){
+			try{
 			extractType = Integer.parseInt(args[1]);
+			}catch(NumberFormatException e){
+				
+			}
 		}
+		
 		List<TableBuf.Table> tableList = null;
 		File tableDir = null;
 		if(extractType == 0){
 			tableDir = new File("files");
-		}else if (extractType == 1){
-			tableDir = new File("tables");
 		}else{
 			tableDir = new File("tables");
 		}
@@ -78,11 +82,9 @@ public class RelevanceTest {
 				for(Integer pmc : PMCIDs){
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
 						if(extractType == 0){
-							if(!file.getName().toLowerCase().contains("supp")){
-								tableList = MasterExtractor.buildTable(file, pmc.toString());
-								for(TableBuf.Table t : tableList){
-									extract(t,w,extr);
-								}
+							tableList = MasterExtractor.buildTable(file, pmc.toString());
+							for(TableBuf.Table t : tableList){
+								extract(t,w,extr);
 							}
 						}else if (extractType == 2 ){
 							if(!file.getName().contains("Supp")){
@@ -99,20 +101,16 @@ public class RelevanceTest {
 							TableBuf.Table t  = getTable(file);
 							extract(t,w,extr);
 						}
-						//for (TableBuf.Table t : tableList){
-
-						//}
-
 					}
 				}
 			}
 			w.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr){
+
 		try {
 			DetermineTable d = new DetermineTable();
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
