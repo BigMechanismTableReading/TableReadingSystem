@@ -157,27 +157,24 @@ public class DetermineTable {
 			}
 			
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
-		//	List<Reaction> goodReactions = new LinkedList<Reaction>();
+			List<Reaction> goodReactions = new LinkedList<Reaction>();
 			for (Reaction r : possibleReactions) {
 				if (containsAllRequired(r, tableColumns)){
 					HashSet<Class<? extends ColumnContents>> optionalContents = new HashSet<Class<? extends ColumnContents>>();
 					optionalContents.addAll(r.getOptionalColumns());
 					getTableColumns(optionalContents,labels,table);
-					System.out.println("DetermineTable Done " + labels.keySet());
-			//		goodReactions.add(r);
+					goodReactions.add(r);
 					//TODO have better second check
-					return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
+					//return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
 				}
 			}
-			/*
-			 * POSSIBLE ADDITION TO CHANGE THE PERFORMANCE
-			 * if(goodReactions.size() == 1)
-			 * 	return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
-			 * else if (goodReactions.size() > 1)
-			 * 	return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(chooseBestReaction(goodReactions,table),labels)
-			 * 
-			 */
+			System.out.println("DetermineTable Done " + labels.keySet());
+			if(goodReactions.size() == 1)
+				return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(goodReactions.get(0),labels);
+			else if (goodReactions.size() > 1)
+				return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(chooseBestReaction(goodReactions,table),labels);
 		}
+		
 		return null;
 	}
 	

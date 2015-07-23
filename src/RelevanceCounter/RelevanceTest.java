@@ -66,7 +66,7 @@ public class RelevanceTest {
 		}
 		
 		List<TableBuf.Table> tableList = null;
-		File tableDir = null;
+		File tableDir =  new File("tables");
 		if(extractType == 0){
 			tableDir = new File("files");
 		}else{
