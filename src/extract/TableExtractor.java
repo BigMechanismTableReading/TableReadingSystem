@@ -246,6 +246,9 @@ public class TableExtractor {
 									} else {
 										regions.add(region);
 									}
+								} else {
+									//TODO
+									regions.add(region);
 								}
 							} else {
 								regions.add(region);
@@ -269,14 +272,12 @@ public class TableExtractor {
 		//Fill in empty cells
 		if(table_regions > 0) {
 			int[] a = regions.get(0);
-			Row row = sheet.getRow(a[2]);
-			
 			for(int i = a[2]; i < a[3]; i++){
-				Row row2 = sheet.getRow(i);
+				Row row = sheet.getRow(i);
 				for(int j = a[0]; j < a[1]; j++){
-					Cell cell = row2.getCell(j);
+					Cell cell = row.getCell(j);
 					if (cell == null) {
-						cell = row2.createCell(j);
+						cell = row.createCell(j);
 					}
 				}
 			}
@@ -288,15 +289,14 @@ public class TableExtractor {
 	
 	//private helper method to check region overlaps
 	private static boolean checkWithinRegions(ArrayList<int[]> regions, int x, int y){
-		boolean within = false;
-		for(int i = 0; i < regions.size(); i ++){
-			if (x >= regions.get(i)[0] && x <= regions.get(i)[1]){
-				if (y >= regions.get(i)[2] && y <= regions.get(i)[3]){
-					within = true;
+		for(int[] region : regions){
+			if (x >= region[0] && x <= region[1]){
+				if (y >= region[2] && y <= region[3]){
+					return true;
 				}
 			}
 		}
-		return within;
+		return false;
 	}
 	
 	/**
@@ -423,7 +423,7 @@ public class TableExtractor {
 		//PMC3404884TableS1
 		//PMC3643591TableS2
 		//PMC2711022Resource1
-		String name = "files"+File.separator +  "PMC3102680pone-0020199-t001";
+		String name = /*"files"+File.separator +*/  "PMC2984231Suppsupp_M110.002113_mcp.M110.002113-1.xls";
 		Collection<List<String>> data = extractor.parseExcelTable(name,0);
 		
 		extractor.createTableBuf(table, data);
