@@ -10,6 +10,7 @@ public class Phosphorylation extends Reaction{
 		data.add(Fold.class);
 		addAlternativeEntry(PhosphoSite.class, createEntry(Position.class, PhosphoAmino.class));
 		addAlternativeEntry(PhosphoSite.class, createEntry(PhosphoSequence.class));
+		addAlternativeEntry(PhosphoSite.class,createEntry(PhosphoPosition.class));
 		conjugationBase.add("phosphorylat");
 	}
 	

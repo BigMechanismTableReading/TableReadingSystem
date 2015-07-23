@@ -147,15 +147,17 @@ public class Extraction {
 	 */
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
 							TableBuf.Table table){
-			
+		System.out.println("Starting Extraction");
 		String readingStart = new Date(System.currentTimeMillis()).toString();
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
 		Pair<HashMap<Integer, String>, HashMap<Integer, String>> partBinfo = getAllParticipantB(contents);
 		HashMap<Integer, String> partB = partBinfo.getA();
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();
+		System.out.println("Done with participantB");
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,partBuntrans,foldContents(contents), r);
+		System.out.println("Done with participantA");
 		//TODO run the rest of the table, first choosing fold then going through the table
 		System.out.println(participantACols.size() + " " + participantACols.get(0).getUntranslatedName());
 		List<ColumnContents> cols = new ArrayList<ColumnContents>();
@@ -179,6 +181,7 @@ public class Extraction {
 				}
 			}
 		}
+		System.out.println("Printing index cards");
 		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents);
 		makeIdx(cards, readingStart, table);
 		

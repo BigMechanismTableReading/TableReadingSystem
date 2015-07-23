@@ -118,6 +118,7 @@ public class DetermineTable {
 	 * @param table
 	 */
 	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table){
+		System.out.println("Starting determine");
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
@@ -127,7 +128,8 @@ public class DetermineTable {
 			possibleReactions.addAll(tableReactions);
 		}
 		
-		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){	
+		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){
+			System.out.println("Possibly relevant");
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {
 				requiredContents.addAll(r.getRequiredColumns());
@@ -140,6 +142,7 @@ public class DetermineTable {
 					HashSet<Class<? extends ColumnContents>> optionalContents = new HashSet<Class<? extends ColumnContents>>();
 					optionalContents.addAll(r.getOptionalColumns());
 					getTableColumns(optionalContents,labels,table);
+					System.out.println("DetermineTable Done");
 					return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
 				}
 			}

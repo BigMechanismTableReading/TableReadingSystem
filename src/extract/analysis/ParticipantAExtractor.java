@@ -168,13 +168,12 @@ public class ParticipantAExtractor {
 	/**
 	 * Checks the possible A against possible As extracted from the text, returning a match
 	 * @param allB
-	 * @param pmcid
 	 * @param r
 	 * @param possA
 	 * @return
 	 */
-	private String checkPartAText(Set<String> allB,String pmcid, Reaction r, Set<String> possA){
-		List<String>  textA= TextExtractor.extractParticipantA(allB, pmcid,r.getConjugationBase());
+	private String checkPartAText(Set<String> allB,Reaction r, Set<String> possA,List<String> textA){
+		
 //		System.out.println(possA);
 //		System.out.println(allB);
 //		System.out.println(textA);
@@ -221,17 +220,18 @@ public class ParticipantAExtractor {
 	 * @param r
 	 * @param allB
 	 * @param table
+	 * @param textA 
 	 * @return
 	 */
 	private List<ParticipantA> getFoldPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
-			Reaction r, Set<String> allB,TableBuf.Table table){
+			Reaction r, Set<String> allB,TableBuf.Table table, List<String> textA){
 		//TODO Verify the ordering
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
 				HashMap<String,String> possA = checkPartA(col.getHeader().getData(), allB,true,false);
 				if (possA != null){
-					String partA = checkPartAText(allB, table.getSource().getPmcId().substring(3), r,possA.keySet());
+					String partA = checkPartAText(allB, r,possA.keySet(),textA);
 					if(partA != null){
 						addPartA(participantAs, possA.get(partA),partA, f, col);
 					}
@@ -261,7 +261,9 @@ public class ParticipantAExtractor {
 		Set<String> allB = new HashSet<String>();
 		TabLookup t = TabLookup.getInstance();
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
-		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table);
+		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
+				r.getConjugationBase());
+		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 		
 		if (participantAs.isEmpty()){
 			HashMap<String, String> possA = new HashMap<String, String>();
@@ -281,7 +283,7 @@ public class ParticipantAExtractor {
 				}
 				title = false;
 			}
-			String partA = checkPartAText(allB, table.getSource().getPmcId().substring(3), r, possA.keySet());
+			String partA = checkPartAText(allB, r, possA.keySet(),textA);
 			if(partA!= null){
 				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
 				return participantAs;
@@ -289,6 +291,17 @@ public class ParticipantAExtractor {
 		}else{
 			return participantAs;
 		}
+		//_______________________________________________________________________________________________________________
+		//BEST A IF NOTHING IS GOTTEN
+		if(textA.size() > 0){
+			String a = textA.get(0);
+			String aTrans = translatePartA(a);
+			if (aTrans != null){
+				participantAs.add(new ParticipantA(aTrans,a,contents));
+				return participantAs;
+			}
+		}
+		//_________________________________________________________________________________________________________________
 		participantAs.add(new ParticipantA("unknown", "unknown", contents));
 		return participantAs;
 	}
