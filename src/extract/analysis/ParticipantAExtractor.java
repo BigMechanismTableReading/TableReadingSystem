@@ -199,9 +199,8 @@ public class ParticipantAExtractor {
 					String transTextA = transTextApair.getB();
 //					System.out.println(transTextA);
 //					System.out.println(transTextA + "  " + aText);
-					for(String aTable : possA){
-						if(aTable.equals(transTextA))
-							return aTable;
+					if(possA.contains(transTextA)){
+						return transTextA;
 					}
 				}
 			}
