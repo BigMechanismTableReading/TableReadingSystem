@@ -10,7 +10,7 @@ public class MethylSite extends Site implements ColumnContents {
 		return meth;
 	}
 	private MethylSite(){
-		regEx = "lys\\d{2,5}|\\bk\\d{2,5}";
+		regEx = "\\blys\\d{2,5}\\b|\\bk\\W{0,1}\\d{2,5}\\b";
 	}
 	
 	@Override
