@@ -282,7 +282,7 @@ public class ParticipantAExtractor {
 				r.getConjugationBase());
 		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
-		
+	//	List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		if (participantAs.isEmpty()){
 			System.out.println("Caption partA");
 			HashMap<String, String> possA = new HashMap<String, String>();

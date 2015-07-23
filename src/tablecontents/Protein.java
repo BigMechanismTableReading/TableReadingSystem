@@ -61,8 +61,8 @@ public abstract class Protein implements ColumnContents{
 					String s = p.cellMatch(data);
 					if(s != null)
 						return new Pair<String,String>(data, s);
-					// else if (p instanceof Uniprot)
-						// return  new Pair<String,String>(data, "Uniprot:" + data);
+					else if (p instanceof Uniprot)
+						return  new Pair<String,String>(data, "Uniprot:" + data);
 				}
 			}
 		}

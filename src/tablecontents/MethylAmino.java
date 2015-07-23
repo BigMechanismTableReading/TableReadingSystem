@@ -9,7 +9,7 @@ public class MethylAmino extends Amino {
 		return methAmino;
 	}
 	private MethylAmino(){
-		
+		confidenceNeeded = 5;
 	}
 
 	@Override

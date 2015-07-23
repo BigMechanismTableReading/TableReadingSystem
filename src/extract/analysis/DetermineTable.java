@@ -142,7 +142,8 @@ public class DetermineTable {
 					HashSet<Class<? extends ColumnContents>> optionalContents = new HashSet<Class<? extends ColumnContents>>();
 					optionalContents.addAll(r.getOptionalColumns());
 					getTableColumns(optionalContents,labels,table);
-					System.out.println("DetermineTable Done");
+					System.out.println("DetermineTable Done " + labels.keySet());
+					//TODO have better second check
 					return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
 				}
 			}
