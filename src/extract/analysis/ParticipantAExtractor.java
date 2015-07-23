@@ -86,6 +86,7 @@ public class ParticipantAExtractor {
 			}else if(firstCap != -1 && Character.isLowerCase(partA.charAt(i))){
 				allForms.add(partA.substring(i+1,partA.length()));
 				allForms.add(partA.substring(i+1, firstCap+1));
+				i = -1;
 			}
 		}
 		if(firstCap != -1){
