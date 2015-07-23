@@ -309,12 +309,14 @@ public class ParticipantAExtractor {
 		}else{
 			return participantAs;
 		}
+		System.out.println("here");
+		System.out.println(allB);
+		System.out.println(textA);
 		//_______________________________________________________________________________________________________________
 		//BEST A IF NOTHING IS GOTTEN
-		if(textA.size() > 0){
-			String a = textA.get(0);
+		for(String a : textA){
 			String aTrans = translatePartA(a);
-			if (aTrans != null){
+			if(aTrans != null){
 				participantAs.add(new ParticipantA(aTrans,a,contents));
 				return participantAs;
 			}

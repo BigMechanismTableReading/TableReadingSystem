@@ -159,6 +159,7 @@ public class TextExtractor {
 						}
 					}
 				}
+				
 				return list;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -231,7 +232,7 @@ public class TextExtractor {
 			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
 			Matcher m = p.matcher(sentence);
 			while(m.find()){
-				proteins.add(m.group());
+				proteins.add(m.group().toUpperCase());
 			}
 		}
 		

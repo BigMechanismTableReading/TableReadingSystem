@@ -112,6 +112,26 @@ public class DetermineTable {
 		}
 		return reactions;
 	}
+	
+	/**
+	 * Possible check if there is more then one possible reaction
+	 * @param reactionList
+	 * @param table
+	 * @return
+	 */
+	private Reaction chooseBestReaction(List<Reaction> reactionList,TableBuf.Table table){
+		Reaction choice = reactionList.get(0);
+		String header = "";
+		if(table.getCaptionList().size() > 0)
+			header = table.getCaption(0);
+		for(Reaction r : reactionList ){
+			for(String word : header.split("\\s")){ 
+				if (word.toLowerCase().contains(r.getConjugationBase().get(0)))
+					return r;
+			}
+		}
+		return choice;
+	}
 	/**
 	 * Pipeline that determines whether a table is relevant and what the table indicates
 	 * Returns a pair containing the interaction type and the ColumnTypes mapped to a list of columns
@@ -137,16 +157,26 @@ public class DetermineTable {
 			}
 			
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
+		//	List<Reaction> goodReactions = new LinkedList<Reaction>();
 			for (Reaction r : possibleReactions) {
 				if (containsAllRequired(r, tableColumns)){
 					HashSet<Class<? extends ColumnContents>> optionalContents = new HashSet<Class<? extends ColumnContents>>();
 					optionalContents.addAll(r.getOptionalColumns());
 					getTableColumns(optionalContents,labels,table);
 					System.out.println("DetermineTable Done " + labels.keySet());
+			//		goodReactions.add(r);
 					//TODO have better second check
 					return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
 				}
 			}
+			/*
+			 * POSSIBLE ADDITION TO CHANGE THE PERFORMANCE
+			 * if(goodReactions.size() == 1)
+			 * 	return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(r,labels);
+			 * else if (goodReactions.size() > 1)
+			 * 	return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(chooseBestReaction(goodReactions,table),labels)
+			 * 
+			 */
 		}
 		return null;
 	}
@@ -200,7 +230,7 @@ public class DetermineTable {
 				} 
 				head = true;
 			}
-			if ((both && head) || !hasCol) {
+			if ((both && head) || (!both && !hasCol)) {
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
