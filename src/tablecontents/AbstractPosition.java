@@ -1,5 +1,6 @@
 package tablecontents;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,17 +24,21 @@ public abstract class AbstractPosition  implements ColumnContents{
 				String data = c.getData();
 				data = data.replaceAll("\\.0", "");
 				String []nums = data.split("[^\\d]");
+				List<String> actualNums = new ArrayList<String>();
 				boolean badPos = false;
 				for(String pos : nums){
 					if(pos.length() > 0 && pos.charAt(0) == '0'){
 						badPos = true;
+					}
+					if(pos.length() > 1){
+						actualNums.add(pos);
 					}
 				}
 				if(badPos){
 					position.put("site", null);
 					return position;
 				}
-				position.put("site", Arrays.toString(nums));
+				position.put("site", actualNums.toString());
 				return position;
 			}
 		}
