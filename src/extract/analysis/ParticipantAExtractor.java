@@ -153,8 +153,15 @@ public class ParticipantAExtractor {
 		String [] split = normalized.split("\\s|;|/|\\(|\\)");//TODO look at removing / from it
 		HashMap<String,String> possA = new HashMap<String,String>();
 		for(String word: split){
-			for (String form : allForms(word)){
-				Pair<String,String> partA = groundPartA(form,partBs,fold,title);
+			if(title || fold){
+				for (String form : allForms(word)){
+					Pair<String,String> partA = groundPartA(form,partBs,fold,title);
+					if (partA != null){
+						possA.put(partA.getB(),partA.getA());
+					}
+				}
+			}else{
+				Pair<String,String> partA = groundPartA(word,partBs,fold,title);
 				if (partA != null){
 					possA.put(partA.getB(),partA.getA());
 				}
@@ -258,14 +265,19 @@ public class ParticipantAExtractor {
 			HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r){
 		//TODO break up into two methods, fold partA and caption partA
+		System.out.println("In partA");
 		Set<String> allB = new HashSet<String>();
 		TabLookup t = TabLookup.getInstance();
+		System.out.println("Making list of all B forms");
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
+		System.out.println("Text Extractor");
 		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());
+		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 		
 		if (participantAs.isEmpty()){
+			System.out.println("Caption partA");
 			HashMap<String, String> possA = new HashMap<String, String>();
 			boolean title = true;
 			for(String caption : table.getCaptionList()){
