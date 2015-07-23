@@ -152,18 +152,25 @@ public class ParticipantAExtractor {
 		String normalized = guess.replaceAll("-","");
 		String [] split = normalized.split("\\s|;|/|\\(|\\)");//TODO look at removing / from it
 		HashMap<String,String> possA = new HashMap<String,String>();
+		HashSet<String> checkWords = new HashSet<String>();
 		for(String word: split){
 			if(title || fold){
 				for (String form : allForms(word)){
-					Pair<String,String> partA = groundPartA(form,partBs,fold,title);
-					if (partA != null){
-						possA.put(partA.getB(),partA.getA());
+					if (!checkWords.contains(form)){
+						Pair<String,String> partA = groundPartA(form,partBs,fold,title);
+						if (partA != null){
+							possA.put(partA.getB(),partA.getA());
+						}
+						checkWords.add(form);
 					}
 				}
 			}else{
-				Pair<String,String> partA = groundPartA(word,partBs,fold,title);
-				if (partA != null){
-					possA.put(partA.getB(),partA.getA());
+				if (!checkWords.contains(word)){
+					Pair<String,String> partA = groundPartA(word,partBs,fold,title);
+					if (partA != null){
+						possA.put(partA.getB(),partA.getA());
+					}
+					checkWords.add(word);
 				}
 			}
 		}
