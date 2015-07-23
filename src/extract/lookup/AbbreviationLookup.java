@@ -71,6 +71,8 @@ public class AbbreviationLookup {
 				if (abbrList.size() > 0) {
 					translatedAbbreviations.put(abbr, "Uniprot:" + abbrList.get(0));
 					return "Uniprot:" + abbrList.get(0);
+				} else {
+					translatedAbbreviations.put(abbr, null);
 				}
 			}
 		}
