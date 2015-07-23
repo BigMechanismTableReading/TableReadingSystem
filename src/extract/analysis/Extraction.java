@@ -28,6 +28,7 @@ import tablecontents.Fold;
 import tablecontents.GeneName;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
+import tablecontents.Ratio;
 import extract.TextExtractor;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
@@ -147,7 +148,7 @@ public class Extraction {
 	 */
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
 							TableBuf.Table table){
-		System.out.println("Starting Extraction");
+		System.out.println("Starting Extraction " + colInfo.getA());
 		String readingStart = new Date(System.currentTimeMillis()).toString();
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
