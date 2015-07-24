@@ -19,7 +19,14 @@ public class English extends Protein{
 	}
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
+			String[] forms = ungrounded.split("(\\(.*\\))");
 			ungrounded = ungrounded.replaceAll("\\W+"," ").toUpperCase();
+			for (String form : forms){
+				form = form.replaceAll("\\W+"," ").toUpperCase().trim();
+				if(t.english.containsKey(form)){
+					return("Uniprot:" + t.english.get(form).get(0));
+				}
+			}
 			if(t.english.containsKey(ungrounded))
 				return("Uniprot:" + t.english.get(ungrounded).get(0));
 		}
