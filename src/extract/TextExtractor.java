@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import extract.analysis.ParticipantAExtractor;
 import extract.types.Reaction;
 
 public class TextExtractor {
@@ -225,8 +226,15 @@ public class TextExtractor {
 	 * @return the list of protein names
 	 */
 	private static List<String> findProteins(String sentence){
-		List<String> proteins = new LinkedList<String>();
+		Set<String> proteins = new HashSet<String>();
 		sentence = sentence.trim();
+		if(Pattern.matches("^[\\w].*", sentence)){	
+			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
+			Matcher m = p.matcher(sentence);
+			while(m.find()){
+				proteins.add(m.group().toUpperCase());
+			}
+		}
 		sentence = sentence.replace("-", "");
 		if(Pattern.matches("^[\\w].*", sentence)){	
 			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
@@ -235,8 +243,15 @@ public class TextExtractor {
 				proteins.add(m.group().toUpperCase());
 			}
 		}
-		
-		return proteins;
+		String[] extraWords = sentence.split("\\b");
+		for (String word : extraWords){
+			if (word.length() > 2 && ParticipantAExtractor.translatePartA(word) != null){
+				proteins.add(word);
+			}
+		}
+		List<String> returnList = new LinkedList<String>();
+		returnList.addAll(proteins);
+		return returnList;
 	}
 	
 	/**

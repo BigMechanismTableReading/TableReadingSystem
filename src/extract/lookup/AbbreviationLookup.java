@@ -59,7 +59,8 @@ public class AbbreviationLookup {
 		if (translatedAbbreviations.containsKey(abbr)){
 			return translatedAbbreviations.get(abbr);
 		}
-		String longForm = AbbreviationLookup.lookupAbbr(abbr.trim()).replaceAll("\\W", " ").toUpperCase();
+		System.out.println("looking up: " + abbr);
+		String longForm = lookupAbbr(abbr.trim()).replaceAll("\\W", " ").toUpperCase();
 		TabLookup proteinBase = TabLookup.getInstance();
 		ChemicalLookup chem = ChemicalLookup.getInstance();
 		if(proteinBase.english.containsKey(longForm)){
@@ -71,11 +72,10 @@ public class AbbreviationLookup {
 				if (abbrList.size() > 0) {
 					translatedAbbreviations.put(abbr, "Uniprot:" + abbrList.get(0));
 					return "Uniprot:" + abbrList.get(0);
-				} else {
-					translatedAbbreviations.put(abbr, null);
-				}
+				} 
 			}
 		}
+		translatedAbbreviations.put(abbr, null);
 		return null;
 	}
 	

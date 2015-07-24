@@ -56,7 +56,7 @@ public class ParticipantAExtractor {
 	 * @param partA
 	 * @return
 	 */
-	private String translatePartA(String partA){
+	public static String translatePartA(String partA){
 		ChemicalLookup chem = ChemicalLookup.getInstance();
 		//TODO put in abbreviation and last capital method
 		if(chem.chemicals.containsKey(partA.toUpperCase()))
@@ -220,6 +220,7 @@ public class ParticipantAExtractor {
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
+				System.out.println(f + " " + col.getHeader().getData());
 				HashMap<String,String> possA = checkPartA(col.getHeader().getData(), allB,true,false);
 				if (possA != null){
 					String partA = checkPartAText(allB, r,possA.keySet(),textA);

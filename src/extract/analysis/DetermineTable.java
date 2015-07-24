@@ -234,9 +234,6 @@ public class DetermineTable {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
 						if(correctCells > confidenceLevel){
-							if(c instanceof AbstractPosition){
-								System.out.println(col.getHeader() + " " + both);
-							}
 							addToData(c, col, data);
 							hasCol =  true;
 							i = 10;
