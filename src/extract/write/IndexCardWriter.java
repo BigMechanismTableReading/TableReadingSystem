@@ -170,16 +170,17 @@ public class IndexCardWriter {
 		idxBuilder.add("extracted_information", infoBuilder.build());
 		createEvidence(idxBuilder,idx,t);
 		JsonObject finishedCard = idxBuilder.build();
-		jsonToFile(finishedCard,"index_cards",t,idx.getData("row"));//TODO dont hardcode in index_cards
+		String partA = idx.getData("entity_text_a");
+		jsonToFile(finishedCard,"index_cards",t,idx.getData("row"), partA);//TODO dont hardcode in index_cards
 		return finishedCard;
 	}
-	public void jsonToFile(JsonObject card,String directory,TableBuf.Table t,String row){
+	public void jsonToFile(JsonObject card,String directory,TableBuf.Table t,String row, String partA){
 		String fileSubStr = t.getSource().getPmcId()+"/";
 		
-		writeToDir("index_cards",fileSubStr,card, row,t);
+		writeToDir("index_cards",fileSubStr,card, row,t, partA);
 	}
 	
-	private static void writeToDir(String directory, String fileSubStr,JsonObject indexcard,String row,TableBuf.Table t){
+	private static void writeToDir(String directory, String fileSubStr,JsonObject indexcard,String row,TableBuf.Table t, String partA){
 		try {
 			
 			File root = new File(directory + File.separator);
@@ -199,7 +200,7 @@ public class IndexCardWriter {
         	if(start == -1){
         	start = tbl.lastIndexOf('T');
         	}*/
-        	FileOutputStream fis = new FileOutputStream(new File(directory + File.separator + fileSubStr + tbl +"Row"+ row +".json"));
+        	FileOutputStream fis = new FileOutputStream(new File(directory + File.separator + fileSubStr + tbl +"Row"+ row + partA + ".json"));
 			JsonWriter writer = writerFactory.createWriter(fis);
 			writer.write(indexcard);
 			fis.close();
