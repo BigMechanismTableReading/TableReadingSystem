@@ -261,6 +261,7 @@ public class ParticipantAExtractor {
 		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 	//	List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
+		System.out.println(textA);
 		if (participantAs.isEmpty()){
 			System.out.println("Caption partA");
 			HashMap<String, String> possA = new HashMap<String, String>();
@@ -294,7 +295,7 @@ public class ParticipantAExtractor {
 		//_______________________________________________________________________________________________________________
 		//BEST A IF NOTHING IS GOTTEN
 		for(String a : textA){
-			if(a.length() > 2){
+			if(a.length() > 2 && !allB.contains(a)){
 				String aTrans = translatePartA(a);
 				if(aTrans != null){
 					participantAs.add(new ParticipantA(aTrans,a,contents));
