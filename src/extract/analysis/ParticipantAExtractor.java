@@ -295,7 +295,7 @@ public class ParticipantAExtractor {
 		//_______________________________________________________________________________________________________________
 		//BEST A IF NOTHING IS GOTTEN
 		for(String a : textA){
-			if(a.length() > 2 && !allB.contains(a)){
+			if(a.length() > 2){
 				String aTrans = translatePartA(a);
 				if(aTrans != null){
 					participantAs.add(new ParticipantA(aTrans,a,contents));
