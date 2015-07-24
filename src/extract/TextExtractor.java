@@ -245,8 +245,8 @@ public class TextExtractor {
 		}
 		String[] extraWords = sentence.split("\\b");
 		for (String word : extraWords){
-			if (word.length() > 2 && ParticipantAExtractor.translatePartA(word) != null){
-				proteins.add(word);
+			if (word.length() > 5 && ParticipantAExtractor.translatePartA(word) != null){
+				proteins.add(word.toUpperCase());
 			}
 		}
 		List<String> returnList = new LinkedList<String>();
