@@ -1,55 +1,31 @@
 package extract.lookup;
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+public class YeastLookup extends Lookup {
 
-/**
- * Lookup tables for grounding entities
- * EnglishNames are standardized, by eliminating all seperators and putting everything to uppercase
- * @author sloates
- *
- */
-public class TabLookup extends Lookup{
+	private static YeastLookup instance=null;
 	
-	
-	
-	private static TabLookup instance=null;
-	
-	public static TabLookup getInstance(){
+	public static YeastLookup getInstance(){
 		if(instance == null) {
-			instance = new TabLookup();
+			instance = new YeastLookup();
 		}
 		return instance;
 	}
-	private TabLookup(){
+	
+	private YeastLookup(){
 		uniprot = new HashMap<String,String>();
 		swisprot = new HashMap<String,String>();
 		genename = new HashMap<String,String>();
 		english = new HashMap<String,LinkedList<String>>();
 		uniToGene = new HashMap<String, Set<String>>();
-		File proteins = new File("uniprot-taxonomy%3A-Mammalia+%5B40674%5D-.tab");
+		File proteins = new File("yeast.tab");
 		Scanner s;
 		String uni ="";
 		try {

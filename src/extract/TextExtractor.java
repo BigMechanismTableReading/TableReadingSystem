@@ -253,6 +253,40 @@ public class TextExtractor {
 		returnList.addAll(proteins);
 		return returnList;
 	}
+	public static boolean speciesIdentifier(String PMCID){
+		String name = "PMC" + PMCID;
+		HashSet<String> wordSet = new HashSet<String>();
+		String paperPath = "papers" + File.separator + name + ".html";
+		List<String> yeast = new ArrayList<String>();
+		yeast.add("saccharomyces");
+		yeast.add("yeast");
+		yeast.add("cerevisiae");
+		
+		File document = new File(paperPath);
+		if (document.exists()) {
+			try {
+				Document doc = Jsoup.parse(document, "UTF-8", "");
+				doc.getElementById("reference-list").remove();
+				String text = doc.text();
+				String[] words = text.split("\\W");
+				for(int i = 0; i < words.length; i++){
+					String word = words[i].toLowerCase().replaceAll("\\p{Punct}", "");
+					wordSet.add(word);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		for(String y : yeast){
+			
+			if(wordSet.contains(y.toLowerCase())){
+				System.out.println("HERE");
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Helper method used to sort a hashmap's key set by its value.

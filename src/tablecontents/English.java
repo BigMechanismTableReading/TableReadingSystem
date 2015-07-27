@@ -1,5 +1,6 @@
 package tablecontents;
 
+import extract.lookup.*;
 /**
  * English participantB description class
  * @author sloates
@@ -23,12 +24,12 @@ public class English extends Protein{
 			ungrounded = ungrounded.replaceAll("\\W+"," ").toUpperCase();
 			for (String form : forms){
 				form = form.replaceAll("\\W+"," ").toUpperCase().trim();
-				if(t.english.containsKey(form)){
-					return("Uniprot:" + t.english.get(form).get(0));
+				if(getT().english.containsKey(form)){
+					return("Uniprot:" + getT().english.get(form).get(0));
 				}
 			}
-			if(t.english.containsKey(ungrounded))
-				return("Uniprot:" + t.english.get(ungrounded).get(0));
+			if(getT().english.containsKey(ungrounded))
+				return("Uniprot:" + getT().english.get(ungrounded).get(0));
 		}
 		return null;
 	}

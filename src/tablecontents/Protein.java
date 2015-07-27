@@ -8,7 +8,9 @@ import java.util.regex.Pattern;
 import tablecontents.ColumnContents;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
+import extract.lookup.Lookup;
 import extract.lookup.TabLookup;
+import extract.lookup.YeastLookup;
 
 public abstract class Protein implements ColumnContents{
 	
@@ -20,9 +22,10 @@ public abstract class Protein implements ColumnContents{
 	static GeneName g = GeneName.getInstance();
 	static English e = English.getInstance();
 	public static Protein[] protList = {u,s,i,g,e};
-	
+	public static boolean yeast = false;
 	public String regEx = null;
-	TabLookup t = TabLookup.getInstance();
+	private TabLookup t = TabLookup.getInstance();
+	private YeastLookup y = YeastLookup.getInstance();
 	
 	/**
 	 * Checks that the regEx matches the input and returns the 1st match
@@ -101,4 +104,12 @@ public abstract class Protein implements ColumnContents{
 	 * @return
 	 */
 	public abstract String groundIdentity(String ungrounded);
+
+	Lookup getT() {
+		if(!yeast)
+			return t;
+		else 
+			return y;
+	}
+
 }

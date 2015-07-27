@@ -12,8 +12,8 @@ public class SwisProt extends Protein{
 	}
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
-			if(t.swisprot.containsKey(ungrounded))
-				return("Uniprot:" + t.swisprot.get(ungrounded));
+			if(getT().swisprot.containsKey(ungrounded))
+				return("Uniprot:" + getT().swisprot.get(ungrounded));
 		}
 		return null;
 	}

@@ -18,8 +18,8 @@ public class GeneName extends Protein {
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
 			ungrounded = ungrounded.toUpperCase();
-			if(t.genename.containsKey(ungrounded))
-				return("Uniprot:" + t.genename.get(ungrounded));
+			if(getT().genename.containsKey(ungrounded))
+				return("Uniprot:" + getT().genename.get(ungrounded));
 		}
 		return null;
 	}
