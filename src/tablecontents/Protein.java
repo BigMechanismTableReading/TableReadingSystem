@@ -13,7 +13,7 @@ import extract.lookup.TabLookup;
 public abstract class Protein implements ColumnContents{
 	
 	private static Protein prot = null;
-	public int confidenceNeeded = 3;
+	public int confidenceNeeded = 5;
 	static Uniprot u = Uniprot.getInstance();
 	static  SwisProt s = SwisProt.getInstance();
 	static IPI i = IPI.getInstance();
