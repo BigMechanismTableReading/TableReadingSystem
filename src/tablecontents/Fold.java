@@ -85,6 +85,7 @@ public abstract class Fold implements ColumnContents{
 	
 	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
+		//TODO work on other types of tables with time stuff (not that many tables)
 		TableBuf.Column c = bestSubColumn(cols);
 		HashMap<String, String> modifs = new HashMap<String,String>();
 		Pattern p = Pattern.compile("\\b(\\d{1,3}\\.\\d{1,10})\\b");

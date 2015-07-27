@@ -127,8 +127,10 @@ public class DetermineTable {
 			header = table.getCaption(0);
 		for(Reaction r : reactionList ){
 			for(String word : header.split("\\s")){ 
-				if (word.toLowerCase().contains(r.getConjugationBase().get(0)))
-					return r;
+				for(String cb : r.getConjugationBase()){
+					if (word.toLowerCase().contains(cb))
+						return r;
+				}
 			}
 		}
 		return choice;
