@@ -272,10 +272,8 @@ public class ParticipantAExtractor {
 		System.out.println("In partA");
 		Set<String> allB = new HashSet<String>();
 		Lookup t = TabLookup.getInstance();
-		//Lookup y = YeastLookup.getInstance();
 		System.out.println("Making list of all B forms");
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
-		//makeAllBs(allB,partB.values(),partBUntrans.values(),y);
 		System.out.println("Text Extractor");
 		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());
