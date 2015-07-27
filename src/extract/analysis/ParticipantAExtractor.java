@@ -20,7 +20,9 @@ import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.lookup.AbbreviationLookup;
 import extract.lookup.ChemicalLookup;
+import extract.lookup.Lookup;
 import extract.lookup.TabLookup;
+import extract.lookup.YeastLookup;
 import extract.types.Reaction;
 
 /**
@@ -52,6 +54,23 @@ public class ParticipantAExtractor {
 	}
 	
 	/**
+	 * Used as a backup to ground yeast genes.
+	 * @param partA
+	 * @return
+	 */
+	private static String yeastGround(String partA){
+		YeastLookup y = YeastLookup.getInstance();
+		if(y.uniprot.containsKey(partA))
+			return "Uniprot:" + y.uniprot.get(partA);
+		if(y.swisprot.containsKey(partA))
+			return "Uniprot:" +y.swisprot.get(partA);
+		if(y.genename.containsKey(partA))
+			return "Uniprot:" +y.genename.get(partA);
+		if(y.english.containsKey(partA))
+			return "Uniprot:" +  y.english.get(partA).get(0);
+		return null;
+	}
+	/**
 	 * Translates partA if it can be found, else returns null
 	 * @param partA
 	 * @return
@@ -59,15 +78,15 @@ public class ParticipantAExtractor {
 	public static String translatePartA(String partA){
 		ChemicalLookup chem = ChemicalLookup.getInstance();
 		//TODO put in abbreviation and last capital method
-		if(chem.chemicals.containsKey(partA.toUpperCase()))
-			return chem.chemicals.get(partA.toUpperCase());
+		if(chem.chemicals.containsKey(partA))
+			return chem.chemicals.get(partA);
 		for (Protein p : Protein.protList){
-			String trans = p.cellMatch(partA.toUpperCase());
+			String trans = p.cellMatch(partA);
 			if (trans != null){
 				return trans;
 			}
 		}
-		
+		//return yeastGround(partA);
 		return null;
 	}
 	
@@ -106,7 +125,7 @@ public class ParticipantAExtractor {
 	private Pair<String, String> groundPartA(String form,Set<String>partBs,boolean fold,boolean title){
 		String partA = null;
 		if(form.length() > 2){
-			partA = translatePartA(form);
+			partA = translatePartA(form.toUpperCase());
 		}
 		if (partA == null && form.length() > 1 && form.toUpperCase().equals(form)){
 			partA = AbbreviationLookup.abbrLookup(form);
@@ -193,7 +212,7 @@ public class ParticipantAExtractor {
 	 * @param untrans
 	 * @param t
 	 */
-	private void makeAllBs(Set<String> allB, Collection<String> trans, Collection<String> untrans,TabLookup t){
+	private void makeAllBs(Set<String> allB, Collection<String> trans, Collection<String> untrans,Lookup t){
 		allB.addAll(trans);
 		allB.addAll(untrans);		
 		for(String fullB : trans){
@@ -252,9 +271,11 @@ public class ParticipantAExtractor {
 		//TODO break up into two methods, fold partA and caption partA
 		System.out.println("In partA");
 		Set<String> allB = new HashSet<String>();
-		TabLookup t = TabLookup.getInstance();
+		Lookup t = TabLookup.getInstance();
+		//Lookup y = YeastLookup.getInstance();
 		System.out.println("Making list of all B forms");
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
+		//makeAllBs(allB,partB.values(),partBUntrans.values(),y);
 		System.out.println("Text Extractor");
 		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());

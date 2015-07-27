@@ -280,7 +280,6 @@ public class TextExtractor {
 		for(String y : yeast){
 			
 			if(wordSet.contains(y.toLowerCase())){
-				System.out.println("HERE");
 				return true;
 			}
 		}

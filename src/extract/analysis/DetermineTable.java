@@ -150,9 +150,7 @@ public class DetermineTable {
 			possibleReactions.clear();
 			possibleReactions.addAll(tableReactions);
 		}
-		if(!possibleReactions.isEmpty()){
-			Protein.yeast = TextExtractor.speciesIdentifier(table.getSource().getPmcId().substring(3));
-		}
+		
 		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){
 			System.out.println("Possibly relevant");
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();

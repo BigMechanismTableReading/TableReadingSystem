@@ -192,7 +192,7 @@ public class WebScraper {
 				while((location = lowercaseLine.indexOf("<a href=", counter)) != -1) {
 					counter = lowercaseLine.indexOf("</a>", location);
 					if(counter == -1){
-						continue;
+						break;
 					}
 					String hyperlink = line.substring(location, counter + 4);
 					if (hyperlink.indexOf(".xlsx") != -1){

@@ -38,9 +38,7 @@ public class YeastLookup extends Lookup {
 				String swis = line[1];
 				String description = line[3];
 				for(String genes: line[4].split("\\s")){
-					if(swis.contains("HUMAN")){
-						genename.put(genes.toUpperCase(),uni);
-					}
+					genename.put(genes.toUpperCase(),uni);
 					if(uniToGene.get(uni)== null){
 						HashSet<String> g = new HashSet<String>();
 						g.add(genes.toUpperCase());

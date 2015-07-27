@@ -24,8 +24,8 @@ public abstract class Protein implements ColumnContents{
 	public static Protein[] protList = {u,s,i,g,e};
 	public static boolean yeast = false;
 	public String regEx = null;
-	private TabLookup t = TabLookup.getInstance();
-	private YeastLookup y = YeastLookup.getInstance();
+	private static TabLookup t = TabLookup.getInstance();
+	private static YeastLookup y = YeastLookup.getInstance();
 	
 	/**
 	 * Checks that the regEx matches the input and returns the 1st match
@@ -105,7 +105,7 @@ public abstract class Protein implements ColumnContents{
 	 */
 	public abstract String groundIdentity(String ungrounded);
 
-	Lookup getT() {
+	public static Lookup getT() {
 		if(!yeast)
 			return t;
 		else 
