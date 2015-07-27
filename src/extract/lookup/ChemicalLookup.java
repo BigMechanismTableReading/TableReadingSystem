@@ -28,6 +28,9 @@ public class ChemicalLookup {
 			while(s.hasNext()){
 				String[]line = curr.split("\t");
 				String chem = line[4];
+				//TODO possibly filter out by the identifier type
+				//if(!line[3].toLowerCase().equals("uniprot")) TODO figure out what to filter out choose from
+				//(KEGG COMPOUND,UNI,DRUGBANK,CHEBI,IUPAC,CHEMIDPLUS, PDBeChem)
 				chemicals.put(chem.toUpperCase(),"CHEBI:" + line[1]);
 				curr = s.nextLine();
 			}
