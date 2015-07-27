@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import extract.buffer.TableBuf;
 
 public class MasterExtractor {
-	/*public static void main (String args[]) {
+	public static void main (String args[]) {
 		System.out.println("Please choose input type:");
 		System.out.println("1 - File with PMCIDs");
 		System.out.println("2 - PMCID");
@@ -26,19 +26,19 @@ public class MasterExtractor {
 		
 		File files = new File("files");
 		
-		if (type != 3) {
-			System.out.println("Clear files directory? (1 - Yes, 0 - No)");
-		
-			int clear = s.nextInt();
-		
-			if(clear == 1){
-				try {
-					FileUtils.cleanDirectory(files);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
+//		if (type != 3) {
+//			System.out.println("Clear files directory? (1 - Yes, 0 - No)");
+//		
+//			int clear = s.nextInt();
+//		
+//			if(clear == 1){
+//				try {
+//					FileUtils.cleanDirectory(files);
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
+//			}
+//		}
 		
 		if(type == 1){
 			System.out.println("Please input path to file:");
@@ -71,7 +71,7 @@ public class MasterExtractor {
 			buildTable(list[i], list[i].getName().substring(3, 10));
 		}
 		System.out.println("Done");
-	}*/
+	}
 	
 	/**
 	 * Extract TableBuf objects from html/xls/xml files. Also writes them to .pb files.

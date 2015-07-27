@@ -82,8 +82,20 @@ public class RelevanceTest {
 		System.out.println(extractType);
 		try {
 			w = new FileWriter(markedRelevant);
+			/*for(Integer pmc : PMCIDs){
+			 * Set<String> allPartB = new Set<String>();
+			 * for (File file : tableDir.listFiles()){
+			 * 		if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
+			 * 			send in allPartB for each thing to use so it doesnt get a participant from a different table
+			 * 			allPartB.addAll(have the extraction return a list of partBs so they can be kept)
+			 * 		}
+			 * }
+			 * }
+			 * 
+			 */
 			for (File file : tableDir.listFiles()){
 				for(Integer pmc : PMCIDs){
+				
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
 						if(extractType == 0){
 							tableList = MasterExtractor.buildTable(file, pmc.toString());

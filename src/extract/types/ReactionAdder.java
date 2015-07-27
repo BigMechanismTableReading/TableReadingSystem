@@ -1,5 +1,9 @@
 package extract.types;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -32,7 +36,8 @@ public class ReactionAdder {
 	}
 
 	private static void makeTemplate(StringBuilder react,String name){
-		react.append("package extract.types" + "\n");
+		react.append("package extract.types;" + "\n");
+		react.append("import tablecontents.*;\n\n");
 		react.append("public class " + name + " extends Reaction{\n\n");
 		closingCount++;
 		createSingleton(react,name);
@@ -41,7 +46,7 @@ public class ReactionAdder {
 	private static void addAlternateEntries(StringBuilder react,Set<Class<? extends ColumnContents>> choosen,
 			HashMap<Class<? extends ColumnContents>, List<Class<? extends ColumnContents>>> alternates){
 		for(Class<? extends ColumnContents> c  : alternates.keySet()){
-			react.append("\t\taddAlternativeEntry(" +  c.getName().split("\\.")[1] + ".class, creatEntry(");
+			react.append("\t\taddAlternativeEntry(" +  c.getName().split("\\.")[1] + ".class, createEntry(");
 			for(Class<? extends ColumnContents> alt : alternates.get(c)){
 				react.append(alt.getName().split("\\.")[1] + ".class,");
 			}
@@ -114,6 +119,7 @@ public class ReactionAdder {
 		addContents(react, choosen,name,mapped,s);
 	}
 	public static void main (String [] args){
+		String f = File.separator;
 		System.out.println("Make a reaction,\nPress 1 to continue\n0 to quit");
 		Scanner s = new Scanner(System.in);
 		int go = s.nextInt();
@@ -126,8 +132,24 @@ public class ReactionAdder {
 				getContents(reactionBuilder, s,name);
 				System.out.println(reactionBuilder);
 			}
-			reactionBuilder.append("}");
+			reactionBuilder.append("\n}");
+			File file = new File("src" + f + "extract" + f +"types" + f + name + ".java");
+			BufferedWriter writer = null;
+			try {
+				writer = new BufferedWriter(new FileWriter(file));
+				writer.append(reactionBuilder);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (writer != null)
+					try {
+						writer.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
 		}
-	
 	}
 }

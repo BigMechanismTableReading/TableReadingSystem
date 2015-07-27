@@ -67,6 +67,7 @@ public class WebScraper {
 					        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
 				is = urlConnection.getInputStream();
 				Files.copy(is, p, StandardCopyOption.REPLACE_EXISTING);
+				
 			} 
 			is = new FileInputStream(target);
 			if (target.exists()){
