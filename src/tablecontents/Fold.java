@@ -13,7 +13,6 @@ import extract.buffer.TableBuf.Cell;
 /**
  * Abstract class for different fold measurements
  * @author sloates
- *
  */
 public abstract class Fold implements ColumnContents{
 	private HashSet<String> INCREASINGTERMS = set("INCREAS");

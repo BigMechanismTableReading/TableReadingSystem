@@ -18,7 +18,11 @@ import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.types.Reaction;
-
+/**
+ * Used to run through a list of PMC IDs
+ * @author sloates
+ *
+ */
 public class RelevanceTest {
 
 	private static TableBuf.Table getTable(File fileName){
