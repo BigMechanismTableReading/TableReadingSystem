@@ -87,9 +87,9 @@ public class ParticipantAExtractor {
 				return trans;
 			}
 		}
-		if(partA.length() > 3){
-			return ChEMBLLookup.abbrLookup(partA);
-		}
+		//if(partA.length() > 3){
+			//return ChEMBLLookup.abbrLookup(partA);
+		//}
 		
 		return null;
 	}
