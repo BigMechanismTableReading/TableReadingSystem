@@ -102,6 +102,7 @@ public class Extraction {
 		String readingEnd = new Date(System.currentTimeMillis()).toString();
 		IndexCardWriter w = new IndexCardWriter();
 		for (IndexCard card : cards){
+			System.out.println("cards");
 			w.writeIndexCard(readingStart, readingEnd, table, card);
 		}
 	}
@@ -130,7 +131,7 @@ public class Extraction {
 				card.addInfo(content.extractData(contents.get(content), i));
 			}
 			//First get the site/sequence column, then do fold
-			for(ParticipantA entry: participantACols){
+			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);
 				if (dupl.addPartA(entry,i)){
 					cards.add(dupl);

@@ -106,10 +106,10 @@ public abstract class Protein implements ColumnContents{
 	public abstract String groundIdentity(String ungrounded);
 
 	public static Lookup getT() {
-		if(!yeast)
-			return t;
-		else 
-			return y;
+//		if(!yeast)
+		return t;
+//		else 
+//			return y;
 	}
 
 }

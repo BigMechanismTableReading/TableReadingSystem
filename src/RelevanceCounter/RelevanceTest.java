@@ -95,9 +95,9 @@ public class RelevanceTest {
 			 */
 			for (File file : tableDir.listFiles()){
 				for(Integer pmc : PMCIDs){
-				
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
 						if(extractType == 0){
+							System.err.println(file.getName());
 							tableList = MasterExtractor.buildTable(file, pmc.toString());
 							for(TableBuf.Table t : tableList){
 								extract(t,w,extr);

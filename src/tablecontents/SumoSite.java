@@ -10,7 +10,7 @@ public class SumoSite extends Site{
 	}
 	private SumoSite(){
 		//TODO fix the regEx
-		regEx = "\\b((Ψ|KX|E.D)\\d{2,5})\\b";
+		regEx = "\\b((Ψ|.K.X.E).{0,10}\\d{2,5})\\b";
 	}
 
 	@Override

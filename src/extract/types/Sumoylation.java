@@ -14,7 +14,7 @@ public class Sumoylation extends Reaction{
 		//TODO add the neccesary requirements
 		data.add(SumoSite.class);
 		conjugationBase.add("sumoylat");
-		addAlternativeEntry(PhosphoSite.class, createEntry(Position.class, SumoType.class));
+		addAlternativeEntry(SumoSite.class, createEntry(Position.class, SumoType.class));
 	}
 	
 	public static Reaction getInstance(){

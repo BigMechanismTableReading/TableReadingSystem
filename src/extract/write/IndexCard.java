@@ -48,8 +48,11 @@ public class IndexCard {
 		
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
 		Fold f = r.bestFold(foldCols);
-		HashMap<String, String> foldData = f.extractData(foldCols.get(f),row);
-		if(foldData.isEmpty()){
+		HashMap<String, String> foldData = null;
+		if(f != null)
+			 foldData = f.extractData(foldCols.get(f),row);
+		
+		if(foldData == null || foldData.isEmpty()){
 			return false;
 		}
 		addInfo(foldData);
