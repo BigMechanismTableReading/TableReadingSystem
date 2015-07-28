@@ -20,7 +20,7 @@ public class ChEMBLLookup {
 	 * @return the long form of the abbreviation queried
 	 */
 	public static String lookupChemical(String chemical) {
-		String trans = "-12312451234335345982740298570864210987530294679212874"; //instead of null
+		String trans = null; //instead of null
 		
 		try {
 			String url = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=ChEMBL%20Molecule&t=" + chemical;
@@ -68,12 +68,15 @@ public class ChEMBLLookup {
 			return translatedChemicals.get(abbr);
 		}
 		System.out.println("looking up Chemical: " + abbr);
-		String translatedChemical = lookupChemical(abbr.trim()).replaceAll("\\W", " ").toUpperCase();
+		
+		String translatedChemical = lookupChemical(abbr.trim());
+		
+		translatedChemicals.put(abbr, translatedChemical);
 		
 		return translatedChemical;
 	}
 	
 	public static void main (String args[]){
-		System.out.println(lookupChemical("AC220"));
+		System.out.println(lookupChemical("ETOMOXIR"));
 	}
 }

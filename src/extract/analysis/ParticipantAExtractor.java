@@ -19,6 +19,7 @@ import extract.TextExtractor;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.lookup.AbbreviationLookup;
+import extract.lookup.ChEMBLLookup;
 import extract.lookup.ChemicalLookup;
 import extract.lookup.Lookup;
 import extract.lookup.TabLookup;
@@ -86,7 +87,10 @@ public class ParticipantAExtractor {
 				return trans;
 			}
 		}
-		//return yeastGround(partA);
+		if(partA.length() > 3){
+			return ChEMBLLookup.abbrLookup(partA);
+		}
+		
 		return null;
 	}
 	
@@ -315,7 +319,7 @@ public class ParticipantAExtractor {
 		//BEST A IF NOTHING IS GOTTEN
 		for(String a : textA){
 			if(a.length() > 2){
-				String aTrans = translatePartA(a);
+				String aTrans = translatePartA(a.toUpperCase());
 				if(aTrans != null){
 					participantAs.add(new ParticipantA(aTrans,a,contents));
 					return participantAs;
