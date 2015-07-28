@@ -7,8 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import tablecontents.ColumnContents;
 import extract.MasterExtractor;
@@ -69,13 +73,26 @@ public class RelevanceTest {
 			}
 		}
 		
-		List<TableBuf.Table> tableList = null;
+		List<TableBuf.Table> tableList = new LinkedList<TableBuf.Table>();
 		File tableDir =  new File("tables");
 		if(extractType == 0){
 			tableDir = new File("files");
 		}else{
 			tableDir = new File("tables");
 		}
+		
+		HashSet<String> has_table = new HashSet<String>();
+		
+		File table = new File("tables");
+		Pattern p = Pattern.compile("PMC([0-9]{6,7})");
+		for(File f : table.listFiles()){
+			String name = f.getName();
+			Matcher m = p.matcher(name);
+			if(m.find())
+				has_table.add(m.group(1));
+		}
+		System.out.println(has_table);
+		
 		File markedRelevant = new File("MarkedRelevant.txt");
 		FileWriter w;
 		Extraction extr = new Extraction();
@@ -93,8 +110,8 @@ public class RelevanceTest {
 			 * }
 			 * 
 			 */
-			for (File file : tableDir.listFiles()){
-				for(Integer pmc : PMCIDs){
+			for(Integer pmc : PMCIDs){
+				for (File file : tableDir.listFiles()){
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
 						if(extractType == 0){
 							System.err.println(file.getName());

@@ -195,7 +195,7 @@ public class TableExtractor {
 		
 		ArrayList<int[]> regions = new ArrayList<int[]>();
 		
-		while (counter < rows) {
+		while (counter < rows && table_regions < 100) {
 			Row row = sheet.getRow(counter);
 			if(row != null){
 				int start = row.getFirstCellNum();
