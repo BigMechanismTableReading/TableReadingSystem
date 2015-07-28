@@ -67,6 +67,20 @@ public class ChEMBLLookup {
 		if (translatedChemicals.containsKey(abbr)){
 			return translatedChemicals.get(abbr);
 		}
+		boolean matches = false;
+		for (int i : SuffixLookup.getInstance().suffixList.keySet()){
+			if(abbr.length() > i){
+				if (SuffixLookup.getInstance().suffixList.get(i).contains(abbr.substring(abbr.length() - i))){
+					matches = true;
+					break;
+				} 
+			}
+		}
+		if (!matches){
+			translatedChemicals.put(abbr, null);
+			return null;
+		}
+		
 		System.out.println("looking up Chemical: " + abbr);
 		
 		String translatedChemical = lookupChemical(abbr.trim());
