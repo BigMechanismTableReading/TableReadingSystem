@@ -67,7 +67,9 @@ public class Extraction {
 			while(row < col.getDataCount()){
 				Pair<String, String> ground = protein.bestColumn(contents, row);
 				if(ground != null){
-					partB.put(row, ground.getB());
+					if(ground.getB() != null) {
+						partB.put(row, ground.getB());
+					}
 					partBuntrans.put(row, ground.getA());
 				}
 				row++;

@@ -60,12 +60,15 @@ public abstract class Protein implements ColumnContents{
 		if(cols.containsKey(p)){
 			for (TableBuf.Column col :cols.get(p)){
 				if(col.getDataCount() > row && col.getData(row) != null){
-					data = col.getData(row).getData();
+					data = col.getData(row).getData().toUpperCase();
 					String s = p.cellMatch(data);
-					if(s != null)
+					if(s != null){
 						return new Pair<String,String>(data, s);
-					else if (p instanceof Uniprot)
+					} else if (p instanceof Uniprot){
 						return  new Pair<String,String>(data, "Uniprot:" + data);
+					} else {
+						return  new Pair<String,String>(data, null);
+					}
 				}
 			}
 		}
@@ -74,12 +77,15 @@ public abstract class Protein implements ColumnContents{
 	
 	@Override 
 	public Pair<String, String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
+		Pair<String,String> s = null;
 		for(Protein p : protList){
-			Pair<String,String> s = getGrounded(p,cols,row);
-			if(s!= null)
+			Pair<String,String> a = getGrounded(p,cols,row);
+			if (a != null)
+				s = a;
+			if (s!= null && s.getB() != null)
 				return s;
 		}
-		return null;
+		return s;
 	}
 	
 	public String getRegEx(){
