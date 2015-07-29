@@ -128,6 +128,7 @@ public class Extraction {
 		Iterator<Integer> iter = partB.keySet().iterator();
 		while(iter.hasNext()){
 			int i = iter.next();
+			
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
 			for (ColumnContents content : cols){
 				card.addInfo(content.extractData(contents.get(content), i));
@@ -136,6 +137,7 @@ public class Extraction {
 			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);
 				if (dupl.addPartA(entry,i)){
+					System.out.println(i + "    " + partB.get(i));
 					cards.add(dupl);
 				}
 			}
