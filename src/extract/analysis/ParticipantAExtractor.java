@@ -53,7 +53,7 @@ public class ParticipantAExtractor {
 		newA.addToData(f, col);
 		participantAs.add(newA);
 	}
-	
+
 	/**
 	 * Used as a backup to ground yeast genes.
 	 * @param partA
@@ -95,7 +95,7 @@ public class ParticipantAExtractor {
 		}
 		return yeastGround(partA);
 	}
-	
+
 	/**
 	 * Returns original and last capital of partA
 	 * @param partA
@@ -119,7 +119,7 @@ public class ParticipantAExtractor {
 		}
 		return allForms;	
 	}
-	
+
 	/**
 	 * Grounds partA in various Databases
 	 * @param form
@@ -141,7 +141,7 @@ public class ParticipantAExtractor {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets all possible substrings of partA that could match, and checks those strings as well as the original.
 	 * Returns null if no matches can be grounded
@@ -181,7 +181,7 @@ public class ParticipantAExtractor {
 			return possA;
 		return null;
 	}
-	
+
 	/**
 	 * Checks the possible A against possible As extracted from the text, returning a match
 	 * @param allB
@@ -190,18 +190,20 @@ public class ParticipantAExtractor {
 	 * @return
 	 */
 	private String checkPartAText(Set<String> allB,Reaction r, Set<String> possA,List<String> textA){
-		
-//		System.out.println(possA);
-//		System.out.println(allB);
-//		System.out.println(textA);
-//		System.out.println(textA);
+
+		//		System.out.println(possA);
+		//		System.out.println(allB);
+		//		System.out.println(textA);
+		//		System.out.println(textA);
+		Set<String> transA = new HashSet<String>();
 		for(String aWord : textA){
 			for(String aText : allForms(aWord)){
+
 				Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
 				if(transTextApair != null){
 					String transTextA = transTextApair.getB();
-//					System.out.println(transTextA);
-//					System.out.println(transTextA + "  " + aText);
+					//					System.out.println(transTextA);
+					//					System.out.println(transTextA + "  " + aText);
 					if(possA.contains(transTextA)){
 						return transTextA;
 					}
@@ -210,7 +212,7 @@ public class ParticipantAExtractor {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Creates a set of allBs in translated and untranslated forms
 	 * @param allB
@@ -229,7 +231,7 @@ public class ParticipantAExtractor {
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks the fold columns for participantA
 	 * @param contents
@@ -257,7 +259,7 @@ public class ParticipantAExtractor {
 		}
 		return participantAs;
 	}
-	
+
 	private List<ParticipantA> getCaptionA(){
 		return null;
 	}
@@ -285,29 +287,42 @@ public class ParticipantAExtractor {
 				r.getConjugationBase());
 		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
-	//	List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
+		//	List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		System.out.println(textA);
 		if (participantAs.isEmpty()){
 			System.out.println("Caption partA");
 			HashMap<String, String> possA = new HashMap<String, String>();
 			boolean title = true;
-			for(String caption : table.getCaptionList()){
-				caption = caption.replaceAll("-", "");
-				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");//TODO examine this regex
-				Matcher m = p.matcher(caption);
-				while(m.find()){
-					String a = m.group();
-					HashMap<String, String> wordList = checkPartA(a,allB,false,title);//TODO decide how many checks are good
-					if(wordList!= null){
-						for(String word: wordList.keySet() ){
-							possA.put(word, wordList.get(word));
+			for(String wholeCaption : table.getCaptionList()){
+				String[] subtitles = wholeCaption.split(";");
+				for (String caption : subtitles){
+					caption = caption.replaceAll("-", "");
+					Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");//TODO examine this regex
+					Matcher m = p.matcher(caption);
+					while(m.find()){
+						String a = m.group();
+						HashMap<String, String> wordList = checkPartA(a,allB,false,title);//TODO decide how many checks are good
+						if(wordList!= null){
+							for(String word: wordList.keySet() ){
+								possA.put(word, wordList.get(word));
+							}
+						}
+
+					}
+					if(title){
+						String partA = checkPartAText(allB, r, possA.keySet(),textA);
+						System.out.println(possA);
+						if(partA!= null){
+							participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
+							return participantAs;
 						}
 					}
+					title = false;
 				}
-				title = false;
 			}
 
 			String partA = checkPartAText(allB, r, possA.keySet(),textA);
+			System.out.println(possA);
 			if(partA!= null){
 				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
 				return participantAs;
