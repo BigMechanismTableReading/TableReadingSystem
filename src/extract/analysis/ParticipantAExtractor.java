@@ -135,7 +135,7 @@ public class ParticipantAExtractor {
 		}
 		if (partA == null && form.length() > 1 && form.toUpperCase().equals(form)){
 			partA = AbbreviationLookup.abbrLookup(form);
-		}		
+		}	
 		if(partA != null &&  (!partBs.contains(partA) || fold == true ||title == true)){
 			return new Pair<String, String>(form, partA);
 		}
@@ -300,12 +300,13 @@ public class ParticipantAExtractor {
 					HashMap<String, String> wordList = checkPartA(a,allB,false,title);//TODO decide how many checks are good
 					if(wordList!= null){
 						for(String word: wordList.keySet() ){
-							possA.put(word.toUpperCase(), wordList.get(word));
+							possA.put(word, wordList.get(word));
 						}
 					}
 				}
 				title = false;
 			}
+
 			String partA = checkPartAText(allB, r, possA.keySet(),textA);
 			if(partA!= null){
 				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
