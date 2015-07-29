@@ -17,14 +17,14 @@ public class SuffixLookup {
 	       return instance;
 	}
 	public SuffixLookup(){
-		File proteins = new File("drugsuffixes");
+		File proteins = new File("drugsuffixes.txt");
 		Scanner s;
 		String uni ="";
 		try {
 			s = new Scanner(proteins);
 			s.nextLine();
 			while(s.hasNextLine()){
-				String line = s.nextLine();
+				String line = s.nextLine().toUpperCase();
 				if(suffixList.get(line.length()) != null){
 					suffixList.get(line.length()).add(line);
 				} else {

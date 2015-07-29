@@ -87,11 +87,13 @@ public class ParticipantAExtractor {
 				return trans;
 			}
 		}
-		//if(partA.length() > 3){
-			//return ChEMBLLookup.abbrLookup(partA);
-		//}
-		
-		return null;
+		if(partA.length() > 3){
+			String trans = ChEMBLLookup.abbrLookup(partA);
+			if (trans != null){
+				return trans;
+			}
+		}
+		return yeastGround(partA);
 	}
 	
 	/**
@@ -298,7 +300,7 @@ public class ParticipantAExtractor {
 					HashMap<String, String> wordList = checkPartA(a,allB,false,title);//TODO decide how many checks are good
 					if(wordList!= null){
 						for(String word: wordList.keySet() ){
-							possA.put(word, wordList.get(word));
+							possA.put(word.toUpperCase(), wordList.get(word));
 						}
 					}
 				}
