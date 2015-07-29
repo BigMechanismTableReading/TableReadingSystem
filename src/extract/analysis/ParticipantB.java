@@ -26,7 +26,7 @@ public class ParticipantB {
 			TableBuf.Cell cell = col.getData(count);
 			if(cell != null){
 				String cellData = cell.getData();
-				if(cellData != null){
+				if(cellData != null && !(cellData.trim().length() == 0)){
 					//TODO verify that this is needed.
 					//This way gets better F1 but not grounded here.
 					if(p[0].matchesFormat(cellData,p[0].getRegEx(),false) != null)

@@ -27,6 +27,8 @@ public class GeneName extends Protein {
 	@Override
 	public String cellMatch(String match) {
 		match = match.replaceAll("-", "");
+		if(match.toLowerCase().contains("yes"))
+			return null;
 		String grounded = groundIdentity(super.matchesFormat(match, regEx,true));
 		return grounded;
 	}
