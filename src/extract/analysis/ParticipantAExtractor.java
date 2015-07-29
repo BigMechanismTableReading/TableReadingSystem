@@ -87,11 +87,13 @@ public class ParticipantAExtractor {
 				return trans;
 			}
 		}
-		//if(partA.length() > 3){
-			//return ChEMBLLookup.abbrLookup(partA);
-		//}
-		
-		return null;
+		if(partA.length() > 3){
+			String trans = ChEMBLLookup.abbrLookup(partA);
+			if (trans != null){
+				return trans;
+			}
+		}
+		return yeastGround(partA);
 	}
 	
 	/**
@@ -133,7 +135,7 @@ public class ParticipantAExtractor {
 		}
 		if (partA == null && form.length() > 1 && form.toUpperCase().equals(form)){
 			partA = AbbreviationLookup.abbrLookup(form);
-		}		
+		}	
 		if(partA != null &&  (!partBs.contains(partA) || fold == true ||title == true)){
 			return new Pair<String, String>(form, partA);
 		}
@@ -304,6 +306,7 @@ public class ParticipantAExtractor {
 				}
 				title = false;
 			}
+
 			String partA = checkPartAText(allB, r, possA.keySet(),textA);
 			if(partA!= null){
 				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
