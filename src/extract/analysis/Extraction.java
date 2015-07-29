@@ -137,7 +137,6 @@ public class Extraction {
 			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);
 				if (dupl.addPartA(entry,i)){
-					System.out.println(i + "    " + partB.get(i));
 					cards.add(dupl);
 				}
 			}

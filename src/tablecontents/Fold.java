@@ -87,7 +87,7 @@ public abstract class Fold implements ColumnContents{
 		//TODO work on other types of tables with time stuff (not that many tables)
 		TableBuf.Column c = bestSubColumn(cols);
 		HashMap<String, String> modifs = new HashMap<String,String>();
-		Pattern p = Pattern.compile("\\b(\\d{1,3}\\.\\d{1,10})\\b");
+		Pattern p = Pattern.compile("\\b(\\d{1,3}\\.\\d{1,})\\b");
 		TableBuf.Cell cell = c.getData(row);
 		if(cell != null){
 			String data = cell.getData();
