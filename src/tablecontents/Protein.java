@@ -59,14 +59,19 @@ public abstract class Protein implements ColumnContents{
 		String data;
 		if(cols.containsKey(p)){
 			for (TableBuf.Column col :cols.get(p)){
-				if(col.getDataCount() > row && col.getData(row) != null && 
-						!(col.getData(row).getData().trim().isEmpty())){
+				if(checkEmpty(col, row)){
 					data = col.getData(row).getData().toUpperCase();
 					String s = p.cellMatch(data);
 					if(s != null){
 						return new Pair<String,String>(data, s);
 					} else if (p instanceof Uniprot && data.trim().length() >= 5){
-						return  new Pair<String,String>(data, "Uniprot:" + data);
+						String untrans = data;
+						if (cols.containsKey(g)){
+							if(checkEmpty(cols.get(g).get(0), row)){
+								untrans = cols.get(g).get(0).getData(row).getData();
+							}
+						}
+						return  new Pair<String,String>(untrans, "Uniprot:" + data);
 					} else {
 						return  new Pair<String,String>(data, null);
 					}
@@ -74,6 +79,10 @@ public abstract class Protein implements ColumnContents{
 			}
 		}
 		return null;
+	}
+	
+	private boolean checkEmpty(TableBuf.Column col, int row){
+		return col.getDataCount() > row && col.getData(row) != null && !(col.getData(row).getData().trim().isEmpty());
 	}
 	
 	@Override 
