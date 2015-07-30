@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +15,6 @@ import org.jsoup.select.Elements;
 public class ChEMBLLookup {
 	
 	public static HashMap<String, String> translatedChemicals = new HashMap<String, String>();
-	
 	/**
 	 * Uses JSoup and Rest API to query ChEMBL for harder to ground chemicals
 	 * @param abbr The abbreviation to query
@@ -75,7 +76,7 @@ public class ChEMBLLookup {
 					break;
 				} 
 			}
-		}
+		}		
 		if (!matches){
 			translatedChemicals.put(abbr, null);
 			return null;
@@ -91,6 +92,6 @@ public class ChEMBLLookup {
 	}
 	
 	public static void main (String args[]){
-		System.out.println(lookupChemical("ETOMOXIR"));
+		System.out.println(lookupChemical("U0126"));
 	}
 }

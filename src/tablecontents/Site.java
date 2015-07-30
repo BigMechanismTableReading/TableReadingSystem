@@ -13,8 +13,9 @@ import extract.buffer.TableBuf;
 
 public abstract class Site implements ColumnContents {
 	public String headerRegEx = "site|residue|location|tyrosine";//|position";//TODO write the header
+	String extractRegEx = null;
 	String regEx = null;
-	public int confidenceNeeded = 5;
+	public int confidenceNeeded = 3;
 	/**
 	 * Returns cutoff values for positions
 	 * @return
@@ -58,7 +59,7 @@ public abstract class Site implements ColumnContents {
 		HashMap<String,String> siteBase = new HashMap<String,String>();
 		List<String> sites = new ArrayList<String>();
 		List<String> aminos = new ArrayList<String>();
-		Pattern site = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
+		Pattern site = Pattern.compile(extractRegEx,Pattern.CASE_INSENSITIVE);
 		for(TableBuf.Column c : cols){
 			TableBuf.Cell cell = c.getData(row);
 			if(cell != null){

@@ -24,6 +24,7 @@ import extract.types.Reaction;
 
 public class TextExtractor {
 	
+	
 	public static String parseHTMLTitle(String fileName){
 		File document = new File("papers" + File.pathSeparator + fileName + ".html");
 		System.out.println(fileName);
@@ -229,7 +230,7 @@ public class TextExtractor {
 		Set<String> proteins = new HashSet<String>();
 		sentence = sentence.trim();
 		if(Pattern.matches("^[\\w].*", sentence)){	
-			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
+			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})|([A-Z]{1,2}[0-9]{4,})");
 			Matcher m = p.matcher(sentence);
 			while(m.find()){
 				proteins.add(m.group().toUpperCase());
@@ -237,7 +238,7 @@ public class TextExtractor {
 		}
 		sentence = sentence.replace("-", "");
 		if(Pattern.matches("^[\\w].*", sentence)){	
-			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})");
+			Pattern p = Pattern.compile("([A-Z[a-z]]\\w*[A-Z]\\w*)|([A-Z][A-Za-z]{1,3}[A-Z0-9]{1,4})|([A-Z]{1,2}[0-9]{4,})");
 			Matcher m = p.matcher(sentence);
 			while(m.find()){
 				proteins.add(m.group().toUpperCase());

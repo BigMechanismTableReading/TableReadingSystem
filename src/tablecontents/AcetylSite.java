@@ -16,6 +16,7 @@ public class AcetylSite extends Site{
 		//TODO how to match something like this
 		headerRegEx = "acetyl|acetyl\\s*site|acetyl\\s*residue|acetyl\\s*location|acetyl\\s*position";//TODO look at this
 		regEx = "\\b((k|lys)\\d{2,4})\\b";
+		extractRegEx = "\\b((k|lys)\\d{1,4})\\b";
 		confidenceNeeded = 7;
 		
 	}

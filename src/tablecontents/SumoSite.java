@@ -11,6 +11,7 @@ public class SumoSite extends Site{
 	private SumoSite(){
 		//TODO fix the regEx
 		regEx = "\\b((Ψ|.K.X.E).{0,10}\\d{2,5})\\b";
+		extractRegEx = "\\b((Ψ|.K.X.E).{0,10}\\d{2,5})\\b";
 	}
 
 	@Override

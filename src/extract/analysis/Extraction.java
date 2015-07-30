@@ -104,7 +104,6 @@ public class Extraction {
 		String readingEnd = new Date(System.currentTimeMillis()).toString();
 		IndexCardWriter w = new IndexCardWriter();
 		for (IndexCard card : cards){
-			System.out.println("cards");
 			w.writeIndexCard(readingStart, readingEnd, table, card);
 		}
 	}
