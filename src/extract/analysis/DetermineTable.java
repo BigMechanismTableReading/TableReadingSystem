@@ -21,6 +21,7 @@ import extract.TextExtractor;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.lookup.SpeciesChecker;
+import extract.types.PossibleReaction;
 import extract.types.Reaction;
 
 /**
@@ -128,7 +129,7 @@ public class DetermineTable {
 		for(Reaction r : reactionList ){
 			for(String word : header.split("\\s")){ 
 				for(String cb : r.getConjugationBase()){
-					if (word.toLowerCase().contains(cb))
+					if (word.toLowerCase().contains(cb) && r != PossibleReaction.getInstance())
 						return r;
 				}
 			}
@@ -149,6 +150,7 @@ public class DetermineTable {
 		if(tableReactions.size() > 0){
 			possibleReactions.clear();
 			possibleReactions.addAll(tableReactions);
+			possibleReactions.add(PossibleReaction.getInstance());
 		}
 		
 		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){
@@ -232,10 +234,17 @@ public class DetermineTable {
 				head = true;
 			}
 			if ((both && head) || (!both && !hasCol)) {
+				boolean over10 = true;
+				if(col.getDataCount() < 10)//TODO added this
+					over10 = false;
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
 						correctCells++;
 						if(correctCells > confidenceLevel){
+							addToData(c, col, data);
+							hasCol =  true;
+							i = 10;
+						}else if (over10 == false){//TODO this was added in 
 							addToData(c, col, data);
 							hasCol =  true;
 							i = 10;

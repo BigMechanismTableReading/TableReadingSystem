@@ -1,0 +1,24 @@
+package extract.types;
+import tablecontents.*;
+
+public class PossibleReaction extends Reaction{
+	//TODO determine exactly what we want here
+	private static PossibleReaction instance = null;
+
+	public static Reaction getInstance(){
+		if(instance == null){
+			instance = new PossibleReaction();
+		}
+		return instance;
+	}
+	@SuppressWarnings("unchecked")
+	private PossibleReaction(){
+		data.add(Fold.class);
+		data.add(Site.class);
+		addAlternativeEntry(Fold.class,createEntry(PossibleFold.class));
+		addAlternativeEntry(Site.class,createEntry(Sequence.class));
+		addAlternativeEntry(Site.class,createEntry(Position.class));
+		conjugationBase.add("phosphorylat");
+		
+	}
+}

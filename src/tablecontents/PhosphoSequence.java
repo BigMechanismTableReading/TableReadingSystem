@@ -2,7 +2,7 @@ package tablecontents;
 
 public class PhosphoSequence extends Sequence {
 	
-	private String cellRegEx = ".*["+"HTPVSKFGDWRNMLYAEIQ"+"]{2,}(ph|[#tspy\\*])["+"HTPVSKFGDWRNMLYAEIQ"+"]{2,}.*";
+	private String cellRegEx = ".*["+"HTPVSKFGDWRNMLYAEIQ"+"]{2,}.(ph|[#tspy\\*]).["+"HTPVSKFGDWRNMLYAEIQ"+"]{2,}.*";
 	
 	private static PhosphoSequence phosSeq = null;
 	public static PhosphoSequence getInstance(){

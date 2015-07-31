@@ -21,6 +21,7 @@ import extract.analysis.Extraction;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
+import extract.types.PossibleReaction;
 import extract.types.Reaction;
 /**
  * Used to run through a list of PMC IDs
@@ -113,26 +114,27 @@ public class RelevanceTest {
 			for(Integer pmc : PMCIDs){
 				for (File file : tableDir.listFiles()){
 					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
+						String fileName = file.getName();
 						if(extractType == 0){
 							System.err.println(file.getName());
 							tableList = MasterExtractor.buildTable(file, pmc.toString());
 							for(TableBuf.Table t : tableList){
-								extract(t,w,extr);
+								extract(t,w,extr,fileName);
 							}
 						}else if (extractType == 2 ){
 							if(!file.getName().contains("Supp")){
 								TableBuf.Table t  = getTable(file);
-								extract(t,w,extr);
+								extract(t,w,extr,fileName);
 							}
 
 						}else if (extractType == 3 ){
 							if(file.getName().contains("Supp")){
 								TableBuf.Table t  = getTable(file);
-								extract(t,w,extr);
+								extract(t,w,extr,fileName);
 							}
 						}else{
 							TableBuf.Table t  = getTable(file);
-							extract(t,w,extr);
+							extract(t,w,extr,fileName);
 						}
 					}
 				}
@@ -142,18 +144,18 @@ public class RelevanceTest {
 			e.printStackTrace();
 		}
 	}
-	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr){
+	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr,String fileName){
 
 		try {
 			DetermineTable d = new DetermineTable();
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
 			if(r != null){
 				System.out.println(r.getA() + " " + r.getB().keySet());
-
-				w.write(t.getSource().getPmcId());
-
-				System.out.println(t.getSource().getPmcId());
-				extr.ExtractInfo(r, t);					
+				w.write(fileName + "\n");
+				if (r.getA() != PossibleReaction.getInstance()){
+					System.out.println(t.getSource().getPmcId());
+					extr.ExtractInfo(r, t);			
+				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
