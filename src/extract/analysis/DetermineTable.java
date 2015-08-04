@@ -1,32 +1,24 @@
 package extract.analysis;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.reflections.Reflections;
-
-import tablecontents.AbstractPosition;
 import tablecontents.ColumnContents;
 import tablecontents.DynamicTyping;
 import tablecontents.Protein;
 import extract.TextExtractor;
 import extract.buffer.TableBuf;
-import extract.buffer.TableBuf.Column;
-import extract.lookup.SpeciesChecker;
 import extract.types.PossibleReaction;
 import extract.types.Reaction;
 
 /**
  * Determines whether or not a table is relevant and labels the columns with possible content type
- * @author sloates
+ * @author sloates, vhsiao
  *
  */
 public class DetermineTable {

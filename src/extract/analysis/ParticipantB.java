@@ -1,11 +1,7 @@
 package extract.analysis;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import tablecontents.*;
 import extract.buffer.TableBuf;
-import extract.lookup.TabLookup;
 
 /**
  * Identifies if column contains participantB and returns which subtype

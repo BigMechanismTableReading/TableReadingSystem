@@ -1,5 +1,51 @@
-TabLookup and YeastLookup both have 5 hashmap that convert to uniprot, and one that converts uniprot to geneNames
-IPI Lookup and Chemical Lookup have a single hashmap that ground the entities
-AbbreviationLookup is called statically with AbbreviationLookup.lookupAbbr(String abbr), returns grounded name or null
-ChemblLookup is called statically with ChEMBLLookup.lookupChemical(String chemical), returns grounded name or null
+README - Extract Lookup
+
+-Package Structure-
+This package contains utility classes used to ground entities. These classes typically contain a HashMap(s) that holds data
+retrieved from database files.
+
+TabLookup
+Database: UniprotKB (mammal, reviewed subset)
+Conversions:
+uniprot - Uniprot to Uniprot
+swisprot - Swissprot to Uniprot
+genename - Gene name to Uniprot
+english - English description to Uniprot
+uniToGene - Uniprot to Gene name
+Access method: singleton with public HashMaps
+
+YeastLookup
+Database: UniprotKB (yeast, reviewed subset)
+Conversions:
+uniprot - Uniprot to Uniprot
+swisprot - Swissprot to Uniprot
+genename - Gene name to Uniprot
+english - English description to Uniprot
+uniToGene - Uniprot to Gene name
+Access method: singleton with public HashMaps
+
+IPILookup
+Database: IPI last release Uniprot cross reference
+Conversions:
+IPItoUNI - IPI to Uniprot
+Access method: singleton with public HashMap
+
+ChemicalLookup
+Database: ChEBI
+Conversions:
+chemicals - Chemical name to ChEBI id
+Access method: singleton with public HashMap
+
+AbbreviationLookup
+Database: Allie
+Conversions:
+translatedAbreviations - Abbreviations to Uniprot
+Access method: AbbreviationLookup.lookupAbbr(String abbr)
+
+ChEMBLLookup
+Database: ChEMBL subset
+Conversions:
+translatedChemicals - Chemical name to ChEMBL id
+Access method: ChEMBLLookup.lookupChemical(String chemical)
+
 SpeciesChecker is currently unused.

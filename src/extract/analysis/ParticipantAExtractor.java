@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tablecontents.ColumnContents;
-import tablecontents.Fold;
-import tablecontents.GeneName;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import extract.TextExtractor;
@@ -264,10 +261,6 @@ public class ParticipantAExtractor {
 		return participantAs;
 	}
 
-	private List<ParticipantA> getCaptionA(){
-		return null;
-	}
-	
 	/**
 	 * First checks the fold column for potential participantA then checks the title and caption.
 	 * If no options are found, the top result from the text extractor is then used.
