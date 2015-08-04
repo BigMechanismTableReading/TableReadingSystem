@@ -10,8 +10,8 @@ Conversions:
 uniprot - Uniprot to Uniprot
 swisprot - Swissprot to Uniprot
 genename - Gene name to Uniprot
-english - English description to Uniprot
-uniToGene - Uniprot to Gene name
+english - English description to List of Uniprots
+uniToGene - Uniprot to Set of Gene Names
 Access method: singleton with public HashMaps
 
 YeastLookup
@@ -20,8 +20,8 @@ Conversions:
 uniprot - Uniprot to Uniprot
 swisprot - Swissprot to Uniprot
 genename - Gene name to Uniprot
-english - English description to Uniprot
-uniToGene - Uniprot to Gene name
+english - English description to List of Uniprots
+uniToGene - Uniprot to Set of Gene Names
 Access method: singleton with public HashMaps
 
 IPILookup
