@@ -1,7 +1,7 @@
 package tablecontents;
 
 /**
- * Acetylation Site
+ * Acetylation Site Class
  * @author sloates
  *
  */

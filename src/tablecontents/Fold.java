@@ -15,8 +15,8 @@ import extract.buffer.TableBuf.Cell;
  * @author sloates
  */
 public abstract class Fold implements ColumnContents{
-	private HashSet<String> INCREASINGTERMS = set("INCREAS");
-	private HashSet<String> DECREASINGTERMS = set("DECREAS");
+	private HashSet<String> INCREASINGTERMS = makeTerms("INCREAS");
+	private HashSet<String> DECREASINGTERMS = makeTerms("DECREAS");
 	private static String[] conjugations = new String[]{"E","ES","ING","ED"};
 	double[] cutOffs = null;
 	public int confidenceNeeded = 3;
@@ -27,8 +27,13 @@ public abstract class Fold implements ColumnContents{
 	 * @param col
 	 * @return
 	 */
-	public abstract double[] cutoffValues(TableBuf.Column col);//TODO Determine best way to do this
+	public abstract double[] cutoffValues(TableBuf.Column col);
 	
+	/**
+	 * Returns the fold column that is the most relevant
+	 * @param foldCols
+	 * @return
+	 */
 	public Fold bestFold(HashMap<ColumnContents,List<TableBuf.Column>> foldCols){
 		Log l = Log.getInstance();
 		FoldChange c = FoldChange.getInstance();
@@ -57,7 +62,7 @@ public abstract class Fold implements ColumnContents{
 		}
 		return null;
 	}
-	
+
 	private TableBuf.Column bestSubColumn(List<TableBuf.Column> cols){
 		String headerReg = "avg|average";//TODO add to this list after looking at more data
 		Pattern p = Pattern.compile(headerReg,Pattern.CASE_INSENSITIVE);
@@ -148,11 +153,11 @@ public abstract class Fold implements ColumnContents{
 	}
 
 	/**
-	 * Used to create inc and dec hashsets by adding conjucations to the bases
+	 * Creates a set of decreasing or increasing terms
 	 * @param base
 	 * @return
 	 */
-	private HashSet<String> set(String base) {
+	private HashSet<String> makeTerms(String base) {
 		HashSet<String> set = new HashSet<String>();
 		base = base.toUpperCase();
 		for(String s : conjugations){
@@ -160,6 +165,8 @@ public abstract class Fold implements ColumnContents{
 		}
 		return set;
 	}
+	
+	@Override
 	public Pair<String, String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
 	}

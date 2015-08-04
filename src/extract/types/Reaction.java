@@ -14,9 +14,7 @@ import tablecontents.ColumnContents;
  *
  */
 public abstract class Reaction {
-	/**
-	 * List of all reactions
-	 */
+	
 	public static Reaction[] allReactions = {Phosphorylation.getInstance(),Acetylation.getInstance(),
 		Methylation.getInstance(),Sumoylation.getInstance(),PossibleReaction.getInstance()};
 	HashSet<Class<? extends ColumnContents>> data = new HashSet<Class<? extends ColumnContents>>();

@@ -4,6 +4,11 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
+/**
+ * Used to get subtype lists
+ * @author sloates
+ *
+ */
 public class DynamicTyping {
 	private static DynamicTyping dt = null;
 	private Reflections typeList;

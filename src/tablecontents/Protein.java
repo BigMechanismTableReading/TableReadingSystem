@@ -12,6 +12,11 @@ import extract.lookup.Lookup;
 import extract.lookup.TabLookup;
 import extract.lookup.YeastLookup;
 
+/**
+ * Abstract class for Protein Types
+ * @author sloates
+ *
+ */
 public abstract class Protein implements ColumnContents{
 	
 	private static Protein prot = null;
@@ -55,6 +60,14 @@ public abstract class Protein implements ColumnContents{
 		return false;
 	}
 	
+	/**
+	 * Returns the grounded version of the protein, along with the ungrounded version
+	 * Pair<ungrounded, grounded>
+	 * @param p
+	 * @param cols
+	 * @param row
+	 * @return
+	 */
 	private Pair<String, String> getGrounded(Protein p,HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		String data;
 		if(cols.containsKey(p)){
@@ -121,6 +134,11 @@ public abstract class Protein implements ColumnContents{
 	 */
 	public abstract String groundIdentity(String ungrounded);
 
+	/**
+	 * Returns the lookup being used
+	 * Currently always returns mammal lookup, can be changed
+	 * @return
+	 */
 	public static Lookup getT() {
 //		if(!yeast)
 		return t;

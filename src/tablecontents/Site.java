@@ -11,20 +11,16 @@ import tablecontents.ColumnContents;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 
+/**
+ * Abstract class for site types
+ * @author sloates
+ *
+ */
 public abstract class Site implements ColumnContents {
 	public String headerRegEx = "site|residue|location|tyrosine";//|position";//TODO write the header
 	String extractRegEx = null;
 	String regEx = null;
 	public int confidenceNeeded = 3;
-	/**
-	 * Returns cutoff values for positions
-	 * @return
-	 */
-	public int[] validPosition(){
-		return new int[]{
-			1,20,10000
-		};
-	}
 	
 	@Override
 	public String headerMatch(String match) {
@@ -39,10 +35,17 @@ public abstract class Site implements ColumnContents {
 	public boolean needsBoth(){
 		return false;
 	}
+	@Override
 	public Pair<String,String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		return null;
 	}
 	
+	/**
+	 * Returns if the cell matches the specific site regEx
+	 * @param match
+	 * @param regEx
+	 * @return
+	 */
 	public String cellMatch(String match, String regEx) {
 		String sites = "";
 		Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
@@ -54,6 +57,7 @@ public abstract class Site implements ColumnContents {
 			return null;
 		return sites;
 	}
+	
 	@Override
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
 		HashMap<String,String> siteBase = new HashMap<String,String>();

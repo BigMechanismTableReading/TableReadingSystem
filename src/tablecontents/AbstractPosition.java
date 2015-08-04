@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import extract.buffer.TableBuf;
 
 /**
- * Abstract classes for bare number sites
+ * Abstract class for position types
  * @author sloates
  *
  */
@@ -18,6 +18,7 @@ public abstract class AbstractPosition  implements ColumnContents{
 	public String headerRegEx = null;
 	public String cellRegEx = null;
 	public int confidenceNeeded = 5;
+	
 	@Override
 	public HashMap<String, String> extractData(List<TableBuf.Column> cols, int row) {
 		// TODO Auto-generated method stub
