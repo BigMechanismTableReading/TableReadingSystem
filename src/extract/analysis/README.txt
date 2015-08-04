@@ -1,9 +1,10 @@
 ReadMe - Extract Analysis
 
-This Package Contains all the classes used to determine if a table is relevant, label the table and extract the information
+-Package Structure-
+This Package Contains all the classes used to determine if a table is relevant, label the table and extract the information from it
 
 Pair.java
-	The pair contains two elements of any type and is used as a container.
+	The pair object contains two elements of any type and is used as a container.
 	
 DetermineTable.java
 	The first step in our system is determining whether a table is relevant or not.
@@ -23,16 +24,13 @@ Extraction.java
 		  	i) The extraction process begins by finding the best participantB column
 		  		extracting all participant Bs which are stored in a pair of hashmaps of 
 		  		row to participantBs.
-		  	ii) Both HashMaps in the pair are converted to sets (one translated and one untranslated)
-		  		that are to be used in participant A.
-		  	iii) A ParticipantAExtractor instance is created. The 
+		  	ii) A ParticipantAExtractor instance is created. The 
 		  		 getParticipantAs(table,partB,partBuntrans,foldContents(contents), r) method
 		  		 is called. This method returns a List<ParticipantA> objects
-		  	iv) Columns that are to be used are chosen and alternates chosen if the normal columns are not found.
-		  	v) The Columns are iterated through row by row, the HashMap of rows to participantBs is iterated through
+		  	iii) Columns that are to be used are chosen and alternates chosen if the normal columns are not found.
+		  	iv) The HashMap of rows to participantBs is iterated through row by row
 		  		and the rest of the neccesary info is written to an index card.
 		  	vi) The list of index cards are iterated through and written to Json files.
-		  	vii) The JSon files are then written to an index card folder under the table name and row number.
 		  	
 ParticipantAExtractor.java
 	a)The TextExtractor returns a List of potential participant As
