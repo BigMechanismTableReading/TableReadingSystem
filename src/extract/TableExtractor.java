@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,21 +14,22 @@ import java.util.Random;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Color;
 import org.apache.poi.ss.usermodel.FormulaError;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import extract.buffer.TableBuf;
 
+/** 
+ * Extraction class used to generate protobuf table objects from Excel based tables.
+ * The methods in this class will only work on Excel spreadsheets.
+ * @author vhsiao
+ */
 public class TableExtractor {
 	
 	/**
@@ -41,25 +41,21 @@ public class TableExtractor {
 		File excel_document = new File(excelFileName);
 		
 		if (excel_document.exists()) {
-				//int period_index = excelFileName.lastIndexOf('.');
-				// (period_index != -1) {
-				//	String extension = excelFileName.substring(period_index);
-					if (excelFileName.endsWith(".xls")) {
-						try {
-							HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(excel_document));
-							return wb;
-						} catch (Exception exception) {
-							exception.printStackTrace();
-						}
-					} else if (excelFileName.endsWith(".xlsx")) {
-						try {
-							XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(excel_document));
-							return wb;
-						} catch (Exception exception) {
-							exception.printStackTrace();
-						}
+				if (excelFileName.endsWith(".xls")) {
+					try {
+						HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(excel_document));
+						return wb;
+					} catch (Exception exception) {
+						exception.printStackTrace();
 					}
-				//}
+				} else if (excelFileName.endsWith(".xlsx")) {
+					try {
+						XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(excel_document));
+						return wb;
+					} catch (Exception exception) {
+						exception.printStackTrace();
+					}
+				}
 		}
 		return null;
 	}
@@ -118,7 +114,9 @@ public class TableExtractor {
 	}
 	
 	/**
-	 * Take the raw table data and put it in the TableBuf protocol for storage
+	 * Takes raw table data (in list format) and converts it into 
+	 * the TableBuf protocol for storage.
+	 * 
 	 * @param builder the Table protobuffer to add the data to
 	 * @param rawTable the data to be added
 	 */
@@ -155,7 +153,8 @@ public class TableExtractor {
 
 	}
 	
-	public static String getCellValue(Cell c){
+	// Private helper method for retrieving data from a cell
+	private static String getCellValue(Cell c){
 		if(c != null){
 			int type = c.getCellType();
 			String value;
@@ -183,9 +182,14 @@ public class TableExtractor {
 	}
 	
 	/**
-	 * Checks if the table is easy to mark-up and finds headers/rows if it is
+	 * Finds valid table regions found in the excel sheet.
+	 * 
+	 * The method also fills in null cells inside the excel sheet
+	 * if they lie within the region found. The list returned will
+	 * have the largest region as its first entry.
+	 * 
 	 * @param sheet The sheet to mark-up
-	 * @return whether the table is easy to mark-up or not
+	 * @return list of table regions
 	 */
 	public static List<int[]> markupTable(Sheet sheet){
 		int rows = sheet.getLastRowNum();
@@ -384,28 +388,7 @@ public class TableExtractor {
 		return table.values();
 	}
 	
-	/**
-	 * Short helper method to check if the color is blue
-	 * @param color the color to check
-	 * @return whether the color is blue
-	 */
-	private static boolean checkBlue(Color color){
-		// "FF0000FF" is blue in Excel
-		return (color instanceof HSSFColor && ((HSSFColor) color).getHexString().equals(HSSFColor.BLUE.hexString))
-				|| (color instanceof XSSFColor && ((XSSFColor) color).getARGBHex().equals("FF0000FF"));
-	}
-	
-	/**
-	 * Short helper method to check if the color is red
-	 * @param color the color to check
-	 * @return whether the color is red
-	 */
-	private static boolean checkRed(Color color){
-		// "FFFF0000" is red in Excel
-		return (color instanceof HSSFColor && ((HSSFColor) color).getHexString().equals(HSSFColor.RED.hexString))
-				|| (color instanceof XSSFColor && ((XSSFColor) color).getARGBHex().equals("FFFF0000"));
-	}
-	
+	// Main method used for testing
 	public static void main (String [] args){
 		TableBuf.Table.Builder table = TableBuf.Table.newBuilder();
 		table.addCaption("Text Extracted from excel");

@@ -17,12 +17,15 @@ import org.jsoup.select.Elements;
 
 import extract.buffer.TableBuf;
 
+/** 
+ * Extraction class used to generate protobuf table objects from html based tables.
+ * The methods in this class will only work on html tables retrieved from PMC.
+ * @author vhsiao
+ */
 public class HTMLTableExtractor {
 	
-	
-	
-	
-	public boolean isValidRow(Element tr){
+	// Private helper method used to check for single entry rows
+	private boolean isValidRow(Element tr){
 		int count = 0;
 		List<Node> tds = tr.childNodes();
 		for (Node td: tds){
@@ -37,9 +40,15 @@ public class HTMLTableExtractor {
 	}
 	
 	/**
-	 * Retrieve a table from an html file by using Jsoup
+	 * Retrieves a data list from an html file by using Jsoup.
+	 * 
+	 * This method will account for variable row/column spans and will
+	 * distribute data accordingly. It will also account for subheaders 
+	 * located in the middle of table entries. However it will not
+	 * account for implicit row/column spans suggested by empty entries.
+	 * 
 	 * @param fileName the path to the html file
-	 * @return the data as a 2D List
+	 * @return the table data as a 2D List
 	 */
 	public Collection<List<String>> parseHTMLTable(String fileName){
 		File document = new File(fileName);
@@ -220,7 +229,9 @@ public class HTMLTableExtractor {
 	}
 	
 	/**
-	 * Take the raw table data and put it in the TableBuf protocol for storage
+	 * Takes raw table data (in list format) and converts it into 
+	 * the TableBuf protocol for storage.
+	 * 
 	 * @param builder the Table protobuffer to add the data to
 	 * @param rawTable the data to be added
 	 */
@@ -250,7 +261,7 @@ public class HTMLTableExtractor {
 
 	}
 	
-	
+	// Main method used for testing.
 	public static void main (String [] args){
 		TableBuf.Table.Builder table = TableBuf.Table.newBuilder();
 		table.addCaption("Text Extracted from html");
