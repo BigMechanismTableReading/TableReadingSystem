@@ -6,6 +6,10 @@ import java.util.List;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 
+/**
+ * Interface that must be implemented by all column types
+ * @author sloates
+ */
 public interface ColumnContents {
 	
 	/**
@@ -33,7 +37,7 @@ public interface ColumnContents {
 	public String cellMatch(String match);
 	
 	/**
-	 * Returns the information from the specific row for the bestColumn for the row
+	 * Returns the information extracted from the best column for that particular type and row.
 	 * @param cols
 	 * @param row
 	 * @return
@@ -41,7 +45,7 @@ public interface ColumnContents {
 	public Pair<String, String> bestColumn (HashMap<ColumnContents,List<TableBuf.Column>> cols, int row);
 	
 	/**
-	 * Extracts data from the current row
+	 * Extracts data from the current row, utilizing type specific checks
 	 * @param cols
 	 * @param row
 	 * @return

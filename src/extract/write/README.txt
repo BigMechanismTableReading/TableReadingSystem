@@ -1,2 +1,2 @@
 Index Card stores all the information that is needed for the index cards.
-IndexCardWriter takes and index card and a table (and start and stop time) and writes the info to an index cards in json format.
+IndexCardWriter takes an index card and a table (and start and stop time) and writes the info to an index cards in json format.
