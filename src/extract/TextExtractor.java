@@ -22,9 +22,17 @@ import org.jsoup.nodes.Document;
 import extract.analysis.ParticipantAExtractor;
 import extract.types.Reaction;
 
+/**
+ * Extraction class containing utility methods for extracting information from text
+ * @author vhsiao
+ */
 public class TextExtractor {
 	
-	
+	/**
+	 * Retrieves the title of the article
+	 * @param fileName The name of the file to extract
+	 * @return the title of the article
+	 */
 	public static String parseHTMLTitle(String fileName){
 		File document = new File("papers" + File.pathSeparator + fileName + ".html");
 		System.out.println(fileName);
@@ -73,6 +81,15 @@ public class TextExtractor {
 		return null;
 	}
 	
+	/**
+	 * Finds all possible PTMs that could be present in the paper
+	 * 
+	 * Ex: If the words phosphorylated, methylation are found in a paper, the method
+	 * will return {Phosphorylation (instance), Methylation (instance)}
+	 * 
+	 * @param PMCID The PMCID of the paper
+	 * @return The list of Reactions that were found
+	 */
 	public static List<Reaction> getPossibleReactions(String PMCID){
 		String name = "PMC" + PMCID;
 		HashSet<String> wordSet = new HashSet<String>();
@@ -104,6 +121,7 @@ public class TextExtractor {
 		return possibleReactions;
 	}
 	
+	// Private helper method for checking against word conjugations
 	private static boolean containsConjugate(Set<String> words, Reaction r) {
 		List<String> base = r.getConjugationBase();
 		List<String> conjugations = r.getConjugationsList();
@@ -180,7 +198,6 @@ public class TextExtractor {
 	 * @return the sorted list of participant A's
 	 */
 	public static List<String> extractParticipantA(Set<String> participantBs, String PMCID, List<String> conjugationBase){
-		//setPhosphoOne(false);
 		String name = "PMC" + PMCID;
 		List<List<List<String>>> list = getReactionPairs("papers" + File.separator + name + ".html", conjugationBase);
 		HashMap<String, Integer> partAs = new HashMap<String, Integer>();
@@ -221,7 +238,7 @@ public class TextExtractor {
 	}
 	
 	/**
-	 * Finds all the proteins names in a particular string. This is similar to the one used in TableRelevance, except
+	 * Finds all the proteins names in a particular string. This is similar to the one used in the protein classes, except
 	 * with an extended regex to account for spelling variations in the paper.
 	 * @param sentence The string to find 
 	 * @return the list of protein names
@@ -254,6 +271,12 @@ public class TextExtractor {
 		returnList.addAll(proteins);
 		return returnList;
 	}
+	
+	/**
+	 * Determines if a paper is about yeast or not
+	 * @param PMCID The PMCID of the paper to check
+	 * @return whether the paper is about yeast or not
+	 */
 	public static boolean speciesIdentifier(String PMCID){
 		String name = "PMC" + PMCID;
 		HashSet<String> wordSet = new HashSet<String>();
@@ -304,7 +327,7 @@ public class TextExtractor {
 		return newList;
 	}
 
-
+	// Private comparator used for sorting maps by value
 	private static class ValueComparator implements Comparator<String> {
 		Map<String, Integer> mapToSort;
 		public ValueComparator(Map<String, Integer> map){

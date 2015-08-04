@@ -20,6 +20,11 @@ import org.jsoup.select.Elements;
 
 import extract.buffer.TableBuf;
 
+/** 
+ * Extraction class used to generate protobuf table objects from xml files.
+ * The methods in this class will only work on xml files.
+ * @author vhsiao
+ */
 public class XMLTableExtractor {
 	/**
 	 * Retrieve a table from an xml file by using Jsoup
@@ -150,6 +155,7 @@ public class XMLTableExtractor {
 		return null;
 	}
 	
+	//Private helper method used for retrieving xml text
 	private String getText(Element xmlEntry){
 		Document simple = Jsoup.parse(xmlEntry.text());
 		String s = simple.text();
@@ -238,6 +244,7 @@ public class XMLTableExtractor {
 		return extractedTables;
 	}
 	
+	// Main method used for testing
 	public static void main(String[] args){
 		extractXMLPaper("PMC3358292.xml", "3358292");
 	}

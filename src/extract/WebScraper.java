@@ -15,9 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Retrieves documents from PMC. Please only use this on PMC articles from the open access subset.
+ * @author hsiaov
+ */
 public class WebScraper {
 	private static String NIH = "http://www.ncbi.nlm.nih.gov";
 	
+	// Main method used for testing
 	public static void main(String[] args) {
 		//Test Data:
 		//PMCids

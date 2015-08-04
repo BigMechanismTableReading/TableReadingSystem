@@ -9,12 +9,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
-import org.apache.poi.hssf.OldExcelFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import extract.buffer.TableBuf;
 
+/**
+ * Pipeline class used for general extraction of table documents (html, xls, xml)
+ * @author hsiaov
+ *
+ */
 public class MasterExtractor {
+	// Used for general scraping and extraction purposes
 	public static void main (String args[]) {
 		System.out.println("Please choose input type:");
 		System.out.println("1 - File with PMCIDs");
@@ -25,20 +30,6 @@ public class MasterExtractor {
 		int type = s.nextInt();
 		
 		File files = new File("files");
-		
-//		if (type != 3) {
-//			System.out.println("Clear files directory? (1 - Yes, 0 - No)");
-//		
-//			int clear = s.nextInt();
-//		
-//			if(clear == 1){
-//				try {
-//					FileUtils.cleanDirectory(files);
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
-//				}
-//			}
-//		}
 		
 		if(type == 1){
 			System.out.println("Please input path to file:");
@@ -75,7 +66,7 @@ public class MasterExtractor {
 	
 	/**
 	 * Extract TableBuf objects from html/xls/xml files. Also writes them to .pb files.
-	 * @param target target Excel/html/(xml tentative)
+	 * @param target target Excel/html/xml
 	 * @param PMCID PMCID of paper
 	 * @return list of tables extracted
 	 */
