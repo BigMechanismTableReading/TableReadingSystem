@@ -1,7 +1,11 @@
 package extract.types;
 
 import tablecontents.*;
-
+/**
+ * Phosphorylation Reaction Class
+ * @author sloates
+ *
+ */
 public class Phosphorylation extends Reaction{
 	private static Phosphorylation instance = null;
 	@SuppressWarnings("unchecked")

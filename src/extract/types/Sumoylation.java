@@ -6,6 +6,11 @@ import tablecontents.Position;
 import tablecontents.SumoSite;
 import tablecontents.SumoType;
 
+/**
+ * Sumoylation Reaction Class
+ * @author sloates
+ *
+ */
 public class Sumoylation extends Reaction{
 	private static  Sumoylation instance = null;
 	

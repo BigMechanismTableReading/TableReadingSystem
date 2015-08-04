@@ -2,6 +2,11 @@ package extract.types;
 
 import tablecontents.*;
 
+/**
+ * Methylation Reaction class
+ * @author sloates
+ *
+ */
 public class Methylation extends Reaction{
 	private static Methylation instance = null;
 	@SuppressWarnings("unchecked")

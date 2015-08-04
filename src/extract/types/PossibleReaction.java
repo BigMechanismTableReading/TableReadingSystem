@@ -1,6 +1,12 @@
 package extract.types;
 import tablecontents.*;
 
+/**
+ * Possible Reaction
+ * Less exact then any other Reaction
+ * @author sloates
+ *
+ */
 public class PossibleReaction extends Reaction{
 	//TODO determine exactly what we want here
 	private static PossibleReaction instance = null;

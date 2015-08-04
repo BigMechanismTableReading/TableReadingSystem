@@ -3,6 +3,11 @@ package extract.types;
 import tablecontents.AcetylSite;
 import tablecontents.Fold;
 
+/**
+ * Acetylation Reaction Class
+ * @author sloates
+ *
+ */
 public class Acetylation extends Reaction{
 
 	private static Acetylation instance = null;

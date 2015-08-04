@@ -1,6 +1,12 @@
 package extract.types;
 
 import tablecontents.*;
+
+/**
+ * Ubiquitination Reaction Class
+ * @author sloates
+ *
+ */
 public class Ubiquitination extends Reaction{
 	private static  Ubiquitination instance = null;
 	
