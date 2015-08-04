@@ -27,14 +27,14 @@ import extract.lookup.YeastLookup;
 import extract.types.Reaction;
 
 /**
- * Gets the possible participantA
+ * Gets the possible participantA of the table
  * @author sloates vincenth
  *
  */
 public class ParticipantAExtractor {
 
 	/**
-	 * Helps add a new participantA
+	 * Helper method to add new participantA
 	 * @param participantAs
 	 * @param partAuntrans
 	 * @param partA
@@ -72,7 +72,8 @@ public class ParticipantAExtractor {
 		return null;
 	}
 	/**
-	 * Translates partA if it can be found, else returns null
+	 * Translates partA if it can be found in any of the lookups, 
+	 * if not it returns null
 	 * @param partA
 	 * @return
 	 */
@@ -97,7 +98,7 @@ public class ParticipantAExtractor {
 	}
 
 	/**
-	 * Returns original and last capital of partA
+	 * Returns original and possible alternate forms of a potential participantA 
 	 * @param partA
 	 * @return
 	 */
@@ -121,7 +122,7 @@ public class ParticipantAExtractor {
 	}
 
 	/**
-	 * Grounds partA in various Databases
+	 * Grounds potential participantA as an abbreviation or normal entity
 	 * @param form
 	 * @param partBs
 	 * @param fold
@@ -143,8 +144,10 @@ public class ParticipantAExtractor {
 	}
 
 	/**
-	 * Gets all possible substrings of partA that could match, and checks those strings as well as the original.
-	 * Returns null if no matches can be grounded
+	 * Gets all possible substrings of partA that could match.
+	 * Attempts to translate those strings as well as the original.
+	 * Returns a Hashmap of translated to untranslated
+	 * Returns null if no matches can be grounded.
 	 * @param guess
 	 * @param partBs
 	 * @param fold
@@ -184,6 +187,7 @@ public class ParticipantAExtractor {
 
 	/**
 	 * Checks the possible A against possible As extracted from the text, returning a match
+	 * if no match then this method returns null
 	 * @param allB
 	 * @param r
 	 * @param possA
@@ -263,8 +267,10 @@ public class ParticipantAExtractor {
 	private List<ParticipantA> getCaptionA(){
 		return null;
 	}
+	
 	/**
 	 * First checks the fold column for potential participantA then checks the title and caption.
+	 * If no options are found, the top result from the text extractor is then used.
 	 * @param table
 	 * @param partB
 	 * @param partBUntrans

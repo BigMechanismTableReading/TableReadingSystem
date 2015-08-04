@@ -2,7 +2,7 @@ package extract.analysis;
 
 
 /**
- * Class that allows you to send pairs of values
+ * Container for a pair of values.
  * @author sloates
  *
  * @param <A>

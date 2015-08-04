@@ -47,7 +47,10 @@ import extract.write.IndexCardWriter;
 public class Extraction {
 	
 	/**
-	 * Gets all participantB 
+	 * Gets all participantBs from the table
+	 * Returns a pair of hashmaps, 
+	 * pair.getA has translated B
+	 * pair.getB has untranslated B
 	 * @param contents
 	 * @return
 	 */
@@ -79,7 +82,7 @@ public class Extraction {
 	}
 	
 	/**
-	 * Returns a columns labeled with a subtype of Fold
+	 * Returns any columns labeled Fold
 	 * @param contents
 	 * @return
 	 */
@@ -109,7 +112,7 @@ public class Extraction {
 	}
 	
 	/**
-	 * Creates s list of index cards
+	 * Creates s list of index cards from the labeled columns
 	 * @param r
 	 * @param participantACols
 	 * @param partB
@@ -145,7 +148,8 @@ public class Extraction {
 	}
 	
 	/**
-	 * Extracts information and writes it to index cards
+	 * Extracts information from the table and text 
+	 * and writes the information to index cards
 	 * @param colInfo
 	 * @param table
 	 */

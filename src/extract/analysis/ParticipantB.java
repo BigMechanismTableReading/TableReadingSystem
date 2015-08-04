@@ -14,8 +14,9 @@ import extract.lookup.TabLookup;
  */
 public class ParticipantB {
 	//Gets instances of different protein subtypes
+	
 	/**
-	 * Checks through the columns, matching for participantB
+	 * Checks through the columns, matching for participantB types
 	 * @param col
 	 * @return
 	 */

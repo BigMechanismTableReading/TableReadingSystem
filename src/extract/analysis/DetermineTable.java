@@ -25,18 +25,18 @@ import extract.types.PossibleReaction;
 import extract.types.Reaction;
 
 /**
- * Determines whether or not a table is relevant and labels the columns with possible content
+ * Determines whether or not a table is relevant and labels the columns with possible content type
  * @author sloates
  *
  */
 public class DetermineTable {
 	
 	/**
-	 * Identifies any columns that have potential participantB
+	 * Identifies and labels any columns that have potential participantBs
 	 * @param table
 	 * @param partB
 	 * @param labels
-	 * @return
+	 * @return false if there is no participantB column
 	 */
 	private boolean assignB(TableBuf.Table table, ParticipantB partB, HashMap<ColumnContents, List<TableBuf.Column>> labels){
 		boolean hasProt = false;
@@ -57,7 +57,7 @@ public class DetermineTable {
 	 * @param requiredContents
 	 * @param labels
 	 * @param table
-	 * @return
+	 * @return HashSet of column contents found in the table
 	 */
 	private HashSet<Class<? extends ColumnContents>> getTableColumns(HashSet<Class<? extends ColumnContents>> requiredContents,
 			HashMap<ColumnContents,List<TableBuf.Column>> labels,TableBuf.Table table){
@@ -116,7 +116,7 @@ public class DetermineTable {
 	}
 	
 	/**
-	 * Possible check if there is more then one possible reaction
+	 * Chooses the reaction most likely in the table if more then one reaction is found.
 	 * @param reactionList
 	 * @param table
 	 * @return
@@ -136,9 +136,10 @@ public class DetermineTable {
 		}
 		return choice;
 	}
+	
 	/**
-	 * Pipeline that determines whether a table is relevant and what the table indicates
-	 * Returns a pair containing the interaction type and the ColumnTypes mapped to a list of columns
+	 * Determines whether a table is relevant and what the table indicates
+	 * Returns a pair containing the reaction type and a hashmap of ColumnContents to a list of columns with those contents
 	 * @param table
 	 */
 	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table){
@@ -184,7 +185,7 @@ public class DetermineTable {
 	}
 	
 	/**
-	 * Checks to see that all the required contents (or their alternatives) are their for a specific reaction
+	 * Checks to see that all the required contents (or their alternatives) are found in the table
 	 * @param r
 	 * @param tc
 	 * @return
@@ -212,7 +213,7 @@ public class DetermineTable {
 	}
 	
 	/**
-	 * Labels the columns of the tables
+	 * Labels the columns of the tables with any of the column contents that are needed by the reactions.
 	 * @param c
 	 * @param data
 	 * @param table
