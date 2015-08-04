@@ -24,7 +24,7 @@ import extract.buffer.TableBuf.Column;
 import extract.types.PossibleReaction;
 import extract.types.Reaction;
 /**
- * Used to run through a list of PMC IDs
+ * Used to Extract index cards for a list of PMC IDs
  * @author sloates
  *
  */
