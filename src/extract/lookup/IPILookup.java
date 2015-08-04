@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Used to lookup proteins that are given in the old IPI format
+ * @author sloates
+ *
+ */
 public class IPILookup {
 	private static IPILookup instance=null;
 	public HashMap<String,String> IPItoUNI = new HashMap<String,String>();
@@ -15,7 +20,11 @@ public class IPILookup {
 	       }
 	       return instance;
 	}
-	public IPILookup(){
+	
+	/**
+	 * Creates the lookup that contains some IPIs to uniprot IDs
+	 */
+	private IPILookup(){
 		File proteins = new File("ipi.HUMAN.xrefs");
 		Scanner s;
 		String uni ="";

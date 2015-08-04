@@ -10,6 +10,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+/**
+ * Used to lookup and verify abbreviations that are found as potential participantAs
+ * @author vincent
+ *
+ */
 public class AbbreviationLookup {
 	
 	public static HashMap<String, String> translatedAbbreviations = new HashMap<String, String>();
@@ -79,6 +84,10 @@ public class AbbreviationLookup {
 		return null;
 	}
 	
+	/**
+	 * Tests basic functionality
+	 * @param args
+	 */
 	public static void main (String args[]){
 		System.out.println(lookupAbbr("GH"));
 		System.out.println(lookupAbbr("KEGG"));

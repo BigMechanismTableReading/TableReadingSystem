@@ -26,8 +26,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
- * Lookup tables for grounding entities
- * EnglishNames are standardized, by eliminating all seperators and putting everything to uppercase
+ * Lookup table for grounding entities that are mammal.
  * @author sloates
  *
  */
@@ -43,6 +42,11 @@ public class TabLookup extends Lookup{
 		}
 		return instance;
 	}
+	
+	/**
+	 * Creates the human lookup
+	 *  EnglishNames are standardized, by eliminating all seperators and putting everything to uppercase
+	 */
 	private TabLookup(){
 		uniprot = new HashMap<String,String>();
 		swisprot = new HashMap<String,String>();

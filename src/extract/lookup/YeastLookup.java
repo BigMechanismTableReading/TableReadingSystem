@@ -8,6 +8,12 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * Lookup table for grounding entities that are mammal.
+ * @author sloates
+ *
+ */
+
 public class YeastLookup extends Lookup {
 
 	private static YeastLookup instance=null;
@@ -19,6 +25,10 @@ public class YeastLookup extends Lookup {
 		return instance;
 	}
 	
+	/**
+	 * Creates the human lookup
+	 *  EnglishNames are standardized, by eliminating all seperators and putting everything to uppercase
+	 */
 	private YeastLookup(){
 		uniprot = new HashMap<String,String>();
 		swisprot = new HashMap<String,String>();

@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * Creates a lookup of suffixes for potential drugs.
+ * @author vincent
+ *
+ */
 public class SuffixLookup {
 	private static SuffixLookup instance=null;
 	public HashMap<Integer,HashSet<String>> suffixList = new HashMap<Integer,HashSet<String>>();
@@ -17,7 +22,10 @@ public class SuffixLookup {
 	       }
 	       return instance;
 	}
-	public SuffixLookup(){
+	/**
+	 * Creates the lookup
+	 */
+	private SuffixLookup(){
 		File proteins = new File("drugsuffixes.txt");
 		Scanner s;
 		String uni ="";

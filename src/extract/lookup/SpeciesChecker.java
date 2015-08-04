@@ -6,12 +6,12 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 /**
- * Classed used to check for the wrong species
+ * This class is not currently used, but it can create a lookup for species deemed invalid.
  * @author sloates
  *
  */
 public class SpeciesChecker {
-	private HashSet<String> wrongSpecies = null;
+	private static HashSet<String> wrongSpecies = null;
 	
 	
 	private HashSet<String> makeWrongSpecies(){
@@ -40,7 +40,7 @@ public class SpeciesChecker {
 		return wrongSpecies;
 	}
 
-	private void setWrongSpecies(HashSet<String> wrongSpecies) {
-		this.wrongSpecies = wrongSpecies;
+	private void setWrongSpecies(HashSet<String> wrong) {
+		wrongSpecies = wrong;
 	}
 }

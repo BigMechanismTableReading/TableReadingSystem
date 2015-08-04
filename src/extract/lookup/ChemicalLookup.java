@@ -7,6 +7,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Lookup for terms in the Chebi database.
+ * @author sloates
+ *
+ */
 public class ChemicalLookup {
 	public HashMap<String, String> chemicals;
 	private static ChemicalLookup instance = null;
@@ -17,6 +22,9 @@ public class ChemicalLookup {
 		return instance;
 	}
 	
+	/**
+	 * Creates a lookup that contains most entities in the chebi database.
+	 */
 	private ChemicalLookup(){
 		chemicals = new HashMap<String, String>();
 		File chemicalList = new File("names.tsv");

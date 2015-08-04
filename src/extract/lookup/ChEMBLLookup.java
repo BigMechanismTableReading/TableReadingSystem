@@ -12,6 +12,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+/**
+ * Used to lookup specific word types in the larger chembl database
+ * @author vincentH
+ *
+ */
 public class ChEMBLLookup {
 	
 	public static HashMap<String, String> translatedChemicals = new HashMap<String, String>();
