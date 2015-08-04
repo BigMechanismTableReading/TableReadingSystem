@@ -44,6 +44,13 @@ public class IndexCardWriter {
 		return table;
 	}
 	
+	/**
+	 * Writes the basic information 
+	 * @param idxBuild
+	 * @param t
+	 * @param readingStart
+	 * @param readingStop
+	 */
 	private void basicInfo(JsonObjectBuilder idxBuild,TableBuf.Table t, String readingStart, String readingStop){
 		idxBuild.add( "pmc_id", t.getSource().getPmcId());
 		idxBuild.add("reading_started", readingStart);
@@ -52,6 +59,12 @@ public class IndexCardWriter {
 		idxBuild.add("reader_type", "machine");
 	}
 
+	/**
+	 * Adds participant Information
+	 * @param participant
+	 * @param idx
+	 * @param part
+	 */
 	private void buildParticipant(JsonObjectBuilder participant, IndexCard idx, String part){
 		//TODO
 		participant.add("entity_text", idx.getData("entity_text" + "_" + part));
@@ -60,6 +73,13 @@ public class IndexCardWriter {
 		participant.add("in_model", "false");
 	}
 	
+	/**
+	 * Adds the feature section
+	 * @param features
+	 * @param participantB
+	 * @param idx
+	 * @return
+	 */
 	private boolean addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB,IndexCard idx) {
 		String site = idx.getData("site");
 		if(site!= null){
@@ -75,6 +95,14 @@ public class IndexCardWriter {
 		return true;
 	}
 
+	/**
+	 * Adds the participant detains and interaction type
+	 * @param participantA
+	 * @param participantB
+	 * @param infoBuilder
+	 * @param idx
+	 * @return
+	 */
 	private boolean addParticipants(JsonObjectBuilder participantA,
 			JsonObjectBuilder participantB,	JsonObjectBuilder infoBuilder,IndexCard idx) {
 		
@@ -101,6 +129,12 @@ public class IndexCardWriter {
 		return true;
 		
 	}
+	/**
+	 * Adds table evidence
+	 * @param evidence
+	 * @param idx
+	 * @param t
+	 */
 	private void tableEvidence(JsonArrayBuilder evidence,IndexCard idx,TableBuf.Table t){
 		JsonObjectBuilder tableEvidence= Json.createObjectBuilder();
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
@@ -129,6 +163,11 @@ public class IndexCardWriter {
 		tableEvidence.add("captions",captions);
 		evidence.add(tableEvidence);
 	}
+	/**
+	 * Adds text evidence
+	 * @param evidence
+	 * @param idx
+	 */
 	private void textEvidence(JsonArrayBuilder evidence,IndexCard idx){
 		JsonObjectBuilder textEvidence = Json.createObjectBuilder();
 		JsonArrayBuilder textArray = Json.createArrayBuilder();
@@ -174,12 +213,29 @@ public class IndexCardWriter {
 		jsonToFile(finishedCard,"index_cards",t,idx.getData("row"), partA);//TODO dont hardcode in index_cards
 		return finishedCard;
 	}
+	/**
+	 * Writes the built json info to a file
+	 * @param card
+	 * @param directory
+	 * @param t
+	 * @param row
+	 * @param partA
+	 */
 	public void jsonToFile(JsonObject card,String directory,TableBuf.Table t,String row, String partA){
 		String fileSubStr = t.getSource().getPmcId()+"/";
 		
 		writeToDir("index_cards",fileSubStr,card, row,t, partA);
 	}
 	
+	/**
+	 * Helper method for writing to files
+	 * @param directory
+	 * @param fileSubStr
+	 * @param indexcard
+	 * @param row
+	 * @param t
+	 * @param partA
+	 */
 	private static void writeToDir(String directory, String fileSubStr,JsonObject indexcard,String row,TableBuf.Table t, String partA){
 		try {
 			
