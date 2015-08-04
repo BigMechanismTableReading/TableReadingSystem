@@ -10,7 +10,7 @@ import tablecontents.ColumnContents;
 /**
  * Abstract class that contains the structure for reactions.
  * Contains an array of all wanted reactions called allReactions
- * @author vincent sloates
+ * @author vhsiao, sloates
  *
  */
 public abstract class Reaction {
@@ -35,7 +35,7 @@ public abstract class Reaction {
 	}
 	
 	/**
-	 * Returns a list of column types  that are not required, but are related to this reaction
+	 * Returns a list of column types that are not required, but are related to this reaction
 	 * @return
 	 */
 	public List<Class<? extends ColumnContents>> getOptionalColumns() {
@@ -45,7 +45,7 @@ public abstract class Reaction {
 	}
 	
 	/**
-	 * Returns a list of alternative column types.
+	 * Returns a list of alternative column types
 	 * @return
 	 */
 	public List<Class<? extends ColumnContents>> getAllAlternatives(){
@@ -58,7 +58,7 @@ public abstract class Reaction {
 		return newList;
 	}
 	/**
-	 * Returns if a specific ColumnContents has a possible alternative
+	 * Returns if a specific type of ColumnContents has a possible alternative
 	 * @param type
 	 * @return
 	 */
@@ -108,7 +108,7 @@ public abstract class Reaction {
 	}
 	
 	/**
-	 * Creates an entry in this reaction, returns an ArrayList of entries added
+	 * Creates an arrayList of classes
 	 * @param list
 	 * @return
 	 */

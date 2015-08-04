@@ -25,7 +25,7 @@ import extract.types.Reaction;
 
 /**
  * Gets the possible participantA of the table
- * @author sloates vincenth
+ * @author sloates, vhsiao
  *
  */
 public class ParticipantAExtractor {

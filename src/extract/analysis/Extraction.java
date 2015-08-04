@@ -18,7 +18,7 @@ import extract.write.IndexCardWriter;
 
 /**
  * Extracts index card information from a table
- * @author sloates vincenth
+ * @author sloates, vhsiao
  *
  */
 public class Extraction {
