@@ -25,7 +25,7 @@ import extract.types.PossibleReaction;
 import extract.types.Reaction;
 
 /**
- * Determines whether or not a table is relevant
+ * Determines whether or not a table is relevant and labels the columns with possible content
  * @author sloates
  *
  */
