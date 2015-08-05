@@ -27,6 +27,7 @@ public class FriesParser {
 	//Stored by ParticipantB 
 	private HashMap<String,List<List<String>>>  controlled = new HashMap<String,List<List<String>>>();
 	private HashMap<String,String> entities = new HashMap<String,String>();
+	
 	/**
 	 * Parses the fries document, putting the entries into a HashMap.
 	 * The keys are participantB, while the list order is
@@ -142,6 +143,16 @@ public class FriesParser {
 		return null;
 	}
 	
+	/**
+	 * Lookup for single particpantB
+	 * @param participantB
+	 * @return
+	 */
+	public List<String> getPartA(String participantB){
+		if(controlled.containsKey(participantB))
+			return possA(participantB);
+		return null;
+	}
 	/**
 	 * Adds an entry to controlled
 	 * @param partAEV
