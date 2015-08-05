@@ -2,20 +2,16 @@ package nxml12integration;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import extract.analysis.Pair;
 
 /**
  * For integration with Mihai Surdeanu's (Arizona) reading system
@@ -54,10 +50,7 @@ public class FriesParser {
 			for(Object f: frames){
 				JSONObject ind_frame = (JSONObject)f;
 				JSONArray arguments = (JSONArray) ind_frame.get("arguments");
-				String partA = null;
 				String partB = null;
-				String textEvidence = null;
-				String subtype = null;
 				String argType = null;
 				List<String> partAEV = null;
 				for(Object ar : arguments){
@@ -163,13 +156,13 @@ public class FriesParser {
 		List<String> possibleA = new LinkedList<String>();
 		for(String b : participantB){
 			if(controlled.containsKey(b)){
-				possibleA.addAll(possA(b));
+				for(String a : possA(b)){
+					if(!participantB.contains(a.toUpperCase()))
+						possibleA.addAll(possA(b));
+				}
 			}
 		}
-		if(possibleA.size() > 0)
-			return possibleA;
-		
-		return null;
+		return possibleA;
 	}
 	
 	/**

@@ -286,13 +286,13 @@ public class ParticipantAExtractor {
 		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());		
 		String PMCID = table.getSource().getPmcId();
-		FriesParser fries = new FriesParser("PMC" + PMCID + ".uaz.events.json","PMC" + PMCID + ".uaz.entities.json");
-		fries.getPossA(allB);
+		System.out.println(PMCID);
+		FriesParser fries = new FriesParser( PMCID + ".uaz.events.json",PMCID + ".uaz.entities.json");
+		List<String> friesA = fries.getPossA(allB);
+		textA.addAll(0, friesA);
 		//TODO filter by the interaction type as to be more precise
-		
 		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
-		//	List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		System.out.println(textA);
 		if (participantAs.isEmpty()){
 			System.out.println("Caption partA");
@@ -302,11 +302,11 @@ public class ParticipantAExtractor {
 				String[] subtitles = wholeCaption.split(";");
 				for (String caption : subtitles){
 					caption = caption.replaceAll("-", "");
-					Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");//TODO examine this regex
+					Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");
 					Matcher m = p.matcher(caption);
 					while(m.find()){
 						String a = m.group();
-						HashMap<String, String> wordList = checkPartA(a,allB,false,title);//TODO decide how many checks are good
+						HashMap<String, String> wordList = checkPartA(a,allB,false,title);
 						if(wordList!= null){
 							for(String word: wordList.keySet() ){
 								possA.put(word, wordList.get(word));
@@ -335,9 +335,6 @@ public class ParticipantAExtractor {
 		}else{
 			return participantAs;
 		}
-		System.out.println("here");
-		System.out.println(allB);
-		System.out.println(textA);
 		//_______________________________________________________________________________________________________________
 		//BEST A IF NOTHING IS GOTTEN
 		for(String a : textA){
