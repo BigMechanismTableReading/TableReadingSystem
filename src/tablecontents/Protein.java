@@ -60,6 +60,17 @@ public abstract class Protein implements ColumnContents{
 		return false;
 	}
 	
+	
+	private String findUni(String input, Protein uni){
+		Pattern p = Pattern.compile(uni.regEx,Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(input);
+		while(m.find()){
+			String prot = m.group();
+			if(uni.groundIdentity(prot) != null)
+				return prot;
+		}
+		return null;
+	}
 	/**
 	 * Returns the grounded version of the protein, along with the ungrounded version
 	 * Pair<ungrounded, grounded>
@@ -79,7 +90,9 @@ public abstract class Protein implements ColumnContents{
 						return new Pair<String,String>(data, s);
 					} else if (p instanceof Uniprot && data.trim().length() >= 5){
 						String untrans = matchesFormat(data,p.regEx,false);//TODO edited this
-						data = matchesFormat(data,p.regEx,false);
+						String uni = findUni(data,p);
+						if(uni != null)
+							data = uni;
 						if (cols.containsKey(g)){
 							if(checkEmpty(cols.get(g).get(0), row)){
 								untrans = cols.get(g).get(0).getData(row).getData();

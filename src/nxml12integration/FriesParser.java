@@ -21,7 +21,6 @@ import org.json.simple.parser.JSONParser;
  */
 public class FriesParser {
 	String sep = File.separator;
-	//Stored by ParticipantB 
 	private HashMap<String,List<List<String>>>  controlled = null;
 	private HashMap<String,String> entities = null;
 	
@@ -66,6 +65,7 @@ public class FriesParser {
 					}	
 				}
 				String partBTrans = groundEntry(partB,argType);
+				addEntry(partAEV,partB.toUpperCase());
 				addEntry(partAEV,partBTrans);
 			}
 		}catch(Exception e){

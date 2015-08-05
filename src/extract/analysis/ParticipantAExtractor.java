@@ -286,7 +286,7 @@ public class ParticipantAExtractor {
 		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());		
 		String PMCID = table.getSource().getPmcId();
-		System.out.println(PMCID);
+		//TODO decide better way to use their system
 		FriesParser fries = new FriesParser( PMCID + ".uaz.events.json",PMCID + ".uaz.entities.json");
 		List<String> friesA = fries.getPossA(allB);
 		textA.addAll(0, friesA);
@@ -341,6 +341,7 @@ public class ParticipantAExtractor {
 			if(a.length() > 2){
 				String aTrans = translatePartA(a.toUpperCase());
 				if(aTrans != null){
+					System.err.println(textA);
 					participantAs.add(new ParticipantA(aTrans,a,contents));
 					return participantAs;
 				}
