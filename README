@@ -1,7 +1,12 @@
 README BigMechanismTableReader
-
--package summary-
 see individual packages for more details
+
+IMPORTANT-
+To run the full system requires the following directories:
+ a files, fries, tables, papers and index_cards
+The following files: 
+pom.xml, drugsuffixes.txt, 
+ipi.HUMAN.xrefs, names.tsv, uniprot-taxonomy%3A-Mammalia+%5B40674%5D-.tab, yeast.tab.
 
 extract-
 Handles scraping, table and text extraction
@@ -28,3 +33,6 @@ Main classes that this project can be run from
 
 table contents-
 Contains all possible column contents, the ParticipantA class and dynamic typing
+
+
+

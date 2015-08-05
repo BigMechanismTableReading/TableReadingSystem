@@ -89,7 +89,10 @@ public abstract class Protein implements ColumnContents{
 					if(s != null){
 						return new Pair<String,String>(data, s);
 					} else if (p instanceof Uniprot && data.trim().length() >= 5){
-						String untrans = matchesFormat(data,p.regEx,false);//TODO edited this
+						String untrans = data;
+						String untransMatch = matchesFormat(data,p.regEx,false);
+						if(untransMatch != null)
+							untrans = untransMatch;
 						String uni = findUni(data,p);
 						if(uni != null)
 							data = uni;
