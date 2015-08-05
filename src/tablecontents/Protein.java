@@ -60,7 +60,12 @@ public abstract class Protein implements ColumnContents{
 		return false;
 	}
 	
-	
+	/**
+	 * When there are multiple uniprot names, this iterates through finding one that can be ground
+	 * @param input
+	 * @param uni
+	 * @return
+	 */
 	private String findUni(String input, Protein uni){
 		Pattern p = Pattern.compile(uni.regEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(input);
