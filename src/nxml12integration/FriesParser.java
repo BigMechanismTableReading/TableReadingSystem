@@ -26,8 +26,18 @@ import extract.analysis.Pair;
 public class FriesParser {
 	String sep = File.separator;
 	//Stored by ParticipantB 
-	private HashMap<String,List<List<String>>>  controlled = new HashMap<String,List<List<String>>>();
-	private HashMap<String,String> entities = new HashMap<String,String>();
+	private HashMap<String,List<List<String>>>  controlled = null;
+	private HashMap<String,String> entities = null;
+	
+	private FriesParser(){
+		controlled = new HashMap<String,List<List<String>>>();
+		entities = new HashMap<String,String>();
+	}
+	public FriesParser(String fileName,String entityFile){
+		controlled = new HashMap<String,List<List<String>>>();
+		entities = new HashMap<String,String>();
+		parseFries(fileName,entityFile);
+	}
 	
 	/**
 	 * Parses the fries document, putting the entries into a HashMap.

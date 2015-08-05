@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nxml12integration.FriesParser;
 import tablecontents.ColumnContents;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
@@ -283,7 +284,12 @@ public class ParticipantAExtractor {
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
 		System.out.println("Text Extractor");
 		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
-				r.getConjugationBase());
+				r.getConjugationBase());		
+		String PMCID = table.getSource().getPmcId();
+		FriesParser fries = new FriesParser("PMC" + PMCID + ".uaz.events.json","PMC" + PMCID + ".uaz.entities.json");
+		fries.getPossA(allB);
+		//TODO filter by the interaction type as to be more precise
+		
 		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 		//	List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
