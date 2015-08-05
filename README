@@ -1,0 +1,30 @@
+README BigMechanismTableReader
+
+-package summary-
+see individual packages for more details
+
+extract-
+Handles scraping, table and text extraction
+
+extract analysis-
+Determines whether or not a table is relevant
+Handles all aspects of extraction
+
+extract buffer-
+DO NOT EDIT
+TableBuf classes
+
+extract lookup-
+All the lookup tables
+
+extract types-
+Reaction,Reaction Adder and all Reaction types
+
+nxml12integration-
+Integrates Mihai's system 
+
+RelevanceCounter-
+Main classes that this project can be run from
+
+table contents-
+Contains all possible column contents, the ParticipantA class and dynamic typing
