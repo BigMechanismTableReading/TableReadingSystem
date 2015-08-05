@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,6 +48,7 @@ public class FriesParser {
 				String partB = null;
 				String textEvidence = null;
 				String subtype = null;
+				String argType = null;
 				List<String> partAEV = null;
 				for(Object ar : arguments){
 					JSONObject ind_arg = (JSONObject)ar;
@@ -57,15 +59,15 @@ public class FriesParser {
 						partAEV.add( (String)ind_frame.get("subtype"));
 					}else{
 						partB = (String) ind_arg.get("text");
-					}
+						argType = (String) ind_arg.get("argument-type");
+					}	
 				}
-				String partBTrans = groundEntry(partB);//TODO ground the entry (Uniprot only seems easiest??
+				String partBTrans = groundEntry(partB,argType);
 				addEntry(partAEV,partBTrans);
 			}
 		}catch(Exception e){
 			
 		}
-		System.out.println(controlled);
 	}
 	
 	/**
@@ -100,10 +102,27 @@ public class FriesParser {
 	}
 	
 	/**
-	 * Used to ground the particpantB, to make searching easier in our system
+	 * Finds the entity within the event.
+	 * @param partB
 	 * @return
 	 */
-	private String groundEntry(String partB){
+	private String findEntity(String partB){
+		for(String s : partB.split(" ")){
+			if(entities.containsKey(s)){
+				return s;
+			}
+		}
+		return partB;
+	}
+	/**
+	 * Used to ground the particpantB, to make searching easier in our system
+	 * @param argType 
+	 * @return
+	 */
+	private String groundEntry(String partB, String argType){
+		if(argType.equals("event")){
+			partB = findEntity(partB);
+		}
 		if(entities.containsKey(partB)){
 			return entities.get(partB);
 		}
@@ -115,8 +134,8 @@ public class FriesParser {
 	 * @param key
 	 * @return
 	 */
-	private List<String> possA(String key){
-		List<String> possA = new LinkedList<String>();
+	private Set<String> possA(String key){
+		Set<String> possA = new HashSet<String>();
 		for(List<String> detList: controlled.get(key)){
 			String a = detList.get(0);
 			if (a != null){//TODO check interaction
@@ -148,7 +167,7 @@ public class FriesParser {
 	 * @param participantB
 	 * @return
 	 */
-	public List<String> getPartA(String participantB){
+	public Set<String> getPartA(String participantB){
 		if(controlled.containsKey(participantB))
 			return possA(participantB);
 		return null;
