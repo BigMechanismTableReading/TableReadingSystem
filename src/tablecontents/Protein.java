@@ -79,6 +79,7 @@ public abstract class Protein implements ColumnContents{
 						return new Pair<String,String>(data, s);
 					} else if (p instanceof Uniprot && data.trim().length() >= 5){
 						String untrans = matchesFormat(data,p.regEx,false);//TODO edited this
+						data = matchesFormat(data,p.regEx,false);
 						if (cols.containsKey(g)){
 							if(checkEmpty(cols.get(g).get(0), row)){
 								untrans = cols.get(g).get(0).getData(row).getData();
