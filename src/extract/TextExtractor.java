@@ -197,7 +197,7 @@ public class TextExtractor {
 	 * @param conjugationBase The base word of the reaction to parse
 	 * @return the sorted list of participant A's
 	 */
-	public static List<String> extractParticipantA(Set<String> participantBs, String PMCID, List<String> conjugationBase){
+	public static HashMap<String,Integer> extractParticipantA(Set<String> participantBs, String PMCID, List<String> conjugationBase){
 		String name = "PMC" + PMCID;
 		List<List<List<String>>> list = getReactionPairs("papers" + File.separator + name + ".html", conjugationBase);
 		HashMap<String, Integer> partAs = new HashMap<String, Integer>();
@@ -229,12 +229,12 @@ public class TextExtractor {
 				}
 			}
 		}
-		
-		List<String> sortedList = sortByValue(partAs);
+		return partAs;
+	//	List<String> sortedList = sortByValue(partAs);
 //		for (int i = 0; i < sortedList.size(); i++) {
 //			System.out.println(sortedList.get(i) + " : " + partAs.get(sortedList.get(i)));
 //		}
-		return sortedList;
+		//return sortedList;
 	}
 	
 	/**

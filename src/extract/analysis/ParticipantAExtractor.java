@@ -283,13 +283,20 @@ public class ParticipantAExtractor {
 		System.out.println("Making list of all B forms");
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
 		System.out.println("Text Extractor");
-		List<String>  textA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
+		HashMap<String, Integer> hashA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());		
 		String PMCID = table.getSource().getPmcId();
 		//TODO decide better way to use their system
 		FriesParser fries = new FriesParser( PMCID + ".uaz.events.json",PMCID + ".uaz.entities.json");
-		List<String> friesA = fries.getPossA(allB);
-		textA.addAll(0, friesA);
+		HashMap<String, Integer> friesA = fries.getPossA(allB);
+		for (String a : friesA.keySet()){
+			if(hashA.containsKey(a)){
+				hashA.put(a, hashA.get(a) + friesA.get(a));
+			} else {
+				hashA.put(a, friesA.get(a));
+			}
+		}
+		List<String> textA = TextExtractor.sortByValue(hashA);
 		//TODO filter by the interaction type as to be more precise
 		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
