@@ -168,7 +168,7 @@ public class FriesParser {
 	 * @param key
 	 * @return
 	 */
-	private Map<String,Integer> possA(String key){
+	private HashMap<String,Integer> possA(String key){
 		HashMap<String,Integer> possA = new HashMap<String,Integer>();
 	
 		for(List<String> detList: controlled.get(key)){
@@ -186,7 +186,7 @@ public class FriesParser {
 	 * @param participantB
 	 * @return
 	 */
-	public Map<String,Integer> getPossA(Set<String> participantB){
+	public HashMap<String,Integer> getPossA(Set<String> participantB){
 		List<String> possibleA = new LinkedList<String>();
 		HashMap<String,Integer> numberedA = new HashMap<String,Integer>();
 		for(String b : participantB){
@@ -208,7 +208,7 @@ public class FriesParser {
 	 * @param participantB
 	 * @return
 	 */
-	public Map<String,Integer> getPartA(String participantB){
+	public HashMap<String,Integer> getPartA(String participantB){
 		if(controlled.containsKey(participantB)){
 			if(partBMod.contains(participantB)){
 				return possA(participantB);
