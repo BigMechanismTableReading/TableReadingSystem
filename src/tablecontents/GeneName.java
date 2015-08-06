@@ -24,10 +24,19 @@ public class GeneName extends Protein {
 		return null;
 	}
 
+	private int countUpper(String match){
+		int count = 0;
+		for(int i = 0; i < match.length(); i ++){
+			if(Character.isUpperCase(match.charAt(i)))
+				count++;
+		}
+		return count;
+	}
 	@Override
 	public String cellMatch(String match) {
 		match = match.replaceAll("-", "");
-		if(match.toLowerCase().contains("yes"))
+		
+		if(match.toLowerCase().contains("yes") || countUpper(match) >= 15 )
 			return null;
 		String grounded = groundIdentity(super.matchesFormat(match, regEx,true));
 		return grounded;
