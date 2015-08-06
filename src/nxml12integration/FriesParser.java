@@ -202,9 +202,9 @@ public class FriesParser {
 	 * Checks the sentences to see if they are a good indication that this participantA is a good canidate
 	 * @return
 	 */
-	private boolean check_sentences(){
-		
-		return false;
+	private boolean check_sentence(String sentence){
+		//TODO implement checks in this method
+		return true;
 	}
 	/**
 	 * Returns a list of potential participant As that control anything from a list of participantBs found in the text.
@@ -220,8 +220,9 @@ public class FriesParser {
 						String a = pair.getA();
 						String sentence = pair.getB();
 						if(!participantB.contains(a.toUpperCase())){
-							//TODO check their sentences for verification
-							combineMaps(possA(b),numberedA);
+							if(check_sentence(sentence)){
+								combineMaps(possA(b),numberedA);
+							}
 						}
 					}
 				}
