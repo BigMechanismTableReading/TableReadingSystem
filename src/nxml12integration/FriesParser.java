@@ -23,17 +23,23 @@ public class FriesParser {
 	String sep = File.separator;
 	private HashMap<String,List<List<String>>>  controlled = null;
 	private HashMap<String,String> entities = null;
-	
+	private HashSet<String> partBMod;
+	private HashMap<String,Integer> aCount;
+
 	private FriesParser(){
 		controlled = new HashMap<String,List<List<String>>>();
 		entities = new HashMap<String,String>();
+		partBMod = new HashSet<String>();
+		aCount = new HashMap<String,Integer>();
 	}
 	public FriesParser(String fileName,String entityFile){
 		controlled = new HashMap<String,List<List<String>>>();
 		entities = new HashMap<String,String>();
+		partBMod = new HashSet<String>();
+		aCount = new HashMap<String,Integer>();
 		parseFries(fileName,entityFile);
 	}
-	
+
 	/**
 	 * Parses the fries document, putting the entries into a HashMap.
 	 * The keys are participantB, while the list order is
@@ -43,6 +49,7 @@ public class FriesParser {
 	public void parseFries(String fileName,String entityFile){
 		parseEntities(entityFile);
 		JSONParser parse = new JSONParser();
+		
 		try {
 			JSONObject json = (JSONObject) parse.parse(new FileReader("fries" + sep + fileName));
 			JSONArray frames = (JSONArray) json.get("frames");
@@ -52,27 +59,50 @@ public class FriesParser {
 				String partB = null;
 				String argType = null;
 				List<String> partAEV = null;
+				String interaction = null;
+				String type = (String) ind_frame.get("type");
 				for(Object ar : arguments){
 					JSONObject ind_arg = (JSONObject)ar;
 					if(ind_arg.get("argument-label").equals("controller")){
 						partAEV = new LinkedList<String>();
-						partAEV.add((String) ind_arg.get("text"));
+						String partA = (String) ind_arg.get("text");
+						partAEV.add(partA);
 						partAEV.add((String) ind_frame.get("verbose-text"));
-						partAEV.add( (String)ind_frame.get("subtype"));
+						interaction = (String)ind_frame.get("subtype");
+						partAEV.add(interaction);
+						addCount(partA);
 					}else{
 						partB = (String) ind_arg.get("text");
 						argType = (String) ind_arg.get("argument-type");
-					}	
+					}
+					if(type.equals("protein-modification")){
+						partB = (String) ind_arg.get("text");
+						argType = (String) ind_arg.get("argument-type");
+						partBMod.add(partB.toUpperCase());
+						partBMod.add(groundEntry(partB,argType));
+					}		
 				}
 				String partBTrans = groundEntry(partB,argType);
-				addEntry(partAEV,partB.toUpperCase());
-				addEntry(partAEV,partBTrans);
+				if(true){//TODO use the interaction to determine whether or not this is useful
+					addEntry(partAEV,partB.toUpperCase());
+					addEntry(partAEV,partBTrans);
+				}
 			}
 		}catch(Exception e){
-			
+
 		}
 	}
-	
+
+	private void addCount(String partA) {
+		if(aCount.containsKey(partA)){
+			Integer temp = aCount.get(partA);
+			temp++;
+			aCount.put(partA, temp);
+		}else{
+			aCount.put(partA, 1);
+		}
+		
+	}
 	/**
 	 * Parses the entity file into a HashMap<String,String> of ungrounded to grounded entries
 	 * @param entityFile
@@ -103,7 +133,7 @@ public class FriesParser {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds the entity within the event.
 	 * @param partB
@@ -131,7 +161,7 @@ public class FriesParser {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns a list of possible participantA for a valid participantB
 	 * @param key
@@ -139,6 +169,7 @@ public class FriesParser {
 	 */
 	private Set<String> possA(String key){
 		Set<String> possA = new HashSet<String>();
+	
 		for(List<String> detList: controlled.get(key)){
 			String a = detList.get(0);
 			if (a != null){//TODO check interaction
@@ -152,27 +183,38 @@ public class FriesParser {
 	 * @param participantB
 	 * @return
 	 */
-	public List<String> getPossA(Set<String> participantB){
+	public HashMap<String,Integer> getPossA(Set<String> participantB){
 		List<String> possibleA = new LinkedList<String>();
+		HashMap<String,Integer> numberedA = new HashMap<String,Integer>();
 		for(String b : participantB){
 			if(controlled.containsKey(b)){
-				for(String a : possA(b)){
-					if(!participantB.contains(a.toUpperCase()))
-						possibleA.addAll(possA(b));
+				if(partBMod.contains(b)){
+					for(String a : possA(b)){
+						if(!participantB.contains(a.toUpperCase()))
+							possibleA.addAll(possA(b));
+					}
 				}
 			}
 		}
-		return possibleA;
+		for(String s : possibleA){
+			if(aCount.containsKey(s)){
+				numberedA.put(s, aCount.get(s));
+			}
+		}
+		return numberedA;
 	}
-	
+
 	/**
 	 * Lookup for single particpantB
 	 * @param participantB
 	 * @return
 	 */
 	public Set<String> getPartA(String participantB){
-		if(controlled.containsKey(participantB))
-			return possA(participantB);
+		if(controlled.containsKey(participantB)){
+			if(partBMod.contains(participantB)){
+				return possA(participantB);
+			}
+		}
 		return null;
 	}
 	/**
@@ -191,7 +233,7 @@ public class FriesParser {
 			}
 		}
 	}
-	
+
 	/**
 	 * For testing
 	 * @param args
