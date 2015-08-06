@@ -7,16 +7,27 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.json.Json;
+import javax.json.JsonValue;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.stream.JsonReader;
 
 /**
  * Class to allow quick correction of the participant A field.
@@ -41,7 +52,6 @@ public class ParticipantAEditor {
 			if (direct.isDirectory()){
 				for(File f : direct.listFiles()){
 					if(f.getName().contains(tableName)){
-					
 						changeJson(f.getPath(), partAUntrans, partATrans, entity_type);
 					}
 				}
@@ -57,20 +67,21 @@ public class ParticipantAEditor {
 	@SuppressWarnings("unchecked")
 	private void changeJson(String fileName,String partAUntrans, String partATrans, String entity_type) {
 		JSONParser parse = new JSONParser();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();//
+		
+		JsonParser jp = new JsonParser();		//
 		try {
-			JSONObject json = (JSONObject) parse.parse(new FileReader(fileName));
-			JSONObject extr_info = (JSONObject)json.get("extracted_information");
-			JSONObject partA = (JSONObject) extr_info.get("participant_a");
-			partA.put("entity_text",partAUntrans);
-			partA.put("entity_type",entity_type);
-			partA.put("identifier",partATrans);
-			//System.out.println( json);
-			System.out.println(fileName);
-        	File newFile = new File(fileName);
-        
+			FileReader f = new FileReader(fileName);
+			JsonObject je = gson.fromJson(f, JsonElement.class).getAsJsonObject();
+			//JSONObject json = (JSONObject) parse.parse(new FileReader(fileName));
+			JsonObject extr_info = je.getAsJsonObject("extracted_information");
+			JsonObject partA = extr_info.getAsJsonObject("participant_a");
+			partA.add("entity_text",new JsonPrimitive(partAUntrans));
+			partA.add("entity_type",new JsonPrimitive(entity_type));
+			partA.add("identifier",new JsonPrimitive(partATrans));
+			File newFile = new File(fileName);
         	FileWriter file = new FileWriter(newFile);
-        	
-        	file.write(json.toJSONString());
+        	file.write(gson.toJson(je));
         	file.close();
 			
 		} catch (Exception e) {
@@ -80,6 +91,7 @@ public class ParticipantAEditor {
 
 	public static void main (String[]args){
 		ParticipantAEditor aEdit = new ParticipantAEditor();
-		aEdit.changeA("test", "Uniprot:test","proteCHemFam","index_cards","2735263","T1");
+		aEdit.changeA("test", "Uniprot:test","proteCHemFam","index_cards","2808269","TI");
 	}
 }
+ 
