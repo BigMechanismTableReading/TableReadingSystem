@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -167,13 +168,15 @@ public class FriesParser {
 	 * @param key
 	 * @return
 	 */
-	private Set<String> possA(String key){
-		Set<String> possA = new HashSet<String>();
+	private Map<String,Integer> possA(String key){
+		HashMap<String,Integer> possA = new HashMap<String,Integer>();
 	
 		for(List<String> detList: controlled.get(key)){
 			String a = detList.get(0);
 			if (a != null){//TODO check interaction
-				possA.add(a);
+				if(aCount.containsKey(a)){
+					possA.put(a,aCount.get(a));
+				}
 			}
 		}
 		return possA;
@@ -183,22 +186,18 @@ public class FriesParser {
 	 * @param participantB
 	 * @return
 	 */
-	public HashMap<String,Integer> getPossA(Set<String> participantB){
+	public Map<String,Integer> getPossA(Set<String> participantB){
 		List<String> possibleA = new LinkedList<String>();
 		HashMap<String,Integer> numberedA = new HashMap<String,Integer>();
 		for(String b : participantB){
 			if(controlled.containsKey(b)){
 				if(partBMod.contains(b)){
-					for(String a : possA(b)){
-						if(!participantB.contains(a.toUpperCase()))
-							possibleA.addAll(possA(b));
+					for(String a : possA(b).keySet()){
+						if(!participantB.contains(a.toUpperCase())){
+							numberedA.putAll(possA(b));
+						}
 					}
 				}
-			}
-		}
-		for(String s : possibleA){
-			if(aCount.containsKey(s)){
-				numberedA.put(s, aCount.get(s));
 			}
 		}
 		return numberedA;
@@ -209,7 +208,7 @@ public class FriesParser {
 	 * @param participantB
 	 * @return
 	 */
-	public Set<String> getPartA(String participantB){
+	public Map<String,Integer> getPartA(String participantB){
 		if(controlled.containsKey(participantB)){
 			if(partBMod.contains(participantB)){
 				return possA(participantB);
