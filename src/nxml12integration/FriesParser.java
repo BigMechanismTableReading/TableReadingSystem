@@ -13,6 +13,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import extract.analysis.Pair;
+
 
 /**
  * For integration with Mihai Surdeanu's (Arizona) reading system
@@ -68,7 +70,8 @@ public class FriesParser {
 						partAEV = new LinkedList<String>();
 						String partA = (String) ind_arg.get("text");
 						partAEV.add(partA);
-						partAEV.add((String) ind_frame.get("verbose-text"));
+						String sentence = (String)ind_frame.get("verbose-text");
+						partAEV.add(sentence);
 						interaction = (String)ind_frame.get("subtype");
 						partAEV.add(interaction);
 						addCount(partA);
@@ -168,18 +171,40 @@ public class FriesParser {
 	 * @param key
 	 * @return
 	 */
-	private HashMap<String,Integer> possA(String key){
-		HashMap<String,Integer> possA = new HashMap<String,Integer>();
+	private HashMap<Pair<String,String>,Integer> possA(String key){
+		HashMap<Pair<String,String>,Integer> possA = new HashMap<Pair<String,String>,Integer>();
 	
 		for(List<String> detList: controlled.get(key)){
 			String a = detList.get(0);
 			if (a != null){//TODO check interaction
 				if(aCount.containsKey(a)){
-					possA.put(a,aCount.get(a));
+					Pair<String,String> p = new Pair<String,String>(a,detList.get(1));
+					possA.put(p,aCount.get(a));
 				}
 			}
 		}
 		return possA;
+	}
+	/**
+	 * Combines a Pair<String,String>, Integer map with a String,Integer Map
+	 * Combined into the String,Integer Map
+	 * @param pairMap
+	 * @param addTo
+	 */
+	private void combineMaps(HashMap<Pair<String,String>,Integer> pairMap, HashMap<String,Integer> addTo){
+		for(Pair<String,String> pair : pairMap.keySet()){
+			String a = pair.getA();
+			addTo.put(a,aCount.get(a));
+		}
+	}
+	
+	/**
+	 * Checks the sentences to see if they are a good indication that this participantA is a good canidate
+	 * @return
+	 */
+	private boolean check_sentences(){
+		
+		return false;
 	}
 	/**
 	 * Returns a list of potential participant As that control anything from a list of participantBs found in the text.
@@ -187,14 +212,16 @@ public class FriesParser {
 	 * @return
 	 */
 	public HashMap<String,Integer> getPossA(Set<String> participantB){
-		List<String> possibleA = new LinkedList<String>();
 		HashMap<String,Integer> numberedA = new HashMap<String,Integer>();
 		for(String b : participantB){
 			if(controlled.containsKey(b)){
 				if(partBMod.contains(b)){
-					for(String a : possA(b).keySet()){
+					for(Pair<String,String> pair : possA(b).keySet()){
+						String a = pair.getA();
+						String sentence = pair.getB();
 						if(!participantB.contains(a.toUpperCase())){
-							numberedA.putAll(possA(b));
+							//TODO check their sentences for verification
+							combineMaps(possA(b),numberedA);
 						}
 					}
 				}
@@ -209,9 +236,11 @@ public class FriesParser {
 	 * @return
 	 */
 	public HashMap<String,Integer> getPartA(String participantB){
+		HashMap<String,Integer> base = new HashMap<String,Integer>();
 		if(controlled.containsKey(participantB)){
 			if(partBMod.contains(participantB)){
-				return possA(participantB);
+				combineMaps(possA(participantB),base);
+				return base;
 			}
 		}
 		return null;

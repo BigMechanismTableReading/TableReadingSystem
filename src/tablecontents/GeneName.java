@@ -32,6 +32,7 @@ public class GeneName extends Protein {
 		}
 		return count;
 	}
+	
 	@Override
 	public String cellMatch(String match) {
 		match = match.replaceAll("-", "");
