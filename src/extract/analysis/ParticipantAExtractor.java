@@ -16,6 +16,7 @@ import tablecontents.Protein;
 import extract.TextExtractor;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
+import extract.index.ExtractBiopax;
 import extract.lookup.AbbreviationLookup;
 import extract.lookup.ChEMBLLookup;
 import extract.lookup.ChemicalLookup;
@@ -286,9 +287,9 @@ public class ParticipantAExtractor {
 		HashMap<String, Integer> hashA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());		
 		String PMCID = table.getSource().getPmcId();
-		//TODO decide better way to use their system
-		FriesParser fries = new FriesParser( PMCID + ".uaz.events.json",PMCID + ".uaz.entities.json");
-		HashMap<String, Integer> friesA = fries.getPossA(allB);
+		
+		ExtractBiopax extractor = new ExtractBiopax(PMCID + ".json", r.getConjugationBase().get(0));
+		HashMap<String, Integer> friesA = extractor.getACount(allB);
 		for (String a : friesA.keySet()){
 			if(hashA.containsKey(a)){
 				hashA.put(a, hashA.get(a) + friesA.get(a));
