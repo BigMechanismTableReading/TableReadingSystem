@@ -153,7 +153,7 @@ public class TextExtractor {
 				
 				Document doc = Jsoup.parse(document, "UTF-8", "");
 				LinkedList<List<List<String>>> list = new LinkedList<List<List<String>>>();
-				
+				doc.getElementById("reference-list").remove();
 				String text = doc.text();
 				String[] sentences = text.split("\\.");
 				for(int i = 0; i < sentences.length; i++){
