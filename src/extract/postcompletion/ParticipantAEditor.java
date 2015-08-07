@@ -16,6 +16,7 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
+import javax.swing.JOptionPane;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -91,7 +92,14 @@ public class ParticipantAEditor {
 
 	public static void main (String[]args){
 		ParticipantAEditor aEdit = new ParticipantAEditor();
-		aEdit.changeA("test", "Uniprot:test","proteCHemFam","index_cards","2808269","TI");
+		String pmc = JOptionPane.showInputDialog("What is the pmc_id that you wish to change");
+		String table = JOptionPane.showInputDialog("What is the name of the table (no PMC ID)");
+		String dir = JOptionPane.showInputDialog("What is the parent directory the cards are in?");
+		String name = JOptionPane.showInputDialog("What do you want to change the entity text name too?");
+		String ground = JOptionPane.showInputDialog("What do you want to change the grounded name too? (Format is Uniprot:name)");
+		String entity_type = JOptionPane.showInputDialog("What type is this entity? (protein,chemical, etc)");
+		
+		aEdit.changeA(name, ground,entity_type,dir,pmc,table);
 	}
 }
  

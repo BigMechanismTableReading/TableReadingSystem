@@ -90,6 +90,9 @@ public abstract class Protein implements ColumnContents{
 			for (TableBuf.Column col :cols.get(p)){
 				if(checkEmpty(col, row)){
 					data = col.getData(row).getData().toUpperCase();
+					String temp_data = matchesFormat(data,p.regEx,true);
+					if(temp_data != null)
+						data = temp_data;
 					String s = p.cellMatch(data);
 					if(s != null){
 						return new Pair<String,String>(data, s);

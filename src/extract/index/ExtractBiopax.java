@@ -44,7 +44,7 @@ public class ExtractBiopax {
 		String entity_type = (String)ind_participant.get("type");
 		String text_name = (String)ind_participant.get("text");
 		String grounded_entity = ground_type.toUpperCase() + ":" + ground_id.toUpperCase();
-		Participant participant = new Participant(grounded_entity,text_name,entity_type);
+		Participant participant = new Participant(grounded_entity,text_name.toUpperCase(),entity_type);
 		return participant;//TODO decide on return type
 	}
 	
@@ -54,14 +54,12 @@ public class ExtractBiopax {
 	 * @param passage_id
 	 * @return
 	 */
-	private String extractParticipantInfo(JSONArray participant,Integer passage_id){
-		
+	private void extractParticipantInfo(JSONArray participant,Integer passage_id){
 		for(Object o_ind_participant : participant){
 			JSONObject ind_participant = (JSONObject)o_ind_participant;
 			Participant p = getIndParticipant(ind_participant);		
 			addParticipant(passage_id,p);
 		}
-		return null;
 	}
 	
 	/**
@@ -77,7 +75,6 @@ public class ExtractBiopax {
 			partBs.add(p);
 			passageIdB.put(passage_id, partBs);
 		}
-		
 	}
 
 
@@ -93,7 +90,7 @@ public class ExtractBiopax {
 			JSONArray frames = (JSONArray)idx_cards.get("frames");
 			for(Object o_idx :frames){
 				JSONObject idx = (JSONObject)o_idx;
-				Integer passage_id = (Integer) idx.get("passage_id");
+				Integer passage_id = Integer.parseInt((String) idx.get("passage_id"));
 				String reaction_type = (String) idx.get("type");
 				Object o_participants = idx.get("participants");
 				if(o_participants != null){
@@ -111,7 +108,7 @@ public class ExtractBiopax {
 			}
 			getBToA();
 		}catch(Exception e){
-			
+			System.err.println(e);
 		}
 	}
 	
@@ -164,6 +161,7 @@ public class ExtractBiopax {
 				addACount(aCount,p);
 			}
 		}
+		System.err.println("New Extractor " + aCount);
 		return aCount;
 	}
 }

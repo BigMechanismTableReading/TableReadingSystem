@@ -106,7 +106,8 @@ public class ParticipantAExtractor {
 		List<String> allForms = new ArrayList<String>();
 		allForms.add(partA);
 		for(int i = partA.length()-1; i >= 0; i--){
-			if(firstCap == -1 && !Character.isLowerCase(partA.charAt(i)) ){
+			if(firstCap == -1 && !Character.isLowerCase(partA.charAt(i))){
+				
 				firstCap = i;
 			}else if(firstCap != -1 && Character.isLowerCase(partA.charAt(i))){
 				allForms.add(partA.substring(i+1,partA.length()));
@@ -193,20 +194,14 @@ public class ParticipantAExtractor {
 	 * @return
 	 */
 	private String checkPartAText(Set<String> allB,Reaction r, Set<String> possA,List<String> textA){
-
-		//		System.out.println(possA);
-		//		System.out.println(allB);
-		//		System.out.println(textA);
-		//		System.out.println(textA);
 		Set<String> transA = new HashSet<String>();
 		for(String aWord : textA){
 			for(String aText : allForms(aWord)){
-
+				
 				Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
 				if(transTextApair != null){
 					String transTextA = transTextApair.getB();
-					//					System.out.println(transTextA);
-					//					System.out.println(transTextA + "  " + aText);
+					
 					if(possA.contains(transTextA)){
 						return transTextA;
 					}
@@ -250,7 +245,6 @@ public class ParticipantAExtractor {
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
-				System.out.println(f + " " + col.getHeader().getData());
 				HashMap<String,String> possA = checkPartA(col.getHeader().getData(), allB,true,false);
 				if (possA != null){
 					String partA = checkPartAText(allB, r,possA.keySet(),textA);
@@ -320,8 +314,8 @@ public class ParticipantAExtractor {
 								possA.put(word, wordList.get(word));
 							}
 						}
-
 					}
+					System.err.println(possA);
 					if(title){
 						String partA = checkPartAText(allB, r, possA.keySet(),textA);
 						System.out.println(possA);
@@ -343,13 +337,16 @@ public class ParticipantAExtractor {
 		}else{
 			return participantAs;
 		}
+		
 		//_______________________________________________________________________________________________________________
 		//BEST A IF NOTHING IS GOTTEN
+		//TODO decide best way to do this, possibly use drug suffix lookup??
 		for(String a : textA){
 			if(a.length() > 2){
 				String aTrans = translatePartA(a.toUpperCase());
 				if(aTrans != null){
-					System.err.println(textA);
+					System.out.println("Text A: " + textA);
+					System.out.println("All B: " + allB);
 					participantAs.add(new ParticipantA(aTrans,a,contents));
 					return participantAs;
 				}

@@ -29,7 +29,7 @@ public class ChEMBLLookup {
 		String trans = null; //instead of null
 		
 		try {
-			String url = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=ChEMBL%20Molecule&t=" + chemical;
+			String url = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=SmallMolecules&t=" + chemical;
 			URL urlObj = null;
 			Document results = null;
 			
@@ -80,8 +80,12 @@ public class ChEMBLLookup {
 					matches = true;
 					break;
 				} 
+				
 			}
-		}		
+		}
+		if(abbr.matches(".*[0-9]+$")){
+			matches = true;
+		}
 		if (!matches){
 			translatedChemicals.put(abbr, null);
 			return null;
@@ -97,6 +101,6 @@ public class ChEMBLLookup {
 	}
 	
 	public static void main (String args[]){
-		System.out.println(lookupChemical("U0126"));
+		System.out.println(lookupChemical("SU6656"));
 	}
 }
