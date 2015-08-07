@@ -29,6 +29,7 @@ public class ExtractBiopax {
 		bToA = new HashMap<Participant,Participant>();
 		passageIdB = new HashMap<Integer,List<Participant>>();
 		passageIdA = new HashMap<Integer,Participant>();
+		bToPart = new HashMap<String,Participant>();
 		getBtoA(fileName,prefix);
 	}
 	
