@@ -75,7 +75,6 @@ public class IndexCard {
 		String aGrounded = entry.getName();
 		data.put("identifier_a",aGrounded);
 		data.put("entity_text_a",entry.getUntranslatedName());
-		String identifierB = "";
 		data.put("entity_type_a",entry.getType());
 		data.put("confidence_level",entry.getConfidenceLevel());
 		
