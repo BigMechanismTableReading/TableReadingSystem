@@ -82,7 +82,6 @@ public class ParticipantAExtractor {
 	 */
 	public static String translatePartA(String partA){
 		ChemicalLookup chem = ChemicalLookup.getInstance();
-		//TODO put in abbreviation and last capital method
 		if(chem.chemicals.containsKey(partA))
 			return chem.chemicals.get(partA);
 		for (Protein p : Protein.protList){
@@ -244,7 +243,6 @@ public class ParticipantAExtractor {
 	 */
 	private List<ParticipantA> getFoldPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r, Set<String> allB,TableBuf.Table table, List<String> textA){
-		//TODO Verify the ordering
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
@@ -260,6 +258,55 @@ public class ParticipantAExtractor {
 		return participantAs;
 	}
 	
+	private List<ParticipantA> getCaptionPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
+			Reaction r, Set<String> allB,TableBuf.Table table, List<String> textA){
+		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
+		System.out.println("Caption partA");
+		HashMap<String, String> possA = new HashMap<String, String>();
+		boolean title = true;
+		for(String wholeCaption : table.getCaptionList()){
+			String[] subtitles = wholeCaption.split(";");
+			for (String caption : subtitles){
+				caption = caption.replaceAll("-", "");
+				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");
+				Matcher m = p.matcher(caption);
+				while(m.find()){
+					String a = m.group();
+					HashMap<String, String> wordList = checkPartA(a,allB,false,title);
+					if(wordList!= null){
+						for(String word: wordList.keySet() ){
+							possA.put(word, wordList.get(word));
+						}
+					}
+				}
+				System.err.println(possA);
+				if(title){
+					String partA = checkPartAText(allB, r, possA.keySet(),textA);
+					System.out.println(possA);
+					if(partA!= null){
+						participantAs.add(new ParticipantA(partA, possA.get(partA), 
+								contents,confidenceLevel(ExtractionLocation.TITLE)));
+						
+						return participantAs;
+					}
+				}
+				title = false;
+			}
+		}
+		String partA = checkPartAText(allB, r, possA.keySet(),textA);
+		System.out.println(possA);
+		if(partA!= null){
+			participantAs.add(new ParticipantA(partA, possA.get(partA), contents,confidenceLevel(ExtractionLocation.CAPTION)));
+			return participantAs;
+		}
+		return participantAs;
+	}
+	
+	/**
+	 * Calculates the confidence level (that is used later by text reading teams)
+	 * @param extractedFrom
+	 * @return
+	 */
 	private double confidenceLevel(ExtractionLocation extractedFrom){
 		double confidenceLevel = 1;
 		for(ExtractionLocation loc : ExtractionLocation.values()){
@@ -293,7 +340,6 @@ public class ParticipantAExtractor {
 		HashMap<String, Integer> hashA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());		
 		String PMCID = table.getSource().getPmcId();
-		
 		ExtractBiopax extractor = new ExtractBiopax(PMCID + ".json", r.getConjugationBase().get(0));
 		HashMap<String, Integer> friesA = extractor.getACount(allB);
 		for (String a : friesA.keySet()){
@@ -304,55 +350,18 @@ public class ParticipantAExtractor {
 			}
 		}
 		List<String> textA = TextExtractor.sortByValue(hashA);
-		//TODO filter by the interaction type as to be more precise
 		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 		System.out.println(textA);
 		if (participantAs.isEmpty()){
-			System.out.println("Caption partA");
-			HashMap<String, String> possA = new HashMap<String, String>();
-			boolean title = true;
-			for(String wholeCaption : table.getCaptionList()){
-				String[] subtitles = wholeCaption.split(";");
-				for (String caption : subtitles){
-					caption = caption.replaceAll("-", "");
-					Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");
-					Matcher m = p.matcher(caption);
-					while(m.find()){
-						String a = m.group();
-						HashMap<String, String> wordList = checkPartA(a,allB,false,title);
-						if(wordList!= null){
-							for(String word: wordList.keySet() ){
-								possA.put(word, wordList.get(word));
-							}
-						}
-					}
-					System.err.println(possA);
-					if(title){
-						String partA = checkPartAText(allB, r, possA.keySet(),textA);
-						System.out.println(possA);
-						if(partA!= null){
-							participantAs.add(new ParticipantA(partA, possA.get(partA), 
-									contents,confidenceLevel(ExtractionLocation.TITLE)));
-							
-							return participantAs;
-						}
-					}
-					title = false;
-				}
-			}
-
-			String partA = checkPartAText(allB, r, possA.keySet(),textA);
-			System.out.println(possA);
-			if(partA!= null){
-				participantAs.add(new ParticipantA(partA, possA.get(partA), contents,confidenceLevel(ExtractionLocation.CAPTION)));
+			participantAs = getCaptionPartA(contents, r, allB, table, textA);
+			if (!participantAs.isEmpty()){
 				return participantAs;
 			}
 		}else{
 			return participantAs;
 		}
 		
-		//_______________________________________________________________________________________________________________
 		//BEST A IF NOTHING IS GOTTEN
 		//TODO decide best way to do this, possibly use drug suffix lookup??
 		for(String a : textA){
@@ -366,7 +375,7 @@ public class ParticipantAExtractor {
 				}
 			}
 		}
-		//_________________________________________________________________________________________________________________
+		//If no A was found by the text extractor
 		participantAs.add(new ParticipantA("unknown", "unknown", contents,confidenceLevel(ExtractionLocation.NONE)));
 		return participantAs;
 	}
