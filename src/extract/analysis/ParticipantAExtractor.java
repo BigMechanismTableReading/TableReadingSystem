@@ -90,6 +90,7 @@ public class ParticipantAExtractor {
 				return trans;
 			}
 		}
+		
 		if(partA.length() > 3){
 			String trans = ChEMBLLookup.abbrLookup(partA);
 			if (trans != null){

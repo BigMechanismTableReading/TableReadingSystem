@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import tablecontents.PhosphoSite;
+
 /**
  * Used to lookup specific word types in the larger chembl database
  * @author vincentH
@@ -79,9 +81,11 @@ public class ChEMBLLookup {
 				
 			}
 		}
-		if(abbr.matches(".*[A-Za-z].*[0-9]+$")){
+		
+		if(abbr.matches(".*[A-Za-z].*[0-9]{2,}$") && PhosphoSite.getInstance().cellMatch(abbr) == null){
 			matches = true;
 		}
+		
 		if (!matches){
 			translatedChemicals.put(abbr, null);
 			return null;
