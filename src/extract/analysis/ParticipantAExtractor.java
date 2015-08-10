@@ -309,10 +309,12 @@ public class ParticipantAExtractor {
 	 */
 	private double confidenceLevel(ExtractionLocation extractedFrom){
 		double confidenceLevel = 1;
+		double multiplier = .75;
 		for(ExtractionLocation loc : ExtractionLocation.values()){
 			if(loc == extractedFrom)
 				return confidenceLevel;
-			confidenceLevel *=.75;//TODO better math/reasoning here so that values make sense
+			confidenceLevel *= multiplier;//TODO better math/reasoning here so that values make sense
+			multiplier *= multiplier;
 		}
 		return -1;
 	}
