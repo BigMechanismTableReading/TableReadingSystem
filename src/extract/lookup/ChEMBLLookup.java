@@ -79,7 +79,7 @@ public class ChEMBLLookup {
 				
 			}
 		}
-		if(abbr.matches(".*[0-9]+$")){
+		if(abbr.matches(".*[A-Za-z].*[0-9]+$")){
 			matches = true;
 		}
 		if (!matches){
