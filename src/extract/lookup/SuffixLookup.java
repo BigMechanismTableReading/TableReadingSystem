@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /**
  * Creates a lookup of suffixes for potential drugs.
@@ -28,7 +26,6 @@ public class SuffixLookup {
 	private SuffixLookup(){
 		File proteins = new File("drugsuffixes.txt");
 		Scanner s;
-		String uni ="";
 		try {
 			s = new Scanner(proteins);
 			s.nextLine();

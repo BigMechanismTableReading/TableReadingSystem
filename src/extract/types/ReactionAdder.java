@@ -22,7 +22,9 @@ import tablecontents.ColumnContents;
  */
 public class ReactionAdder {
 
+	@SuppressWarnings("unused")
 	private static int closingCount = 0;
+	
 	private static void createSingleton(StringBuilder react, String name){
 		react.append("\tprivate static " + name + " instance = null;\n\n");
 		react.append("\tpublic static Reaction getInstance(){\n");

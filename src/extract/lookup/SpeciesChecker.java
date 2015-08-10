@@ -18,7 +18,6 @@ public class SpeciesChecker {
 		HashSet<String> wrong = new HashSet<String>();
 		File species = new File("invalidSpecies.txt");
 		Scanner s;
-		String uni ="";
 		try {
 			s = new Scanner(species);
 			while(s.hasNextLine()){

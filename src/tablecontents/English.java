@@ -1,6 +1,5 @@
 package tablecontents;
 
-import extract.lookup.*;
 /**
  * English participantB description class
  * @author sloates

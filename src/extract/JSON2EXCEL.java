@@ -78,7 +78,7 @@ public class JSON2EXCEL {
 			JSONObject obj = (JSONObject) parser.parse(r);
 			r.close();
 			String pmc_id = (String) obj.get("pmc_id");
-			Iterator i = ((JSONArray) obj.get("evidence")).iterator();
+			Iterator<?> i = ((JSONArray) obj.get("evidence")).iterator();
 			while (i.hasNext()){
 				Object o = i.next();
 				if (o instanceof JSONObject){

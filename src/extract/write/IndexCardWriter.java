@@ -1,13 +1,9 @@
 package extract.write;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.json.Json;
@@ -18,32 +14,14 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 
-import extract.analysis.Pair;
 import extract.buffer.TableBuf;
-import extract.types.Phosphorylation;
-import extract.types.Reaction;
-
 /**
  * Writes index cards to proper json format
  * @author sloates
  *
  */
 public class IndexCardWriter {
-	//TODO delete the information that is contained here
-	private TableBuf.Table getTable(String fileName){
-		
-		TableBuf.Table table = null;
-		try {
-			FileInputStream file = new FileInputStream(fileName);
-			 table = TableBuf.Table.parseFrom(file);
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		return table;
-	}
-	
+
 	/**
 	 * Writes the basic information 
 	 * @param idxBuild
@@ -139,7 +117,6 @@ public class IndexCardWriter {
 		JsonObjectBuilder tableEvidence= Json.createObjectBuilder();
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
 		JsonObjectBuilder interiorTableEv = Json.createObjectBuilder();
-		JsonObjectBuilder largeTab = Json.createObjectBuilder();
 		interiorTableEv.add("table",t.getSource().getSourceFile()+ "sheet" + t.getSource().getSheetNo());
 		interiorTableEv.add("row", idx.getData("row"));
 		JsonArrayBuilder headers = Json.createArrayBuilder();
@@ -191,8 +168,8 @@ public class IndexCardWriter {
 		//Why not write a card for each partA and do fold, it doesnt need to be seperate at all.
 		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
 		basicInfo(idxBuilder,t,readingStart,readingStop);
-		JsonArrayBuilder elements = Json.createArrayBuilder();
 		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
+		infoBuilder.add("confidence_level", idx.getData("confidence_level"));
 		infoBuilder.add("negative_information", idx.getData("negative_information"));
 		JsonObjectBuilder participantA = Json.createObjectBuilder();
 		buildParticipant(participantA,idx, "a");
@@ -202,7 +179,6 @@ public class IndexCardWriter {
 		if(!addFeatures(featuresB,participantB,idx)){
 			return null;
 		}
-		String reactionType;
 		if(addParticipants(participantA,participantB,infoBuilder,idx) == false){
 			return null;
 		}
@@ -251,11 +227,6 @@ public class IndexCardWriter {
         	properties.put(JsonGenerator.PRETTY_PRINTING, true);
         	JsonWriterFactory writerFactory = Json.createWriterFactory(properties);
         	String tbl = t.getSource().getSourceFile() + "sheet"+ t.getSource().getSheetNo();
-        	/*int start = 0;
-        	start =  tbl.lastIndexOf('t');
-        	if(start == -1){
-        	start = tbl.lastIndexOf('T');
-        	}*/
         	FileOutputStream fis = new FileOutputStream(new File(directory + File.separator + fileSubStr + tbl +"Row"+ row + partA + ".json"));
 			JsonWriter writer = writerFactory.createWriter(fis);
 			writer.write(indexcard);

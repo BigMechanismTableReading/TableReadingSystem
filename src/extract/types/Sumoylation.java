@@ -1,7 +1,5 @@
 package extract.types;
 
-import tablecontents.PhosphoAmino;
-import tablecontents.PhosphoSite;
 import tablecontents.Position;
 import tablecontents.SumoSite;
 import tablecontents.SumoType;

@@ -3,7 +3,6 @@ package extract.lookup;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -27,7 +26,6 @@ public class IPILookup {
 	private IPILookup(){
 		File proteins = new File("ipi.HUMAN.xrefs");
 		Scanner s;
-		String uni ="";
 		try {
 			s = new Scanner(proteins);
 			s.nextLine();

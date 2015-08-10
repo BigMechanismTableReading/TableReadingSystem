@@ -1,8 +1,5 @@
 package tablecontents;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import tablecontents.ColumnContents;
 
 public class PhosphoSite extends Site {

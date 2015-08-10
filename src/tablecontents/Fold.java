@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
-import extract.buffer.TableBuf.Cell;
 
 /**
  * Abstract class for different fold measurements

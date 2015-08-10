@@ -3,9 +3,7 @@ package tablecontents;
 import extract.buffer.TableBuf.Column;
 
 public class FoldChange extends Fold{
-	private String headerRegEx = ".*change.*";
-	private String cellRegEx = null;
-	
+	private String headerRegEx = ".*change.*";	
 	private static FoldChange cha = null;
 	
 	public static FoldChange getInstance(){
@@ -24,7 +22,6 @@ public class FoldChange extends Fold{
 
 	@Override
 	public String cellMatch(String match) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

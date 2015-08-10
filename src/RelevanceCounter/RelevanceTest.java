@@ -51,7 +51,6 @@ public class RelevanceTest {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		int relevantCount = 0;
 		List<Integer> PMCIDs= new ArrayList<Integer>();
 		Scanner reader;
 		try {

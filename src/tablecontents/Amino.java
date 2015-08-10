@@ -18,7 +18,6 @@ import extract.buffer.TableBuf.Cell;
  */
 public abstract class Amino implements ColumnContents{
 	String headerRegEx = "\bamino.*|\bbase\b|syt";
-	private String cellRegEx = null;
 	public int confidenceNeeded = 5;
 	@Override
 	public String headerMatch(String match) {

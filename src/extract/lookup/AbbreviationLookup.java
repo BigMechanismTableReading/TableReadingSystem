@@ -67,7 +67,6 @@ public class AbbreviationLookup {
 		System.out.println("looking up: " + abbr);
 		String longForm = lookupAbbr(abbr.trim()).replaceAll("\\W", " ").toUpperCase();
 		TabLookup proteinBase = TabLookup.getInstance();
-		ChemicalLookup chem = ChemicalLookup.getInstance();
 		if(proteinBase.english.containsKey(longForm)){
 			List<String> intersect = proteinBase.english.get(longForm);
 			if(proteinBase.english.containsKey(abbr)){

@@ -12,7 +12,6 @@ public class Acetylation extends Reaction{
 
 	private static Acetylation instance = null;
 	
-	@SuppressWarnings("unchecked")
 	private Acetylation(){
 		conjugationBase.add("acetylat");
 		data.add(Fold.class);

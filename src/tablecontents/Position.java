@@ -1,14 +1,11 @@
 package tablecontents;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
-import extract.buffer.TableBuf.Column;
 
 public class Position extends AbstractPosition{
 	//TODO determine matching for this	

@@ -10,7 +10,6 @@ import extract.buffer.TableBuf.Column;
 public class Log extends Fold{
 
 	private String headerRegEx = "\\blog";
-	private String cellRegEx = null;
 	private static Log log = null;
 	
 	public static Log getInstance(){

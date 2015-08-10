@@ -11,14 +11,10 @@ import extract.buffer.TableBuf.Cell;
 
 
 public abstract class Sequence implements ColumnContents {
-	private String headerRegEx = "sequence";
 	public int confidenceNeeded = 3;
+	
 	@Override
 	public String headerMatch(String match) {
-		/*Pattern p = Pattern.compile(headerRegEx,Pattern.CASE_INSENSITIVE);
-		Matcher m = p.matcher(match);
-		if(m.find())
-			return m.group();*/
 		return null;
 	}
 	String cellMatch(String match,String regEx) {

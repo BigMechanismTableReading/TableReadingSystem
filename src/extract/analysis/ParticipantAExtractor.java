@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nxml12integration.FriesParser;
 import tablecontents.ColumnContents;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
@@ -195,7 +194,6 @@ public class ParticipantAExtractor {
 	 * @return
 	 */
 	private String checkPartAText(Set<String> allB,Reaction r, Set<String> possA,List<String> textA){
-		Set<String> transA = new HashSet<String>();
 		for(String aWord : textA){
 			for(String aText : allForms(aWord)){
 				
@@ -272,9 +270,8 @@ public class ParticipantAExtractor {
 			HashMap<Integer,String> partB, 	HashMap<Integer,String> partBUntrans,
 			HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r){
-		//TODO break up into two methods, fold partA and caption partA
 		System.out.println("In partA");
-		double confidenceLevel = -1;
+		double confidenceLevel = -1;//TODO fix the confidence level
 		Set<String> allB = new HashSet<String>();
 		Lookup t = TabLookup.getInstance();
 		System.out.println("Making list of all B forms");
