@@ -31,6 +31,10 @@ import extract.types.Reaction;
  */
 public class ParticipantAExtractor {
 
+	
+	private enum ExtractionLocation{
+		FOLD,TITLE,CAPTION,TEXT,NONE
+	}
 	/**
 	 * Helper method to add new participantA
 	 * @param participantAs
@@ -248,12 +252,22 @@ public class ParticipantAExtractor {
 				if (possA != null){
 					String partA = checkPartAText(allB, r,possA.keySet(),textA);
 					if(partA != null){
-						addPartA(participantAs, possA.get(partA),partA, f, col,.9);
+						addPartA(participantAs, possA.get(partA),partA, f, col,confidenceLevel(ExtractionLocation.FOLD));
 					}
 				}
 			}
 		}
 		return participantAs;
+	}
+	
+	private double confidenceLevel(ExtractionLocation extractedFrom){
+		double confidenceLevel = 1;
+		for(ExtractionLocation loc : ExtractionLocation.values()){
+			if(loc == extractedFrom)
+				return confidenceLevel;
+			confidenceLevel *=.75;//TODO better math/reasoning here so that values make sense
+		}
+		return -1;
 	}
 
 	/**
@@ -271,7 +285,6 @@ public class ParticipantAExtractor {
 			HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r){
 		System.out.println("In partA");
-		double confidenceLevel = -1;//TODO fix the confidence level
 		Set<String> allB = new HashSet<String>();
 		Lookup t = TabLookup.getInstance();
 		System.out.println("Making list of all B forms");
@@ -319,7 +332,8 @@ public class ParticipantAExtractor {
 						String partA = checkPartAText(allB, r, possA.keySet(),textA);
 						System.out.println(possA);
 						if(partA!= null){
-							participantAs.add(new ParticipantA(partA, possA.get(partA), contents,.9));
+							participantAs.add(new ParticipantA(partA, possA.get(partA), 
+									contents,confidenceLevel(ExtractionLocation.TITLE)));
 							
 							return participantAs;
 						}
@@ -331,7 +345,7 @@ public class ParticipantAExtractor {
 			String partA = checkPartAText(allB, r, possA.keySet(),textA);
 			System.out.println(possA);
 			if(partA!= null){
-				participantAs.add(new ParticipantA(partA, possA.get(partA), contents,0.65));
+				participantAs.add(new ParticipantA(partA, possA.get(partA), contents,confidenceLevel(ExtractionLocation.CAPTION)));
 				return participantAs;
 			}
 		}else{
@@ -347,13 +361,13 @@ public class ParticipantAExtractor {
 				if(aTrans != null){
 					System.out.println("Text A: " + textA);
 					System.out.println("All B: " + allB);
-					participantAs.add(new ParticipantA(aTrans,a,contents,0.3));
+					participantAs.add(new ParticipantA(aTrans,a,contents,confidenceLevel(ExtractionLocation.TEXT)));
 					return participantAs;
 				}
 			}
 		}
 		//_________________________________________________________________________________________________________________
-		participantAs.add(new ParticipantA("unknown", "unknown", contents,0));
+		participantAs.add(new ParticipantA("unknown", "unknown", contents,confidenceLevel(ExtractionLocation.NONE)));
 		return participantAs;
 	}
 
