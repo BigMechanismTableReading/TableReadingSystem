@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import extract.buffer.TableBuf;
+import extract.buffer.TableBuf.Column;
 
 /**
  * Stores participantA and its fold columns
@@ -16,6 +17,7 @@ public class ParticipantA {
 	private String untransName = null;
 	private String type = null;
 	private double confidenceLevel = -1.0;
+	private int listPosition = -1;
 	HashMap<ColumnContents,List<TableBuf.Column>> foldCols= null;
 	
 	/**
@@ -44,6 +46,17 @@ public class ParticipantA {
 		foldCols = cols;
 		this.confidenceLevel = confidenceLevel;
 	}
+	public ParticipantA(String aTrans, String a,
+			HashMap<ColumnContents, List<Column>> contents,
+			double confidenceLevel, int listPos) {
+		this.name = aTrans;
+		this.untransName = a;
+		entityType(name);
+		foldCols = contents;
+		this.confidenceLevel = confidenceLevel;
+		this.listPosition = listPos;
+	}
+
 	private void entityType(String name){
 		if(name.charAt(0) == 'U'){
 			type = "protein";
@@ -114,6 +127,14 @@ public class ParticipantA {
 	 */
 	public String getConfidenceLevel() {
 		return confidenceLevel  + "";
+	}
+
+	/**
+	 * Returns the position of the text list that this was extracted from
+	 * @return
+	 */
+	public String getListPosition() {
+		return listPosition + "";
 	}
 
 }

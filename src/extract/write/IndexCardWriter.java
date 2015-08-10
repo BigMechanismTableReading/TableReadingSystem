@@ -170,6 +170,7 @@ public class IndexCardWriter {
 		basicInfo(idxBuilder,t,readingStart,readingStop);
 		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
 		infoBuilder.add("confidence_level", idx.getData("confidence_level"));
+		infoBuilder.add("list_position",idx.getData("list_position"));
 		infoBuilder.add("negative_information", idx.getData("negative_information"));
 		JsonObjectBuilder participantA = Json.createObjectBuilder();
 		buildParticipant(participantA,idx, "a");

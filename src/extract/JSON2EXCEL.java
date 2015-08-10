@@ -50,7 +50,7 @@ public class JSON2EXCEL {
 		String [] columns = {"PMC_ID", "Table", "Row", "Negative information", "Participant A Text", 
 				"Type", "Identifier", "In model",
 				 "Participant B Text", "Type", "Identifier", "In model", "Site", "Interaction Type", "Modification Type",
-				 "confidence_level"
+				 "confidence_level","list_position"
 		};
 		try {
 			for (int i=0; i < columns.length; i++){
@@ -135,6 +135,7 @@ public class JSON2EXCEL {
 				}
 			}
 			sheet.addCell(new Label(15,currRow,(String)extracted_info.get("confidence_level")));
+			sheet.addCell(new Label(16,currRow,(String)extracted_info.get("list_position")));
 			currRow++;
 			
 

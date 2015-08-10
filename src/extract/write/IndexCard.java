@@ -77,6 +77,7 @@ public class IndexCard {
 		data.put("entity_text_a",entry.getUntranslatedName());
 		data.put("entity_type_a",entry.getType());
 		data.put("confidence_level",entry.getConfidenceLevel());
+		data.put("list_position", entry.getListPosition());
 		
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
 		Fold f = r.bestFold(foldCols);

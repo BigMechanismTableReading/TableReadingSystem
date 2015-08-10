@@ -367,16 +367,18 @@ public class ParticipantAExtractor {
 		
 		//BEST A IF NOTHING IS GOTTEN
 		//TODO decide best way to do this, possibly use drug suffix lookup??
+		int listPos =0;
 		for(String a : textA){
 			if(a.length() > 2){
 				String aTrans = translatePartA(a.toUpperCase());
 				if(aTrans != null){
 					System.out.println("Text A: " + textA);
 					System.out.println("All B: " + allB);
-					participantAs.add(new ParticipantA(aTrans,a,contents,confidenceLevel(ExtractionLocation.TEXT)));
+					participantAs.add(new ParticipantA(aTrans,a,contents,confidenceLevel(ExtractionLocation.TEXT),listPos));
 					return participantAs;
 				}
 			}
+			listPos++;
 		}
 		//If no A was found by the text extractor
 		participantAs.add(new ParticipantA("unknown", "unknown", contents,confidenceLevel(ExtractionLocation.NONE)));

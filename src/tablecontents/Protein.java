@@ -92,11 +92,11 @@ public abstract class Protein implements ColumnContents{
 			for (TableBuf.Column col :cols.get(p)){
 				if(checkEmpty(col, row)){
 					data = col.getData(row).getData().toUpperCase();
-					String temp_data = matchesFormat(data,p.regEx,true);
-					if(temp_data != null)
-						data = temp_data;
 					String s = p.cellMatch(data);
 					if(s != null){
+						String temp_data = matchesFormat(data,p.regEx,true);
+						if(temp_data != null)
+							data = temp_data;
 						return new Pair<String,String>(data, s);
 					} else if (p instanceof Uniprot && data.trim().length() >= 5){
 						String untrans = data;
