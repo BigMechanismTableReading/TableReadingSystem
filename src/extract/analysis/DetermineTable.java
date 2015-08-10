@@ -135,7 +135,7 @@ public class DetermineTable {
 	 * @param table
 	 */
 	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table){
-		System.out.println("Starting determine");
+		System.out.println("Starting determine" + table.getSource().getSourceFile());
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));

@@ -39,13 +39,15 @@ public abstract class Protein implements ColumnContents{
 	 * @return
 	 */
 	public String matchesFormat(String input,String regEx,boolean caseSensitive) {
-		Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
-		if (caseSensitive){
-			p = Pattern.compile(regEx);
-		}
-		Matcher m = p.matcher(input);
-		if(m.find()){
-			return m.group();
+		if(regEx !=  null){
+			Pattern p = Pattern.compile(regEx,Pattern.CASE_INSENSITIVE);
+			if (caseSensitive){
+				p = Pattern.compile(regEx);
+			}
+			Matcher m = p.matcher(input);
+			if(m.find()){
+				return m.group();
+			}
 		}
 		return null;
 	}
