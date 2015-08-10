@@ -15,6 +15,7 @@ public class ParticipantA {
 	private String name = null;
 	private String untransName = null;
 	private String type = null;
+	private double confidenceLevel = -1.0;
 	HashMap<ColumnContents,List<TableBuf.Column>> foldCols= null;
 	
 	/**
@@ -22,11 +23,12 @@ public class ParticipantA {
 	 * @param name
 	 * @param untransName
 	 */
-	public ParticipantA(String name, String untransName){
+	public ParticipantA(String name, String untransName,double confidenceLevel){
 		this.name = name;
 		this.untransName = untransName;
 		entityType(name);
 		foldCols = new HashMap<ColumnContents,List<TableBuf.Column>>();
+		this.confidenceLevel = confidenceLevel;
 	}
 	
 	/**
@@ -35,11 +37,12 @@ public class ParticipantA {
 	 * @param untransName
 	 * @param cols
 	 */
-	public ParticipantA(String name, String untransName, HashMap<ColumnContents,List<TableBuf.Column>> cols){
+	public ParticipantA(String name, String untransName, HashMap<ColumnContents,List<TableBuf.Column>> cols,double confidenceLevel){
 		this.name = name;
 		this.untransName = untransName;
 		entityType(name);
 		foldCols = cols;
+		this.confidenceLevel = confidenceLevel;
 	}
 	private void entityType(String name){
 		if(name.charAt(0) == 'U'){

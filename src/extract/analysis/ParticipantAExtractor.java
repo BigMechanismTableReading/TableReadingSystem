@@ -48,7 +48,7 @@ public class ParticipantAExtractor {
 				return;
 			}
 		}
-		ParticipantA newA = new ParticipantA(partA, partAuntrans);
+		ParticipantA newA = new ParticipantA(partA, partAuntrans,-1);
 		newA.addToData(f, col);
 		participantAs.add(newA);
 	}
@@ -320,7 +320,7 @@ public class ParticipantAExtractor {
 						String partA = checkPartAText(allB, r, possA.keySet(),textA);
 						System.out.println(possA);
 						if(partA!= null){
-							participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
+							participantAs.add(new ParticipantA(partA, possA.get(partA), contents,-1));
 							return participantAs;
 						}
 					}
@@ -331,7 +331,7 @@ public class ParticipantAExtractor {
 			String partA = checkPartAText(allB, r, possA.keySet(),textA);
 			System.out.println(possA);
 			if(partA!= null){
-				participantAs.add(new ParticipantA(partA, possA.get(partA), contents));
+				participantAs.add(new ParticipantA(partA, possA.get(partA), contents,-1));
 				return participantAs;
 			}
 		}else{
@@ -347,13 +347,13 @@ public class ParticipantAExtractor {
 				if(aTrans != null){
 					System.out.println("Text A: " + textA);
 					System.out.println("All B: " + allB);
-					participantAs.add(new ParticipantA(aTrans,a,contents));
+					participantAs.add(new ParticipantA(aTrans,a,contents,-1));
 					return participantAs;
 				}
 			}
 		}
 		//_________________________________________________________________________________________________________________
-		participantAs.add(new ParticipantA("unknown", "unknown", contents));
+		participantAs.add(new ParticipantA("unknown", "unknown", contents,0));
 		return participantAs;
 	}
 
