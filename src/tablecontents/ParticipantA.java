@@ -101,10 +101,19 @@ public class ParticipantA {
 		return untransName;
 	}
 	/**
-	 * Returns the fold contents for this participantA
+	 * Returns the fold contents for this participant A
 	 * @return
 	 */
 	public HashMap<ColumnContents,List<TableBuf.Column>> getFoldCols(){
 		return foldCols;
 	}
+
+	/**
+	 * Returns the confidence level of this participant A
+	 * @return
+	 */
+	public String getConfidenceLevel() {
+		return confidenceLevel  + "";
+	}
+
 }

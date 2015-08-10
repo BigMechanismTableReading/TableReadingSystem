@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 import tablecontents.ColumnContents;
 
-public class PhosphoSite extends Site implements ColumnContents {
-	//TODO fix this up
+public class PhosphoSite extends Site {
+
 	private static PhosphoSite phos = null;
 	public static ColumnContents getInstance() {
 		if(phos == null)

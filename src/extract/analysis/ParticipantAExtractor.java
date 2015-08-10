@@ -41,14 +41,15 @@ public class ParticipantAExtractor {
 	 * @param col
 	 */
 	private void addPartA(List<ParticipantA> participantAs,
-			String partAuntrans, String partA, ColumnContents f, Column col) {
+			String partAuntrans, String partA, ColumnContents f, 
+			Column col,double confidenceLevel) {
 		for (ParticipantA partAentry : participantAs){
 			if (partAentry.equalString(partA)){
 				partAentry.addToData(f, col);
 				return;
 			}
 		}
-		ParticipantA newA = new ParticipantA(partA, partAuntrans,-1);
+		ParticipantA newA = new ParticipantA(partA, partAuntrans,confidenceLevel);
 		newA.addToData(f, col);
 		participantAs.add(newA);
 	}
@@ -249,7 +250,7 @@ public class ParticipantAExtractor {
 				if (possA != null){
 					String partA = checkPartAText(allB, r,possA.keySet(),textA);
 					if(partA != null){
-						addPartA(participantAs, possA.get(partA),partA, f, col);
+						addPartA(participantAs, possA.get(partA),partA, f, col,.9);
 					}
 				}
 			}
@@ -273,6 +274,7 @@ public class ParticipantAExtractor {
 			Reaction r){
 		//TODO break up into two methods, fold partA and caption partA
 		System.out.println("In partA");
+		double confidenceLevel = -1;
 		Set<String> allB = new HashSet<String>();
 		Lookup t = TabLookup.getInstance();
 		System.out.println("Making list of all B forms");
@@ -320,7 +322,8 @@ public class ParticipantAExtractor {
 						String partA = checkPartAText(allB, r, possA.keySet(),textA);
 						System.out.println(possA);
 						if(partA!= null){
-							participantAs.add(new ParticipantA(partA, possA.get(partA), contents,-1));
+							participantAs.add(new ParticipantA(partA, possA.get(partA), contents,.9));
+							
 							return participantAs;
 						}
 					}
@@ -331,7 +334,7 @@ public class ParticipantAExtractor {
 			String partA = checkPartAText(allB, r, possA.keySet(),textA);
 			System.out.println(possA);
 			if(partA!= null){
-				participantAs.add(new ParticipantA(partA, possA.get(partA), contents,-1));
+				participantAs.add(new ParticipantA(partA, possA.get(partA), contents,0.65));
 				return participantAs;
 			}
 		}else{
@@ -347,7 +350,7 @@ public class ParticipantAExtractor {
 				if(aTrans != null){
 					System.out.println("Text A: " + textA);
 					System.out.println("All B: " + allB);
-					participantAs.add(new ParticipantA(aTrans,a,contents,-1));
+					participantAs.add(new ParticipantA(aTrans,a,contents,0.3));
 					return participantAs;
 				}
 			}
