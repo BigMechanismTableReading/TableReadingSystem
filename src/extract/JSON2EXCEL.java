@@ -19,11 +19,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-
-/**
- * 
- */
-
 /**
  * @author charnessn
  *
@@ -54,7 +49,8 @@ public class JSON2EXCEL {
 	private static WritableSheet initSheet(WritableSheet sheet){
 		String [] columns = {"PMC_ID", "Table", "Row", "Negative information", "Participant A Text", 
 				"Type", "Identifier", "In model",
-				 "Participant B Text", "Type", "Identifier", "In model", "Site", "Interaction Type", "Modification Type"
+				 "Participant B Text", "Type", "Identifier", "In model", "Site", "Interaction Type", "Modification Type",
+				 "confidence_level"
 		};
 		try {
 			for (int i=0; i < columns.length; i++){
@@ -138,6 +134,7 @@ public class JSON2EXCEL {
 					
 				}
 			}
+			sheet.addCell(new Label(15,currRow,(String)extracted_info.get("confidence_level")));
 			currRow++;
 			
 
