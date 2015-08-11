@@ -33,7 +33,7 @@ public class Extraction {
 	 */
 	private Pair<HashMap<Integer,String>, HashMap<Integer,String>> getAllParticipantB(HashMap<ColumnContents, List<TableBuf.Column>> contents){
 		TableBuf.Column col = null;
-		ColumnContents protein = null;//TODO error is here
+		ColumnContents protein = null;
 		for(ColumnContents c : contents.keySet()){
 			if(c instanceof Protein && protein == null){
 				col = contents.get(c).get(0);
@@ -136,6 +136,7 @@ public class Extraction {
 		String readingStart = new Date(System.currentTimeMillis()).toString();
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
+		//First HashMap is the translated participant B and the Second HashMap is the untranslated participant B
 		Pair<HashMap<Integer, String>, HashMap<Integer, String>> partBinfo = getAllParticipantB(contents);
 		HashMap<Integer, String> partB = partBinfo.getA();
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();

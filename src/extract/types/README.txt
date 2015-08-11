@@ -12,7 +12,7 @@ Reaction
 	addAlternativeEntry(Class, createEntry(AlternateClass))-Can be used to create alternate entries there can be more then 
 	one alternate class required.
 	
-	conjugationBase.add(String) adds the conjugation base such as "phosphorylat"
+	conjugationBase.add(String)-adds the conjugation base such as "phosphorylat"
 	
 	
 ReactionAdder

@@ -160,7 +160,7 @@ public class ParticipantAExtractor {
 	 */
 	private HashMap<String,String> checkPartA(String guess, Set<String> partBs, boolean fold,boolean title){
 		String normalized = guess.replaceAll("-","");
-		String [] split = normalized.split("\\s|;|/|\\(|\\)");//TODO look at removing / from it
+		String [] split = normalized.split("\\s|;|/|\\(|\\)");
 		HashMap<String,String> possA = new HashMap<String,String>();
 		HashSet<String> checkWords = new HashSet<String>();
 		for(String word: split){

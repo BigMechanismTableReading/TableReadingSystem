@@ -172,7 +172,6 @@ public class DetermineTable {
 			else if (goodReactions.size() > 1)
 				return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(chooseBestReaction(goodReactions,table),labels);
 		}
-		
 		return null;
 	}
 	
@@ -228,7 +227,7 @@ public class DetermineTable {
 			}
 			if ((both && head) || (!both && !hasCol)) {
 				boolean over10 = true;
-				if(col.getDataCount() < 10)//TODO added this
+				if(col.getDataCount() < 10)
 					over10 = false;
 				for (int i = 0; i < 10 && i < col.getDataCount(); i++) {
 					if (c.cellMatch(col.getData(i).getData()) != null){
@@ -237,7 +236,7 @@ public class DetermineTable {
 							addToData(c, col, data);
 							hasCol =  true;
 							i = 10;
-						}else if (over10 == false){//TODO this was added in 
+						}else if (over10 == false){
 							addToData(c, col, data);
 							hasCol =  true;
 							i = 10;
@@ -253,7 +252,7 @@ public class DetermineTable {
 	 * Helper method for labeling the columns
 	 * @param c
 	 * @param col
-	 * @param data
+	 * @param data - ColumnContents to List of Table Buf columns, this labels the table
 	 */
 	private void addToData(ColumnContents c, TableBuf.Column col, HashMap<ColumnContents,List<TableBuf.Column>> data){
 		if (data.containsKey(c)){

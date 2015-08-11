@@ -1,10 +1,11 @@
 README BigMechanismTableReader
-see individual packages for more details
+see individual packages READMEs for more details
+The javadoc is in the doc folder
 
 IMPORTANT-
-To run the full system requires the following directories:
- a files, fries, tables, papers and index_cards
-The following files: 
+To run the full system requires the following directories at the top level:
+files, fries, tables, papers and index_cards
+The following files at the top level: 
 pom.xml, drugsuffixes.txt, 
 ipi.HUMAN.xrefs, names.tsv, uniprot-taxonomy%3A-Mammalia+%5B40674%5D-.tab, yeast.tab.
 
@@ -16,11 +17,11 @@ Determines whether or not a table is relevant
 Handles all aspects of extraction
 
 extract buffer-
-DO NOT EDIT
+Automatically generated : DO NOT EDIT 
 TableBuf classes
 
 extract lookup-
-All the lookup tables
+This package contains utility classes used to ground entities
 
 extract types-
 Reaction,Reaction Adder and all Reaction types

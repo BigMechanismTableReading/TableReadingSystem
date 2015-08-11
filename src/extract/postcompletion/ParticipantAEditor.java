@@ -101,6 +101,7 @@ public class ParticipantAEditor {
 		else
 			extr_info.add("interaction_type",new JsonPrimitive("inhibits modification"));
 	}
+	
 	public static void main (String[]args){
 		ParticipantAEditor aEdit = new ParticipantAEditor();
 		String pmc = JOptionPane.showInputDialog("What is the pmc_id that you wish to change");
