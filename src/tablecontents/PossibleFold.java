@@ -9,7 +9,7 @@ import extract.analysis.Pair;
 import extract.buffer.TableBuf.Column;
 
 public class PossibleFold implements ColumnContents{
-	private String cellRegEx =  "(\\b[-+]?[0-9]+\\.?[0-9]+)";
+	private String cellRegEx =  "(\\b[-+]?[0-9]+\\.[0-9]+)";
 
 	private static PossibleFold instance = null;
 	public static PossibleFold getInstance(){
