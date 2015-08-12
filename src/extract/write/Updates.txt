@@ -1,3 +1,5 @@
+Contains possible updates to the extract.write package
+
 Index Card Writer- 
 Send the reaction type into the index card writer. 
 Reaction classes will now need a method that writes a small part of the index card.
