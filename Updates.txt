@@ -8,10 +8,15 @@ To change the system there is a lot that would have to be done in both Extractio
 
 1.) Protein would need to have the work that is done in getParticipantB, 
 	done in the extract Data method in the Protein class.
-2.)Need to be able to link this essential column to any data that needs this column for use in text extraction
+	
+2.) Need to be able to link this essential column to any data that needs this column for use in text extraction
 	For Example when participantB is the essential column type you need to link that to participantA.
 	This could  possibly be accomplished through an EssentialColumn interface, that is implemented by
 	any type that could be an essential column, and has a method that returns what this EssentialColumn
 	links to. (Protein to participantA).
-3.)Modify the way stuff is added to index cards, since essential columns are kept in the row hashmap 
+	
+3.) Separate the the extraction of essential content (ex: proteins) and dependent content that may require
+    the whole of the essential content to make sense (ex: participant A, fold)
+
+4.) Modify the way stuff is added to index cards, since essential columns are kept in the row hashmap 
 	that is iterated over to construct the index card they need to not remain as in the list of contents.
