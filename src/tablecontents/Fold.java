@@ -170,4 +170,9 @@ public abstract class Fold implements ColumnContents{
 		return null;
 	}
 	
+	@Override
+	public int getPriorityNumber(){
+		return 6;
+	}
+	
 }

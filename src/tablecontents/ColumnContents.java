@@ -51,4 +51,10 @@ public interface ColumnContents {
 	 * @return
 	 */
 	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row);
+	
+	/**
+	 * Returns the priority number
+	 * @return
+	 */
+	public int getPriorityNumber();
 }

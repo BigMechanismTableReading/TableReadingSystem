@@ -21,6 +21,7 @@ public abstract class Protein implements ColumnContents{
 	
 	private static Protein prot = null;
 	public int confidenceNeeded = 5;
+	int priority_number = -1;
 	static Uniprot u = Uniprot.getInstance();
 	static  SwisProt s = SwisProt.getInstance();
 	static IPI i = IPI.getInstance();
@@ -78,6 +79,7 @@ public abstract class Protein implements ColumnContents{
 		}
 		return null;
 	}
+	
 	/**
 	 * Returns the grounded version of the protein, along with the ungrounded version
 	 * Pair<ungrounded, grounded>
@@ -146,7 +148,16 @@ public abstract class Protein implements ColumnContents{
 	 * returns null since this method will never be used
 	 */
 	@Override
-	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){
+	public HashMap<String, String> extractData (List<TableBuf.Column> cols, int row){ 
+		HashMap<ColumnContents, List<TableBuf.Column>> input = new HashMap<ColumnContents, List<TableBuf.Column>>();
+		input.put(this, cols);
+		Pair<String,String> groundingInfo = getGrounded(this, input, row);
+		HashMap<String, String> proteinInfo = new HashMap<String, String>();
+		if (groundingInfo != null && groundingInfo.getB() != null){
+			proteinInfo.put("entity_text_b", groundingInfo.getA());
+			proteinInfo.put("entity_type_b", "protein");
+			proteinInfo.put("identifier_b", groundingInfo.getB());
+		}
 		return null;
 	}
 	
@@ -171,6 +182,11 @@ public abstract class Protein implements ColumnContents{
 		return t;
 //		else 
 //			return y;
+	}
+	
+	@Override
+	public int getPriorityNumber(){
+		return priority_number;
 	}
 
 }

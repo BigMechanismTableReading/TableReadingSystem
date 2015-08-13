@@ -15,7 +15,7 @@ public class English extends Protein{
 		return eng;
 	}
 	private English(){
-		
+		priority_number = 5;
 	}
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){

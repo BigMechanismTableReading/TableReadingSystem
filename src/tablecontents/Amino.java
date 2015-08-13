@@ -61,4 +61,9 @@ public abstract class Amino implements ColumnContents{
 		return confidenceNeeded;
 	}
 	
+	@Override
+	public int getPriorityNumber(){
+		return 8;
+	}
+	
 }

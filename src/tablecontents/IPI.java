@@ -12,6 +12,7 @@ public class IPI extends Protein {
 	}
 	private IPI(){
 		regEx = "(IPI[0-9]{8})";
+		priority_number = 3;
 	}
 	@Override
 	public String groundIdentity(String ungrounded) {

@@ -72,4 +72,9 @@ public abstract class AbstractPosition  implements ColumnContents{
 	public int getCellConfNeeded(){
 		return confidenceNeeded;
 	}
+	
+	@Override
+	public int getPriorityNumber(){
+		return 9;
+	}
 }

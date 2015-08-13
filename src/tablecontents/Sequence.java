@@ -51,4 +51,8 @@ public abstract class Sequence implements ColumnContents {
 		return confidenceNeeded;
 	}
 	
+	@Override
+	public int getPriorityNumber(){
+		return 10;
+	}
 }

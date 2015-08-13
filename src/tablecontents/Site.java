@@ -93,5 +93,9 @@ public abstract class Site implements ColumnContents {
 	public int getCellConfNeeded(){
 		return confidenceNeeded;
 	}
+	@Override
+	public int getPriorityNumber(){
+		return 7;
+	}
 }
  

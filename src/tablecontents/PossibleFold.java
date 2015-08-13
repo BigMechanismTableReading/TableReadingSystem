@@ -55,5 +55,10 @@ public class PossibleFold implements ColumnContents{
 	public HashMap<String, String> extractData(List<Column> cols, int row) {
 		return null;
 	}
+	
+	@Override
+	public int getPriorityNumber(){
+		return 10;
+	}
 
 }

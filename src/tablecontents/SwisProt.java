@@ -9,6 +9,7 @@ public class SwisProt extends Protein{
 	}
 	private SwisProt(){
 		 regEx = "([A-Z[0-9]]{1,4}_[A-Z]{0,10})";
+		 priority_number = 2;
 	}
 	public String groundIdentity(String ungrounded) {
 		if(ungrounded != null){
