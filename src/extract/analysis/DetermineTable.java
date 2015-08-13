@@ -146,7 +146,8 @@ public class DetermineTable {
 			possibleReactions.add(PossibleReaction.getInstance());
 		}
 		
-		if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){
+		//if(!possibleReactions.isEmpty() && assignB(table,partB,labels)){
+		if(!possibleReactions.isEmpty()){
 			System.out.println("Possibly relevant");
 			HashSet<Class<? extends ColumnContents>> requiredContents = new HashSet<Class<? extends ColumnContents>>();
 			for (Reaction r : possibleReactions) {

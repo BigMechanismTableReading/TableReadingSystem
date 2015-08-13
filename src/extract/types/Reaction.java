@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import tablecontents.ColumnContents;
+import tablecontents.Protein;
 
 /**
  * Abstract class that contains the structure for reactions.
@@ -134,6 +135,16 @@ public abstract class Reaction {
 			newList.add(alt);
 			alternatives.put(base, newList);
 		}
+	}
+	
+	/**
+	 * Returns the class that extraction should be based on for this reaction
+	 * Currently that class is protein for all of the reactions
+	 * @return
+	 */
+	public Class<? extends ColumnContents> getEssentialClass(){
+		//This needs to be implemented for each  class of reactions.
+		return Protein.class;
 	}
 	
 	public String toString(){

@@ -110,7 +110,9 @@ public class Extraction {
 			
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
 			for (ColumnContents content : cols){
-				card.addInfo(content.extractData(contents.get(content), i));
+				if(!(content instanceof Protein)){
+					card.addInfo(content.extractData(contents.get(content), i));
+				}
 			}
 			//First get the site/sequence column, then do fold
 			for(ParticipantA entry: participantACols){	
