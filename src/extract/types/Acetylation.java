@@ -2,6 +2,7 @@ package extract.types;
 
 import tablecontents.AcetylSite;
 import tablecontents.Fold;
+import tablecontents.Protein;
 
 /**
  * Acetylation Reaction Class
@@ -16,6 +17,7 @@ public class Acetylation extends Reaction{
 		conjugationBase.add("acetylat");
 		data.add(Fold.class);
 		data.add(AcetylSite.class);
+		data.add(Protein.class);
 	}
 	
 	public static Reaction getInstance() {

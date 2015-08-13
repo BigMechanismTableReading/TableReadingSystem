@@ -11,6 +11,7 @@ public class Methylation extends Reaction{
 	private static Methylation instance = null;
 	@SuppressWarnings("unchecked")
 	private Methylation(){
+		data.add(Protein.class);
 		data.add(MethylSite.class);
 		data.add(Fold.class);
 		addAlternativeEntry(MethylSite.class, createEntry(Position.class, MethylAmino.class));

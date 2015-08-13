@@ -1,6 +1,7 @@
 package extract.types;
 
 import tablecontents.Position;
+import tablecontents.Protein;
 import tablecontents.SumoSite;
 import tablecontents.SumoType;
 
@@ -15,6 +16,7 @@ public class Sumoylation extends Reaction{
 	@SuppressWarnings("unchecked")
 	private Sumoylation(){
 		//TODO add the neccesary requirements
+		data.add(Protein.class);
 		data.add(SumoSite.class);
 		conjugationBase.add("sumoylat");
 		addAlternativeEntry(SumoSite.class, createEntry(Position.class, SumoType.class));

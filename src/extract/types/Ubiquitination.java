@@ -12,6 +12,7 @@ public class Ubiquitination extends Reaction{
 	
 	private Ubiquitination(){
 		//TODO add the neccesary requirements
+		data.add(Protein.class);
 		conjugationBase.add("ubiquitinat");
 	}
 	public static Reaction getInstance(){

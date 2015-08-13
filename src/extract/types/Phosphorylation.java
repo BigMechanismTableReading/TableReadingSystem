@@ -10,6 +10,7 @@ public class Phosphorylation extends Reaction{
 	private static Phosphorylation instance = null;
 	@SuppressWarnings("unchecked")
 	private Phosphorylation(){
+		data.add(Protein.class);
 		data.add(PhosphoSite.class);
 		data.add(Fold.class);
 		addAlternativeEntry(PhosphoSite.class, createEntry(Position.class, PhosphoAmino.class));

@@ -19,6 +19,7 @@ public class PossibleReaction extends Reaction{
 	}
 	@SuppressWarnings("unchecked")
 	private PossibleReaction(){
+		data.add(Protein.class);
 		data.add(Fold.class);
 		data.add(Site.class);
 		addAlternativeEntry(Fold.class,createEntry(PossibleFold.class));
