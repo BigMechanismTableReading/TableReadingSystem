@@ -12,7 +12,7 @@ import extract.buffer.TableBuf.Column;
  * @author sloates
  *
  */
-public class ParticipantA {
+public class ParticipantA implements LinkedContents{
 	private String name = null;
 	private String untransName = null;
 	private String type = null;

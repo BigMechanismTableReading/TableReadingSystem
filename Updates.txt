@@ -16,7 +16,10 @@ To change the system there is a lot that would have to be done in both Extractio
 	links to. (Protein to participantA).
 	
 3.) Separate the the extraction of essential content (ex: proteins) and dependent content that may require
-    the whole of the essential content to make sense (ex: participant A, fold)
+    the whole of the essential content to make sense (ex: participant A, fold). Could have all dependent 
+    content implement a LinkedContents interface and in that interface have a method that returns the extraction
+    class that is needed. (ex: ParticipantA implements LinkedContents, ParticipantAExtractor implements ExtrInd,
+    ParticipantA has a method that returns the participant A extractor)
 
 4.) Modify the way stuff is added to index cards, since essential columns are kept in the row hashmap 
 	that is iterated over to construct the index card they need to not remain as in the list of contents.
