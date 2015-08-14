@@ -143,7 +143,7 @@ public abstract class Reaction {
 	 * @return
 	 */
 	public abstract Class<? extends ColumnContents> getEssentialClass();
-	
+		
 	public String toString(){
 		return this.getConjugationBase().get(0) + "ion";
 	}

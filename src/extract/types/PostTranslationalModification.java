@@ -4,16 +4,15 @@ import tablecontents.ColumnContents;
 import tablecontents.Protein;
 
 /**
- * Class for all PostTranslationalModifications,
- * This will store anything that is similar between them
+ * Super class for all PostTranslationalModifications\
  * @author sloates
  *
  */
 public abstract class PostTranslationalModification extends Reaction{
 	
+	@Override
 	public Class<? extends ColumnContents> getEssentialClass(){
 		return Protein.class;
 	}
-	
 	
 }
