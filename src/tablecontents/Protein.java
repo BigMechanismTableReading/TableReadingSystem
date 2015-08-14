@@ -20,7 +20,7 @@ import extract.lookup.YeastLookup;
 public abstract class Protein implements ColumnContents{
 	
 	private static Protein prot = null;
-	public int confidenceNeeded = 5;
+	public int confidenceNeeded = 1;
 	int priority_number = -1;
 	static Uniprot u = Uniprot.getInstance();
 	static  SwisProt s = SwisProt.getInstance();
@@ -93,8 +93,11 @@ public abstract class Protein implements ColumnContents{
 		if(cols.containsKey(p)){
 			for (TableBuf.Column col :cols.get(p)){
 				if(checkEmpty(col, row)){
-					data = col.getData(row).getData().toUpperCase();
+					data =  col.getData(row).getData();
 					String s = p.cellMatch(data);
+					data =data.toUpperCase();
+					if(s== null)
+						s = p.cellMatch(data);
 					if(s != null){
 						String temp_data = matchesFormat(data,p.regEx,true);
 						if(temp_data != null)

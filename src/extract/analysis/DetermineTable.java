@@ -154,6 +154,7 @@ public class DetermineTable {
 				requiredContents.addAll(r.getRequiredColumns());
 				requiredContents.addAll(r.getAllAlternatives());
 			}
+			System.out.println(requiredContents);
 			
 			HashSet<Class<? extends ColumnContents>> tableColumns = getTableColumns(requiredContents,labels,table);
 			List<Reaction> goodReactions = new LinkedList<Reaction>();
