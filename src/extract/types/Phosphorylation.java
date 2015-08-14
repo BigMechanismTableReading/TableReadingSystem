@@ -6,7 +6,7 @@ import tablecontents.*;
  * @author sloates
  *
  */
-public class Phosphorylation extends Reaction{
+public class Phosphorylation extends PostTranslationalModification{
 	private static Phosphorylation instance = null;
 	@SuppressWarnings("unchecked")
 	private Phosphorylation(){

@@ -7,7 +7,7 @@ import tablecontents.*;
  * @author sloates
  *
  */
-public class Ubiquitination extends Reaction{
+public class Ubiquitination extends PostTranslationalModification{
 	private static  Ubiquitination instance = null;
 	
 	private Ubiquitination(){

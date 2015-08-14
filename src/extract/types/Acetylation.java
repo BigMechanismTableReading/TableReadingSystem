@@ -9,7 +9,7 @@ import tablecontents.Protein;
  * @author sloates
  *
  */
-public class Acetylation extends Reaction{
+public class Acetylation extends PostTranslationalModification{
 
 	private static Acetylation instance = null;
 	

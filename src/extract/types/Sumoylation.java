@@ -10,7 +10,7 @@ import tablecontents.SumoType;
  * @author sloates
  *
  */
-public class Sumoylation extends Reaction{
+public class Sumoylation extends PostTranslationalModification{
 	private static  Sumoylation instance = null;
 	
 	@SuppressWarnings("unchecked")

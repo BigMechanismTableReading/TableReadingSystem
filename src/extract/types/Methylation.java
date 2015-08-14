@@ -7,7 +7,7 @@ import tablecontents.*;
  * @author sloates
  *
  */
-public class Methylation extends Reaction{
+public class Methylation extends PostTranslationalModification{
 	private static Methylation instance = null;
 	@SuppressWarnings("unchecked")
 	private Methylation(){

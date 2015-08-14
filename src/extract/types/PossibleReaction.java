@@ -7,7 +7,7 @@ import tablecontents.*;
  * @author sloates
  *
  */
-public class PossibleReaction extends Reaction{
+public class PossibleReaction extends PostTranslationalModification{
 	//TODO determine exactly what we want here
 	private static PossibleReaction instance = null;
 

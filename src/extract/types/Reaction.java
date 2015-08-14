@@ -142,10 +142,7 @@ public abstract class Reaction {
 	 * Currently that class is protein for all of the reactions
 	 * @return
 	 */
-	public Class<? extends ColumnContents> getEssentialClass(){
-		//This needs to be implemented for each  class of reactions.
-		return Protein.class;
-	}
+	public abstract Class<? extends ColumnContents> getEssentialClass();
 	
 	public String toString(){
 		return this.getConjugationBase().get(0) + "ion";
