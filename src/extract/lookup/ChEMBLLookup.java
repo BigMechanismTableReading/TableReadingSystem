@@ -101,6 +101,6 @@ public class ChEMBLLookup {
 	}
 	
 	public static void main (String args[]){
-		System.out.println(lookupChemical("SU6656"));
+		System.out.println(lookupChemical("DYNAMIN"));
 	}
 }

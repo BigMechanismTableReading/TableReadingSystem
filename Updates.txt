@@ -1,5 +1,8 @@
 UPDATES NEEDED FOR THE SYSTEM
 
+Getting protein families, and sub units then using this as another check so we dont accidentally
+get a family of proteins as our participant A.
+
 In reaction there is a getEssentialColumn method. This needs to be integrated into the system
 to improve the flexibility. Currently Protein is the essential column for every reaction, but
 the essential column should not be hardcoded and should change depending on the type of reaction.

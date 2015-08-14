@@ -16,6 +16,7 @@ glitazone
 iramine
 lamide
 mab
+min
 mustine
 mycin
 nacin
