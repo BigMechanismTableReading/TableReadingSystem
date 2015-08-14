@@ -82,7 +82,7 @@ public class ChEMBLLookup {
 			}
 		}
 		
-		if(abbr.matches(".*[A-Za-z].*[0-9]{2,}$") && PhosphoSite.getInstance().cellMatch(abbr) == null){
+		if(abbr.matches(".*[A-Za-z].*[0-9]{3,}$") && PhosphoSite.getInstance().cellMatch(abbr) == null){
 			matches = true;
 		}
 		
