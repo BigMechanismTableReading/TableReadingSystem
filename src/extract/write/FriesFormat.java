@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 /**
@@ -85,9 +86,7 @@ public class FriesFormat {
 
 		object.add("object_type", object_type);
 		object.add("object_meta", meta);
-		if(frame_builder != null){
-			object.add("frames", frame_builder);
-		}
+		
 	}
 	
 	private void make_entity(String mid_id,JsonObjectBuilder object, HashMap<String, String> values) {
@@ -102,12 +101,12 @@ public class FriesFormat {
 		xrefs.add("object_type", "db-reference");
 		String namespace = "";
 		if( values.get("entity_type_b").equals("protein")){
-			namespace = "Uniprot";
+			namespace = "Uniprot";   
 		}else{
 			namespace = "Chembl";
 		}
 		xrefs.add("namespace", namespace);
-		xrefs.add("id", values.get("identifer_b"));
+		xrefs.add("id", values.get("identifier_b"));
 		xrefs_array.add(xrefs);
 		object.add("xrefs",	xrefs_array);
 		
@@ -136,6 +135,12 @@ public class FriesFormat {
 		}
 		return object;
 	}
+	public JsonObject getJson(){
+		if(fries_builder != null && frame_builder != null){
+			fries_builder.add("frames", frame_builder);
+		}
+		return fries_builder.build();
+	}
 	
 	/**
 	 * Builds frame from frame_type and values needed for that frame type
@@ -154,7 +159,7 @@ public class FriesFormat {
 	 */
 	private JsonObjectBuilder makeFrameCollection(){
 		JsonObjectBuilder fries_builder= Json.createObjectBuilder();
-		makeObject(JsonType.COLLECTION,null,null);
+		fries_builder = makeObject(JsonType.COLLECTION,null,null);
 		return fries_builder;
 	}
 }
