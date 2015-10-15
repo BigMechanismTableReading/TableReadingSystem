@@ -48,7 +48,7 @@ public class FriesFormat {
 		COLLECTION,FRAME,META
 	}
 	public enum FrameType{
-		TABLE_EVENT,ENTITY,PASSAGE,SENTENCES
+		TABLE_EVENT,ENTITY,PASSAGE,SENTENCES, EVENT
 	}
 	private JsonObjectBuilder createMeta(JsonType type){
 		JsonObjectBuilder meta = Json.createObjectBuilder();
@@ -91,7 +91,7 @@ public class FriesFormat {
 	
 	private void make_entity(String mid_id,JsonObjectBuilder object, HashMap<String, String> values) {
 		
-		//TODO decide if second one is needed for participant A
+		//TODO participant A
 		object.add("entity_text_b", values.get("entity_text_b"));
 		object.add("entity_type_b", values.get("entity_type_b"));	
 		object.add("row", values.get("row"));
@@ -111,21 +111,36 @@ public class FriesFormat {
 		object.add("xrefs",	xrefs_array);
 		
 		
+	}	
+	private void make_event(String mid_id, JsonObjectBuilder object,
+			HashMap<String, String> values) {
+		object.add("type", "protein-modification");//TODO dont hardcode this
+		object.add("subtype", values.get("modification_type"));
+		object.add("row", values.get("row"));
+		object.add("is_negated",values.get("negative_information"));
+		//TODO possibly add in more column contents
+		
+		
 	}
 	private void build_frame(JsonObjectBuilder object, FrameType frame_type, HashMap<String, String> values) {
 		String frame_id = "";
 		String type = "";
 		String mid_id = pmc_id + "-" + org_name;
 		if(frame_type == FrameType.ENTITY){
-			frame_id = "ment-"+mid_id + "-" + table_name+"-";//TODO add the row
+			frame_id = "entity-"+mid_id + "-" + table_name+"-";
 			type = "entitity_mention";
 			make_entity(mid_id,object,values);
+		}else if(frame_type == FrameType.EVENT){
+			frame_id = "event-"+mid_id + "-" + table_name+"-";
+			type = "event-mention";
+			make_event(mid_id,object,values);
 		}
 		object.add("frame-id", frame_id);
 		object.add("frame-type", type);
 	}
 	
 	
+
 	private JsonObjectBuilder makeObject(JsonType json_type,FrameType frame_type,HashMap<String,String> values){
 		JsonObjectBuilder  object= Json.createObjectBuilder();
 		addType(json_type,object);
