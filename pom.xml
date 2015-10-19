@@ -29,7 +29,7 @@
         <configuration>
         	<archive>
         		<manifest>
-        		<mainClass>extract.MasterExtractor</mainClass>
+        		<mainClass>main.TableReader</mainClass>
         		</manifest>
         	</archive>
         	<descriptorRefs>

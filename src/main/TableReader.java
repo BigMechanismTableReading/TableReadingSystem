@@ -1,4 +1,4 @@
-package RelevanceCounter;
+package main;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +28,7 @@ import extract.types.Reaction;
  * @author sloates
  *
  */
-public class RelevanceTest {
+public class TableReader {
 
 	private static TableBuf.Table getTable(File fileName){
 		TableBuf.Table table = null;
