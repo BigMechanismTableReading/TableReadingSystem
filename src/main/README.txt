@@ -1,6 +1,6 @@
-Relevance Test is a premade pipeline.
+Run full pipeline from Table Reader
 Set as your main class if you choose to export this as a jar file.
-java -jar RelevanceTest.jar [FileName] [OPTION]
+java -jar TableReader.jar [FileName] [OPTION]
  0: full Creates the tables from the original files, determines relevance 
  	then extracts information and writes to index cards
  1: partial Uses already made protobufs and determines relevance 
