@@ -41,40 +41,45 @@ public class TableReader {
 		}	
 		return table;
 	}
-
+	
 	/**
+	 * Extract from a File
+	 * @param ids
+	 * @param extractType 
+	 */
+	public static void extractFromFile(File ids, int extractType){
+		ArrayList<Integer> PMCIDs = new ArrayList<Integer>();
+		try {
+			Scanner reader = new Scanner(ids);
+			while(reader.hasNext()){
+				PMCIDs.add(reader.nextInt());	
+			}
+			reader.close();
+			extractFromList(PMCIDs, extractType);
+		}
+		catch (FileNotFoundException e){
+			
+		}
+		
+		
+	}
+	
+	/**
+	 * Where extraction begins
+	 * @param PMCIDs -an ArrayList of PMCID's
+	 * @param extractType -0, 1, 2, or 3 @see documentation
+	 * 
 	 * 0 is full
 	 * 1 is partial
 	 * 2 is html
 	 * 3 is excel
 	 * default is 1
-	 * @param args
-	 * 
-	 * TODO: ERROR HANDLING
+	 *
+	 * @throws IOException
 	 */
-	public static void main(String[] args){
-		List<Integer> PMCIDs= new ArrayList<Integer>();
-		Scanner reader;
-		try {
-			File ids = new File(args[0]);
-			reader = new Scanner(ids);
-			while(reader.hasNext()){
-				PMCIDs.add(reader.nextInt());	
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		int extractType = 1;
-		if(args.length ==2){
-			try{
-			extractType = Integer.parseInt(args[1]);
-			}catch(NumberFormatException e){
-				
-			}
-		}
-		
+	
+	public static void extractFromList (ArrayList<Integer> PMCIDs, int extractType){
+		 try{
 		List<TableBuf.Table> tableList = new LinkedList<TableBuf.Table>();
 		File tableDir =  new File("tables");
 		if(extractType == 0){
@@ -99,7 +104,6 @@ public class TableReader {
 		FileWriter w;
 		Extraction extr = new Extraction();
 		System.out.println(extractType);
-		try {
 			w = new FileWriter(markedRelevant);
 			/*for(Integer pmc : PMCIDs){
 			 * Set<String> allPartB = new Set<String>();
@@ -141,9 +145,66 @@ public class TableReader {
 				}
 			}
 			w.close();
-		} catch (IOException e) {
+		 }
+		 catch (IOException e) {
+			System.err.println("Error writing to MarkedRelevant.txt file");
 			e.printStackTrace();
 		}
+		
+	}
+
+	/**
+	 * 0 is full
+	 * 1 is partial
+	 * 2 is html
+	 * 3 is excel
+	 * default is 1
+	 * @param args
+	 */
+	public static void main(String[] args){
+		ArrayList<Integer> PMCIDs= new ArrayList<Integer>();
+		if (args.length>0){
+			try {
+				File ids = new File(args[0]);
+				Scanner reader = new Scanner(ids);
+				while(reader.hasNext()){
+					PMCIDs.add(reader.nextInt());	
+				}
+				reader.close();
+			
+			
+			int extractType = 1; //default
+			if (args.length>1){
+				Integer.parseInt(args[1]);
+			}
+			if (extractType < 0 || extractType > 3){
+				throw new NumberFormatException();
+			}
+			if (!PMCIDs.isEmpty()){
+				extractFromList(PMCIDs, extractType);
+			}
+			else{
+				System.err.println("List of PMCIDs was empty or invalid");
+			}
+			
+			
+			} catch (NumberFormatException e){
+				System.err.println("Extract type number invalid");
+			} catch (FileNotFoundException e) {
+				System.err.println ("File " + args[0] + "not found");
+			
+			}
+		}
+		else{
+			System.err.println("Please provide a text file containing a list of PMCID's and a number corresponding to usage "
+					+ "\n 0: full Creates the tables from the original files, determines \n relevance then extracts information and writes to index cards"
+					+ "\n 1: partial Uses already made protobufs and determines relevance \n then extracts information and writes to index cards"
+					+ "\n 2: HTML partial For HTML Tables only Uses already made protobufs and determines \n relevance then extracts information \n and writes to index cards"
+					+ "\n 3: Excel partial For Excel Tables only Uses already made protobufs and \n determines relevance then extracts information and writes to index cards");
+			
+		}
+		
+		
 	}
 	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr,String fileName){
 
