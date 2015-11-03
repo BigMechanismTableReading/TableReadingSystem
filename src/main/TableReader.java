@@ -46,8 +46,9 @@ public class TableReader {
 	 * Extract from a File
 	 * @param ids
 	 * @param extractType 
+	 * @throws IOException 
 	 */
-	public static void extractFromFile(File ids, int extractType){
+	public static void extractFromFile(File ids, int extractType) throws IOException{
 		ArrayList<Integer> PMCIDs = new ArrayList<Integer>();
 		try {
 			Scanner reader = new Scanner(ids);
@@ -77,81 +78,116 @@ public class TableReader {
 	 *
 	 * @throws IOException
 	 */
-	
-	public static void extractFromList (ArrayList<Integer> PMCIDs, int extractType){
-		 try{
-		List<TableBuf.Table> tableList = new LinkedList<TableBuf.Table>();
-		File tableDir =  new File("tables");
-		if(extractType == 0){
-			tableDir = new File("files");
+	public static void extractFromList(ArrayList<Integer> pmc_ids, int extract_type) throws IOException{
+		//Select which directory to use
+		File table_use = null;
+		if(extract_type == 0){
+			table_use = new File("files");
 		}else{
-			tableDir = new File("tables");
+			table_use = new File("tables");
 		}
+		write_files(pmc_ids,extract_type,table_use);
 		
-		HashSet<String> has_table = new HashSet<String>();
-		
-		File table = new File("tables");
-		Pattern p = Pattern.compile("PMC([0-9]{6,7})");
-		for(File f : table.listFiles()){
-			String name = f.getName();
-			Matcher m = p.matcher(name);
-			if(m.find())
-				has_table.add(m.group(1));
-		}
-		System.out.println(has_table);
-		
-		File markedRelevant = new File("MarkedRelevant.txt");
-		FileWriter w;
-		Extraction extr = new Extraction();
-		System.out.println(extractType);
-			w = new FileWriter(markedRelevant);
-			/*for(Integer pmc : PMCIDs){
-			 * Set<String> allPartB = new Set<String>();
-			 * for (File file : tableDir.listFiles()){
-			 * 		if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
-			 * 			send in allPartB for each thing to use so it doesnt get a participant from a different table
-			 * 			allPartB.addAll(have the extraction return a list of partBs so they can be kept)
-			 * 		}
-			 * }
-			 * }
-			 * 
-			 */
-			for(Integer pmc : PMCIDs){
-				for (File file : tableDir.listFiles()){
-					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
-						String fileName = file.getName();
-						if(extractType == 0){
-							System.err.println(file.getName());
-							tableList = MasterExtractor.buildTable(file, pmc.toString());
-							for(TableBuf.Table t : tableList){
-								extract(t,w,extr,fileName);
-							}
-						}else if (extractType == 2 ){
-							if(!file.getName().contains("Supp")){
-								TableBuf.Table t  = getTable(file);
-								extract(t,w,extr,fileName);
-							}
+	}
+	private static void write_files(ArrayList<Integer> pmc_ids, int extract_type,File table_use) throws IOException{
 
-						}else if (extractType == 3 ){
-							if(file.getName().contains("Supp")){
-								TableBuf.Table t  = getTable(file);
-								extract(t,w,extr,fileName);
-							}
-						}else{
+		Extraction extr = new Extraction();
+		FileWriter w = new FileWriter(new File("relevant_pmc_ids.txt"));
+		List<TableBuf.Table> table_list = new LinkedList<TableBuf.Table>();
+		for(Integer pmc : pmc_ids){
+			for (File file : table_use.listFiles()){
+				if(file_is_good(file,pmc)){
+					String fileName = file.getName();
+					if(extract_type == 0){
+						System.err.println(file.getName());
+						table_list = MasterExtractor.buildTable(file, pmc.toString());
+						for(TableBuf.Table t : table_list){
+							extract(t,w,extr,fileName);
+						}
+					}else if(extract_type == 1){
+						if(!file.getName().contains("Supp")){
 							TableBuf.Table t  = getTable(file);
 							extract(t,w,extr,fileName);
 						}
+					}else if(extract_type == 2){
+						if(file.getName().contains("Supp")){
+							TableBuf.Table t  = getTable(file);
+							extract(t,w,extr,fileName);
+						}
+					}else if(extract_type == 3){
+						TableBuf.Table t  = getTable(file);
+						extract(t,w,extr,fileName);
 					}
 				}
 			}
-			w.close();
-		 }
-		 catch (IOException e) {
-			System.err.println("Error writing to MarkedRelevant.txt file");
-			e.printStackTrace();
 		}
-		
 	}
+	private static boolean file_is_good(File file, Integer pmc){
+		return file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString());
+	}
+//	public static void extractFromList (ArrayList<Integer> PMCIDs, int extractType){
+//		 try{
+//		List<TableBuf.Table> tableList = new LinkedList<TableBuf.Table>();
+//		File tableDir =  new File("tables");
+//		if(extractType == 0){
+//			tableDir = new File("files");
+//		}else{
+//			tableDir = new File("tables");
+//		}
+//		
+//		HashSet<String> has_table = new HashSet<String>();
+//		
+//		File table = new File("tables");
+//		Pattern p = Pattern.compile("PMC([0-9]{6,7})");
+//		for(File f : table.listFiles()){
+//			String name = f.getName();
+//			Matcher m = p.matcher(name);
+//			if(m.find())
+//				has_table.add(m.group(1));
+//		}
+//		System.out.println(has_table);
+//		
+//		File markedRelevant = new File("MarkedRelevant.txt");
+//		FileWriter w;
+//		Extraction extr = new Extraction();
+//		System.out.println(extractType);
+//			w = new FileWriter(markedRelevant);
+//			for(Integer pmc : PMCIDs){
+//				for (File file : tableDir.listFiles()){
+//					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
+//						String fileName = file.getName();
+//						if(extractType == 0){
+//							System.err.println(file.getName());
+//							tableList = MasterExtractor.buildTable(file, pmc.toString());
+//							for(TableBuf.Table t : tableList){
+//								extract(t,w,extr,fileName);
+//							}
+//						}else if (extractType == 2 ){
+//							if(!file.getName().contains("Supp")){
+//								TableBuf.Table t  = getTable(file);
+//								extract(t,w,extr,fileName);
+//							}
+//
+//						}else if (extractType == 3 ){
+//							if(file.getName().contains("Supp")){
+//								TableBuf.Table t  = getTable(file);
+//								extract(t,w,extr,fileName);
+//							}
+//						}else{
+//							TableBuf.Table t  = getTable(file);
+//							extract(t,w,extr,fileName);
+//						}
+//					}
+//				}
+//			}
+//			w.close();
+//		 }
+//		 catch (IOException e) {
+//			System.err.println("Error writing to MarkedRelevant.txt file");
+//			e.printStackTrace();
+//		}
+//		
+//	}
 
 	/**
 	 * 0 is full
@@ -160,8 +196,9 @@ public class TableReader {
 	 * 3 is excel
 	 * default is 1
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		ArrayList<Integer> PMCIDs= new ArrayList<Integer>();
 		if (args.length>0){
 			try {
