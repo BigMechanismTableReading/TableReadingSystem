@@ -8,5 +8,11 @@ The TableReadingSystem extracts relevant information from tables in (or supplmen
 2. `mvn clean compile assembly:single`   
 3. `java ([optional but may be necessary] -Xmx16384m) -jar BigMechanismTableReader-0.0.1-jar.with-dependencies.jar "(filename)" (0,1,2 or 3 depending on configuration)`
 
+##Example
+The directory PMC1459033 contains an example (the inputs/outputs from a full run).
+*files - contains the original files and supplementary material
+*tables - the protobuf output from the files
+*papers - the original file (no tables in it, this directory is not used)
+*index_cards - the output from the system
 
-###Please visit the [wiki](https://github.com/BigMechanismTableReading/TableReadingSystem/wiki) for more information and options
+##Please visit the [wiki](https://github.com/BigMechanismTableReading/TableReadingSystem/wiki) for more information and options

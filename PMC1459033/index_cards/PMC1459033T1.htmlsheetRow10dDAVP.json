@@ -1,0 +1,73 @@
+
+{
+    "pmc_id":"PMC1459033",
+    "reading_started":"Thu Oct 01 21:46:39 UTC 2015",
+    "reading_complete":"Thu Oct 01 21:46:48 UTC 2015",
+    "submitter":"Leidos",
+    "reader_type":"machine",
+    "extracted_information":{
+        "negative_information":"false",
+        "participant_a":{
+            "entity_text":"dDAVP",
+            "entity_type":"chemical",
+            "identifier":"CHEBI:4450",
+            "in_model":"false"
+        },
+        "participant_b":{
+            "entity_text":"Q8N1G4",
+            "entity_type":"protein",
+            "identifier":"Uniprot:Q8N1G4",
+            "in_model":"false",
+            "features":{
+                "site":"[293, 293]",
+                "base":"[S, S]"
+            }
+        },
+        "interaction_type":"adds modification",
+        "modifications":[
+            {
+                "modification_type":"phosphorylation",
+                "position":[
+                    "[293, 293]"
+                ]
+            }
+        ]
+    },
+    "evidence":[
+        {
+            "table_evidence":[
+                {
+                    "table":"PMC1459033T1.htmlsheet",
+                    "row":"10",
+                    "Headers":[
+                        "ID",
+                        "Site (putative kinase)",
+                        "Swiss-Prot",
+                        "Spectrum",
+                        "MS quant ratio",
+                        "Comment (Ref.)"
+                    ]
+                },
+                {
+                    "fold_information_used":"MS quant ratio"
+                }
+            ],
+            "captions":[
+                "IMCD phosphoproteins of potential relevance to vasopressin signaling/AQP2 trafficking",
+                "Sites in bold italics have been previously identified. Abundance ratios are expressed as mean ± SE (dDAVP/control), n= 3.",
+                "*Indicates a site that was quantified.",
+                "†Indicates an identification containing ambiguous site(s).",
+                "**, Ratio is significant (P < 0.05)."
+            ]
+        },
+        {
+            "text_evidence":[
+                {
+                    "section":"",
+                    "paragraph":"",
+                    "text":""
+                }
+            ]
+        }
+    ]
+}
