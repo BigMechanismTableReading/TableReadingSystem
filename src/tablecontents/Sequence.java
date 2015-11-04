@@ -18,13 +18,34 @@ public abstract class Sequence implements ColumnContents {
 	public String headerMatch(String match) {
 		return null;
 	}
+	
+	private boolean consonantChecker(String sequence){
+		String vowels = "AEIOUaeiou";
+		for(int i = 0; i < sequence.length()-5; i++){
+			String sub = sequence.substring(i, i+5);
+			boolean all_consonants = true;
+			for(char c: vowels.toCharArray()){
+				if(sub.contains(c+"")){
+					all_consonants = false;
+					break;
+				}
+			}
+			if( all_consonants == true){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	String cellMatch(String match,String regEx) {
 		Pattern p = Pattern.compile(regEx);
 		Matcher m = p.matcher(match);
 		if(m.find()){
 			String found = m.group();
 			if(!dictionary.words.contains(found)){
-				return m.group();
+				if(consonantChecker(found)){
+					return found;
+				}
 			}
 		}
 		return null;

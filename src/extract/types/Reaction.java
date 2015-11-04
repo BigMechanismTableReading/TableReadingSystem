@@ -17,7 +17,7 @@ import tablecontents.Protein;
 public abstract class Reaction {
 	
 	public static Reaction[] allReactions = {Phosphorylation.getInstance(),Acetylation.getInstance(),
-		Methylation.getInstance(),Sumoylation.getInstance(),PossibleReaction.getInstance()};
+		Methylation.getInstance(),Sumoylation.getInstance()};
 	HashSet<Class<? extends ColumnContents>> data = new HashSet<Class<? extends ColumnContents>>();
 	HashSet<Class<? extends ColumnContents>> optionalColumns = new HashSet<Class<? extends ColumnContents>>();
 	HashMap<Class<? extends ColumnContents>, List<List<Class<? extends ColumnContents>>>> alternatives = 
@@ -31,7 +31,7 @@ public abstract class Reaction {
 	 */
 	public static void useRelaxedReactions(){
 		 allReactions = new Reaction []{Phosphorylation.getInstance(),Acetylation.getInstance(),
-					Methylation.getInstance(),Sumoylation.getInstance(),PossibleReaction.getInstance(),RelaxedReaction.getInstance()};
+					Methylation.getInstance(),Sumoylation.getInstance(),RelaxedReaction.getInstance()};
 	}
 	/**
 	 * Returns a list of column types required to make an index card for this reaction.

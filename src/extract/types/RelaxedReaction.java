@@ -17,6 +17,7 @@ public class RelaxedReaction extends Reaction{
 		data.add(Protein.class);
 		addAlternativeEntry(Site.class, createEntry(Amino.class,Position.class));
 		addAlternativeEntry(Site.class,createEntry(AminoSequence.class));
+		addAlternativeEntry(Site.class,createEntry(Fold.class));
 		conjugationBase.add("phosphorylat");
 		conjugationBase.add("methylat");
 		//TODO add other needed bases and figure out column contents
