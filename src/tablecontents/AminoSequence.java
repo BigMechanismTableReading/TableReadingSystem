@@ -1,7 +1,7 @@
 package tablecontents;
 
 public class AminoSequence extends Sequence {
-	private String cellRegEx = ".*["+"HTPVSKFGDWRNMLYAEIQ"+"]{2,}.*";
+	private String cellRegEx = ".*["+"HTPVSKFGDWRNMLYAEIQ"+"]{5,}.*";
 	
 	private static AminoSequence aSeq = null;
 	public static AminoSequence getInstance(){
