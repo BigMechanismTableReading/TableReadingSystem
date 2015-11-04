@@ -29,7 +29,7 @@ public abstract class Reaction {
 	 * Allows this reaction to search for reactions with less strict requirements
 	 * @param use
 	 */
-	public static void useRelaxedReactions(boolean use){
+	public static void useRelaxedReactions(){
 		 allReactions = new Reaction []{Phosphorylation.getInstance(),Acetylation.getInstance(),
 					Methylation.getInstance(),Sumoylation.getInstance(),PossibleReaction.getInstance(),RelaxedReaction.getInstance()};
 	}
