@@ -48,7 +48,7 @@ public class TableReader {
 	 * @param extractType 
 	 * @throws IOException 
 	 */
-	public static void extractFromFile(File ids, int extractType) throws IOException{
+	public static void extractFromFile(File ids, int extractType,boolean relaxed) throws IOException{
 		ArrayList<Integer> PMCIDs = new ArrayList<Integer>();
 		try {
 			Scanner reader = new Scanner(ids);
@@ -56,7 +56,7 @@ public class TableReader {
 				PMCIDs.add(reader.nextInt());	
 			}
 			reader.close();
-			extractFromList(PMCIDs, extractType);
+			extractFromList(PMCIDs, extractType, relaxed);
 		}
 		catch (FileNotFoundException e){
 			
@@ -78,7 +78,7 @@ public class TableReader {
 	 *
 	 * @throws IOException
 	 */
-	public static void extractFromList(ArrayList<Integer> pmc_ids, int extract_type) throws IOException{
+	public static void extractFromList(ArrayList<Integer> pmc_ids, int extract_type,boolean relaxed) throws IOException{
 		//Select which directory to use
 		File table_use = null;
 		if(extract_type == 0){
@@ -86,11 +86,11 @@ public class TableReader {
 		}else{
 			table_use = new File("tables");
 		}
-		write_files(pmc_ids,extract_type,table_use);
+		write_files(pmc_ids,extract_type,table_use,relaxed);
 		
 	}
 	
-	private static void write_files(ArrayList<Integer> pmc_ids, int extract_type,File table_use) throws IOException{
+	private static void write_files(ArrayList<Integer> pmc_ids, int extract_type,File table_use,boolean relaxed) throws IOException{
 
 		Extraction extr = new Extraction();
 		FileWriter w = new FileWriter(new File("relevant_pmc_ids.txt"));
@@ -103,21 +103,21 @@ public class TableReader {
 						System.err.println(file.getName());
 						table_list = MasterExtractor.buildTable(file, pmc.toString());
 						for(TableBuf.Table t : table_list){
-							extract(t,w,extr,fileName);
+							extract(t,w,extr,fileName,relaxed);
 						}
 					}else if(extract_type == 1){
 						if(!file.getName().contains("Supp")){
 							TableBuf.Table t  = getTable(file);
-							extract(t,w,extr,fileName);
+							extract(t,w,extr,fileName,relaxed);
 						}
 					}else if(extract_type == 2){
 						if(file.getName().contains("Supp")){
 							TableBuf.Table t  = getTable(file);
-							extract(t,w,extr,fileName);
+							extract(t,w,extr,fileName,relaxed);
 						}
 					}else if(extract_type == 3){
 						TableBuf.Table t  = getTable(file);
-						extract(t,w,extr,fileName);
+						extract(t,w,extr,fileName,relaxed);
 					}
 				}
 			}
@@ -137,6 +137,8 @@ public class TableReader {
 	 */
 	public static void main(String[] args) throws IOException{
 		ArrayList<Integer> PMCIDs= new ArrayList<Integer>();
+		boolean relaxed = false;
+		relaxed = true;
 		if (args.length>0){
 			try {
 				File ids = new File(args[0]);
@@ -155,7 +157,7 @@ public class TableReader {
 				throw new NumberFormatException();
 			}
 			if (!PMCIDs.isEmpty()){
-				extractFromList(PMCIDs, extractType);
+				extractFromList(PMCIDs, extractType,relaxed);
 			}
 			else{
 				System.err.println("List of PMCIDs was empty or invalid");
@@ -180,11 +182,11 @@ public class TableReader {
 		
 		
 	}
-	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr,String fileName){
+	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr,String fileName,boolean relaxed){
 
 		try {
 			DetermineTable d = new DetermineTable();
-			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
+			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t,relaxed);
 			if(r != null){
 				System.out.println(r.getA() + " " + r.getB().keySet());
 				w.write(fileName + "\n");

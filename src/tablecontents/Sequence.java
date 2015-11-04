@@ -21,11 +21,11 @@ public abstract class Sequence implements ColumnContents {
 	
 	private boolean consonantChecker(String sequence){
 		String vowels = "AEIOUaeiou";
-		for(int i = 0; i < sequence.length()-5; i++){
-			String sub = sequence.substring(i, i+5);
+		for(int i = 0; i < sequence.length()-4; i++){
+			String sub = sequence.substring(i, i+4);
 			boolean all_consonants = true;
 			for(char c: vowels.toCharArray()){
-				if(sub.contains(c+"")){
+				if(sub.contains(c + "")){
 					all_consonants = false;
 					break;
 				}
@@ -61,7 +61,7 @@ public abstract class Sequence implements ColumnContents {
 		for(TableBuf.Column c : cols){
 			Cell cell = c.getData(row);
 			if(cell != null){
-				seq.put("Sequence", cell.getData());
+				seq.put("sequence", cell.getData());
 			}
 		}
 		

@@ -96,9 +96,12 @@ public class IndexCardWriter {
 			for (String i : idx.getData("site").split("^\\d")){
 				positions.add(i);
 			}
-		}else{
-			return false;
 		}
+		String seq = idx.getData("sequence");
+		if(seq != null){
+			modifications.add(seq);
+		}
+		
 		//Change it from r to the actual name of the reaction
 		modifications.add(Json.createObjectBuilder().add("modification_type", 
 				idx.getData("modification_type")).add("position", positions.build()).build());
