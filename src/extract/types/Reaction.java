@@ -26,6 +26,14 @@ public abstract class Reaction {
 	ArrayList<String> conjugationBase = new ArrayList<String>();
 	
 	/**
+	 * Allows this reaction to search for reactions with less strict requirements
+	 * @param use
+	 */
+	public static void useRelaxedReactions(boolean use){
+		 allReactions = new Reaction []{Phosphorylation.getInstance(),Acetylation.getInstance(),
+					Methylation.getInstance(),Sumoylation.getInstance(),PossibleReaction.getInstance(),RelaxedReaction.getInstance()};
+	}
+	/**
 	 * Returns a list of column types required to make an index card for this reaction.
 	 * @return
 	 */

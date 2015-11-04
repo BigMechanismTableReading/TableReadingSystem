@@ -8,11 +8,12 @@ import java.util.regex.Pattern;
 import extract.analysis.Pair;
 import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Cell;
+import extract.lookup.Dictionary;
 
 
 public abstract class Sequence implements ColumnContents {
 	public int confidenceNeeded = 3;
-	
+	private Dictionary dictionary = Dictionary.getInstance();
 	@Override
 	public String headerMatch(String match) {
 		return null;
@@ -20,8 +21,12 @@ public abstract class Sequence implements ColumnContents {
 	String cellMatch(String match,String regEx) {
 		Pattern p = Pattern.compile(regEx);
 		Matcher m = p.matcher(match);
-		if(m.find())
-			return m.group();
+		if(m.find()){
+			String found = m.group();
+			if(!dictionary.words.contains(found)){
+				return m.group();
+			}
+		}
 		return null;
 	}
 	@Override

@@ -89,6 +89,7 @@ public class TableReader {
 		write_files(pmc_ids,extract_type,table_use);
 		
 	}
+	
 	private static void write_files(ArrayList<Integer> pmc_ids, int extract_type,File table_use) throws IOException{
 
 		Extraction extr = new Extraction();
@@ -125,70 +126,6 @@ public class TableReader {
 	private static boolean file_is_good(File file, Integer pmc){
 		return file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString());
 	}
-//	public static void extractFromList (ArrayList<Integer> PMCIDs, int extractType){
-//		 try{
-//		List<TableBuf.Table> tableList = new LinkedList<TableBuf.Table>();
-//		File tableDir =  new File("tables");
-//		if(extractType == 0){
-//			tableDir = new File("files");
-//		}else{
-//			tableDir = new File("tables");
-//		}
-//		
-//		HashSet<String> has_table = new HashSet<String>();
-//		
-//		File table = new File("tables");
-//		Pattern p = Pattern.compile("PMC([0-9]{6,7})");
-//		for(File f : table.listFiles()){
-//			String name = f.getName();
-//			Matcher m = p.matcher(name);
-//			if(m.find())
-//				has_table.add(m.group(1));
-//		}
-//		System.out.println(has_table);
-//		
-//		File markedRelevant = new File("MarkedRelevant.txt");
-//		FileWriter w;
-//		Extraction extr = new Extraction();
-//		System.out.println(extractType);
-//			w = new FileWriter(markedRelevant);
-//			for(Integer pmc : PMCIDs){
-//				for (File file : tableDir.listFiles()){
-//					if(file.isFile() && !file.getName().toLowerCase().contains("resource") && file.getName().startsWith("PMC"+pmc.toString())){
-//						String fileName = file.getName();
-//						if(extractType == 0){
-//							System.err.println(file.getName());
-//							tableList = MasterExtractor.buildTable(file, pmc.toString());
-//							for(TableBuf.Table t : tableList){
-//								extract(t,w,extr,fileName);
-//							}
-//						}else if (extractType == 2 ){
-//							if(!file.getName().contains("Supp")){
-//								TableBuf.Table t  = getTable(file);
-//								extract(t,w,extr,fileName);
-//							}
-//
-//						}else if (extractType == 3 ){
-//							if(file.getName().contains("Supp")){
-//								TableBuf.Table t  = getTable(file);
-//								extract(t,w,extr,fileName);
-//							}
-//						}else{
-//							TableBuf.Table t  = getTable(file);
-//							extract(t,w,extr,fileName);
-//						}
-//					}
-//				}
-//			}
-//			w.close();
-//		 }
-//		 catch (IOException e) {
-//			System.err.println("Error writing to MarkedRelevant.txt file");
-//			e.printStackTrace();
-//		}
-//		
-//	}
-
 	/**
 	 * 0 is full
 	 * 1 is partial
