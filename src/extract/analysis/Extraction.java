@@ -13,6 +13,7 @@ import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import extract.buffer.TableBuf;
 import extract.types.Reaction;
+import extract.types.RelaxedReaction;
 import extract.write.IndexCard;
 import extract.write.IndexCardWriter;
 
@@ -104,14 +105,18 @@ public class Extraction {
 	private List<IndexCard> getCards(Reaction r,List<ParticipantA> participantACols,
 			HashMap<Integer, String> partB,
 			HashMap<Integer, String> partBuntrans,List<ColumnContents> cols,
-			HashMap<ColumnContents,List<TableBuf.Column>> contents,boolean fold_needed){
+			HashMap<ColumnContents,List<TableBuf.Column>> contents,boolean fold_needed,
+			TableBuf.Table t){
 		
 		List<IndexCard> cards = new LinkedList<IndexCard>();
 		Iterator<Integer> iter = partB.keySet().iterator();
 		
 		while(iter.hasNext()){
 			int i = iter.next();
-			
+			if(r instanceof RelaxedReaction){
+				RelaxedReaction relaxed = (RelaxedReaction) r;
+				relaxed.setReactionType(t);
+			}
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
 			for (ColumnContents content : cols){
 				if(!(content instanceof Protein)){
@@ -180,7 +185,7 @@ public class Extraction {
 			fold_needed = true;
 		}
 		System.out.println("Printing index cards");
-		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents,fold_needed);
+		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents,fold_needed,table);
 		System.out.println(cards.size());
 		makeIdx(cards, readingStart, table);
 		

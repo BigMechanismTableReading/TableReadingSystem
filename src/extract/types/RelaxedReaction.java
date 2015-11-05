@@ -1,4 +1,5 @@
 package extract.types;
+import extract.buffer.TableBuf;
 import tablecontents.*;
 
 public class RelaxedReaction extends Reaction{
@@ -20,6 +21,28 @@ public class RelaxedReaction extends Reaction{
 		addAlternativeEntry(Site.class,createEntry(Fold.class));
 		conjugationBase.add("protein_modificat");
 		//TODO add other needed bases and figure out column contents
+	}
+	public void setReactionType(TableBuf.Table table){
+		boolean conj_found = false;
+		for(Reaction r : Reaction.getReactions()){
+			for(String c: table.getCaptionList()){
+				for(String conj: r.getConjugationBase()){
+					if(c.contains(conj)){
+						this.conjugationBase.clear();
+						this.conjugationBase.add(conj);
+						conj_found = true;
+						break;
+					}
+				}
+				if(conj_found){
+					break;
+				}
+			}
+			if(conj_found){
+				break;
+			}
+		}
+		
 	}
 	@Override
 	public Class<? extends ColumnContents> getEssentialClass() {
