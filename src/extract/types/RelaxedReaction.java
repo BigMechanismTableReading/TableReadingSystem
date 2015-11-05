@@ -18,7 +18,7 @@ public class RelaxedReaction extends Reaction{
 		addAlternativeEntry(Site.class, createEntry(Amino.class,Position.class));
 		addAlternativeEntry(Site.class,createEntry(AminoSequence.class));
 		addAlternativeEntry(Site.class,createEntry(Fold.class));
-		conjugationBase.add("protein_modification");
+		conjugationBase.add("protein_modificat");
 		//TODO add other needed bases and figure out column contents
 	}
 	@Override

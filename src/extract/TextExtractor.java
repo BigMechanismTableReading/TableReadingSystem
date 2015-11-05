@@ -202,7 +202,7 @@ public class TextExtractor {
 		List<List<List<String>>> list = getReactionPairs("papers" + File.separator + name + ".html", conjugationBase);
 		HashMap<String, Integer> partAs = new HashMap<String, Integer>();
 		if(list == null)
-			return null;
+			return partAs;
 		for(List<List<String>> entry : list){
 			HashSet<String> partArow = new HashSet<String>();
 			for (String partB : participantBs){

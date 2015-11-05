@@ -185,10 +185,11 @@ public class TableReader {
 	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr,String fileName,boolean relaxed){
 
 		try {
+			System.out.println("here");
 			DetermineTable d = new DetermineTable();
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t,relaxed);
 			if(r != null){
-				System.out.println(r.getA() + " " + r.getB().keySet());
+				System.err.println(r.getA() + " " + r.getB().keySet());
 				w.write(fileName + "\n");
 				if (r.getA() != PossibleReaction.getInstance()){
 					System.out.println(t.getSource().getPmcId());

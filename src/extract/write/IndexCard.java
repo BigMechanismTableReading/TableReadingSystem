@@ -70,7 +70,7 @@ public class IndexCard {
 	 * @param row
 	 * @return
 	 */
-	public boolean addPartA(ParticipantA entry, int row) {
+	public boolean addPartA(ParticipantA entry, int row,boolean fold_required) {
 		Ratio r = Ratio.getInstance();
 		String aGrounded = entry.getName();
 		data.put("identifier_a",aGrounded);
@@ -82,13 +82,13 @@ public class IndexCard {
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
 		Fold f = r.bestFold(foldCols);
 		HashMap<String, String> foldData = null;
-		if(f != null)
+		if(f != null){
 			 foldData = f.extractData(foldCols.get(f),row);
-		
-		if(foldData == null || foldData.isEmpty()){
-			return false;
 		}
-		addInfo(foldData);
+		if(!(foldData == null || foldData.isEmpty())){
+			addInfo(foldData);
+		}
+		
 		return true;
 	}
 	

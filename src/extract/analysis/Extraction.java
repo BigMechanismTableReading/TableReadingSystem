@@ -45,6 +45,7 @@ public class Extraction {
 		int row = 0;
 		if(col != null){
 			while(row < col.getDataCount()){
+			
 				Pair<String, String> ground = protein.bestColumn(contents, row);
 				if(ground != null){
 					if(ground.getB() != null) {
@@ -52,9 +53,11 @@ public class Extraction {
 					}
 					partBuntrans.put(row, ground.getA());
 				}
+				
 				row++;
 			}
 		}
+		System.err.println(row);
 		return new Pair<HashMap<Integer,String>, HashMap<Integer,String>>(partB, partBuntrans);
 	}
 	
@@ -101,10 +104,11 @@ public class Extraction {
 	private List<IndexCard> getCards(Reaction r,List<ParticipantA> participantACols,
 			HashMap<Integer, String> partB,
 			HashMap<Integer, String> partBuntrans,List<ColumnContents> cols,
-			HashMap<ColumnContents,List<TableBuf.Column>> contents){
+			HashMap<ColumnContents,List<TableBuf.Column>> contents,boolean fold_needed){
 		
 		List<IndexCard> cards = new LinkedList<IndexCard>();
 		Iterator<Integer> iter = partB.keySet().iterator();
+		
 		while(iter.hasNext()){
 			int i = iter.next();
 			
@@ -117,7 +121,7 @@ public class Extraction {
 			//First get the site/sequence column, then do fold
 			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);
-				if (dupl.addPartA(entry,i)){
+				if (dupl.addPartA(entry,i,fold_needed)){
 					cards.add(dupl);
 				}
 			}
@@ -142,6 +146,8 @@ public class Extraction {
 		Pair<HashMap<Integer, String>, HashMap<Integer, String>> partBinfo = getAllParticipantB(contents);
 		HashMap<Integer, String> partB = partBinfo.getA();
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();
+		System.err.println("participantB size: " + partB.size());
+		System.err.println("participantB size: " + partBuntrans.size());
 		System.out.println("Done with participantB");
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,partBuntrans,foldContents(contents), r);
@@ -169,8 +175,13 @@ public class Extraction {
 				}
 			}
 		}
+		boolean fold_needed = false;
+		if (r.getRequiredColumns().contains(Fold.class)){
+			fold_needed = true;
+		}
 		System.out.println("Printing index cards");
-		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents);
+		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents,fold_needed);
+		System.out.println(cards.size());
 		makeIdx(cards, readingStart, table);
 		
 	}

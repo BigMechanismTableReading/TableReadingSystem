@@ -62,8 +62,6 @@ public class IndexCardWriter {
 		String site = idx.getData("site");
 		if(site!= null){
 				features.add("site", site);
-		}else{
-			return false;
 		}
 		String amino = idx.getData("base");
 		if(amino!=null){
@@ -86,7 +84,9 @@ public class IndexCardWriter {
 		
 		infoBuilder.add("participant_a", participantA.build());
 		infoBuilder.add("participant_b", participantB.build());
-		infoBuilder.add("interaction_type", idx.getData("interaction_type"));
+		if (idx.getData("interaction_type") != null){
+			infoBuilder.add("interaction_type", idx.getData("interaction_type"));
+		}
 		//Adds modificationType
 		JsonArrayBuilder modifications = Json.createArrayBuilder();
 		JsonArrayBuilder positions = Json.createArrayBuilder();
@@ -99,7 +99,9 @@ public class IndexCardWriter {
 		}
 		String seq = idx.getData("sequence");
 		if(seq != null){
-			modifications.add(seq);
+			JsonObjectBuilder seq_obj = Json.createObjectBuilder();
+			seq_obj.add("sequence", seq);
+			modifications.add(seq_obj);
 		}
 		
 		//Change it from r to the actual name of the reaction
@@ -128,8 +130,9 @@ public class IndexCardWriter {
 		}
 		interiorTableEv.add("Headers", headers);
 		JsonObjectBuilder foldHeader = Json.createObjectBuilder();
-		foldHeader.add("fold_information_used", idx.getData("fold_information_used"));
-		
+		if(idx.getData("fold_information_used") != null){
+			foldHeader.add("fold_information_used", idx.getData("fold_information_used"));
+		}
 		JsonArrayBuilder captions = Json.createArrayBuilder();	
 		if(captions != null){
 			for(String s : t.getCaptionList()){
@@ -174,7 +177,9 @@ public class IndexCardWriter {
 		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
 		infoBuilder.add("confidence_level", idx.getData("confidence_level"));
 		infoBuilder.add("list_position",idx.getData("list_position"));
-		infoBuilder.add("negative_information", idx.getData("negative_information"));
+		if(idx.getData("negative_information") != null){
+			infoBuilder.add("negative_information", idx.getData("negative_information"));
+		}
 		JsonObjectBuilder participantA = Json.createObjectBuilder();
 		buildParticipant(participantA,idx, "a");
 		JsonObjectBuilder participantB = Json.createObjectBuilder();
