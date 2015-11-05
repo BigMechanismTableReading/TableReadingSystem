@@ -55,7 +55,7 @@ public class RelevanceOnly {
 	public void determineRelevancy(TableBuf.Table t, FileWriter w,String file_name){
 		try {
 			DetermineTable d = new DetermineTable();
-			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t);
+			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = d.determine(t,true);
 			if(r != null && !relevant_pmc_ids.contains(file_name)){
 				w.write(file_name + "\n");
 				relevant_pmc_ids.add(file_name);

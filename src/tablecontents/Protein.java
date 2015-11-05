@@ -134,11 +134,9 @@ public abstract class Protein implements ColumnContents{
 	public Pair<String, String> bestColumn(HashMap<ColumnContents,List<TableBuf.Column>> cols, int row){
 		Pair<String,String> s = null;
 		Pair<String,String> a = null;
-		System.err.println("columns: " + cols.keySet() + "\n prot: " + Arrays.toString(protList));
 		for(Protein p : protList){
 			
 			if(cols.containsKey(p)){
-				System.err.println(p + "" + cols.keySet());
 				a = getGrounded(p,cols,row);
 			}
 			if (a != null)

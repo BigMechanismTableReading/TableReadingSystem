@@ -58,7 +58,6 @@ public class Extraction {
 				row++;
 			}
 		}
-		System.err.println(row);
 		return new Pair<HashMap<Integer,String>, HashMap<Integer,String>>(partB, partBuntrans);
 	}
 	

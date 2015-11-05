@@ -95,9 +95,12 @@ public class TableReader {
 		Extraction extr = new Extraction();
 		FileWriter w = new FileWriter(new File("relevant_pmc_ids.txt"));
 		List<TableBuf.Table> table_list = new LinkedList<TableBuf.Table>();
+		System.err.println(pmc_ids + "" + extract_type) ;
 		for(Integer pmc : pmc_ids){
+			System.err.println("PMC: " + pmc);
 			for (File file : table_use.listFiles()){
 				if(file_is_good(file,pmc)){
+					System.err.println("PMC: " + pmc);
 					String fileName = file.getName();
 					if(extract_type == 0){
 						System.err.println(file.getName());
@@ -151,7 +154,7 @@ public class TableReader {
 			
 			int extractType = 1; //default
 			if (args.length>1){
-				Integer.parseInt(args[1]);
+				extractType = Integer.parseInt(args[1]);
 			}
 			if (extractType < 0 || extractType > 3){
 				throw new NumberFormatException();
