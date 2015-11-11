@@ -19,6 +19,8 @@ import extract.buffer.TableBuf;
  *
  */
 public class MasterExtractor {
+	private static String file_dir = "files";
+	private static String table_dir = "tables";
 	// Used for general scraping and extraction purposes
 	public static void main (String args[]) {
 		System.out.println("Please choose input type:");
@@ -81,7 +83,7 @@ public class MasterExtractor {
 			source.setSourceFile(target.getName());
 			boolean humanMarkupRequired = false;
 			String extra = "";
-		
+			HTMLTableExtractor.setFile_dir(file_dir);
 			HTMLTableExtractor extractor = new HTMLTableExtractor();
 			Collection<List<String>> data = extractor.parseHTMLTable(target.getPath());
 			if(data == null) {
@@ -152,7 +154,7 @@ public class MasterExtractor {
 		
 		FileOutputStream output;
 		try {
-			output = new FileOutputStream("tables/" + name + extra + ".pb");
+			output = new FileOutputStream(table_dir + File.separator + name + extra + ".pb");
 			table.writeTo(output);
 			output.close();
 		} catch (FileNotFoundException e) {
@@ -162,5 +164,21 @@ public class MasterExtractor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static String getTable_dir() {
+		return table_dir;
+	}
+
+	public static void setTable_dir(String table_dir) {
+		MasterExtractor.table_dir = table_dir;
+	}
+
+	public static String getFile_dir() {
+		return file_dir;
+	}
+
+	public static void setFile_dir(String file_dir) {
+		MasterExtractor.file_dir = file_dir;
 	}
 }

@@ -28,13 +28,18 @@ import extract.types.Reaction;
  */
 public class TextExtractor {
 	
+	private static String paper_dir = "papers";
+	
+	public static void setPaper_dir(String dir){
+		paper_dir = dir;
+	}
 	/**
 	 * Retrieves the title of the article
 	 * @param fileName The name of the file to extract
 	 * @return the title of the article
 	 */
 	public static String parseHTMLTitle(String fileName){
-		File document = new File("papers" + File.pathSeparator + fileName + ".html");
+		File document = new File(paper_dir + File.pathSeparator + fileName + ".html");
 		System.out.println(fileName);
 		String title = "";
 		if(document.exists()){
@@ -94,7 +99,7 @@ public class TextExtractor {
 		String name = "PMC" + PMCID;
 		HashSet<String> wordSet = new HashSet<String>();
 		Reaction[] allReactions = Reaction.allReactions;
-		String paperPath = "papers" + File.separator + name + ".html";
+		String paperPath = paper_dir + File.separator + name + ".html";
 		
 		File document = new File(paperPath);
 		if (document.exists()) {
@@ -199,7 +204,7 @@ public class TextExtractor {
 	 */
 	public static HashMap<String,Integer> extractParticipantA(Set<String> participantBs, String PMCID, List<String> conjugationBase){
 		String name = "PMC" + PMCID;
-		List<List<List<String>>> list = getReactionPairs("papers" + File.separator + name + ".html", conjugationBase);
+		List<List<List<String>>> list = getReactionPairs(paper_dir + File.separator + name + ".html", conjugationBase);
 		HashMap<String, Integer> partAs = new HashMap<String, Integer>();
 		if(list == null)
 			return null;
@@ -281,7 +286,7 @@ public class TextExtractor {
 	public static boolean speciesIdentifier(String PMCID){
 		String name = "PMC" + PMCID;
 		HashSet<String> wordSet = new HashSet<String>();
-		String paperPath = "papers" + File.separator + name + ".html";
+		String paperPath = paper_dir + File.separator + name + ".html";
 		List<String> yeast = new ArrayList<String>();
 		yeast.add("saccharomyces");
 		yeast.add("yeast");

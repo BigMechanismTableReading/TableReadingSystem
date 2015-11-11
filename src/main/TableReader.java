@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 
 import tablecontents.ColumnContents;
 import extract.MasterExtractor;
+import extract.TextExtractor;
 import extract.analysis.DetermineTable;
 import extract.analysis.Extraction;
 import extract.analysis.Pair;
@@ -103,6 +104,9 @@ public class TableReader {
 				String paper_dir = config.getPaper_dir();
 				boolean simple_reaction = config.isSimple_reaction();
 				boolean make_tables = config.isMake_tables();
+				TextExtractor.setPaper_dir(paper_dir);
+				MasterExtractor.setFile_dir(file_dir);
+				MasterExtractor.setTable_dir(table_dir);
 				extractFromList(file_dir,table_dir,paper_dir,output_file,simple_reaction,make_tables,pmc_ids);
 				
 			}else{

@@ -23,7 +23,7 @@ import extract.buffer.TableBuf;
  * @author vhsiao
  */
 public class HTMLTableExtractor {
-	
+	private static String file_dir = "files";
 	// Private helper method used to check for single entry rows
 	private boolean isValidRow(Element tr){
 		int count = 0;
@@ -296,6 +296,14 @@ public class HTMLTableExtractor {
 		}
 		    
 
+	}
+
+	public static String getFile_dir() {
+		return file_dir;
+	}
+
+	public static void setFile_dir(String file_dir) {
+		HTMLTableExtractor.file_dir = file_dir;
 	}
 
 }
