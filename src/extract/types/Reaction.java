@@ -25,6 +25,11 @@ public abstract class Reaction {
 	ArrayList<String> conjugations = new ArrayList<String>();
 	ArrayList<String> conjugationBase = new ArrayList<String>();
 	
+	public static void setSimple(boolean simple){
+		if(simple){
+			allReactions = new Reaction[]{SimpleReaction.getInstance()};
+		}
+	}
 	/**
 	 * Returns a list of column types required to make an index card for this reaction.
 	 * @return

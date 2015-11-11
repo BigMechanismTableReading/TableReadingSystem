@@ -79,12 +79,13 @@ public class Extraction {
 	 * @param cards
 	 * @param readingStart
 	 * @param table
+	 * @param possibleA 
 	 */
-	private void makeIdx(List<IndexCard> cards, String readingStart,TableBuf.Table table){
+	private void makeIdx(List<IndexCard> cards, String readingStart,TableBuf.Table table,boolean simple_reaction, HashMap<String, String> possibleA){
 		String readingEnd = new Date(System.currentTimeMillis()).toString();
 		IndexCardWriter w = new IndexCardWriter();
 		for (IndexCard card : cards){
-			w.writeIndexCard(readingStart, readingEnd, table, card);
+			w.writeIndexCard(readingStart, readingEnd, table, card, simple_reaction,possibleA);
 		}
 	}
 	
@@ -101,13 +102,14 @@ public class Extraction {
 	private List<IndexCard> getCards(Reaction r,List<ParticipantA> participantACols,
 			HashMap<Integer, String> partB,
 			HashMap<Integer, String> partBuntrans,List<ColumnContents> cols,
-			HashMap<ColumnContents,List<TableBuf.Column>> contents){
+			HashMap<ColumnContents,List<TableBuf.Column>> contents,
+			boolean simple_reaction){
 		
 		List<IndexCard> cards = new LinkedList<IndexCard>();
 		Iterator<Integer> iter = partB.keySet().iterator();
+		int count = 0;
 		while(iter.hasNext()){
 			int i = iter.next();
-			
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
 			for (ColumnContents content : cols){
 				if(!(content instanceof Protein)){
@@ -119,9 +121,15 @@ public class Extraction {
 				IndexCard dupl = new IndexCard(card);
 				if (dupl.addPartA(entry,i)){
 					cards.add(dupl);
+				}else if(simple_reaction){
+					IndexCard new_card = new IndexCard(card);
+					new_card.addPartA(entry,i);
+					cards.add(new_card);
 				}
 			}
+			
 		}
+		System.err.println(cards.size() + " cards");
 		return cards;
 		
 	}
@@ -131,10 +139,10 @@ public class Extraction {
 	 * and writes the information to index cards
 	 * @param colInfo
 	 * @param table
+	 * @param simple_reaction 
 	 */
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
-							TableBuf.Table table){
-		System.out.println("Starting Extraction " + colInfo.getA());
+							TableBuf.Table table, boolean simple_reaction){
 		String readingStart = new Date(System.currentTimeMillis()).toString();
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
@@ -142,10 +150,8 @@ public class Extraction {
 		Pair<HashMap<Integer, String>, HashMap<Integer, String>> partBinfo = getAllParticipantB(contents);
 		HashMap<Integer, String> partB = partBinfo.getA();
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();
-		System.out.println("Done with participantB");
 		ParticipantAExtractor partA = new ParticipantAExtractor();
-		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,partBuntrans,foldContents(contents), r);
-		System.out.println("Done with participantA");
+		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,partBuntrans,foldContents(contents), r, simple_reaction);
 		//TODO run the rest of the table, first choosing fold then going through the table
 		System.out.println(participantACols.size() + " " + participantACols.get(0).getUntranslatedName());
 		List<ColumnContents> cols = new ArrayList<ColumnContents>();
@@ -170,8 +176,8 @@ public class Extraction {
 			}
 		}
 		System.out.println("Printing index cards");
-		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents);
-		makeIdx(cards, readingStart, table);
+		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents,simple_reaction);
+		makeIdx(cards, readingStart, table, simple_reaction,partA.possibleA);
 		
 	}
 }

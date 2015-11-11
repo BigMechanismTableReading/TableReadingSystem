@@ -15,6 +15,7 @@ import extract.TextExtractor;
 import extract.buffer.TableBuf;
 import extract.types.PossibleReaction;
 import extract.types.Reaction;
+import extract.types.SimpleReaction;
 
 /**
  * Determines whether or not a table is relevant and labels the columns with possible content type
@@ -133,12 +134,18 @@ public class DetermineTable {
 	 * Determines whether a table is relevant and what the table indicates
 	 * Returns a pair containing the reaction type and a hashmap of ColumnContents to a list of columns with those contents
 	 * @param table
+	 * @param simple_reaction 
 	 */
-	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table){
-		System.out.println("Starting determine" + table.getSource().getSourceFile());
+	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableBuf.Table table, boolean simple_reaction){
+		Reaction.setSimple(simple_reaction);
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
-		List<Reaction> possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
+		List<Reaction> possibleReactions = new LinkedList<Reaction>();
+		if(simple_reaction){
+			possibleReactions.add(SimpleReaction.getInstance());
+		}else{
+			possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
+		}
 		Set<Reaction> tableReactions = getTableReactions(table,possibleReactions);
 		if(tableReactions.size() > 0){
 			possibleReactions.clear();

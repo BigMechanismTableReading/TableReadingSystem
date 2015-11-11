@@ -31,7 +31,7 @@ import extract.types.Reaction;
  */
 public class ParticipantAExtractor {
 
-	
+	HashMap<String,String> possibleA = null;
 	private enum ExtractionLocation{
 		FOLD,TITLE,CAPTION,TEXT,NONE
 	}
@@ -200,11 +200,10 @@ public class ParticipantAExtractor {
 	private String checkPartAText(Set<String> allB,Reaction r, Set<String> possA,List<String> textA){
 		for(String aWord : textA){
 			for(String aText : allForms(aWord)){
-				
+				System.err.println(aWord);
 				Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
 				if(transTextApair != null){
 					String transTextA = transTextApair.getB();
-					
 					if(possA.contains(transTextA)){
 						return transTextA;
 					}
@@ -248,6 +247,7 @@ public class ParticipantAExtractor {
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
 				HashMap<String,String> possA = checkPartA(col.getHeader().getData(), allB,true,false);
+				possibleA.putAll(possA);
 				if (possA != null){
 					String partA = checkPartAText(allB, r,possA.keySet(),textA);
 					if(partA != null){
@@ -280,7 +280,7 @@ public class ParticipantAExtractor {
 						}
 					}
 				}
-				System.err.println(possA);
+			
 				if(title){
 					String partA = checkPartAText(allB, r, possA.keySet(),textA);
 					System.out.println(possA);
@@ -293,10 +293,13 @@ public class ParticipantAExtractor {
 				}
 				title = false;
 			}
+			
 		}
+		possibleA.putAll(possA);
 		String partA = checkPartAText(allB, r, possA.keySet(),textA);
-		System.out.println(possA);
+		System.err.println(partA);
 		if(partA!= null){
+			
 			participantAs.add(new ParticipantA(partA, possA.get(partA), contents,confidenceLevel(ExtractionLocation.CAPTION)));
 			return participantAs;
 		}
@@ -333,18 +336,18 @@ public class ParticipantAExtractor {
 	public List<ParticipantA> getParticipantAs(TableBuf.Table table,
 			HashMap<Integer,String> partB, 	HashMap<Integer,String> partBUntrans,
 			HashMap<ColumnContents,List<TableBuf.Column>> contents,
-			Reaction r){
-		System.out.println("In partA");
+			Reaction r,boolean simple_reaction){
 		Set<String> allB = new HashSet<String>();
 		Lookup t = TabLookup.getInstance();
-		System.out.println("Making list of all B forms");
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
-		System.out.println("Text Extractor");
 		HashMap<String, Integer> hashA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());		
 		String PMCID = table.getSource().getPmcId();
 		ExtractBiopax extractor = new ExtractBiopax(PMCID + ".json", r.getConjugationBase().get(0));
 		HashMap<String, Integer> friesA = extractor.getACount(allB);
+		if(simple_reaction){
+			possibleA = new HashMap<String,String>();
+		}
 		for (String a : friesA.keySet()){
 			if(hashA.containsKey(a)){
 				hashA.put(a, hashA.get(a) + friesA.get(a));
@@ -353,7 +356,6 @@ public class ParticipantAExtractor {
 			}
 		}
 		List<String> textA = TextExtractor.sortByValue(hashA);
-		System.out.println("Fold PartA");
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 		System.out.println(textA);
 		if (participantAs.isEmpty()){
