@@ -1,7 +1,7 @@
 <!-- ============================================================= -->
 <!--  MODULE:    Namespaced OASIS XML Table Setup Module           -->
 <!--  VERSION:   ANSI/NISO JATS Version 1.0 (Z39.96-2012)          -->
-<!--  DATE:      March 2012                                        -->
+<!--  DATE:      March 2015                                        -->
 <!--                                                               -->
 <!-- ============================================================= -->
 
@@ -9,7 +9,7 @@
 <!--                    PUBLIC DOCUMENT TYPE DEFINITION            -->
 <!--                        TYPICAL INVOCATION                     -->
 <!--
-"-//NLM//DTD JATS (Z39.96) Namespaced OASIS XML Table Setup Module v1.0 20120330//EN"
+"-//NLM//DTD JATS (Z39.96) Namespaced OASIS XML Table Setup Module v1.1d3 20150301//EN"
      Delivered as file "JATS-oasis-tablesetup1.ent"                -->
 <!-- ============================================================= -->
 
@@ -21,8 +21,8 @@
 <!--             version)                                          -->
 <!--                                                               -->
 <!-- MODULES REQUIRED:                                             -->
-<!--             1) %exchange.ent;      OASIS exchange table model -->
-<!--                                      (XML version)            -->
+<!--             1) %oasis-exchange.ent;  OASIS exchange table     -->
+<!--                                        model (XML version)    -->
 <!--                                                               -->
 <!-- TAG SET SPONSOR                                               -->
 <!--             National Center for Biotechnology                 -->
@@ -91,9 +91,71 @@
 <!--                    DTD VERSION/CHANGE HISTORY                 -->
 <!-- ============================================================= -->
 <!--
-     =============================================================
-
 Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
+     =============================================================
+     JATS Version 1.1d3             (DAL/BTU) v1.1d3  (2015-03-01)
+   
+     The changes in this release are in response to NISO 
+     License and Indicators Recommended Practice.
+
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d3 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This draft DTD represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+
+  9. JATS became version "1.1d3" and "v1.1d3 20150301//EN"
+ 
+     =============================================================
+     JATS Version 1.1d2              (DAL/BTU) v1.1d2 (2014-09-30)
+   
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d2 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This catalog represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+
+  8. TABLE ATTRIBUTES - Added @specific-use to the attributes for
+     <oasis:table>, primarily for use when <oasis:table> is used
+     inside <alternatives>.
+
+  7. JATS became version "1.1d2" and "v1.1d2 20140930//EN"
+  
+     =============================================================
+     NISO JATS Version 1.1d1           (DAL/BTU) v1.1 (2013-11-15)
+   
+     ANSI/NISO Z39.96-2012 (pre-release for V1.0 BITS; Version 1.1) 
+
+     NISO JATS Standing Committee met and answered the requests and
+     suggestions from the NISO request forms.
+     Details concerning ANSI/NISO Z39.96-2012 JATS-based DTDs, XSDs, 
+     RNGs and supporting documentation are available at
+           http://jats.nlm.nih.gov/1.1/
+
+  6. GLOBAL ATTRIBUTES - Added the new parameter entity 
+        "%jats-common-atts;
+     to every element in this module. This PE adds (for now) the
+     @id attribute and the @xml:base attribute to every element,
+     whether metadata or narrative.
+     Since the @id in this parameter entity is optional, a second
+     parameter entity jats-common-atts-id-required was also added.
+     The two are kept in sync with the jats-base-atts parameter 
+     entity.
+     This added a new (to JATS) additive attribute list to:
+     - tbl.colspec
+     - tbl.entry
+     - tbl.row.att
+     - tbl.tbody
+     - tbl.tgroup
+     - tbl.thead
    
      =============================================================
      NISO JATS Version 1.0             (DAL/BTU) v1.0 (2012-xx-xx)
@@ -201,6 +263,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
      %tbl.entry.att     In ATTLIST of:    Additional attributes on
                         <entry>           the <entry> element      -->
 
+
 <!-- ============================================================= -->
 <!--                    PARAMETER ENTITIES FOR QUALIFIED NAMES     -->
 <!-- ============================================================= -->
@@ -226,7 +289,9 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    Additional attributes on the table element -->
 <!ENTITY % tbl.table.att
              "%oasis.xmlns.attrib;
-              id        ID                                #IMPLIED
+              %jats-common-atts;
+              specific-use
+                        CDATA                             #IMPLIED
               content-type
                         CDATA                             #IMPLIED"  >
 
@@ -236,7 +301,38 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         element, that is, attributes for a table
                         cell                                       -->
 <!ENTITY % tbl.entry.att
-            ""                                                       >
+            "%jats-common-atts;"                                     >
+
+
+<!--                    TABLE GROUP ATTRIBUTES                     -->
+<!--                    Additional attributes on the tgroup element-->
+<!ENTITY % tbl.tgroup.att 
+            "%jats-common-atts;"                                     >
+
+
+<!--                    TABLE HEAD ATTRIBUTES                      -->
+<!--                    Additional attributes on the thead element -->
+<!ENTITY % tbl.thead.att
+            "%jats-common-atts;"                                     >
+
+
+<!--                    TABLE BODY ATTRIBUTES                      -->
+<!--                    Additional attributes on the tbody element -->
+<!ENTITY % tbl.tbody.att 
+            "%jats-common-atts;"                                     >
+
+
+<!--                    COLUMN SPECIFICATION ATTRIBUTES            -->
+<!--                    Additional attributes on the colspec 
+                        element                                    -->
+<!ENTITY % tbl.colspec.att
+            "%jats-common-atts;"                                     >
+
+
+<!--                    TABLE ROW ATTRIBUTES                       -->
+<!--                    Additional attributes on the row element   -->
+<!ENTITY % tbl.row.att
+            "%jats-common-atts;"                                     >
 
 
 <!-- ============================================================= -->

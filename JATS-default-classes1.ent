@@ -1,7 +1,7 @@
 <!-- ============================================================= -->
 <!--  MODULE:    Default Element Classes Module                    -->
 <!--  VERSION:   ANSI/NISO JATS Version 1.0 (Z39.96-2012)          -->
-<!--  DATE:      March 2012                                        -->
+<!--  DATE:      March 2015                                        -->
 <!--                                                               -->
 <!-- ============================================================= -->
 
@@ -9,7 +9,7 @@
 <!--                    PUBLIC DOCUMENT TYPE DEFINITION            -->
 <!--                        TYPICAL INVOCATION                     -->
 <!--
-"-//NLM//DTD JATS (Z39.96) Default Element Classes Module v1.0 20120330//EN"
+"-//NLM//DTD JATS (Z39.96) Default Element Classes Module v1.1d3 20150301//EN"
 Delivered as file "JATS-default-classes1.ent"                      -->
 <!-- ============================================================= -->
 
@@ -111,7 +111,112 @@ Delivered as file "JATS-default-classes1.ent"                      -->
 <!--
 
 Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
+     =============================================================
+     JATS Version 1.1d3             (DAL/BTU) v1.1d3  (2015-03-01)
    
+     The changes in this release are in response to NISO 
+     License and Indicators Recommended Practice.
+
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d3 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This draft DTD represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+
+ 32. ALI (NISO Access and License Indicators)
+     - Added <ali:license_ref> to license-p.class, as 
+       alternatives inside <license>
+     - Created a new class: license.class to hold the new ALI
+       element <ali:free_to_read>, as an alternative to
+       <license> inside <permissions>. 
+
+ 31. JATS became version "1.1d3" and "v1.1d3 20150301//EN"
+
+     =============================================================
+     JATS Version 1.1d2              (DAL/BTU) v1.1d2 (2014-09-30)
+   
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d2 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This catalog represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+
+ 30. ADDED TO REFERENCES - Added the following elements to 
+     %references.class so that it would be allowed inside all 
+     citation types, product, et al.
+      - conf-acronym
+      - data-title (for citing datasets and parts of datasets)
+      - version (for data and software, similar to edition)
+
+ 29. STATEMENT - Added new statement.class, so that statements
+     can be recursive.
+
+ 28. JATS became version "1.1d2" and "v1.1d2 20140930//EN"
+
+ 27. ADDRESS ELEMENTS IN NEW CLASSES
+      - Added 3 new elements: <city>, <state>, <postal-code>
+          - address.class
+          - address-line.class
+        which adds then to: address, addr-line, add, collab, 
+        conf-loc, corresp, publisher-loc      
+   
+     =============================================================
+     NISO JATS Version 1.1d1           (DAL/BTU) v1.1 (2013-11-15)
+   
+     ANSI/NISO Z39.96-2012 (pre-release for V1.0 BITS; Version 1.1) 
+
+     NISO JATS Standing Committee met and answered the requests and
+     suggestions from the NISO request forms.
+     Details concerning ANSI/NISO Z39.96-2012 JATS-based DTDs, XSDs, 
+     RNGs and supporting documentation are available at
+           http://jats.nlm.nih.gov/1.1/
+
+ 26. NEW <era> ELEMENT
+     Added <era> to date-parts.class
+
+ 25. NEW CLASSES
+     - def-item.class
+     - def-list.class
+     - list-item.class
+     - ref.class for use in <ref-list>
+     - unstructured-kwd-group.class for use in Green
+
+ 24. NEW CODE ELEMENT- Added <code> to
+      - alternatives-display.class
+      - block-display.class
+      - block-display-noalt.class
+      - floats-display.class
+      - inside-chem-struct-wrap.class      
+      - simple-display.class
+      - simple-display-noalt.class
+      - simple-intable-display.class
+
+ 23. INSTITUTION-WRAP ADDED
+     Added the element <institution-wrap> to the following classes:
+      - address.class
+      - address-line.class
+      - recipient-name.class
+      - references.class
+
+ 18. RUBY
+     - Added <ruby> to emphasis class
+     - Added a face-markup class (all the emphasis class except 
+         <ruby>) for use inside <ruby>
+
+ 17. ADDED NEW CLASSES (for new locations for the elements)
+     - abstract.class
+     - kwd-group.class
+     - institution.class
+     - institution-wrap.class
+     
      =============================================================
      NISO JATS Version 1.0             (DAL/BTU) v1.0 (2012-xx-xx)
    
@@ -142,7 +247,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
      <collab-alternatives>.
 
  12. COLLABORATION ALTERNATIVES - Added <collab-alternatives> to
-     the name.class and references.class to allow the
+     the name.class and -references.class to allow the
      <collab-alternatives> element to occur anywhere <collab> 
      was already used.
    
@@ -152,11 +257,11 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
  10. REFERENCES CLASS - Added <issn-l> to the class.
    
   9. NOTHING BUT PARA CLASS - Added a new %nothing-but-para.class;
-     to get rid of PE clashes when the entity %just-para; needed
+     to get rid of PE clashes when the entity %just-para.class; needed
      to be expanded to include other elements. The nothing-but
      parameter entity contains <p> and only <p> and should never
      be changed in a customization. The infelicitously-named PE
-     %just-para; can be modified for a customization to include
+     %just-para.class; can be modified for a customization to include
      other elements as well.
 
      =============================================================
@@ -185,7 +290,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 
   5. ALTERNATIVES - Added <private-char> so that the alternatives
      wrapper may be used to hold alternative characters, some as
-     <private-char>, some as <textual-form>, some as <graphic>s,
+     <private-char>, some as <textual-form>, some as <graphic>,
      etc.
 
   4. AFFILIATION ALTERNATIVES - Added the element <aff-alternatives>
@@ -238,15 +343,18 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    Potential element components of an address;
                         not a proper class                         -->
 <!ENTITY % address.class
-                        "addr-line | country | fax |
-                         institution | phone"                       >
+                        "addr-line | city | country | fax |
+                         institution | institution-wrap | phone |
+                         postal-code | state"                        >
 
 
 <!--                    ADDRESS LINE CLASS ELEMENTS                -->
 <!--                    Potential element components of an address;
                         line not a proper class                    -->
 <!ENTITY % address-line.class
-                        "country | fax | institution | phone "       >
+                        "city | country | fax | institution | 
+                         institution-wrap | phone |
+                         postal-code | state"                        >
 
 
 <!--                    CITATION CLASS ELEMENTS                    -->
@@ -307,7 +415,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 
 <!--                    COLLAB CLASS                               -->
 <!--                    A class to hold the <collab> element, so that
-                        more than on ecollaboration can be named 
+                        more than on collaboration can be named 
                         inside <collab-alternatives>.              -->
 <!ENTITY % collab.class "collab"                                     >
 
@@ -364,7 +472,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         funded award recipients                    -->
 <!ENTITY % recipient-name.class
                         "name | name-alternatives | institution |
-                         string-name"                                >
+                         institution-wrap | string-name"             >
 
 
 <!-- ============================================================= -->
@@ -411,16 +519,23 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         "aff | aff-alternatives | etal | role"       >
 
 
+<!-- ============================================================= -->
+<!--                    ARTICLE METADATA CLASSES %articlemeta.ent; -->
+<!-- ============================================================= -->
+
+
+<!--                    ABSTRACT CLASS ELEMENTS                    -->
+<!--                    Potential element components of an address;
+                        not a proper class                         -->
+<!ENTITY % abstract.class
+                        "abstract"                                   >
+
+
 <!--                    AFFILIATIONS ALTERNATIVES CLASS            -->
 <!--                    The <aff> and <aff-alternatives> elements only
                                                                    -->
 <!ENTITY % aff-alternatives.class
                         "aff | aff-alternatives"                     >
-
-
-<!-- ============================================================= -->
-<!--                    ARTICLE METADATA CLASSES %articlemeta.ent; -->
-<!-- ============================================================= -->
 
 
 <!--                    CONFERENCE CLASS                           -->
@@ -447,7 +562,23 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    DATE PARTS CLASS ELEMENTS                  -->
 <!--                    Components of date-style elements          -->
 <!ENTITY % date-parts.class
-                        "day | month | season | year"                >
+                        "day | era | month | season | year"          >
+
+
+<!--                    INSTITUTION CLASS ELEMENTS                 -->
+<!--                    To hold an <institution> and its
+                        identifiers, so you always can use both
+                        together.                                  -->
+<!ENTITY % institution.class
+                        "institution | institution-id"               >
+
+
+<!--                    INSTITUTION CLASS ELEMENTS                 -->
+<!--                    To allow both of the institution elements to 
+                        be used anywhere one of them might be needed.
+                                                                   -->
+<!ENTITY % institution-wrap.class
+                        "institution | institution-wrap"             >
 
 
 <!--                    JOURNAL IDENTIFIER CLASS ELEMENTS          -->
@@ -462,6 +593,27 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!ENTITY % kwd.class    "kwd | compound-kwd | nested-kwd"            >
 
 
+<!--                    KEYWORD GROUP CLASS ELEMENTS               -->
+<!--                    The element <kwd-group> for use in models. -->
+<!ENTITY % kwd-group.class    
+                        "kwd-group"                                  >
+
+
+<!--                    LICENSE CLASS ELEMENTS                     -->
+<!--                    The alternatives to <license> that may live
+                        inside <permissions>.                      -->
+<!ENTITY % license.class    
+                        "ali:free_to_read | license"                 >
+
+
+<!--                    LICENSE PARAGRAPH CLASS ELEMENTS           -->
+<!--                    To hold the paragraphs and license
+                        references that may be inside the element
+                        <license>.                                 -->
+<!ENTITY % license-p.class
+                        "ali:license_ref | license-p"                >
+
+
 <!--                    NESTED KEYWORD CLASS ELEMENTS              -->
 <!--                    The kinds of keywords that can be used inside
                         a nested keyword structure.                -->
@@ -469,18 +621,25 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         "kwd | compound-kwd"                         >
 
 
-<!--                    LICENSE PARAGRAPH CLASS ELEMENTS           -->
-<!--                    New paragraph type created for restricted
-                        use inside <license>.                      -->
-<!ENTITY % license-p.class
-                        "license-p"                                  >
-
-
 <!--                    TITLE CLASS                                -->
 <!--                    Title metadata element that can be used
                         to provide article-like metadata about
                         other objects, for example a <supplement>  -->
 <!ENTITY % title.class  "title"                                      >
+
+
+<!--                    UNSTRUCTURED KEYWORD GROUP CLASS           -->
+<!--                    The <unstructured-kwd-group> element for use 
+                        by itself.                                 -->
+<!ENTITY % unstructured-kwd-group.class  
+                        "unstructured-kwd-group"                     >
+
+
+<!--                    STRING DATE CLASS                          -->
+<!--                    The <string-date> element for use by itself.
+                                                                   -->
+<!ENTITY % string-date.class  
+                        "string-date"                                >
 
 
 <!-- ============================================================= -->
@@ -583,7 +742,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         hierarchical level as a paragraph.         -->
 <!ENTITY % block-display.class
                         "address | alternatives | array |
-                         boxed-text | chem-struct-wrap |
+                         boxed-text | chem-struct-wrap | code | 
                          fig | fig-group | graphic | media |
                          preformat | supplementary-material |
                          table-wrap | table-wrap-group"              >
@@ -591,7 +750,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 
 <!ENTITY % block-display-noalt.class
                         "address | array |
-                         boxed-text | chem-struct-wrap |
+                         boxed-text | chem-struct-wrap | code | 
                          fig | fig-group | graphic | media |
                          preformat | supplementary-material |
                          table-wrap | table-wrap-group"              >
@@ -605,7 +764,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         of <floats-group>.                         -->
 <!ENTITY % floats-display.class
                         "alternatives | boxed-text |
-                         chem-struct-wrap | fig | fig-group |
+                         chem-struct-wrap | code | fig | fig-group |
                          graphic | media | preformat |
                          supplementary-material |
                          table-wrap | table-wrap-group"              >
@@ -648,13 +807,12 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         Class elements or inside the cell of a
                         Table                                      -->
 <!ENTITY % simple-display.class
-                        "alternatives | array | graphic | media |
-                         preformat"                                  >
+                        "alternatives | array | code | graphic | 
+                         media | preformat"                          >
 
 
 <!ENTITY % simple-display-noalt.class
-                        "array | graphic | media | preformat"        >
-
+                        "array | code | graphic | media | preformat" >
 
 <!--                    SIMPLE TABLE DISPLAY ELEMENTS              -->
 <!--                    Very similar to the simple-display.class, but
@@ -662,8 +820,8 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         <table>s, <oasis:table>s, etc., not
                         arrays.                                    -->
 <!ENTITY % simple-intable-display.class
-                        "alternatives | chem-struct-wrap | graphic |
-                         media | preformat"                          >
+                        "alternatives | chem-struct-wrap | code |
+                         graphic | media | preformat"                >
 
 
 <!--                    INSIDE CHEMICAL STRUCTURE ELEMENTS         -->
@@ -672,7 +830,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         can contain both <chem-struct> and
                         <textual-form>                             -->
 <!ENTITY % inside-chem-struct-wrap.class
-                        "alternatives | chem-struct | graphic |
+                        "alternatives | chem-struct | code | graphic |
                          media | preformat | textual-form"           >
 
 
@@ -681,7 +839,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         each  other inside an alternatives element.
                                                                    -->
 <!ENTITY % alternatives-display.class
-                        "array | chem-struct | graphic |
+                        "array | chem-struct | code | graphic |
                          inline-graphic |
                          inline-supplementary-material |
                          media | preformat |private-char |
@@ -750,10 +908,24 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         to accomplish this, as soon as they are
                         available.                                 -->
 <!ENTITY % emphasis.class
-                        "bold | italic | monospace |
+                        "bold | fixed-case | italic | monospace |
                          overline | overline-start | overline-end |
                          roman | sans-serif | sc | strike |
-                         underline | underline-start | underline-end">
+                         underline | underline-start | 
+                         underline-end |
+                         ruby"                                       >
+
+
+<!--                    FACE MARKUP ELEMENTS                       -->
+<!--                    All of the emphasis/rendition elements
+                        except <ruby>, for use (initially) inside
+                        <ruby> itself.                             -->
+<!ENTITY % face-markup.class
+                        "bold | fixed-case | italic | monospace |
+                         overline | overline-start | overline-end |
+                         roman | sans-serif | sc | strike |
+                         underline | underline-start | 
+                         underline-end"                              >
 
 
 <!--                    UP/DOWN RENDITION ELEMENTS                 -->
@@ -783,6 +955,11 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         Keyword <kwd>                              -->
 <!ENTITY % simple-link.class
                         "fn | target | xref"                         >
+
+
+<!--                    CROSS-REFERENCES CLASS                     -->
+<!--                    A class just to hold <xref>.               -->
+<!ENTITY % xref.class   "xref"                                       >
 
 
 <!-- ============================================================= -->
@@ -826,11 +1003,32 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!-- ============================================================= -->
 
 
+<!--                    DEFINITION LIST CLASS ELEMENT              -->
+<!--                    Class for the <list-item>, so it may be used
+                        in OR groups.                              -->
+<!ENTITY % def-list.class   
+                        "def-list"                                   >
+
+
+<!--                    DEFINITION LIST ITEM CLASS ELEMENT         -->
+<!--                    Class for the <list-item>, so it may be used
+                        in OR groups.                              -->
+<!ENTITY % def-item.class   
+                        "def-item"                                   >
+
+
 <!--                    LIST CLASS ELEMENTS                        -->
 <!--                    All the types of lists that may occur
                         as part of the text, therefore excluding
                         Bibliographic Reference Lists <ref-list>   -->
 <!ENTITY % list.class   "def-list | list"                            >
+
+
+<!--                    LIST ITEM CLASS ELEMENT                    -->
+<!--                    Class for the <list-item>, so it may be used
+                        in OR groups.                              -->
+<!ENTITY % list-item.class   
+                        "list-item"                                  >
 
 
 <!-- ============================================================= -->
@@ -877,6 +1075,13 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         untouched by any customization             -->
 <!ENTITY % nothing-but-para.class
                         "p"                                          >
+
+
+<!--                    STATEMENT CLASS                            -->
+<!--                    To hold the paragraph element <statement>, 
+                        alone.                                     -->
+<!ENTITY % statement.class
+                        "statement"                                  >
 
 
 <!-- ============================================================= -->
@@ -960,11 +1165,13 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!ENTITY % references.class
                         "annotation | article-title | chapter-title |
                          collab | collab-alternatives |comment | 
-                         conf-date | conf-loc | conf-name | 
-                         conf-sponsor | date | date-in-citation | 
+                         conf-acronym | conf-date | conf-loc | 
+                         conf-name | conf-sponsor | 
+                         data-title | date | date-in-citation | 
                          day | edition |  email | elocation-id |  
                          etal | ext-link | fpage |
-                         gov | institution | isbn | issn | issn-l | 
+                         gov | institution | institution-wrap |
+                         isbn | issn | issn-l | 
                          issue | issue-id | issue-part | issue-title |
                          lpage | month | name | name-alternatives |
                          object-id | page-range | part-title |
@@ -972,7 +1179,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                          publisher-loc | publisher-name | role |
                          season | series | size | source | std |
                          string-name | supplement |
-                         trans-source | trans-title | uri |
+                         trans-source | trans-title | uri | version |
                          volume | volume-id | volume-series | year"  >
 
 
@@ -996,6 +1203,11 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                             from %rendition-plus.                  -->
 <!ENTITY % std.class    "day | month | pub-id | source | 
                          std-organization | year"                    >
+
+
+<!--                    JUST REFERENCE CLASS                       -->
+<!--                    The element <ref> for use in models.       -->
+<!ENTITY % ref.class    "ref"                                        >
 
 
 <!-- ============================================================= -->
@@ -1043,7 +1255,6 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    To include just a table <table-wrap>
                         element                                    -->
 <!ENTITY % tbody.class  "tbody"                                      >
-
 
 
 <!-- ================== End Journal Suite Default Classes  ======= -->

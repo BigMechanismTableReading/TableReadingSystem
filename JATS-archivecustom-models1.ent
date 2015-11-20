@@ -2,7 +2,7 @@
 <!--  MODULE:    Journal Archiving DTD Customize Content and       -->
 <!--             Attributes Module                                 -->
 <!--  VERSION:   ANSI/NISO JATS Version 1.0 (Z39.96-2012)          -->
-<!--  DATE:      March 2012                                        -->
+<!--  DATE:      March 2015                                        -->
 <!--                                                               -->
 <!-- ============================================================= -->
 
@@ -10,7 +10,7 @@
 <!--                    PUBLIC DOCUMENT TYPE DEFINITION            -->
 <!--                        TYPICAL INVOCATION                     -->
 <!--
-"-//NLM//DTD JATS (Z39.96) Journal Archiving DTD Customize Content and Attributes Module v1.0 20120330//EN"
+"-//NLM//DTD JATS (Z39.96) Journal Archiving DTD Customize Content and Attributes Module v1.1d3 20150301//EN"
 Delivered as file "JATS-archivecustom-models1.ent"                 -->
 <!-- ============================================================= -->
 
@@ -89,7 +89,7 @@ Delivered as file "JATS-archivecustom-models1.ent"                 -->
 <!--                                                               -->
 <!--             This DTD and the Suite are a continuation of      -->
 <!--             the work done by NCBI, Mulberry Technologies,     -->
-<!--             and Inera, Inc. on the NLM Journal Archiving      -->
+<!--             and Inera Inc. on the NLM Journal Archiving       -->
 <!--             and Interchange DTD Suite, which was originally   -->
 <!--             released in December, 2002.                       -->
 <!--                                                               -->
@@ -114,6 +114,121 @@ Delivered as file "JATS-archivecustom-models1.ent"                 -->
 <!--
 
 Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
+     =============================================================
+     JATS Version 1.1d3             (DAL/BTU) v1.1d3  (2015-03-01)
+   
+     The changes in this release are in response to NISO 
+     License and Indicators Recommended Practice.
+
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d3 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This draft DTD represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+
+ 29. JATS became version "1.1d3" and "v1.1d3 20150301//EN"
+
+     =============================================================
+     JATS Version 1.1d2              (DAL/BTU) v1.1d2 (2014-09-30)
+   
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d2 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This catalog represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+ 
+ 28.  RUBY MODEL CHANGED TO MATCH HTML5
+      - changed the Ruby content model to allow only a single
+        Ruby annotation on a single Ruby base:
+            (rb, (rt | (rp, rt, rp)) )
+        The Ruby textual annotation may take a pair of
+        Ruby parentheses, but these are optional.
+
+ 27. ATTRIBUTES FOR PUB-ID
+   - Added the linking attributes (optional version) to <pub-id> , 
+     so that a <pub-id> that is a DOI, for example, can carry the 
+     linking attributes and be made into a live link. In this use
+     of <pub-id>, the element is acting both as an identifier
+     and as a link.
+   - Added new attribute @assigning-authority to <pub-id>, to
+     carry new values such as "CrossRef" and to take some of the
+     semantic burden off the @pub-id-type attribute, when
+     values are organizations such as "Genbank" or "PDB".
+
+ 26. <OBJECT-ID> INSIDE <TRANS-ABSTRACT>
+     Allowed <object-id> at the beginning of <trans-abstract>, 
+     so that abstracts could be given DOIs.
+
+ 25. <VOLUME> INSIDE <ARTICLE-META>
+   - Allowed <volume> to repeat inside <article-meta>, the types to 
+     be distinguished using @content-type
+   - Added new optional element <volume-issue-group> inside 
+     <article-meta) following all volume and issue elements
+     to hold volume-issue pairs (or n-tuples) when a second
+     and subsequent <volume> has its own related issue
+     numbers.
+ 
+ 24. JATS became version "1.1d2" and "v1.1d2 20140930//EN"
+   
+     =============================================================
+     NISO JATS Version 1.1d1           (DAL/BTU) v1.1 (2013-11-15)
+   
+     ANSI/NISO Z39.96-2012 (pre-release for V1.0 BITS; Version 1.1) 
+
+     NISO JATS Standing Committee met and answered the requests and
+     suggestions from the NISO request forms.
+     Details concerning ANSI/NISO Z39.96-2012 JATS-based DTDs, XSDs, 
+     RNGs and supporting documentation are available at
+           http://jats.nlm.nih.gov/1.1/
+
+ 23. NEW <era> ELEMENT
+     Added <era> through date-parts.class to:
+      - <conf-date>
+      - <date-in-citation>
+      - <pub-date>
+      - <string-date>
+      - access-date (deprecated
+      - time-stamp (deprecated)
+
+ 22. INSTITUTIONS TO STANDAARDS ORGANIZATIONS
+     Added the elements <institution-wrap> to the following elements
+     through the institution-wrap.class:
+      - <copyright-holder>
+      - <std-organization>
+
+ 21. RUBY ANNOTATIONS - Overrode the default JATS inclusions, to
+     change the more restricted face-markup class to the 
+     Archive-specific all Phrase. Elements change:
+      - <rb> Ruby Base (through %rb-elements;)
+
+ 20. GLOBAL ATTRIBUTES - Added the new parameter entity 
+         %jats-common-atts;
+     to every element in this module. This PE adds (for now) the
+     @id attribute and the @xml:base attribute to every element,
+     whether metadata or narrative.
+     Since the @id in this parameter entity is optional, a second
+     parameter entity jats-common-atts-id-required was also added.
+     The two are kept in sync with the jats-base-atts parameter 
+     entity.
+
+ 19. ABSTRACTS AND KEYWORDS ON NEW STRUCTURES
+     - Added <abstract> (through %abstract.class;) and <kwd-group> 
+       (through %kwd-group.class;) to the following elements:
+        - disp-formula (through %disp-formula-elements;)
+
+     - Changed "abstract*" to "(%abstract.class;)*"
+       and "kwd-group*" to "(%kwd-group.class;)*" since those
+       classes now exist. Elements should have a limited number of
+       ways to be invoked.
+        - article-meta (through %article-meta-model;)
    
      =============================================================
      NISO JATS Version 1.0             (DAL/BTU) v1.0 (2012-xx-xx)
@@ -155,7 +270,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
      (in xlink3.ent) was equally inclusive. But it is NOT. 
      Brought back %xref-atts;
    
- 11. ISSN-L ELEMENTS - Added <X> TO <issn-l> via 
+ 11. ISSN-L ELEMENTS - Added <x> TO <issn-l> via 
      %issn-l-elements;
 
      =============================================================
@@ -211,7 +326,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 
   2. STRING-DATE - Added <string-date> back to the following
      elements using %citation-additions.class;. It was accidentally
-     deleted during the 3.0 revision of references.class:
+     deleted during the 3.0 revision of -references.class:
       - product         (%product-elements;)
       - related-article (%related-article-elements;)
       - related-object  (%related-object-elements;)
@@ -335,12 +450,6 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         "| %break.class; | %all-phrase;"             >
 
 
-<!--                    CONFERENCE MODEL                           -->
-<!--                    Content model for the <conference> element -->
-<!ENTITY % conference-model
-                        "(%conference.class; | %x.class;)*"          >
-
-
 <!--                    CONFERENCE DATE ELEMENTS                   -->
 <!--                    The elements that can be included along with
                         data characters inside the content model of
@@ -365,7 +474,8 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         inside the content model for the
                         <copyright-holder> element.                -->
 <!ENTITY % copyright-holder-elements
-                        "| %subsup.class; | %x.class;"               >
+                        "| %institution-wrap.class; | %subsup.class; | 
+                         %x.class;"                                  >
 
 
 <!--                    COPYRIGHT STATEMENT ELEMENTS               -->
@@ -408,9 +518,10 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         data characters inside the content model of
                         the <disp-formula>                         -->
 <!ENTITY % disp-formula-elements
-                        "| %all-phrase; | %access.class; |
-                         %break.class; | %display-back-matter.class; |
-                         %label.class; |
+                        "| %all-phrase; | %abstract.class; |
+                         %access.class; | %break.class; | 
+                         %display-back-matter.class; |
+                         %kwd-group.class; | %label.class; |
                          %simple-display-noalt.class;"               >
 
 
@@ -604,7 +715,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    PREFORMATTED TEXT ELEMENTS                 -->
 <!--                    Elements that may be used, along with data
                         characters, inside the content model for the
-                        <preformat> element, in which white space,
+                        <preformat> element, in which whitespace,
                         such as tabs, line feeds, and spaces will
                         be preserved.                              -->
 <!ENTITY % preformat-elements
@@ -694,16 +805,6 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         "| %all-phrase;"                             >
 
 
-<!--                    TEXTUAL FORM ELEMENTS                      -->
-<!--                    Model for the <textual-form> element.
-                        Added <label>                              -->
-<!ENTITY % textual-form-elements
-                        "| %emphasis.class; |
-                         %inline-display-noalt.class; |
-                         %label.class; | %math.class; |
-                         %phrase-content.class; | %subsup.class;"    >
-
-
 <!--                    SELF-URI ELEMENTS                          -->
 <!--                    The elements that can be included along with
                         data characters inside the content model of
@@ -760,7 +861,8 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         data characters inside the content model of
                         <std-organization>.                        -->
 <!ENTITY % std-organization-elements 
-                        "| %all-phrase; | %break.class;"             >
+                        "| %all-phrase; | %institution-wrap.class; |
+                         %break.class;"                              >
 
 
 <!--                    STRING DATE ELEMENTS                       -->
@@ -817,12 +919,22 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                          %simple-display-noalt.class;"               >
 
 
+<!--                    TEXTUAL FORM ELEMENTS                      -->
+<!--                    Model for the <textual-form> element.
+                        Added <label>                              -->
+<!ENTITY % textual-form-elements
+                        "| %emphasis.class; |
+                         %inline-display-noalt.class; |
+                         %label.class; | %math.class; |
+                         %phrase-content.class; | %subsup.class;"    >
+
+
 <!--                    TIME STAMP ELEMENTS                        -->
 <!--                    The elements that can be included along with
                         data characters inside the content model of
                         a <time-stamp>.                            -->
 <!ENTITY % time-stamp-elements
-                        "| %x.class;"                                >
+                        "| %date-parts.class; | %x.class;"           >
 
 
 <!--                    TITLE ELEMENTS                             -->
@@ -852,10 +964,68 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 
 
 <!-- ============================================================= -->
+<!--                    RUBY MARKUP                                -->
+<!-- ============================================================= -->
+
+
+<!--                    RUBY BASE ELEMENTS                         -->
+<!--                    Those elements that may mix with the data
+                        characters inside a Ruby Base <rb> 
+                        element.                                   -->
+<!ENTITY % rb-elements  "| %all-phrase;"                             >
+
+
+<!-- ============================================================= -->
 <!--                    DUPLICATES NEEDED FOR OVER-RIDES           -->
 <!--                    (models unchanged from common.ent but      -->
 <!--                     needed below)                             -->
 <!-- ============================================================= -->
+
+
+<!--                    COMMON ATTRIBUTES                          -->
+<!--                    These lists of attributes will be added to 
+                        nearly every element, in both the document 
+                        metadata and the document body, of the entire 
+                        Tag Set:
+                          - including table elements for both the 
+                              XHTML-inspired and OASIS-inspired
+                              table model elements
+                          - excluding only <mml:math> and 
+                              <xi:include> (whose namespaces JATS
+                              does not control).
+                           Great care should be taken to use these
+                        attributes judiciously, not as a shortcut to
+                        thinking through where an attribute should be
+                        used. Potential use cases include adding
+                        @xml:lang or some RDFa attribute to every 
+                        elements.                                  -->
+
+
+<!--                    JATS BASE ATTRIBUTES                       -->
+<!--                    Holds all the common attributes except @id.
+                        Used to keep the two common attribute lists 
+                        in sync. To add a global attribute, modify
+                        this list.                                 -->
+<!ENTITY % jats-base-atts
+            "xml:base   CDATA                             #IMPLIED"  >
+
+
+<!--                    JATS COMMON ATTRIBUTES                     -->
+<!--                    Holds all the common attributes, as defined in
+                        the base attribute parameter entity, plus an
+                        optional @id.                              -->
+<!ENTITY % jats-common-atts
+            "id         ID                                #IMPLIED 
+             %jats-base-atts;"                                       >
+
+
+<!--                    JATS COMMON ATTRIBUTES (ID REQUIRED)       -->
+<!--                    Holds all the common attributes, as defined in
+                        the base attribute parameter entity, plus a 
+                        required @id.                              -->
+<!ENTITY % jats-common-atts-id-required
+            "id         ID                                #REQUIRED
+             %jats-base-atts;"                                       >
 
 
 <!--                    MIGHT LINK XLINK ATTRIBUTES                -->
@@ -901,9 +1071,10 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                          (%contrib-group.class; |
                           %aff-alternatives.class; | %x.class;)*,
                          author-notes?, pub-date*,
-                         volume?, volume-id*, volume-series?,
+                         volume*, volume-id*, volume-series?,
                          issue*, issue-id*, issue-title*,
-                         issue-sponsor*, issue-part?, isbn*,
+                         issue-sponsor*, issue-part?, 
+                         volume-issue-group*, isbn*,
                          supplement?,
                          ( ( (fpage, lpage?)?, page-range?) |
                            elocation-id )?,
@@ -911,8 +1082,8 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                           supplementary-material)*,
                          history?, permissions?, self-uri*,
                          (%related-article.class;)*, 
-                         abstract*,
-                         trans-abstract*, kwd-group*, funding-group*,
+                         (%abstract.class;)*, trans-abstract*, 
+                         (%kwd-group.class;)*, funding-group*,
                          conference*, counts?, custom-meta-group?)"  >
 
 
@@ -937,6 +1108,12 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         "(label?, title?,
                           (%corresp.class; | %fn-link.class; |
                            %just-para.class; | %x.class;)+ )"        >
+
+
+<!--                    CONFERENCE MODEL                           -->
+<!--                    Content model for the <conference> element -->
+<!ENTITY % conference-model
+                        "(%conference.class; | %x.class;)*"          >
 
 
 <!--                    CONTRIBUTOR GROUP MODEL                    -->
@@ -964,7 +1141,8 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    Content model for the <def-list> element   -->
 <!ENTITY % def-list-model
                         "(label?, title?, term-head?, def-head?,
-                          (def-item | %x.class;)*, def-list* )"      >
+                          (%def-item.class; | %x.class;)*, 
+                          (%def-list.class;)* )"                     >
 
 
 <!--                    FOOTNOTE GROUP MODEL                       -->
@@ -986,20 +1164,20 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!ENTITY % kwd-group-model
                         "(label?, title?,
                           ((%kwd.class; | %x.class;)+ |
-                            unstructured-kwd-group ) )"              >
+                           (%unstructured-kwd-group.class;)* ) )"    >
 
 
 <!--                    LIST MODEL                                 -->
 <!--                    Content model for the <list> element       -->
 <!ENTITY % list-model   "(label?, title?,
-                          (list-item | %x.class;)+ )"                >
+                          (%list-item.class; | %x.class;)+ )"        >
 
 
 <!--                    PUBLICATION DATE MODEL                     -->
 <!--                    Content model for the element <pub-date>   -->
 <!ENTITY % pub-date-model
-                        "(day | month | year | season | string-date |
-                          x)*"                                       >
+                        "(%date-parts.class; | %string-date.class; |
+                          %x.class;)*"                               >
 
 
 <!--                    REFERENCE ITEM MODEL                       -->
@@ -1011,8 +1189,14 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    REFERENCE LIST MODEL                       -->
 <!--                    Content model for the <ref-list> element   -->
 <!ENTITY % ref-list-model
-                        "(label?, title?, (%para-level; | ref)*,
+                        "(label?, title?, 
+                          (%para-level; | %ref.class;)*,
                           (%ref-list.class;)* )"                     >
+                          
+                          
+<!--                    RUBY WRAPPER Model                         -->
+<!--                    Content model for the <ruby> element       -->
+<!ENTITY % ruby-model   "(rb, (rt | (rp, rt, rp)) )"                 >
 
 
 <!--                    CONTENT MODEL FOR A STRUCTURAL SECTION     -->
@@ -1033,6 +1217,13 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                            %x.class;)+ )"                            >
 
 
+<!--                    TRANSLATED ABSTRACT MODEL                  -->
+<!--                    Content model for an <trans-abstract> element.
+                                                                   -->
+<!ENTITY % trans-abstract-model
+                        "((%id.class;)*, %sec-opt-title-model;)"     >
+
+
 <!-- ============================================================= -->
 <!--                    OVER-RIDES OF ATTRIBUTE LISTS              -->
 <!-- ============================================================= -->
@@ -1041,7 +1232,8 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    ARTICLE IDENTIFIER ATTRIBUTES              -->
 <!--                    Attributes for the <article-id> element    -->
 <!ENTITY % article-id-atts
-            "pub-id-type
+            "%jats-common-atts;                                       
+             pub-id-type
                         CDATA                             #IMPLIED
              specific-use
                         CDATA                             #IMPLIED"  >
@@ -1050,7 +1242,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    AWARD IDENTIFIER ATTRIBUTES                -->
 <!--                    Attributes for the <award-group> element   -->
 <!ENTITY % award-id-atts
-            "id         ID                                #IMPLIED
+            "%jats-common-atts;                                       
              rid        IDREFS                            #IMPLIED
              award-type
                         CDATA                             #IMPLIED
@@ -1060,20 +1252,10 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
              %might-link-atts;"                                      >
 
 
-<!--                    FUNDING STATEMENT ATTRIBUTES               -->
-<!--                    Attributes for the <funding-source> element-->
-<!ENTITY % funding-statement-atts
-            "id         ID                                #IMPLIED
-             rid        IDREFS                            #IMPLIED
-             specific-use
-                        CDATA                             #IMPLIED
-             xml:lang   NMTOKEN                           #IMPLIED
-             %might-link-atts;"                                      >
-
-
 <!--                    DATE (HISTORICAL) ATTRIBUTES               -->
 <!ENTITY % date-atts
-            "date-type  CDATA                             #IMPLIED
+            "%jats-common-atts;                                       
+             date-type  CDATA                             #IMPLIED
              publication-format
                         CDATA                             #IMPLIED
              iso-8601-date
@@ -1083,20 +1265,35 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
                         CDATA                             #IMPLIED"  >
 
 
+<!--                    FUNDING STATEMENT ATTRIBUTES               -->
+<!--                    Attributes for the <funding-source> element-->
+<!ENTITY % funding-statement-atts
+            "%jats-common-atts;                                       
+             rid        IDREFS                            #IMPLIED
+             specific-use
+                        CDATA                             #IMPLIED
+             xml:lang   NMTOKEN                           #IMPLIED
+             %might-link-atts;"                                      >
+
+
 <!--                    PUBLICATION IDENTIFIER ATTRIBUTES          -->
 <!--                    Attributes for the <pub-id> element        -->
 <!ENTITY % pub-id-atts
-            "pub-id-type
+            "%jats-common-atts;                                       
+             pub-id-type
+                        CDATA                             #IMPLIED
+             assigning-authority                
                         CDATA                             #IMPLIED
              specific-use
-                        CDATA                             #IMPLIED"  >
+                        CDATA                             #IMPLIED
+             %might-link-atts;"                                      >
 
 
 <!--                    TRANSLATED TITLE GROUP ATTRIBUTES          -->
 <!--                    Attribute list for the <trans-title-group>
                         Made xml:lang optional.                    -->
 <!ENTITY % trans-title-group-atts
-            "id         ID                                #IMPLIED
+            "%jats-common-atts;                                       
              content-type
                         CDATA                             #IMPLIED
              specific-use
@@ -1107,7 +1304,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    X(CROSS) REFERENCE ATTRIBUTES              -->
 <!--                    Attribute list for cross references        -->
 <!ENTITY % xref-atts
-            "id         ID                                #IMPLIED
+            "%jats-common-atts;                                       
              ref-type   CDATA                             #IMPLIED
              alt        CDATA                             #IMPLIED
              rid        IDREFS                            #IMPLIED

@@ -1,7 +1,7 @@
 <!-- ============================================================= -->
 <!--  MODULE:    OASIS Table Namespace Module                      -->
 <!--  VERSION:   ANSI/NISO JATS Version 1.0 (Z39.96-2012)          -->
-<!--  DATE:      March 2012                                        -->
+<!--  DATE:      March 2015                                        -->
 <!--                                                               -->
 <!-- ============================================================= -->
 
@@ -9,7 +9,7 @@
 <!--                    PUBLIC DOCUMENT TYPE DEFINITION            -->
 <!--                        TYPICAL INVOCATION                     -->
 <!--
-"-//NLM//DTD JATS OASIS Table Namespace Module v1.0 20120330//EN"
+"-//NLM//DTD JATS OASIS Table Namespace Module v1.1d3 20150301//EN"
      Delivered as file "JATS-oasis-namespace1.ent"                 -->
 <!-- ============================================================= -->
 
@@ -87,9 +87,40 @@
 <!--                    DTD VERSION/CHANGE HISTORY                 -->
 <!-- ============================================================= -->
 <!--
-
 Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
+     =============================================================
+     JATS Version 1.1d3             (DAL/BTU) v1.1d3  (2015-03-01)
    
+     The changes in this release are in response to NISO 
+     License and Indicators Recommended Practice.
+
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d3 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This draft DTD represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+
+  2. JATS became version "1.1d3" and "v1.1d3 20150301//EN"
+  
+     =============================================================
+     JATS Version 1.1d2              (DAL/BTU) v1.1d2 (2014-09-30)
+   
+     NISO JATS is a continuing maintenance NISO Standard, which 
+     requires voting by the NISO membership to be changed. This
+     Committee Draft 1.1d2 will be sent to the NISO voting
+     membership, to become (if approved) NISO JATS 1.1.
+     
+     This catalog represents an interim version of the
+     non-normative JATS DTD Suite, as an indication to JATS users
+     the decisions that have been made by the JATS Standing
+     Committee.
+
+  1. JATS became version "1.1d2" and "v1.1d2 20140930//EN"
+  
      =============================================================
 
      Details concerning ANSI/NISO Z39.96-2012 JATS-based DTDs, XSDs, 
@@ -159,7 +190,7 @@ Version  Reason/Occasion                   (who) vx.x (yyyy-mm-dd)
 <!--                    named "xyz.qname" defines the qualified    -->
 <!--                    name for each element. These parameter     -->
 <!--                    entities all contain an "o" in front of    -->
-<!--                    them ("otable.qname", otgroup.qname)       -->
+<!--                    them ("otable.qname", "otgroup.qname")     -->
 <!--                    because the XHTML table model uses the     -->
 <!--                    same QName parameter entity naming         -->
 <!--                    convention. The "o" is used for the NISO   -->
