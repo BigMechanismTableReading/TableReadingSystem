@@ -17,6 +17,7 @@ import java.net.URLDecoder;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -38,6 +39,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -82,7 +85,8 @@ public class ExtractFiles {
 		return body_text;
 	}
 
-	public File convertHTML(String fileName){
+	public File convertHTML(String fileName, String paper_dir,String pmc){
+		//TODO figure out how to get the pmc id name to here
 		File xml = new File(fileName);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
@@ -94,10 +98,9 @@ public class ExtractFiles {
 			Transformer t = TransformerFactory.newInstance().newTransformer();
 			t.setOutputProperty(OutputKeys.METHOD,"html");
 			Source source = new DOMSource(doc);
-			StreamResult result = new StreamResult(fileName.replaceAll("nxml","html"));
+			StreamResult result = new StreamResult(pmc + ".html");
 			t.transform(source, result);
 			return new File(result.getSystemId());
-			
 
 
 		} catch (SAXException e) {
@@ -154,10 +157,8 @@ public class ExtractFiles {
 
 	public List<String> getFileNames(String fileName){
 		List<String> fileNames = new LinkedList<String>();
-
 		File f = new File(fileName);
 		Scanner s;
-
 		try {
 			s = new Scanner(f);
 			while(s.hasNextLine()){
@@ -169,46 +170,15 @@ public class ExtractFiles {
 		}
 		return fileNames;
 	}
-
-
-//	public void getFiles(String fileName,String file_directory,String output_directory) throws IOException{
-//		final int BUFFER = 2048;
-//		List<String> fileNames = getFileNames(fileName);
-//		FileInputStream tar_dir = new FileInputStream(file_directory);
-//		BufferedInputStream buf = new BufferedInputStream(tar_dir);
-//		GZIPInputStream gz = new GZIPInputStream(buf);
-//		TarArchiveInputStream tar_in  = new TarArchiveInputStream(gz);
-//		TarArchiveEntry entry = null;
-//		while((entry = (TarArchiveEntry)tar_in.getNextEntry()) != null){
-//			System.err.println(entry.getName());
-//			if(entry.isDirectory() && fileNames.contains(entry.getName())){
-//				File tar = new File(output_directory + entry.getName());
-//
-//			}else if (fileNames.contains(entry.getName())){
-//				System.err.println("here");
-//				int count;
-//				byte data[] = new byte[BUFFER];
-//				FileOutputStream fos = new FileOutputStream(output_directory);
-//				BufferedOutputStream dest = new BufferedOutputStream(fos,
-//						BUFFER);
-//				while ((count = tar_in.read(data, 0, BUFFER)) != -1) {
-//					dest.write(data, 0, count);
-//				}
-//				dest.close();
-//			}
-//		}
-//		tar_in.close();
-//	}
-
-
-	public void getFiles(String file_name,String directory_name) throws IOException, URISyntaxException{
+	
+	
+	public LinkedList<String> getFiles(String file_name,String directory_name) throws IOException, URISyntaxException{
 		String ftp_site = "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc";
 		PmcTranslator pmc = new PmcTranslator();
 		String separator = "/";
 		URL curr_url = null;
-		URLConnection connect = null;
-		BufferedReader input;
 		File dir = new File(directory_name);
+		LinkedList<String> file_list = new LinkedList<String>();
 		dir.mkdir();
 		String curr_file = null;
 		for(String pmc_curr : pmc.pmcToName.keySet() ){
@@ -219,10 +189,10 @@ public class ExtractFiles {
 				System.out.println(file_site);
 				curr_url = new URL(file_site);
 				FileUtils.copyURLToFile(curr_url,new File(dir + File.separator + pmc_curr + ".tar.gz"));
-
+				file_list.add(dir + File.separator + pmc_curr + ".tar.gz");
 			}
 		}
-
+		return file_list;
 	}
 	public static void main (String[]args){
 		ExtractFiles file_extractor = new ExtractFiles();

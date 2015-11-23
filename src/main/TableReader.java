@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.FilenameUtils;
+import org.codehaus.plexus.archiver.tar.TarGZipUnArchiver;
 
 import config.Config;
 
@@ -27,6 +31,10 @@ import extract.buffer.TableBuf;
 import extract.buffer.TableBuf.Column;
 import extract.types.PossibleReaction;
 import extract.types.Reaction;
+import nxml12.ExtractFiles;
+import nxml12.ExtractionPipeline;
+import nxml12.NxmlTranslator;
+import nxml12.PmcTranslator;
 /**
  * Used to Extract index cards for a list of PMC IDs
  * @author sloates
@@ -52,7 +60,7 @@ public class TableReader {
 
 
 	private static void extractFromList(String file_dir, String table_dir, String paper_dir, String output_file, boolean simple_reaction,
-			boolean make_tables,List<Integer> pmc_ids) throws IOException {
+			boolean make_tables,List<Integer> pmc_ids, boolean nxml, String pmc_filename, String nxml_dir) throws IOException {
 		Extraction extr = new Extraction();
 		FileWriter w = new FileWriter(new File(output_file));
 		List<TableBuf.Table> table_list = new LinkedList<TableBuf.Table>();
@@ -61,6 +69,9 @@ public class TableReader {
 			table_use = new File(file_dir);
 		}else{
 			table_use = new File(table_dir);
+		}
+		if(nxml){
+			convertNxml(file_dir,paper_dir,pmc_ids, pmc_filename,nxml_dir);
 		}
 		
 		for(Integer pmc : pmc_ids){
@@ -81,6 +92,42 @@ public class TableReader {
 		}
 		
 	}
+	/**
+	 * Takes a list of pmc_ids, gets the nxml files and converts them to html files.
+	 * @param file_dir
+	 * @param paper_dir
+	 * @param pmc_ids
+	 * @param pmc_filename
+	 * @param nxml_dir 
+	 * @throws IOException 
+	 */
+	private static void convertNxml(String file_dir, String paper_dir, List<Integer> pmc_ids,String pmc_filename, String nxml_dir) throws IOException {
+		ExtractionPipeline ep= new ExtractionPipeline();
+		final TarGZipUnArchiver arc = new TarGZipUnArchiver();
+		LinkedList<String> tar_files = ep.get_nxml(pmc_filename, nxml_dir);
+		File nxml_d = new File(nxml_dir);
+		NxmlTranslator nxm_trans = new NxmlTranslator();
+		for(File f : nxml_d.listFiles()){
+			for(Integer pmc : pmc_ids){
+				if(f.getName().contains(pmc+"")){
+					arc.setSourceFile(f);
+					File temp_dir = new File("temporary_nxml");
+					arc.setDestDirectory(temp_dir);
+					arc.extract();
+					for(File nxf: temp_dir.listFiles()){
+						String ext = FilenameUtils.getExtension(nxf.getName());
+						if(ext.equals("nxml")){
+							nxm_trans.translateTables(nxf.getName(), file_dir, paper_dir,pmc);
+							//TODO test functionality and finish the pipeline
+							//All this needs to do is to make sure all the files are in the file_dir and paper_dir, which should happen now
+						}
+					}
+				}
+			}
+		}
+		
+	}
+
 	public static void main(String[]args) throws IOException{
 		Config config = new Config();
 		config.setPropValues();
@@ -104,10 +151,12 @@ public class TableReader {
 				String paper_dir = config.getPaper_dir();
 				boolean simple_reaction = config.isSimple_reaction();
 				boolean make_tables = config.isMake_tables();
+				boolean nxml = config.isNxml();
+				String nxml_dir = config.getNxml_dir();
 				TextExtractor.setPaper_dir(paper_dir);
 				MasterExtractor.setFile_dir(file_dir);
 				MasterExtractor.setTable_dir(table_dir);
-				extractFromList(file_dir,table_dir,paper_dir,output_file,simple_reaction,make_tables,pmc_ids);
+				extractFromList(file_dir,table_dir,paper_dir,output_file,simple_reaction,make_tables,pmc_ids,nxml,pmc_filename,nxml_dir);
 				
 			}else{
 				System.err.println("List of PMCIDs was empty or invalid");

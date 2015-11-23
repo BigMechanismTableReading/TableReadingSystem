@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.LinkedList;
 
 import org.apache.commons.io.FileUtils;
 
@@ -19,12 +20,13 @@ public class ExtractionPipeline {
 	
 	static final String PMC_URL = "http://www.ncbi.nlm.nih.gov/pmc/?term=";
 	
-	public void get_nxml(String pmc_list, String directory_name){
+	public LinkedList<String> get_nxml(String pmc_list, String directory_name){
 		PmcTranslator  pmc = new PmcTranslator();
 		ExtractFiles ext = new ExtractFiles();
 		String file_name= pmc.translate(pmc_list);
 		try {
-			ext.getFiles(file_name, directory_name);
+			LinkedList<String> files = ext.getFiles(file_name, directory_name);
+			return files;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,6 +34,7 @@ public class ExtractionPipeline {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 
 	}
 	

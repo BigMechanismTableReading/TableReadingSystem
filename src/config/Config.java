@@ -15,7 +15,8 @@ public class Config{
 	private String reaction_class;
 	private String pmc_file;
 	private String output_file;
-	
+	private boolean nxml;
+	private String nxml_dir;
 	public String getOutput_file(){
 		return output_file;
 	}
@@ -50,6 +51,13 @@ public class Config{
 	public String getPmc_file() {
 		return pmc_file;
 	}
+	public boolean isNxml() {
+		return nxml;
+	}
+	public String getNxml_dir() {
+		return nxml_dir;
+	}
+
 	InputStream inputStream;
 	public void setPropValues() throws IOException{
 		Properties prop = new Properties();
@@ -70,8 +78,10 @@ public class Config{
 		make_tables = Boolean.parseBoolean(prop.getProperty("make_tables"));
 		simple_reaction = Boolean.parseBoolean(prop.getProperty("simple_reaction"));
 		reaction_class = prop.getProperty("reaction_class");
+		nxml = Boolean.parseBoolean(prop.getProperty("nxml"));
+		nxml_dir = prop.getProperty("nxml_dir");
 	}
 
-	
+
 
 }

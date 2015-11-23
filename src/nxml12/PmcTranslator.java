@@ -46,8 +46,8 @@ public class PmcTranslator {
 		return pmcToName;
 	}
 	
-	public String translate(String pmc){
-		return pmcToName.get(pmc);
+	public String translate(String pmc_list){
+		return pmcToName.get(pmc_list);
 	}
 	
 	public String translate_file(String file_name){
