@@ -1,7 +1,10 @@
 package nxml12;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -14,29 +17,37 @@ public class PmcTranslator {
 	
 	public HashMap<String,String> pmcToName;
 	
-	public PmcTranslator(){
+	public PmcTranslator(String resolve_file){
 		pmcToName = new HashMap<String,String>();
-		makeHashMap();
+		makeHashMap(resolve_file);
 	}
-	public void makeHashMap(){
+	/**Hashmap is PMCID, tar filename**/
 	
-		File pmcName = new File("file_list.csv");
-		Scanner s;
+	public void makeHashMap(String resolve_file){
+		System.out.println("Creating map for pmc id resolution");
+		File pmcName = new File(resolve_file);
 		try {
-			s = new Scanner(pmcName);
-			s.nextLine();
-			String curr = s.nextLine();
-			while(s.hasNext()){
-				String[]line = curr.split(",");
-				
-				String pmc = line[2];
-				
-				pmcToName.put(pmc,line[0]);
-				System.out.println(pmc);
-				curr = s.nextLine();
+			BufferedReader r = new BufferedReader(new FileReader(pmcName));
+			String line = r.readLine();
+			int count=0;
+			while (line!=null){
+				count++;
+				String [] ids = line.split("\t");
+				if (ids.length >=2){
+					
+					pmcToName.put(ids[1], ids[0]); //pmcid to filename
+					if (count%10000==0){
+						System.out.println(".." + count + "..");
+					}
+				}
+				line = r.readLine();
 			}
-			s.close();
+			System.out.println("Done.");
+			r.close();
 		} catch (FileNotFoundException e) {
+			System.err.println("Cant find resolve file: " + resolve_file + ". Make sure you have.");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -46,8 +57,21 @@ public class PmcTranslator {
 		return pmcToName;
 	}
 	
-	public String translate(String pmc_list){
-		return pmcToName.get(pmc_list);
+	public String translate(String pmcID){
+		System.out.println("getting: " + pmcID);
+		String result = pmcToName.get(pmcID);
+		if (result==null){
+			//if it doesnt start with PMC try that
+			if (!pmcID.startsWith("PMC")){
+				pmcID = "PMC" + pmcID;
+				result = pmcToName.get(pmcID);
+			}
+			else if (pmcID.startsWith("PMC")){
+				pmcID = pmcID.replace("PMC", "");
+				result = pmcToName.get(pmcID);
+			}
+		}
+		return result;
 	}
 	
 	public String translate_file(String file_name){
@@ -73,7 +97,7 @@ public class PmcTranslator {
 		return "temporary_paper_names.txt";
 	}
 	public static void main(String[]args){
-		PmcTranslator translator = new PmcTranslator();
+		/*PmcTranslator translator = new PmcTranslator();
 		File all_pmc = new File("All.txt");
 		
 		Scanner r;
@@ -93,6 +117,6 @@ public class PmcTranslator {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

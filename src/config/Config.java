@@ -13,10 +13,17 @@ public class Config{
 	private boolean make_tables;
 	private boolean simple_reaction;
 	private String reaction_class;
-	private String pmc_file;
+	private String input_list;
 	private String output_file;
 	private boolean nxml;
 	private String nxml_dir;
+	private String resolve_file;
+	public String getResolve_file() {
+		return resolve_file;
+	}
+	public void setResolve_file(String resolve_file) {
+		this.resolve_file = resolve_file;
+	}
 	public String getOutput_file(){
 		return output_file;
 	}
@@ -48,8 +55,8 @@ public class Config{
 		return reaction_class;
 	}
 
-	public String getPmc_file() {
-		return pmc_file;
+	public String getInput_List() {
+		return input_list;
 	}
 	public boolean isNxml() {
 		return nxml;
@@ -70,7 +77,7 @@ public class Config{
 		}
 		// Gets the property values
 		user = prop.getProperty("user");
-		pmc_file = prop.getProperty("pmc_file");
+		input_list = prop.getProperty("input_list");
 		output_file = prop.getProperty("output_file");
 		table_dir = prop.getProperty("table_dir");
 		file_dir = prop.getProperty("file_dir");
@@ -80,6 +87,7 @@ public class Config{
 		reaction_class = prop.getProperty("reaction_class");
 		nxml = Boolean.parseBoolean(prop.getProperty("nxml"));
 		nxml_dir = prop.getProperty("nxml_dir");
+		resolve_file = prop.getProperty("resolve_file");
 	}
 
 

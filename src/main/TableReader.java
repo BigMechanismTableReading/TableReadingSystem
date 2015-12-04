@@ -1,11 +1,19 @@
 package main;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +22,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+
 import org.codehaus.plexus.archiver.tar.TarGZipUnArchiver;
 
 import config.Config;
@@ -60,7 +74,7 @@ public class TableReader {
 
 
 	private static void extractFromList(String file_dir, String table_dir, String paper_dir, String output_file, boolean simple_reaction,
-			boolean make_tables,List<Integer> pmc_ids, boolean nxml, String pmc_filename, String nxml_dir) throws IOException {
+			boolean make_tables,List<Integer> pmc_ids, boolean nxml, String pmc_filename, String nxml_dir, String resolve_file) throws IOException {
 		Extraction extr = new Extraction();
 		FileWriter w = new FileWriter(new File(output_file));
 		List<TableBuf.Table> table_list = new LinkedList<TableBuf.Table>();
@@ -70,8 +84,9 @@ public class TableReader {
 		}else{
 			table_use = new File(table_dir);
 		}
+		//if nxml convert nxml to html
 		if(nxml){
-			convertNxml(file_dir,paper_dir,pmc_ids, pmc_filename,nxml_dir);
+			convertNxml(file_dir,paper_dir,pmc_ids, pmc_filename,nxml_dir, resolve_file);
 		}
 		
 		for(Integer pmc : pmc_ids){
@@ -101,37 +116,104 @@ public class TableReader {
 	 * @param nxml_dir 
 	 * @throws IOException 
 	 */
-	private static void convertNxml(String file_dir, String paper_dir, List<Integer> pmc_ids,String pmc_filename, String nxml_dir) throws IOException {
+	public static void convertNxml(String file_dir, String paper_dir, List<Integer> pmc_ids,String pmc_filename, String nxml_dir, String resolve_file) throws IOException {
 		ExtractionPipeline ep= new ExtractionPipeline();
-		final TarGZipUnArchiver arc = new TarGZipUnArchiver();
-		LinkedList<String> tar_files = ep.get_nxml(pmc_filename, nxml_dir);
+		//TODO: targzip archiver and pmc translator should be in extraction pipeline
+		TarGZipUnArchiver arc = new TarGZipUnArchiver();
+		PmcTranslator pmc = new PmcTranslator(resolve_file);
 		File nxml_d = new File(nxml_dir);
-		NxmlTranslator nxm_trans = new NxmlTranslator();
-		for(File f : nxml_d.listFiles()){
-			for(Integer pmc : pmc_ids){
-				if(f.getName().contains(pmc+"")){
-					arc.setSourceFile(f);
-					File temp_dir = new File("temporary_nxml");
-					arc.setDestDirectory(temp_dir);
-					arc.extract();
-					for(File nxf: temp_dir.listFiles()){
-						String ext = FilenameUtils.getExtension(nxf.getName());
-						if(ext.equals("nxml")){
-							nxm_trans.translateTables(nxf.getName(), file_dir, paper_dir,pmc);
-							//TODO test functionality and finish the pipeline
-							//All this needs to do is to make sure all the files are in the file_dir and paper_dir, which should happen now
+
+		for (Integer pmc_id: pmc_ids){
+			String filename = pmc.translate(pmc_id.toString());
+			if (filename!=null){
+				boolean found = false;
+				for (File tar: nxml_d.listFiles(new FilenameFilter(){
+					@Override
+					public boolean accept(File arg0, String name) {
+						return name.toLowerCase().endsWith(".tar.gz");}
+					})
+					){
+					
+
+					
+					if (tar.getName().contains(filename) || filename.contains(tar.getName())){
+						System.out.println("Extracting " + tar.getAbsolutePath() + " ...");
+						found = true;					
+
+						BufferedInputStream fin = new BufferedInputStream(new FileInputStream(tar));
+						GzipCompressorInputStream gzIn = new GzipCompressorInputStream(fin);
+						TarArchiveInputStream tarIn = new TarArchiveInputStream(gzIn);
+						TarArchiveEntry entry = tarIn.getNextTarEntry();
+						while (entry!=null){
+							String file_in_tar = entry.getName().toLowerCase();
+							System.out.println(file_in_tar);
+							//FileUtils.copyFileToDirectory(new File("TEST"), outputDir);
+							/*if (entry.getFile() == null){
+								System.err.println("NULL FILE: " + entry.getName());
+							}*/
+							if (file_in_tar.endsWith("nxml")){
+								File outputFile = new File("temp_nxml");
+								outputFile.mkdir();
+								File f = new File(outputFile,  entry.getName().substring(entry.getName().lastIndexOf("/")));
+								f.createNewFile();
+					            byte [] btoRead = new byte[1024];
+					            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(f));
+					            int len = 0;
+					            while((len = tarIn.read(btoRead)) != -1){
+							                bout.write(btoRead,0,len);
+							     }
+					            bout.close();
+								
+								
+								NxmlTranslator.translateTables(f, file_dir, paper_dir,pmc_id);
+
+								
+							}
+							else if (file_in_tar.contains(".xls")){
+								File outputFile = new File(file_dir);
+								File f = new File(outputFile,  entry.getName().substring(entry.getName().lastIndexOf("/")));
+								f.createNewFile();
+					            byte [] btoRead = new byte[1024];
+					            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(f));
+					            int len = 0;
+					            while((len = tarIn.read(btoRead)) != -1){
+							                bout.write(btoRead,0,len);
+							     }
+					            bout.close();
+							}
+
+							entry = tarIn.getNextTarEntry();
 						}
+						tarIn.close();
+						
+						System.out.print("Done.");
 					}
+				
 				}
+				if (!found){
+					System.err.println("Count not find file for " + filename);
+				}
+				
 			}
+			else{
+				System.err.println("Cant find file for " + pmc_id);
+			}
+
 		}
 		
 	}
+	
+	
 
 	public static void main(String[]args) throws IOException{
 		Config config = new Config();
 		config.setPropValues();
-		String pmc_filename = config.getPmc_file();
+		String input_list = config.getInput_List();
+
+		boolean nxml = config.isNxml();
+		
+		String pmc_filename = input_list;
+		
 		ArrayList<Integer> pmc_ids = new ArrayList<Integer>();
 		if(pmc_filename != null){
 			try{
@@ -144,6 +226,7 @@ public class TableReader {
 			}catch(FileNotFoundException e){
 				System.err.println ("File " + pmc_filename + "not found");
 			}
+
 			if(!pmc_ids.isEmpty()){
 				String file_dir = config.getFile_dir();
 				String table_dir = config.getTable_dir();
@@ -151,14 +234,16 @@ public class TableReader {
 				String paper_dir = config.getPaper_dir();
 				boolean simple_reaction = config.isSimple_reaction();
 				boolean make_tables = config.isMake_tables();
-				boolean nxml = config.isNxml();
 				String nxml_dir = config.getNxml_dir();
+				String resolve_file = config.getResolve_file();
 				TextExtractor.setPaper_dir(paper_dir);
 				MasterExtractor.setFile_dir(file_dir);
 				MasterExtractor.setTable_dir(table_dir);
-				extractFromList(file_dir,table_dir,paper_dir,output_file,simple_reaction,make_tables,pmc_ids,nxml,pmc_filename,nxml_dir);
+				//TODO: if it's not empty then you shouldnt have to translate it
+				extractFromList(file_dir,table_dir,paper_dir,output_file,simple_reaction,make_tables,pmc_ids,nxml,pmc_filename,nxml_dir, resolve_file);
 				
 			}else{
+				//HERE IS WHERE YOU SOULD DO THE NXML stuff
 				System.err.println("List of PMCIDs was empty or invalid");
 			}
 			

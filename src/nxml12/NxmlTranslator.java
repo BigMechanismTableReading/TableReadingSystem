@@ -22,22 +22,22 @@ import org.w3c.dom.NodeList;
 public class NxmlTranslator {
 	
 	/**
-	 *Translates tables into individual html tables
+	 *Translates tables into individual html tables and puts them into the file_dir
 	 * @param file_name
 	 * @param table_dir
 	 * @param pmc 
 	 * @throws IOException
 	 */
-	public void translateTables(String file_name,String table_dir,String paper_dir, Integer pmc) throws  IOException{
+	public static void translateTables(File file,String file_dir,String paper_dir, Integer pmc) throws  IOException{
 		String sep = File.separator;
 		ExtractFiles ext = new ExtractFiles();
-		File html = ext.convertHTML(file_name,paper_dir, pmc+"");
+		File html = ext.convertHTML(file ,paper_dir, pmc+"");
 		Document doc = Jsoup.parse(html,"UTF-8");
 		Elements table_wrap = doc.getElementsByTag("table-wrap");
 		int count = 1;
 		FileWriter w;
 		for(Element e : table_wrap){
-			File tab = new File(table_dir + sep + pmc +count +".html");
+			File tab = new File(file_dir + sep + pmc +count +".html");
 			tab.canWrite();
 			w = new FileWriter(tab);
 			w.write(e.outerHtml());
@@ -48,13 +48,13 @@ public class NxmlTranslator {
 	}
 	
 	public static void main(String[]args){
-		NxmlTranslator test_trans = new NxmlTranslator();
+		/*NxmlTranslator test_trans = new NxmlTranslator();
 			try {
 				test_trans.translateTables("e700m116.nxml","output_test", null, null);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+		*/
 	}
 }

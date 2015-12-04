@@ -85,9 +85,9 @@ public class ExtractFiles {
 		return body_text;
 	}
 
-	public File convertHTML(String fileName, String paper_dir,String pmc){
+	public File convertHTML(File xml, String paper_dir,String pmc){
+		System.out.println("Converting " + xml.getAbsolutePath() + " to nxml");
 		//TODO figure out how to get the pmc id name to here
-		File xml = new File(fileName);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
 		dbf.setValidating(true);
@@ -172,9 +172,9 @@ public class ExtractFiles {
 	}
 	
 	
-	public LinkedList<String> getFiles(String file_name,String directory_name) throws IOException, URISyntaxException{
+	public LinkedList<String> getFiles(String file_name,String directory_name, String resolve_file) throws IOException, URISyntaxException{
 		String ftp_site = "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc";
-		PmcTranslator pmc = new PmcTranslator();
+		PmcTranslator pmc = new PmcTranslator(resolve_file);
 		String separator = "/";
 		URL curr_url = null;
 		File dir = new File(directory_name);
@@ -195,7 +195,7 @@ public class ExtractFiles {
 		return file_list;
 	}
 	public static void main (String[]args){
-		ExtractFiles file_extractor = new ExtractFiles();
+		/*ExtractFiles file_extractor = new ExtractFiles();
 		try {
 			file_extractor.getFiles("translated_corpus.txt","temp");
 		} catch (IOException e) {
@@ -204,7 +204,7 @@ public class ExtractFiles {
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 }
 
