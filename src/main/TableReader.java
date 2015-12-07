@@ -154,7 +154,7 @@ public class TableReader {
 							if (file_in_tar.endsWith("nxml")){
 								File outputFile = new File("temp_nxml");
 								outputFile.mkdir();
-								File f = new File(outputFile,  entry.getName().substring(entry.getName().lastIndexOf("/")));
+								File f = new File(outputFile,  pmc_id + ".nxml");
 								f.createNewFile();
 					            byte [] btoRead = new byte[1024];
 					            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(f));

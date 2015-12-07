@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -49,6 +50,8 @@ import org.w3c.dom.Entity;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class ExtractFiles {
@@ -89,19 +92,31 @@ public class ExtractFiles {
 		System.out.println("Converting " + xml.getAbsolutePath() + " to nxml");
 		//TODO figure out how to get the pmc id name to here
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true);
-		dbf.setValidating(true);
+		//dbf.setNamespaceAware(true);
+		//dbf.setValidating(true);
 		DocumentBuilder db;
 		try {
 			db = dbf.newDocumentBuilder();
+			db.setEntityResolver(new EntityResolver(){
+
+				@Override
+				public InputSource resolveEntity(String arg0, String arg1) throws SAXException, IOException {
+					// TODO Auto-generated method stub
+					return new InputSource(new StringReader(""));
+				}
+				
+			});
 			Document doc = db.parse(xml);
 			Transformer t = TransformerFactory.newInstance().newTransformer();
 			t.setOutputProperty(OutputKeys.METHOD,"html");
 			Source source = new DOMSource(doc);
-			StreamResult result = new StreamResult(pmc + ".html");
+			StreamResult result = new StreamResult("PMC" + pmc + ".html");
 			t.transform(source, result);
 			return new File(result.getSystemId());
-
+		} catch (FileNotFoundException e){
+			System.err.println("Cannot transform to html: " + xml.getAbsolutePath());
+			System.err.println("Missing: " + e.getMessage());
+			//e.printStackTrace();
 
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block

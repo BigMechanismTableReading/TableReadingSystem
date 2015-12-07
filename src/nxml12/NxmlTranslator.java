@@ -32,17 +32,19 @@ public class NxmlTranslator {
 		String sep = File.separator;
 		ExtractFiles ext = new ExtractFiles();
 		File html = ext.convertHTML(file ,paper_dir, pmc+"");
-		Document doc = Jsoup.parse(html,"UTF-8");
-		Elements table_wrap = doc.getElementsByTag("table-wrap");
-		int count = 1;
-		FileWriter w;
-		for(Element e : table_wrap){
-			File tab = new File(file_dir + sep + pmc +count +".html");
-			tab.canWrite();
-			w = new FileWriter(tab);
-			w.write(e.outerHtml());
-			w.close();
-			count++;
+		if (html!=null){
+			Document doc = Jsoup.parse(html,"UTF-8");
+			Elements table_wrap = doc.getElementsByTag("table-wrap");
+			int count = 1;
+			FileWriter w;
+			for(Element e : table_wrap){
+				File tab = new File(file_dir + sep + pmc +count +".html");
+				tab.canWrite();
+				w = new FileWriter(tab);
+				w.write(e.outerHtml());
+				w.close();
+				count++;
+			}
 		}
 		
 	}
