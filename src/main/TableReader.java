@@ -13,7 +13,9 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -154,7 +156,7 @@ public class TableReader {
 							if (file_in_tar.endsWith("nxml")){
 								File outputFile = new File("temp_nxml");
 								outputFile.mkdir();
-								File f = new File(outputFile,  pmc_id + ".nxml");
+								File f = new File(outputFile,  "PMC" + pmc_id + ".nxml");
 								f.createNewFile();
 					            byte [] btoRead = new byte[1024];
 					            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(f));
@@ -171,7 +173,8 @@ public class TableReader {
 							}
 							else if (file_in_tar.contains(".xls")){
 								File outputFile = new File(file_dir);
-								File f = new File(outputFile,  entry.getName().substring(entry.getName().lastIndexOf("/")));
+								String name =  entry.getName().substring(entry.getName().lastIndexOf("/"));
+								File f = new File(outputFile,name);
 								f.createNewFile();
 					            byte [] btoRead = new byte[1024];
 					            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(f));
@@ -180,6 +183,9 @@ public class TableReader {
 							                bout.write(btoRead,0,len);
 							     }
 					            bout.close();
+					            Path source = f.toPath();
+					            Files.move(source, source.resolveSibling("PMC" + pmc_id + f.getName()), StandardCopyOption.REPLACE_EXISTING);
+					           
 							}
 
 							entry = tarIn.getNextTarEntry();
