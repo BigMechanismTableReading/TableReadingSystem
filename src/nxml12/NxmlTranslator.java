@@ -38,7 +38,11 @@ public class NxmlTranslator {
 			int count = 1;
 			FileWriter w;
 			for(Element e : table_wrap){
-				File tab = new File(file_dir + sep + pmc +count +".html");
+				String id = e.attr("id");
+				if (id==null){
+					id = "T" + count;
+				}
+				File tab = new File(file_dir + sep + "PMC" + pmc + id +".html");
 				tab.canWrite();
 				w = new FileWriter(tab);
 				w.write(e.outerHtml());

@@ -341,8 +341,10 @@ public class ParticipantAExtractor {
 		Lookup t = TabLookup.getInstance();
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
 		HashMap<String, Integer> hashA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
-				r.getConjugationBase());		
+				r.getConjugationBase());
+		
 		String PMCID = table.getSource().getPmcId();
+		
 		ExtractBiopax extractor = new ExtractBiopax(PMCID + ".json", r.getConjugationBase().get(0));
 		HashMap<String, Integer> friesA = extractor.getACount(allB);
 		if(simple_reaction){
@@ -358,6 +360,7 @@ public class ParticipantAExtractor {
 		List<String> textA = TextExtractor.sortByValue(hashA);
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 		System.out.println(textA);
+		
 		if (participantAs.isEmpty()){
 			participantAs = getCaptionPartA(contents, r, allB, table, textA);
 			if (!participantAs.isEmpty()){

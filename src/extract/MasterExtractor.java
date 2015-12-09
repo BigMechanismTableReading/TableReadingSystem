@@ -85,6 +85,7 @@ public class MasterExtractor {
 			String extra = "";
 			HTMLTableExtractor.setFile_dir(file_dir);
 			HTMLTableExtractor extractor = new HTMLTableExtractor();
+			System.out.println("parsing html file: " + target.getAbsolutePath());
 			Collection<List<String>> data = extractor.parseHTMLTable(target.getPath());
 			if(data == null) {
 				System.out.println("Human markup required on: " + target.getName());

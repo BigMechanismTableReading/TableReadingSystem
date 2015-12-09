@@ -59,10 +59,11 @@ public class HTMLTableExtractor {
 				ArrayList<List<String>> table = new ArrayList<List<String>>();
 				
 				Elements tables = doc.select("table");
-				if(tables.size() < 2){
+				//was <2
+				if(tables.size() < 1){
 					return null;
 				}
-				Element tableElements = tables.get(1);
+				Element tableElements = tables.get(0);
 				Elements tableHeaderRows = tableElements.select("thead tr");
 				ArrayList<Integer> rowspans = new ArrayList<Integer>();
 				

@@ -90,13 +90,14 @@ public class ExtractFiles {
 
 	public File convertHTML(File xml, String paper_dir,String pmc){
 		System.out.println("Converting " + xml.getAbsolutePath() + " to nxml");
-		//TODO figure out how to get the pmc id name to here
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		//Needed to comment out so that it does not resolve DTDs and ENTs
 		//dbf.setNamespaceAware(true);
 		//dbf.setValidating(true);
 		DocumentBuilder db;
 		try {
 			db = dbf.newDocumentBuilder();
+			//entity resolver needs to return empty input source so that it does not try to resolve DTDs and ENT
 			db.setEntityResolver(new EntityResolver(){
 
 				@Override

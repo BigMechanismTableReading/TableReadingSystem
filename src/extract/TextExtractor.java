@@ -323,13 +323,16 @@ public class TextExtractor {
 	 * @return The sorted key set as a list
 	 */
 	public static LinkedList<String> sortByValue (HashMap<String, Integer> map){
-		ValueComparator comp = new ValueComparator(map);
 		LinkedList<String> newList = new LinkedList<String>();
-		Iterator<String> iterMap = map.keySet().iterator();
-		while(iterMap.hasNext()){
-			newList.add(iterMap.next());
+		if (map!=null){ //TODO: fix getting null here
+			ValueComparator comp = new ValueComparator(map);
+			Iterator<String> iterMap = map.keySet().iterator();
+			while(iterMap.hasNext()){
+				newList.add(iterMap.next());
+			}
+			Collections.sort(newList, comp);
+
 		}
-		Collections.sort(newList, comp);
 		return newList;
 	}
 

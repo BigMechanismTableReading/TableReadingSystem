@@ -148,7 +148,7 @@ public class TableReader {
 						TarArchiveEntry entry = tarIn.getNextTarEntry();
 						while (entry!=null){
 							String file_in_tar = entry.getName().toLowerCase();
-							System.out.println(file_in_tar);
+							//System.out.println(file_in_tar);
 							//FileUtils.copyFileToDirectory(new File("TEST"), outputDir);
 							/*if (entry.getFile() == null){
 								System.err.println("NULL FILE: " + entry.getName());
@@ -269,6 +269,10 @@ public class TableReader {
 					extr.ExtractInfo(r, t,simple_reaction);			
 				}
 			}
+			else{
+				
+			}
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
