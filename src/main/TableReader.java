@@ -3,7 +3,6 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -12,9 +11,8 @@ import config.Config;
 import extract.Extractor;
 
 public class TableReader {
-	private static ArrayList<Integer> pmc_ids = new ArrayList<Integer>();
+	protected static ArrayList<Integer> pmc_ids = new ArrayList<Integer>();
 	private static File log = new File("log.txt"); //default
-	private static Extractor extract = new Extractor();
 	public static String home = ".";
 	public static String tables = "tables";
 	public static String files = "files";
@@ -24,7 +22,7 @@ public class TableReader {
 	//	return home;
 	//}
 	
-	public static void main(String[] args) {
+	public static void init(String[] args){
 		if (args.length!=1){
 			System.err.println("Requires location of config file argument");
 		}
@@ -45,14 +43,17 @@ public class TableReader {
 
 				//TODO: set log file
 				getPMCS(input_list);
-				extract.extractFromList(pmc_ids);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
 		}
-		
+	}
+	
+	public static void main(String[] args) {
+		init(args);
+		Extractor.extractFromList(pmc_ids);
 
 	}
 	

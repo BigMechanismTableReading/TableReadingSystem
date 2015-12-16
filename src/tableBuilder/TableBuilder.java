@@ -35,19 +35,18 @@ public class TableBuilder {
 			source.setPaperTitle("Unknown");
 			source.setSourceFile(target.getName());
 			boolean humanMarkupRequired = false;
-			String extra = "";
 			HTMLTableExtractor extractor = new HTMLTableExtractor();
-			System.out.println("parsing html file: " + target.getAbsolutePath());
+			TableReader.writeToLog("Parsing html file: " + target.getAbsolutePath());
 			Collection<List<String>> data = extractor.parseHTMLTable(target.getPath());
 			if(data == null) {
-				System.out.println("Human markup required on: " + target.getName());
+				TableReader.writeToLog("Human markup required on: " + target.getName());
 				humanMarkupRequired = true;
 			} else {
 				extractor.createTableBuf(table, data);
 			}
 			if(!humanMarkupRequired){
 				Table tb = table.build();
-				writeToFile(target, tb, extra);
+				writeToFile(target, tb, "");
 				tables.add(tb);
 			}
 		} else if(target.getName().endsWith(".xml")){
@@ -80,7 +79,7 @@ public class TableBuilder {
 					}
 					if(data == null) {
 						if (wb.getSheetAt(sheetNum).getPhysicalNumberOfRows() > 0) {
-							System.out.println("Human markup required on: " + target.getName() + " Sheet" + (sheetNum + 1));
+							TableReader.writeToLog("Human markup required on: " + target.getName() + " Sheet" + (sheetNum + 1));
 						}
 						humanMarkupRequired = true;
 					} else {
@@ -97,7 +96,6 @@ public class TableBuilder {
 				
 			}
 		}
-		System.out.println("Here");
 		return tables;
 	}
 	
