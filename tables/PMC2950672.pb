@@ -1,0 +1,3 @@
+3† These authors contributed equally to this work.6‡ Cancer Research UK Growth Factor Signalling Group.l§ Current address: Department of Chemistry, University of Illinois at Urbana−Champaign, Urbana, IL 61801.a Variability (%) was calculated using the standard deviation of the natural logarithms of the SILAC ratios, multiplied by 100.ma SLoMo score = −10 × (log(p). A score of 19 corresponds to a localization confidence with p = 0.0126.(33)a Not detected.vb Detected only in Dok1 immunoprecipitation and not in untransfected control; therefore, no ratio could be calculated./
+Unknown
+PMC2950672Unknown"PMC2950672.html

@@ -1,7 +1,10 @@
 package main;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +20,7 @@ public class TableReader {
 	public static String tables = "tables";
 	public static String files = "files";
 	public static String papers = "papers";
+	public static boolean simple_reaction = false;
 
 //	public static String getHome(){
 	//	return home;
@@ -40,9 +44,10 @@ public class TableReader {
 				mkdir(files);
 				papers = home + File.separator + "papers";
 				mkdir(papers);
+				simple_reaction = config.isSimple_reaction();
 
 				//TODO: set log file
-				getPMCS(input_list);
+				getPMCS(input_list); //sets the pmc_ids
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -106,6 +111,14 @@ public class TableReader {
 			}
 			
 		}
+		
+		
+	}
+
+	public static void writeToLog(Exception e) {
+		StringWriter error = new StringWriter();
+		e.printStackTrace(new PrintWriter(error));
+		writeToLog(error.toString());
 		
 		
 	}
