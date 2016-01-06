@@ -21,7 +21,7 @@ public class TableReader {
 	public static String files = "files";
 	public static String papers = "papers";
 	public static boolean simple_reaction = false;
-
+	public static boolean make_tables = false;
 //	public static String getHome(){
 	//	return home;
 	//}
@@ -45,7 +45,7 @@ public class TableReader {
 				papers = home + File.separator + "papers";
 				mkdir(papers);
 				simple_reaction = config.isSimple_reaction();
-
+				make_tables = config.isMake_tables();
 				//TODO: set log file
 				getPMCS(input_list); //sets the pmc_ids
 			} catch (IOException e) {

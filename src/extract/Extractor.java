@@ -107,15 +107,17 @@ public class Extractor {
 	public static ArrayList<Table> getTables(Integer pmc_id){
 		ArrayList<Table> table_result = new ArrayList<Table>();
 		File [] tables = Utils.getFiles(new File(TableReader.tables), pmc_id, ".pb");//protobuf files
-		if (tables.length==0){
-			File [] html = Utils.getFiles(new File(TableReader.papers), pmc_id, ".html");//protobuf files
+		if (tables.length==0 || TableReader.make_tables){
+			if (TableReader.make_tables){
+				TableReader.writeToLog("Making tables for " + pmc_id);
+			}
+			File [] html = Utils.getFiles(new File(TableReader.files), pmc_id, ".html");//protobuf files
 				//File [] files = getFiles(new File(TableReader.files), pmc_id, new String[] {".html",".xls", ".xlsx"});
 				if (html.length > 0){
 					for (File file: html){
 						List<Table> table_list= TableBuilder.buildTable(file, pmc_id.toString());
 						for(Table t : table_list){
 							if (t!=null){
-								System.out.println("table for " + file.getName());
 								table_result.add(t);
 							}
 						}
@@ -131,8 +133,6 @@ public class Extractor {
 			for (File table: tables){
 				Table t = Utils.getTable(table);
 				if (t!=null){
-					System.out.println("table for " + table.getName());
-
 					table_result.add(t);
 				}
 

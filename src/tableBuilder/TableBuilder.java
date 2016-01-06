@@ -105,10 +105,16 @@ public class TableBuilder {
 		
 		FileOutputStream output;
 		try {
-			output = new FileOutputStream(TableReader.tables + File.separator + name + extra + ".pb");
+			File f = new File(TableReader.tables + File.separator + name + extra + ".pb");
+			if (f.exists()){
+				f.delete();
+			}
+			output = new FileOutputStream(new File(TableReader.tables + File.separator + name + extra + ".pb"), false);
 			table.writeTo(output);
 			output.close();
 		} catch (FileNotFoundException e) {
+			//access denied to overwrite?
+			
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
