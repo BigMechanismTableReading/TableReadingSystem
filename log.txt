@@ -1,1 +1,1 @@
-Parsing html file: C:\Users\charnessn\Documents\BigMechanisms\workspace\BigMechRedone\papers\PMC3176801.html
+Extracting 3176801

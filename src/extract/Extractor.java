@@ -58,9 +58,18 @@ public class Extractor {
 		}
 	}*/
 	
-	public void determineRelevance(Table t){
+	public static Pair<Reaction, HashMap<ColumnContents, List<Column>>> determineRelevance(Table t){
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = dt.determine(t);
+		if (r!=null){
+			System.out.println("A:" + r.getA());
+			return r;
+		}
+		else{
+			System.err.println("Pair is null");
+			return null;
+		}
+		
 		
 	}
 	
@@ -87,11 +96,16 @@ public class Extractor {
 			e.printStackTrace();
 		}
 	}*/
+	
+	public static void extract(Table t, Pair<Reaction, HashMap<ColumnContents, List<Column>>> r){
+		Extraction e = new Extraction();
+		e.ExtractInfo(r, t);		
+
+	}
 
 
-
-	public static void extractFromID(Integer pmc_id){
-		//GOING TO ASSUME THAT ALL OF THE TABLES WERE BUILT IF AT LEAST ONE IS THERE
+	public static ArrayList<Table> getTables(Integer pmc_id){
+		ArrayList<Table> table_result = new ArrayList<Table>();
 		File [] tables = Utils.getFiles(new File(TableReader.tables), pmc_id, ".pb");//protobuf files
 		if (tables.length==0){
 			File [] html = Utils.getFiles(new File(TableReader.papers), pmc_id, ".html");//protobuf files
@@ -101,7 +115,8 @@ public class Extractor {
 						List<Table> table_list= TableBuilder.buildTable(file, pmc_id.toString());
 						for(Table t : table_list){
 							if (t!=null){
-							//extract(t,w,extr,fileName,simple_reaction);
+								System.out.println("table for " + file.getName());
+								table_result.add(t);
 							}
 						}
 					}
@@ -115,12 +130,30 @@ public class Extractor {
 		else{
 			for (File table: tables){
 				Table t = Utils.getTable(table);
+				if (t!=null){
+					System.out.println("table for " + table.getName());
+
+					table_result.add(t);
+				}
+
 			}
 		}
+		return table_result;
 
-		
 	}
+	
+	public static void extractFromID(Integer pmc_id){
+		
+		ArrayList<Table> tables = getTables(pmc_id);
+		for (Table table: tables){
+			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = determineRelevance(table);
+			if (r!=null){
+				extract(table, r);
+			}
+			else{
+				System.out.println("not relevant: " + pmc_id);
+			}
 
-
-
+		}
+	}
 }

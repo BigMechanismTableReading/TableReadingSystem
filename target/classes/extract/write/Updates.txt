@@ -1,0 +1,20 @@
+Contains possible updates to the extract.write package
+
+Index Card Writer- 
+Send the reaction type into the index card writer. 
+Reaction classes will now need a method that writes a small part of the index card.
+Looking at the index card, the only fields that need to be reaction dependent are-
+	 the features array in the participants
+	 the interaction type
+	 the modifications array and its contents
+	 
+Everything else could remain essentially the same although the fold part in evidence would be removed
+
+This means that editing the indexCardWriter would be a relatively simple method that could just take the current
+Json and write the remaining info that is needed by the cards.
+The class that writes those parts could be an abstract class for a collection of reactions (PTMS,Mutations,etc)
+
+Index Card -
+Needs slight edits where it adds the fold column. 
+That can be fixed fairly easily and could be reaction dependant as well.
+	 

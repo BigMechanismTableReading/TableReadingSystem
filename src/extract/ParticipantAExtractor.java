@@ -24,6 +24,7 @@ import extract.lookup.Lookup;
 import extract.lookup.TabLookup;
 import extract.lookup.YeastLookup;
 import extract.types.Reaction;
+import main.TableReader;
 
 /**
  * Gets the possible participantA of the table
@@ -338,7 +339,7 @@ public class ParticipantAExtractor {
 	public List<ParticipantA> getParticipantAs(TableBuf.Table table,
 			HashMap<Integer,String> partB, 	HashMap<Integer,String> partBUntrans,
 			HashMap<ColumnContents,List<TableBuf.Column>> contents,
-			Reaction r,boolean simple_reaction){
+			Reaction r ){
 		Set<String> allB = new HashSet<String>();
 		Lookup t = TabLookup.getInstance();
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
@@ -346,10 +347,15 @@ public class ParticipantAExtractor {
 				r.getConjugationBase());
 		
 		String PMCID = table.getSource().getPmcId();
+		possibleA = new HashMap<String,String>();
+
 		
-		ExtractBiopax extractor = new ExtractBiopax(PMCID + ".json", r.getConjugationBase().get(0));
+		/*//TODO: TOOK OUT FRIES/BIOPAX STUFF
+		 * 
+		 * ExtractBiopax extractor = new ExtractBiopax(PMCID + ".json", r.getConjugationBase().get(0));
 		HashMap<String, Integer> friesA = extractor.getACount(allB);
 		//why??
+		boolean simple_reaction = TableReader.simple_reaction;
 		//if(simple_reaction){
 			possibleA = new HashMap<String,String>();
 		//}
@@ -359,7 +365,7 @@ public class ParticipantAExtractor {
 			} else {
 				hashA.put(a, friesA.get(a));
 			}
-		}
+		}*/
 		List<String> textA = TextExtractor.sortByValue(hashA);
 		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
 		System.out.println(textA);
