@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -57,8 +58,16 @@ public class TableReader {
 	}
 	
 	public static void main(String[] args) {
+		Long startTime = System.currentTimeMillis();
+		writeToLog("Start time: " + startTime);
+		writeToLog("pmc ids: " + pmc_ids.size());
 		init(args);
 		Extractor.extractFromList(pmc_ids);
+		writeToLog("Start time: " + startTime);
+		Long endTime = System.currentTimeMillis();
+		writeToLog("End time: " + endTime);
+		writeToLog("Difference: " + (endTime - startTime));
+		writeToLog("pmc ids: " + pmc_ids.size());
 
 	}
 	
@@ -72,7 +81,11 @@ public class TableReader {
 	/**writes to logfile**/
 	public static void writeToLog(String toWrite){
 		try {
-			Files.write(log.toPath(), toWrite.getBytes());
+			toWrite += "\n";
+			if (!log.exists()){
+				log.createNewFile();
+			}
+			Files.write(log.toPath(), toWrite.getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			System.err.println("Error writing to log");
 		}

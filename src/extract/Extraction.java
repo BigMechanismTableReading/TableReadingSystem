@@ -13,6 +13,7 @@ import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import utils.Pair;
 import tableBuilder.TableBuf;
+import tableBuilder.TableWrapper;
 import tableBuilder.TableBuf.Table;
 import extract.types.Reaction;
 import extract.write.IndexCard;
@@ -146,8 +147,10 @@ public class Extraction {
 	 * @param simple_reaction 
 	 */
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
-							TableBuf.Table table){
+							TableWrapper tableWrap){
 		String readingStart = new Date(System.currentTimeMillis()).toString();
+
+		Table table = tableWrap.getTable();
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
 		//First HashMap is the translated participant B and the Second HashMap is the untranslated participant B
@@ -155,9 +158,9 @@ public class Extraction {
 		HashMap<Integer, String> partB = partBinfo.getA();
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();
 		ParticipantAExtractor partA = new ParticipantAExtractor();
-		List<ParticipantA> participantACols= partA.getParticipantAs(table,partB,partBuntrans,foldContents(contents), r);
+		List<ParticipantA> participantACols= partA.getParticipantAs(tableWrap,partB,partBuntrans,foldContents(contents), r);
 		//TODO run the rest of the table, first choosing fold then going through the table
-		System.out.println(participantACols.size() + " " + participantACols.get(0).getUntranslatedName());
+		//System.out.println(participantACols.size() + " " + participantACols.get(0).getUntranslatedName());
 		List<ColumnContents> cols = new ArrayList<ColumnContents>();
 		for(Class<? extends ColumnContents> c : r.getRequiredColumns()){
 			if (!(c == Fold.class)) {

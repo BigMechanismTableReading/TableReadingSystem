@@ -21,6 +21,7 @@ import extract.types.Reaction;
 import extract.types.SimpleReaction;
 import main.TableReader;
 import tableBuilder.TableBuf.Table;
+import tableBuilder.TableWrapper;
 
 /**
  * Determines whether or not a table is relevant and labels the columns with possible content type
@@ -96,6 +97,7 @@ public class DetermineTable {
 	 */
 	private Set<Reaction> getTableReactions(Table table,List<Reaction> reactList){
 		Set<Reaction> reactions = new HashSet<Reaction>();
+
 		for(String s : table.getCaptionList()){
 			for(Reaction r : reactList){
 				for(String base : r.getConjugationBase()){
@@ -141,8 +143,9 @@ public class DetermineTable {
 	 * @param table
 	 * @param simple_reaction 
 	 */
-	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(Table table){
+	public Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> determine(TableWrapper tw){
 		boolean simple_reaction = TableReader.simple_reaction;
+		Table table = tw.getTable();
 		Reaction.setSimple(simple_reaction);
 		ParticipantB  partB = new ParticipantB();
 		HashMap<ColumnContents,List<TableBuf.Column>> labels = new HashMap<ColumnContents,List<TableBuf.Column>>();
@@ -150,8 +153,10 @@ public class DetermineTable {
 		if(simple_reaction){
 			possibleReactions.add(SimpleReaction.getInstance());
 		}else{
+			//get methylation, phosphorylation etc. from the original text
 			possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
 		}
+		//TODO: add the title from the original source? 
 		Set<Reaction> tableReactions = getTableReactions(table,possibleReactions);
 		if(tableReactions.size() > 0){
 			possibleReactions.clear();

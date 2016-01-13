@@ -8,6 +8,7 @@ import extract.Extractor;
 import extract.types.Reaction;
 import tableBuilder.TableBuf.Column;
 import tableBuilder.TableBuf.Table;
+import tableBuilder.TableWrapper;
 import tablecontents.ColumnContents;
 import utils.Pair;
 
@@ -28,8 +29,8 @@ public class RelevanceTester {
 		
 	//TODO: redo so you just go by table
 	public static boolean isRelevant(Integer pmc_id){
-		ArrayList<Table> tables = Extractor.getTables(pmc_id);
-		for (Table table: tables){
+		ArrayList<TableWrapper> tables = Extractor.getTables(pmc_id);
+		for (TableWrapper table: tables){
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = Extractor.determineRelevance(table);
 			if (r!=null){
 				return true;

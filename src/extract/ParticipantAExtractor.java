@@ -1,13 +1,24 @@
 package extract;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import com.google.protobuf.Descriptors.FieldDescriptor;
 
 import tablecontents.ColumnContents;
 import tablecontents.ParticipantA;
@@ -15,7 +26,9 @@ import tablecontents.Protein;
 import utils.Pair;
 import extract.TextExtractor;
 import tableBuilder.TableBuf;
+import tableBuilder.TableWrapper;
 import tableBuilder.TableBuf.Column;
+import tableBuilder.TableBuf.Table;
 import extract.index.ExtractBiopax;
 import extract.lookup.AbbreviationLookup;
 import extract.lookup.ChEMBLLookup;
@@ -262,11 +275,32 @@ public class ParticipantAExtractor {
 		return participantAs;
 	}
 	
+	//TODO: if i get it straight from the HTML?
 	private List<ParticipantA> getCaptionPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
-			Reaction r, Set<String> allB,TableBuf.Table table, List<String> textA){
+			Reaction r, Set<String> allB,TableWrapper tblW, List<String> textA){
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
-		System.out.println("Caption partA");
+		TableReader.writeToLog("Looking for partA in caption");
 		HashMap<String, String> possA = new HashMap<String, String>();
+		
+		Table table = tblW.getTable();
+		//Iterator <FieldDescriptor> it = table.getAllFields().keySet()
+		if (table.getCaptionList().isEmpty()){
+			File file = tblW.getFile();
+			if (file.getName().endsWith(".html")){
+				try {
+					Document doc = Jsoup.parse(new String(Files.readAllBytes(file.toPath())));
+					Elements e = doc.getElementsByTag("title");
+					Iterator <Element> it = e.iterator();
+					while (it.hasNext()){
+						System.out.println("title: " + it.next());
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		boolean title = true;
 		for(String wholeCaption : table.getCaptionList()){
 			String[] subtitles = wholeCaption.split(";");
@@ -336,10 +370,11 @@ public class ParticipantAExtractor {
 	 * @param r
 	 * @return
 	 */
-	public List<ParticipantA> getParticipantAs(TableBuf.Table table,
+	public List<ParticipantA> getParticipantAs(TableWrapper tblWrap,
 			HashMap<Integer,String> partB, 	HashMap<Integer,String> partBUntrans,
 			HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r ){
+		Table table = tblWrap.getTable();
 		Set<String> allB = new HashSet<String>();
 		Lookup t = TabLookup.getInstance();
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
@@ -371,7 +406,7 @@ public class ParticipantAExtractor {
 		System.out.println(textA);
 		
 		if (participantAs.isEmpty()){
-			participantAs = getCaptionPartA(contents, r, allB, table, textA);
+			participantAs = getCaptionPartA(contents, r, allB, tblWrap, textA);
 			if (!participantAs.isEmpty()){
 				return participantAs;
 			}

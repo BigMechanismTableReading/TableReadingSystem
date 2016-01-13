@@ -26,6 +26,7 @@ import main.TableReader;
 import tableBuilder.TableBuf.Table;
 import tablecontents.ColumnContents;
 import tableBuilder.TableBuilder;
+import tableBuilder.TableWrapper;
 import utils.Utils;
 
 
@@ -58,7 +59,7 @@ public class Extractor {
 		}
 	}*/
 	
-	public static Pair<Reaction, HashMap<ColumnContents, List<Column>>> determineRelevance(Table t){
+	public static Pair<Reaction, HashMap<ColumnContents, List<Column>>> determineRelevance(TableWrapper t){
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = dt.determine(t);
 		if (r!=null){
@@ -97,28 +98,28 @@ public class Extractor {
 		}
 	}*/
 	
-	public static void extract(Table t, Pair<Reaction, HashMap<ColumnContents, List<Column>>> r){
+	public static void extract(TableWrapper t, Pair<Reaction, HashMap<ColumnContents, List<Column>>> r){
 		Extraction e = new Extraction();
 		e.ExtractInfo(r, t);		
 
 	}
 
 
-	public static ArrayList<Table> getTables(Integer pmc_id){
-		ArrayList<Table> table_result = new ArrayList<Table>();
+	public static ArrayList<TableWrapper> getTables(Integer pmc_id){
+		ArrayList<TableWrapper> table_result = new ArrayList<TableWrapper>();
 		File [] tables = Utils.getFiles(new File(TableReader.tables), pmc_id, ".pb");//protobuf files
 		if (tables.length==0 || TableReader.make_tables){
 			if (TableReader.make_tables){
 				TableReader.writeToLog("Making tables for " + pmc_id);
 			}
-			File [] html = Utils.getFiles(new File(TableReader.files), pmc_id, ".html");//protobuf files
-				//File [] files = getFiles(new File(TableReader.files), pmc_id, new String[] {".html",".xls", ".xlsx"});
-				if (html.length > 0){
-					for (File file: html){
+			//File [] html = Utils.getFiles(new File(TableReader.files), pmc_id, ".html");//protobuf files
+				File [] files = Utils.getFiles(new File(TableReader.files), pmc_id, new String[] {".html",".xls", ".xlsx"});
+				if (files.length > 0){
+					for (File file: files){
 						List<Table> table_list= TableBuilder.buildTable(file, pmc_id.toString());
 						for(Table t : table_list){
 							if (t!=null){
-								table_result.add(t);
+								table_result.add(new TableWrapper(t, file));
 							}
 						}
 					}
@@ -133,7 +134,7 @@ public class Extractor {
 			for (File table: tables){
 				Table t = Utils.getTable(table);
 				if (t!=null){
-					table_result.add(t);
+					table_result.add(new TableWrapper(t));
 				}
 
 			}
@@ -142,16 +143,20 @@ public class Extractor {
 
 	}
 	
+
+
 	public static void extractFromID(Integer pmc_id){
 		
-		ArrayList<Table> tables = getTables(pmc_id);
-		for (Table table: tables){
-			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = determineRelevance(table);
+		ArrayList<TableWrapper> tables = getTables(pmc_id);
+		for (TableWrapper t: tables){
+			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = determineRelevance(t);
 			if (r!=null){
-				extract(table, r);
+				extract(t, r);
 			}
 			else{
-				System.out.println("not relevant: " + pmc_id);
+				
+				System.out.println("Not relevant, not going to extract: " + t.getFile().getName());
+				TableReader.writeToLog("Not relevant, not going to extract: " + t.getFile().getName());
 			}
 
 		}
