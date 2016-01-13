@@ -10,6 +10,7 @@ import java.util.List;
 
 import main.TableReader;
 import tableBuilder.TableBuf.Table;
+import tableBuilder.extract.HTMLTable;
 import tableBuilder.extract.HTMLTableExtractor;
 import tableBuilder.extract.TableExtractor;
 import tableBuilder.extract.XMLTableExtractor;
@@ -37,12 +38,23 @@ public class TableBuilder {
 			boolean humanMarkupRequired = false;
 			HTMLTableExtractor extractor = new HTMLTableExtractor();
 			TableReader.writeToLog("Parsing html file: " + target.getAbsolutePath());
-			Collection<List<String>> data = extractor.parseHTMLTable(target.getPath());
+			/*Collection<List<String>> data = extractor.parseHTMLTable(target.getPath());
 			if(data == null) {
 				TableReader.writeToLog("Human markup required on: " + target.getName());
 				humanMarkupRequired = true;
 			} else {
 				extractor.createTableBuf(table, data);
+			}*/
+			ArrayList<HTMLTable> htmlInfo = extractor.parseHTML(target.getAbsolutePath());
+			if (htmlInfo.isEmpty()){
+				TableReader.writeToLog("Human markup required on: " + target.getName());
+				humanMarkupRequired = true;
+			}
+			else{
+				for (HTMLTable tbl: htmlInfo){
+					extractor.createTableBuf(table, tbl);
+
+				}
 			}
 			if(!humanMarkupRequired){
 				Table tb = table.build();

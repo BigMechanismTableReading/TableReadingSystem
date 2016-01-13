@@ -38,6 +38,191 @@ public class HTMLTableExtractor {
 		
 	}
 	
+	
+	private int getCol(Elements colList){
+		int colCount = 0;
+		Iterator <Element> cols = colList.iterator();
+		while (cols.hasNext()){
+			Element col = cols.next();
+			int span = 1;
+			if (col.hasAttr("span")){
+				try {
+					span = Integer.parseInt(col.attr("span"));
+				}
+				catch (NumberFormatException e){
+					span = 1;
+				}
+			}
+			colCount+=span;
+		}
+		return colCount;
+	}
+	
+	/**
+	 * There are two ways to determine the number of columns in a table (in order of precedence):
+
+		If the TABLE element contains any COLGROUP or COL elements, user agents should calculate the number of columns by summing the following:
+		For each COL element, take the value of its span attribute (default value 1).
+		For each COLGROUP element containing at least one COL element, ignore the span attribute for the COLGROUP element. For each COL element, perform the calculation of step 1.
+		For each empty COLGROUP element, take the value of its span attribute (default value 1).
+		Otherwise, will return -1 and get number of columns during:
+		 if the TABLE element contains no COLGROUP or COL elements, user agents should base the number of columns on what is required by the rows. The number of columns is equal to the number of columns required by the row with the most columns, including cells that span multiple columns. For any row that has fewer than this number of columns, the end of that row should be padded with empty cells. The "end" of a row depends on the table directionality.
+		It is an error if a table contains COLGROUP or COL elements and the two calculations do not result in the same number of columns.
+	 
+	 *@return 0 if have to do during calculation
+	 */	
+	
+	//WHAT ABOUT DEALING WITH MULTIPLE COLUNNS
+	private int getNumberOfColumns(Document doc){
+		int colCount = 0;
+		//COL
+		Elements cols = doc.select("table > col");
+		if (cols.size() > 0){
+			colCount+=getCol(cols);
+		}
+		
+		//COLGROUP
+		Iterator <Element> colgroups = doc.select("table > colgroup").iterator();
+		while (colgroups.hasNext()){
+			Element cg = colgroups.next();
+			Elements colChildren = cg.select("col");
+			if (colChildren.size() > 0){
+				colCount+= getCol(colChildren);
+			}
+			else{
+				int span = 1;
+				if (cg.hasAttr("span")){
+					try {
+						span = Integer.parseInt(cg.attr("span"));
+					}
+					catch (NumberFormatException e){
+						span = 1;
+					}
+				}
+				colCount+=span;
+			}
+		}
+		return colCount;
+	}
+	
+	public ArrayList<HTMLTable> parseHTML(String filename){
+		System.out.println("Doing own parsing: " + filename);
+		File document = new File(filename);
+		ArrayList<HTMLTable> tableResults = new ArrayList<HTMLTable>();
+		if (document.exists()){
+			try {
+				Document doc = Jsoup.parse(document, "UTF-8", "");
+				Elements tables = doc.select("table-wrap");
+				Iterator <Element> it = tables.iterator();
+				while (it.hasNext()){
+					HTMLTable t = new HTMLTable();
+					Element e = it.next();
+					//title
+					Elements titles = e.select("title , caption"); //TODO: caption?
+					if (titles.size() > 0){
+						//TODO: ignore title importance for now
+						Iterator <Element> txtIterator = titles.iterator();
+						while (txtIterator.hasNext()){
+							String title = txtIterator.next().text();	
+							title = title.replaceAll("<xref.*?>.*?</xref>", "");
+							//title = title.replaceAll("(?<=<xref).*?(?=</xref>)", "");
+							//title = title.replaceAll("<xref</xref>", "");
+							System.out.println("title: " + title);
+							t.addCaption(title);
+						}
+						//TODO: can we use the information from col align that it will have certain numbers
+					}
+					int colSize = getNumberOfColumns(doc);
+					if (colSize > 0){
+						System.out.println("number of columns: " + colSize);
+						t.setHeaderSize(colSize);
+						
+						//headers -- theres only one thead but can be multiple thead tr sets
+						Elements theads = e.select("thead > tr");
+						if (theads.size() > 0){
+							//TODO: if there is more than one thead then we should treat as another table?
+							Iterator <Element> itTr = theads.iterator();
+							while (itTr.hasNext()){
+								Elements th =  itTr.next().select("th");
+							//	String [] headers = new String[th.size()];
+								Iterator <Element> itTh = th.iterator();
+								while (itTh.hasNext()){
+									String header = itTh.next().ownText();
+									System.out.println("header: " + header);
+									t.addNextHeader(header);
+								}
+								
+							}
+						}
+						else{
+							Elements heads = e.select("tr > th");
+							Iterator <Element> headIt = heads.iterator();
+	
+							while (headIt.hasNext()){
+								t.addNextHeader(headIt.next().ownText());
+							
+							}
+							
+						}
+						//there can be multiple tbodys
+						Elements tbodys = e.select("tbody"); 
+						if (tbodys.size() > 0){
+							
+							Iterator <Element> tbs = tbodys.iterator(); //tbody
+							while (tbs.hasNext()){
+								Iterator <Element> trs = tbs.next().select("tr").iterator(); //tbody tr
+								int row = 0;
+								while (trs.hasNext()){
+									Iterator <Element> tds = trs.next().select("td").iterator(); //tbody tr td
+									String [] rowInfo = new String[colSize];
+									
+									//ROW
+									int i=0;
+									while (tds.hasNext()){
+										Element td = tds.next();
+										String txt = td.ownText();
+										if (i >= rowInfo.length){
+											System.out.println("Info went beyond number of columns");
+											break;
+										}
+										if (txt.equals("&nbsp;")){
+											txt = ""; //set to nothing
+										}
+									//	System.out.println(row + "," + txt);
+										rowInfo[i] = txt;
+										i++;
+									}
+									t.addData(row, rowInfo);
+									row++;
+
+								}
+	
+							}
+							tableResults.add(t);
+
+						}
+						else{ //look for just tr
+							System.err.println("No tbody");
+						}
+					}
+					else{
+						System.err.println("Can't determine number of columns");
+					}
+					
+					
+				
+					
+				}
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return tableResults;
+		
+	}
+	
 	/**
 	 * Retrieves a data list from an html file by using Jsoup.
 	 * 
@@ -49,7 +234,11 @@ public class HTMLTableExtractor {
 	 * @param fileName the path to the html file
 	 * @return the table data as a 2D List
 	 */
+	
+	//TODO: colspan = number of tr th in thead?
+	//TODO: rowspan = number of tr td in tbody?
 	public Collection<List<String>> parseHTMLTable(String fileName){
+		parseHTML(fileName);
 		File document = new File(fileName);
 		
 		if (document.exists()) {
@@ -235,6 +424,29 @@ public class HTMLTableExtractor {
 	 * @param builder the Table protobuffer to add the data to
 	 * @param rawTable the data to be added
 	 */
+	
+	
+	public void createTableBuf(TableBuf.Table.Builder builder, HTMLTable table){
+		TableBuf.Column.Builder[] columns = new TableBuf.Column.Builder[table.getHeaders().length];
+		builder.addAllCaption(table.getCaptions());
+		for (int i=0; i < columns.length; i++){
+			ColumnData columnData = table.getColumnData()[i];
+			columns[i] = builder.addColumnBuilder();
+			columns[i].setHeader(TableBuf.Cell.newBuilder().setData(columnData.getHeader()));
+			String [] data = columnData.getData();
+				
+			for (int j=0; j < data.length; j++){
+				if (data[j]!=null){
+					
+					columns[i].addData(TableBuf.Cell.newBuilder().setData(data[j]));
+				}
+				else{
+					System.out.println("Data in " + j + " , " + columnData.getHeader() + " is null");
+				}
+			}
+			
+		}
+	}
 	public void createTableBuf(TableBuf.Table.Builder builder, Collection<List<String>> rawTable){
 		
 		TableBuf.Column.Builder[] columns = new TableBuf.Column.Builder[rawTable.size() - 1];
