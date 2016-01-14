@@ -1,0 +1,71 @@
+
+{
+    "pmc_id":"PMC2964295",
+    "reading_started":"Thu Jan 14 12:38:44 EST 2016",
+    "reading_complete":"Thu Jan 14 12:39:00 EST 2016",
+    "submitter":"Leidos",
+    "reader_type":"machine",
+    "extracted_information":{
+        "confidence_level":"0.13348388671875",
+        "list_position":"0",
+        "negative_information":"false",
+        "participant_a":{
+            "entity_text":"CSF",
+            "entity_type":"protein",
+            "identifier":"Uniprot:Q60481",
+            "in_model":"false"
+        },
+        "participant_b":{
+            "entity_text":"P08238",
+            "entity_type":"protein",
+            "identifier":"Uniprot:P08238",
+            "in_model":"false",
+            "features":{
+                "site":"[483, 483]",
+                "base":"[Y, Y]"
+            }
+        },
+        "interaction_type":"adds modification",
+        "modifications":[
+            {
+                "modification_type":"phosphorylation",
+                "position":[
+                    "[483, 483]"
+                ]
+            }
+        ]
+    },
+    "evidence":[
+        {
+            "table_evidence":[
+                {
+                    "table":"PMC2964295pone-0013587-t001.htmlsheet",
+                    "row":"14",
+                    "Headers":[
+                        "Protein Name",
+                        "UniProt#",
+                        "NCBI Site",
+                        "Fold change (CA-CSF-1R/MCF-10A)",
+                        "Fold change (CA-CSF-1R/Y561F)",
+                        "Src regulation"
+                    ]
+                },
+                {
+                    "fold_information_used":"Fold change (CA-CSF-1R/MCF-10A)"
+                }
+            ],
+            "captions":[
+                "Peptides with CSF-1R induced tyrosine phosphorylation in MCF-10A cells."
+            ]
+        },
+        {
+            "text_evidence":[
+                {
+                    "section":"",
+                    "paragraph":"",
+                    "text":""
+                }
+            ]
+        }
+    ]
+}

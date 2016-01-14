@@ -90,7 +90,7 @@ public class Config{
 		make_tables = Boolean.parseBoolean(prop.getProperty("make_tables"));
 		simple_reaction = Boolean.parseBoolean(prop.getProperty("simple_reaction"));
 		reaction_class = prop.getProperty("reaction_class");
-		nxml = Boolean.parseBoolean(prop.getProperty("nxml"));
+		nxml = Boolean.parseBoolean(prop.getProperty("utils.nxml"));
 		nxml_dir = prop.getProperty("nxml_dir");
 		resolve_file = prop.getProperty("resolve_file");
 		home_dir = prop.getProperty("home_dir");

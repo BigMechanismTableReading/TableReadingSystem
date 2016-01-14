@@ -1,0 +1,70 @@
+
+{
+    "pmc_id":"PMC2964295",
+    "reading_started":"Thu Jan 14 12:39:00 EST 2016",
+    "reading_complete":"Thu Jan 14 12:39:00 EST 2016",
+    "submitter":"Leidos",
+    "reader_type":"machine",
+    "extracted_information":{
+        "confidence_level":"0.75",
+        "list_position":"-1",
+        "negative_information":"true",
+        "participant_a":{
+            "entity_text":"CSF1R",
+            "entity_type":"protein",
+            "identifier":"Uniprot:P07333",
+            "in_model":"false"
+        },
+        "participant_b":{
+            "entity_text":"Q03135",
+            "entity_type":"protein",
+            "identifier":"Uniprot:Q03135",
+            "in_model":"false",
+            "features":{
+                "site":"[25, 25]",
+                "base":"[Y, Y]"
+            }
+        },
+        "interaction_type":"inhibits modification",
+        "modifications":[
+            {
+                "modification_type":"phosphorylation",
+                "position":[
+                    "[25, 25]"
+                ]
+            }
+        ]
+    },
+    "evidence":[
+        {
+            "table_evidence":[
+                {
+                    "table":"PMC2964295pone-0013587-t002.htmlsheet",
+                    "row":"23",
+                    "Headers":[
+                        "Protein Name",
+                        "UniProt#",
+                        "NCBI Site",
+                        "Fold change",
+                        "Src regulation"
+                    ]
+                },
+                {
+                    "fold_information_used":"Fold change"
+                }
+            ],
+            "captions":[
+                "Proteins with CSF-1R induced* tyrosine phosphorylation detected in CA-CSF-1R v CA-CSF-1R Y561F analysis."
+            ]
+        },
+        {
+            "text_evidence":[
+                {
+                    "section":"",
+                    "paragraph":"",
+                    "text":""
+                }
+            ]
+        }
+    ]
+}

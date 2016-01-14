@@ -1,0 +1,71 @@
+
+{
+    "pmc_id":"PMC3125343",
+    "reading_started":"Thu Jan 14 12:41:37 EST 2016",
+    "reading_complete":"Thu Jan 14 12:41:37 EST 2016",
+    "submitter":"Leidos",
+    "reader_type":"machine",
+    "extracted_information":{
+        "confidence_level":"0.13348388671875",
+        "list_position":"0",
+        "negative_information":"false",
+        "participant_a":{
+            "entity_text":"RAPAMYCIN",
+            "entity_type":"chemical",
+            "identifier":"CHEBI:9168",
+            "in_model":"false"
+        },
+        "participant_b":{
+            "entity_text":"MLXIPL",
+            "entity_type":"protein",
+            "identifier":"Uniprot:Q9NP71",
+            "in_model":"false",
+            "features":{
+                "site":"[516, 516]",
+                "base":"[S, S]"
+            }
+        },
+        "interaction_type":"inhibits modification",
+        "modifications":[
+            {
+                "modification_type":"phosphorylation",
+                "position":[
+                    "[516, 516]"
+                ]
+            }
+        ]
+    },
+    "evidence":[
+        {
+            "table_evidence":[
+                {
+                    "table":"PMC3125343pone-0021729-t002.htmlsheet",
+                    "row":"4",
+                    "Headers":[
+                        "Protein name",
+                        "Gene Symbol",
+                        "Phosphosite",
+                        "C/R Ratio 1",
+                        "C/R Ratio 2",
+                        "C/R Ratio 3"
+                    ]
+                },
+                {
+                    "fold_information_used":"C/R Ratio 1"
+                }
+            ],
+            "captions":[
+                "Phosphorylation sites up-regulated in response to rapamycin."
+            ]
+        },
+        {
+            "text_evidence":[
+                {
+                    "section":"",
+                    "paragraph":"",
+                    "text":""
+                }
+            ]
+        }
+    ]
+}

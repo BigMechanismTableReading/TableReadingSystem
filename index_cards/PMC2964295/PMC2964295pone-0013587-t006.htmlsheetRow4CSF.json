@@ -1,0 +1,69 @@
+
+{
+    "pmc_id":"PMC2964295",
+    "reading_started":"Thu Jan 14 12:39:01 EST 2016",
+    "reading_complete":"Thu Jan 14 12:39:04 EST 2016",
+    "submitter":"Leidos",
+    "reader_type":"machine",
+    "extracted_information":{
+        "confidence_level":"0.13348388671875",
+        "list_position":"0",
+        "negative_information":"false",
+        "participant_a":{
+            "entity_text":"CSF",
+            "entity_type":"protein",
+            "identifier":"Uniprot:Q60481",
+            "in_model":"false"
+        },
+        "participant_b":{
+            "entity_text":"HRS",
+            "entity_type":"protein",
+            "identifier":"Uniprot:P12081",
+            "in_model":"false",
+            "features":{
+                "site":"[216]"
+            }
+        },
+        "interaction_type":"adds modification",
+        "modifications":[
+            {
+                "modification_type":"phosphorylation",
+                "position":[
+                    "[216]"
+                ]
+            }
+        ]
+    },
+    "evidence":[
+        {
+            "table_evidence":[
+                {
+                    "table":"PMC2964295pone-0013587-t006.htmlsheet",
+                    "row":"4",
+                    "Headers":[
+                        "Protein Name",
+                        "NCBI site",
+                        "Fold change (CA-CSF1R/Y561F)",
+                        "# of tumors",
+                        "Tumors with phosphorylation"
+                    ]
+                },
+                {
+                    "fold_information_used":"Fold change (CA-CSF1R/Y561F)"
+                }
+            ],
+            "captions":[
+                "Comparative analysis of tyrosine phosphorylation detected in human breast tumors."
+            ]
+        },
+        {
+            "text_evidence":[
+                {
+                    "section":"",
+                    "paragraph":"",
+                    "text":""
+                }
+            ]
+        }
+    ]
+}
