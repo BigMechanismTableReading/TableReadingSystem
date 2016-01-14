@@ -14,7 +14,9 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 
-import extract.buffer.TableBuf;
+import main.TableReader;
+import tableBuilder.TableBuf;
+import tableBuilder.TableBuf.Table;
 /**
  * Writes index cards to proper json format
  * @author sloates
@@ -29,7 +31,7 @@ public class IndexCardWriter {
 	 * @param readingStart
 	 * @param readingStop
 	 */
-	private void basicInfo(JsonObjectBuilder idxBuild,TableBuf.Table t, String readingStart, String readingStop){
+	private void basicInfo(JsonObjectBuilder idxBuild, Table t, String readingStart, String readingStop){
 		idxBuild.add( "pmc_id", t.getSource().getPmcId());
 		idxBuild.add("reading_started", readingStart);
 		idxBuild.add("reading_complete", readingStop);
@@ -189,7 +191,7 @@ public class IndexCardWriter {
 	}
 
 	public JsonObject writeIndexCard(String readingStart, String readingStop, TableBuf.Table t,
-			IndexCard idx, boolean simple_reaction, HashMap<String, String> possibleA){
+			IndexCard idx, HashMap<String, String> possibleA){
 		//TODO decide what to send into here, should send it in all at once not seperately,
 		//Why not write a card for each partA and do fold, it doesnt need to be seperate at all.
 		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
@@ -198,6 +200,7 @@ public class IndexCardWriter {
 
 		infoBuilder.add("confidence_level", idx.getData("confidence_level"));
 		infoBuilder.add("list_position",idx.getData("list_position"));
+		boolean simple_reaction = TableReader.simple_reaction;
 		if(!simple_reaction){
 			infoBuilder.add("negative_information", idx.getData("negative_information"));
 		}

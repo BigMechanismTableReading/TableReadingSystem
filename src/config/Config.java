@@ -1,7 +1,9 @@
 package config;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Properties;
 
@@ -18,6 +20,7 @@ public class Config{
 	private boolean nxml;
 	private String nxml_dir;
 	private String resolve_file;
+	private String home_dir;
 	public String getResolve_file() {
 		return resolve_file;
 	}
@@ -65,16 +68,18 @@ public class Config{
 		return nxml_dir;
 	}
 
-	InputStream inputStream;
-	public void setPropValues() throws IOException{
+	public void setPropValues(String configFile) throws IOException{
 		Properties prop = new Properties();
-		String config_file = "config/table.config";
-		inputStream = getClass().getClassLoader().getResourceAsStream(config_file);
+		//String config_file = configFile;
+		FileInputStream in = new FileInputStream(configFile);
+		prop.load(in);
+		in.close();
+		/*inputStream = getClass().getResourceAsStream(config_file);
 		if(inputStream != null){
 			prop.load(inputStream);
 		}else{
 			throw new FileNotFoundException(config_file + " not found");
-		}
+		}*/
 		// Gets the property values
 		user = prop.getProperty("user");
 		input_list = prop.getProperty("input_list");
@@ -85,9 +90,17 @@ public class Config{
 		make_tables = Boolean.parseBoolean(prop.getProperty("make_tables"));
 		simple_reaction = Boolean.parseBoolean(prop.getProperty("simple_reaction"));
 		reaction_class = prop.getProperty("reaction_class");
-		nxml = Boolean.parseBoolean(prop.getProperty("nxml"));
+		nxml = Boolean.parseBoolean(prop.getProperty("utils.nxml"));
 		nxml_dir = prop.getProperty("nxml_dir");
 		resolve_file = prop.getProperty("resolve_file");
+		home_dir = prop.getProperty("home_dir");
+		home_dir = Paths.get(home_dir).toAbsolutePath().normalize().toString();
+	}
+	public String getHome_dir() {	
+		return home_dir;
+	}
+	public void setHome_dir(String home_dir) {
+		this.home_dir = home_dir;
 	}
 
 

@@ -1,6 +1,6 @@
 package tablecontents;
 
-import extract.buffer.TableBuf.Column;
+import tableBuilder.TableBuf.Column;
 
 public class Ratio extends Fold{
 	private String headerRegEx = ".*ratio.*|.*silac.*|.*phospho.{0,2}rate|"

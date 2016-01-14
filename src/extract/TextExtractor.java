@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import extract.analysis.ParticipantAExtractor;
+//import extract.analysis.ParticipantAExtractor;
 import extract.types.Reaction;
 
 /**
@@ -158,7 +158,9 @@ public class TextExtractor {
 				
 				Document doc = Jsoup.parse(document, "UTF-8", "");
 				LinkedList<List<List<String>>> list = new LinkedList<List<List<String>>>();
-				doc.getElementById("reference-list").remove();
+				if (doc.getElementById("reference-list")!=null){
+					doc.getElementById("reference-list").remove();
+				}
 				String text = doc.text();
 				String[] sentences = text.split("\\.");
 				for(int i = 0; i < sentences.length; i++){

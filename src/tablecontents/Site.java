@@ -8,8 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tablecontents.ColumnContents;
-import extract.analysis.Pair;
-import extract.buffer.TableBuf;
+import utils.Pair;
+import tableBuilder.TableBuf;
 
 /**
  * Abstract class for site types

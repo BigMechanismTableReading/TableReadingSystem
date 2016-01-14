@@ -3,8 +3,8 @@ package tablecontents;
 import java.util.HashMap;
 import java.util.List;
 
-import extract.analysis.Pair;
-import extract.buffer.TableBuf;
+import utils.Pair;
+import tableBuilder.TableBuf;
 
 /**
  * Interface that must be implemented by all column types

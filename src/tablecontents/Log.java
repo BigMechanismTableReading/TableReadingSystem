@@ -1,6 +1,6 @@
 package tablecontents;
 
-import extract.buffer.TableBuf.Column;
+import tableBuilder.TableBuf.Column;
 
 /**
  * Subclass of Fold for Log Measurements

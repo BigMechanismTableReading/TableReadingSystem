@@ -3,8 +3,8 @@ package tablecontents;
 import java.util.HashMap;
 import java.util.List;
 
-import extract.analysis.Pair;
-import extract.buffer.TableBuf.Column;
+import utils.Pair;
+import tableBuilder.TableBuf.Column;
 
 public class PhosphoPosition extends AbstractPosition{
 	

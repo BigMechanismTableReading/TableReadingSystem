@@ -7,7 +7,7 @@ import tablecontents.ColumnContents;
 import tablecontents.Fold;
 import tablecontents.ParticipantA;
 import tablecontents.Ratio;
-import extract.buffer.TableBuf.Column;
+import tableBuilder.TableBuf.Column;
 import extract.types.Reaction;
 
 /**

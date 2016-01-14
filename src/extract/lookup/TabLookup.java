@@ -37,6 +37,9 @@ public class TabLookup extends Lookup{
 		english = new HashMap<String,LinkedList<String>>();
 		uniToGene = new HashMap<String, Set<String>>();
 		File proteins = new File("uniprot-taxonomy%3A-Mammalia+%5B40674%5D-.tab");
+		if (!proteins.exists()){
+			proteins = new File("uniprot-taxonomy:-Mammalia+%5B40674%5D-.tab");
+		}
 		Scanner s;
 		String uni ="";
 		try {
@@ -79,7 +82,7 @@ public class TabLookup extends Lookup{
 			}
 			s.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("cant find Mammalia file");
 		}
 	}
 }

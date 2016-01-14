@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tablecontents.ColumnContents;
-import extract.analysis.Pair;
-import extract.buffer.TableBuf;
+import utils.Pair;
+import tableBuilder.TableBuf;
 import extract.lookup.Lookup;
 import extract.lookup.TabLookup;
 import extract.lookup.YeastLookup;
@@ -52,6 +52,8 @@ public abstract class Protein implements ColumnContents{
 		}
 		return null;
 	}
+	
+
 	
 	@Override
 	public String headerMatch(String match) {
@@ -100,8 +102,11 @@ public abstract class Protein implements ColumnContents{
 						s = p.cellMatch(data);
 					if(s != null){
 						String temp_data = matchesFormat(data,p.regEx,true);
+						//System.out.println("data pre: " + data);
 						if(temp_data != null)
 							data = temp_data;
+						//System.out.println("temp_data: " + temp_data);
+						//System.out.println("Data: " + data);
 						return new Pair<String,String>(data, s);
 					} else if (p instanceof Uniprot && data.trim().length() >= 5){
 						String untrans = data;
@@ -160,8 +165,10 @@ public abstract class Protein implements ColumnContents{
 			proteinInfo.put("entity_text_b", groundingInfo.getA());
 			proteinInfo.put("entity_type_b", "protein");
 			proteinInfo.put("identifier_b", groundingInfo.getB());
+
+			//return proteinInfo;
 		}
-		return null;
+		return proteinInfo;
 	}
 	
 	@Override

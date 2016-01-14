@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import extract.buffer.TableBuf;
+import tableBuilder.TableBuf;
+import tableBuilder.TableBuf.Column;
 
 /**
  * Abstract class for position types
@@ -19,7 +20,7 @@ public abstract class AbstractPosition  implements ColumnContents{
 	public int confidenceNeeded = 5;
 	
 	@Override
-	public HashMap<String, String> extractData(List<TableBuf.Column> cols, int row) {
+	public HashMap<String, String> extractData(List<Column> cols, int row) {
 		// TODO Auto-generated method stub
 		//TODO determine the best position possible by using valid pos or something similar in here.
 		HashMap<String,String> position = new HashMap<String, String>();

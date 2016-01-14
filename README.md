@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Welcome to the TableReadingSystem
 
 The TableReadingSystem extracts relevant information from tables in (or supplmentary to) documents. The system takes a list of PMCIDs either by text file or `ArrayList<Integer>` and generates index cards (json files). The PMCIDs must correspond to the papers located in the papers directory (required at the top level).
@@ -16,3 +17,6 @@ The directory PMC1459033 contains an example (the inputs/outputs from a full run
 *index_cards - the output from the system
 
 ##Please visit the [wiki](https://github.com/BigMechanismTableReading/TableReadingSystem/wiki) for more information and options
+=======
+# TableReadingV2
+>>>>>>> Version2/master

@@ -1,0 +1,70 @@
+
+{
+    "pmc_id":"PMC2950672",
+    "reading_started":"Thu Jan 14 12:38:44 EST 2016",
+    "reading_complete":"Thu Jan 14 12:38:44 EST 2016",
+    "submitter":"Leidos",
+    "reader_type":"machine",
+    "extracted_information":{
+        "confidence_level":"0.75",
+        "list_position":"-1",
+        "negative_information":"false",
+        "participant_a":{
+            "entity_text":"SU6656",
+            "entity_type":"chemical",
+            "identifier":"CHEMBL1647480",
+            "in_model":"false"
+        },
+        "participant_b":{
+            "entity_text":"CDV3",
+            "entity_type":"protein",
+            "identifier":"Uniprot:Q9UKY7",
+            "in_model":"false",
+            "features":{
+                "site":"[213, 213]",
+                "base":"[Y, Y]"
+            }
+        },
+        "interaction_type":"inhibits modification",
+        "modifications":[
+            {
+                "modification_type":"phosphorylation",
+                "position":[
+                    "[213, 213]"
+                ]
+            }
+        ]
+    },
+    "evidence":[
+        {
+            "table_evidence":[
+                {
+                    "table":"PMC2950672tbl1.htmlsheet",
+                    "row":"14",
+                    "Headers":[
+                        "protein",
+                        "phosphopeptide",
+                        "phosphosite(s)",
+                        "SILAC ratio",
+                        "% variability"
+                    ]
+                },
+                {
+                    "fold_information_used":"SILAC ratio"
+                }
+            ],
+            "captions":[
+                "Phosphotyrosine Peptides Significantly Changed Due to the Presence of SU6656"
+            ]
+        },
+        {
+            "text_evidence":[
+                {
+                    "section":"",
+                    "paragraph":"",
+                    "text":""
+                }
+            ]
+        }
+    ]
+}

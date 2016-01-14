@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import extract.analysis.Pair;
-import extract.buffer.TableBuf.Column;
+import utils.Pair;
+import tableBuilder.TableBuf.Column;
 
 public class PossibleFold implements ColumnContents{
 	private String cellRegEx =  "(\\b[-+]?[0-9]+\\.[0-9]+)";

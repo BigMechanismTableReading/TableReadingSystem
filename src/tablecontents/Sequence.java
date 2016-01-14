@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import extract.analysis.Pair;
-import extract.buffer.TableBuf;
-import extract.buffer.TableBuf.Cell;
+import utils.Pair;
+import tableBuilder.TableBuf;
+import tableBuilder.TableBuf.Cell;
 
 
 public abstract class Sequence implements ColumnContents {

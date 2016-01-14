@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
-import extract.analysis.Pair;
-import extract.buffer.TableBuf;
+import utils.Pair;
+import tableBuilder.TableBuf;
 
 public class Position extends AbstractPosition{
 	//TODO determine matching for this	

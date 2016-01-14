@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import extract.buffer.TableBuf;
-import extract.buffer.TableBuf.Column;
+import tableBuilder.TableBuf;
+import tableBuilder.TableBuf.Column;
 
 /**
  * Stores participantA and its fold columns

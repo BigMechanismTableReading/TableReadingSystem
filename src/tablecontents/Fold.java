@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import extract.analysis.Pair;
-import extract.buffer.TableBuf;
+import utils.Pair;
+import tableBuilder.TableBuf;
 
 /**
  * Abstract class for different fold measurements

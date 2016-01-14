@@ -82,8 +82,9 @@ public class ExtractBiopax {
 	 * Sets this objects participantB to participantA HashMap
 	 * @param fileName
 	 * @param prefix
+	 * @return true if finish without exception
 	 */
-	public void getBtoA(String fileName,String prefix){
+	public boolean getBtoA(String fileName,String prefix){
 		JSONParser parse = new JSONParser();
 		try{
 			JSONObject idx_cards = (JSONObject)parse.parse(new FileReader("fries" + sep + fileName));
@@ -107,8 +108,9 @@ public class ExtractBiopax {
 				}
 			}
 			getBToA();
+			return true;
 		}catch(Exception e){
-			System.err.println(e);
+			return false;
 		}
 	}
 	

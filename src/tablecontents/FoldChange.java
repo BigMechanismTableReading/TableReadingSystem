@@ -1,6 +1,6 @@
 package tablecontents;
 
-import extract.buffer.TableBuf.Column;
+import tableBuilder.TableBuf.Column;
 
 public class FoldChange extends Fold{
 	private String headerRegEx = ".*change.*";	
