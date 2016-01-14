@@ -53,14 +53,13 @@ public class TableBuilder {
 			else{
 				for (HTMLTable tbl: htmlInfo){
 					extractor.createTableBuf(table, tbl);
+					Table tb = table.build();
+					writeToFile(target, tb, "");
+					tables.add(tb);
 
 				}
 			}
-			if(!humanMarkupRequired){
-				Table tb = table.build();
-				writeToFile(target, tb, "");
-				tables.add(tb);
-			}
+			
 		} else if(target.getName().endsWith(".xml")){
 			tables.addAll(XMLTableExtractor.extractXMLPaper(target.getName(), PMCID));
 		} else {
