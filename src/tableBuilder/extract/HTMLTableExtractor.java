@@ -106,12 +106,13 @@ public class HTMLTableExtractor {
 	}
 	
 	public ArrayList<HTMLTable> parseHTML(String filename){
-		System.out.println("Doing own parsing: " + filename);
+	//	System.out.println("Doing own parsing: " + filename);
 		File document = new File(filename);
 		ArrayList<HTMLTable> tableResults = new ArrayList<HTMLTable>();
 		if (document.exists()){
 			try {
 				Document doc = Jsoup.parse(document, "UTF-8", "");
+				//System.out.println(doc.outerHtml());
 				Elements tables = doc.select("table-wrap");
 				Iterator <Element> it = tables.iterator();
 				while (it.hasNext()){
@@ -127,7 +128,7 @@ public class HTMLTableExtractor {
 							title = title.replaceAll("<xref.*?>.*?</xref>", "");
 							//title = title.replaceAll("(?<=<xref).*?(?=</xref>)", "");
 							//title = title.replaceAll("<xref</xref>", "");
-							System.out.println("title: " + title);
+						//	System.out.println("title: " + title);
 							t.addCaption(title);
 						}
 						//TODO: can we use the information from col align that it will have certain numbers
@@ -143,7 +144,7 @@ public class HTMLTableExtractor {
 							//TODO: if there is more than one thead then we should treat as another table?
 							Iterator <Element> itTr = theads.iterator();
 							while (itTr.hasNext()){
-								Elements th =  itTr.next().select("th");
+								Elements th =  itTr.next().select("th , td");
 							//	String [] headers = new String[th.size()];
 								Iterator <Element> itTh = th.iterator();
 								while (itTh.hasNext()){
@@ -178,8 +179,21 @@ public class HTMLTableExtractor {
 									
 									//ROW
 									int i=0;
-									while (tds.hasNext()){
+									while (tds.hasNext()){ //TODO: if td colspan > 1 then add to caption
 										Element td = tds.next();
+										if (td.hasAttr("colspan")){
+											try{
+												//if it spans more than one than it will cause issues
+												if (Integer.parseInt(td.attr("colspan")) > 1){
+													t.addCaption(td.ownText()); //TODO: split into groups? 
+													continue;
+												}
+											}
+											catch (NumberFormatException ne){
+												//do nothing
+											}
+										}
+										
 										String txt = td.ownText();
 										if (i >= rowInfo.length){
 											System.out.println("Info went beyond number of columns");

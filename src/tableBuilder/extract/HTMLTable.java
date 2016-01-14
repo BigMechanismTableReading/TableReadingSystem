@@ -74,8 +74,8 @@ public class HTMLTable {
 	}
 	
 	public void addColumnData(int colNum, int row, String add){
-		System.out.println("colDatas: " + columnData.length);
-		System.out.println("trying to add : " + colNum + "," + row + ", " + add);
+	//	System.out.println("colDatas: " + columnData.length);
+	//	System.out.println("trying to add : " + colNum + "," + row + ", " + add);
 		columnData[colNum].addData(row, add);
 	}
 
