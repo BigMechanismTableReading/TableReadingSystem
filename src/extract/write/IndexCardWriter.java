@@ -109,7 +109,7 @@ public class IndexCardWriter {
 		
 		infoBuilder.add("participant_b", participantB.build());
 		if(!simple_reaction){
-			infoBuilder.add("interaction_type", idx.getData("interaction_type"));
+			infoBuilder.add("interaction_type", idx.getData("interaction_type").trim().replaceAll("\\s", "_"));
 		}
 		//Adds modificationType
 		JsonArrayBuilder modifications = Json.createArrayBuilder();
