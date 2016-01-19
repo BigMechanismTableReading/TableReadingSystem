@@ -32,7 +32,7 @@ public class IndexCardWriter {
 	 * @param readingStop
 	 */
 	private void basicInfo(JsonObjectBuilder idxBuild, Table t, String readingStart, String readingStop){
-		idxBuild.add( "pmc_id", t.getSource().getPmcId());
+		idxBuild.add( "pmc_id", t.getSource().getPmcId().replace("PMC", ""));
 		idxBuild.add("reading_started", readingStart);
 		idxBuild.add("reading_complete", readingStop);
 		idxBuild.add("submitter", "Leidos");

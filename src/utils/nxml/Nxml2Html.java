@@ -61,34 +61,44 @@ public class Nxml2Html {
 				
 			}
 		}
-		else{
-			//just unwrap all of the .tar.gz
+		else if (args.length==1){
+		
 			File tarDir = new File(args[0]);
-			File [] tars = tarDir.listFiles(new FileFilter(){
-
-				@Override
-				public boolean accept(File arg0) {
-					return arg0.getName().endsWith(".tar.gz");
+			if (tarDir.isDirectory()){ 	//just unwrap all of the .tar.gz
+				File [] tars = tarDir.listFiles(new FileFilter(){
+	
+					@Override
+					public boolean accept(File arg0) {
+						return arg0.getName().endsWith(".tar.gz");
+							
 						
+					}
 					
+				});
+				if (tars.length ==0){
+					System.err.println(args[0] + " did not have tars in it");
 				}
-				
-			});
-			if (tars.length ==0){
-				System.err.println(args[0] + " did not have tars in it");
-			}
-			else{
-				try{
-					for (File tar: tars){
-						System.out.println("extracting file: " + tar.getName());
-						extractFiles(tar);
+				else{
+					try{
+						for (File tar: tars){
+							System.out.println("extracting file: " + tar.getName());
+							extractFiles(tar);
+						}
+					}
+					catch (IOException e){
+						e.printStackTrace();
 					}
 				}
-				catch (IOException e){
+				
+			}
+			else if (tarDir.getName().endsWith(".tar.gz")){
+				try {
+					extractFiles(tarDir);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
 		}
 
 	}
@@ -97,7 +107,7 @@ public class Nxml2Html {
 	public static void toHTML(File file) throws  IOException{
 		String sep = File.separator;
 		ExtractFiles ext = new ExtractFiles();
-		File html = ext.convertHTML(file ,"papers", file.getName().replace(".utils.nxml", ""));
+		File html = ext.convertHTML(file ,"papers", file.getName().replace(".nxml", ""));
 
 		if (html!=null){
 			Document doc = Jsoup.parse(html,"UTF-8");
@@ -109,7 +119,7 @@ public class Nxml2Html {
 				if (id==null){
 					id = "T" + count;
 				}
-				File tab = new File("files" + sep + file.getName().replace(".utils.nxml", "") + id +".html");
+				File tab = new File("files" + sep + file.getName().replace(".nxml", "") + id +".html");
 				tab.canWrite();
 				w = new FileWriter(tab);
 				w.write(e.outerHtml());
@@ -132,12 +142,12 @@ public class Nxml2Html {
 			/*if (entry.getFile() == null){
 				System.err.println("NULL FILE: " + entry.getName());
 			}*/
-			if (file_in_tar.endsWith("utils.nxml")){
+			if (file_in_tar.endsWith(".nxml")){
 				File outputFile = new File("temp_nxml");
 				outputFile.mkdir();
-				File f = new File(outputFile, tar.getName().replace(".tar.gz", ".utils.nxml"));
+				File f = new File(outputFile, tar.getName().replace(".tar.gz", ".nxml"));
 				f.createNewFile();
-				System.out.println("writing utils.nxml: " + f.getAbsolutePath());
+				System.out.println("writing nxml: " + f.getAbsolutePath());
 	            byte [] btoRead = new byte[1024];
 	            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(f));
 	            int len = 0;
@@ -146,7 +156,7 @@ public class Nxml2Html {
 			     }
 	            bout.close();
 				
-	            //feeding it a .utils.nxml name
+	            //feeding it a .nxml name
 				toHTML(f);
 
 				
@@ -180,6 +190,7 @@ public class Nxml2Html {
 		fin.close();
 		gzIn.close();
 		
+		tar.delete();
 		System.out.print("Done.");
 	}
 		// TODO Auto-generated method stub
