@@ -30,38 +30,15 @@ public class Nxml2Html {
 	public static void main(String[] args) {
 		//args[2] is the .tar.gz directory
 		//args[1] is pmcid list
-		if (args.length > 1){
-			File f = new File(args[1]);
-			if (!f.exists()){
-				System.err.println(args[1] + " does not exist");
-			}
-			else{
-				try {
-					ArrayList<String> pmc_ids = new ArrayList<String>();
-					BufferedReader r  = new BufferedReader(new FileReader(f));
-					String line = r.readLine();
-					while (line!=null){
-						//if (line.startsWith("PMC")){
-							//line = line.substring(3);
-							
-						//}
-						pmc_ids.add(line);
-						line = r.readLine();
-						//Integer pmc_id = Integer.parseInt(line);
-					}
-					r.close();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-			}
+		File papers = new File("papers");
+		if (!papers.exists() || !papers.isDirectory()){
+			papers.mkdir();
 		}
-		else if (args.length==1){
+		File files = new File("files");
+		if (!files.exists() || !files.isDirectory()){
+			files.mkdir();
+		}
+		if (args.length==1){
 		
 			File tarDir = new File(args[0]);
 			if (tarDir.isDirectory()){ 	//just unwrap all of the .tar.gz
@@ -99,6 +76,9 @@ public class Nxml2Html {
 					e.printStackTrace();
 				}
 			}
+		}
+		else{
+			System.err.println("Requires one input (directory of .tar.gz files or a single .tar.gz file)");
 		}
 
 	}
