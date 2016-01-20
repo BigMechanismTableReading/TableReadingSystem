@@ -216,7 +216,7 @@ public class ParticipantAExtractor {
 	private String checkPartAText(Set<String> allB,Reaction r, Set<String> possA,List<String> textA){
 		for(String aWord : textA){
 			for(String aText : allForms(aWord)){
-				System.err.println(aWord);
+				//System.err.println(aWord);
 				Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
 				if(transTextApair != null){
 					String transTextA = transTextApair.getB();

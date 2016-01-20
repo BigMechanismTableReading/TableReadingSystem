@@ -1,8 +1,11 @@
 package main;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -47,7 +50,24 @@ public class TableReader {
 				mkdir(papers);
 				simple_reaction = config.isSimple_reaction();
 				make_tables = config.isMake_tables();
-				//TODO: set log file
+				String log_file = config.getLog_file();
+				if (!log_file.trim().equals("")){
+					log = new File(log_file);
+				}
+
+				if (log.exists()){
+					FileWriter clearFile = new FileWriter(log);
+					clearFile.write("");
+					clearFile.flush();
+					clearFile.close();
+				}
+				else{
+					log.createNewFile();
+				}
+				if (!config.printOutput()){
+					System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("system.output.txt"))));
+					System.setErr(new PrintStream(new BufferedOutputStream(new FileOutputStream("system.error.txt"))));
+				}
 				getPMCS(input_list); //sets the pmc_ids
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -59,14 +79,14 @@ public class TableReader {
 	
 	public static void main(String[] args) {
 		Long startTime = System.currentTimeMillis();
-		writeToLog("Start time: " + startTime);
-		writeToLog("pmc ids: " + pmc_ids.size());
 		init(args);
+		writeToLog("Start time: " + startTime + "ms");
+		writeToLog("pmc ids: " + pmc_ids.size());
 		Extractor.extractFromList(pmc_ids);
-		writeToLog("Start time: " + startTime);
+		writeToLog("Start time: " + startTime + "ms");
 		Long endTime = System.currentTimeMillis();
-		writeToLog("End time: " + endTime);
-		writeToLog("Difference: " + (endTime - startTime));
+		writeToLog("End time: " + endTime + "ms");
+		writeToLog("Difference: " + (endTime - startTime) + "ms");
 		writeToLog("pmc ids: " + pmc_ids.size());
 
 	}

@@ -21,6 +21,8 @@ public class Config{
 	private String nxml_dir;
 	private String resolve_file;
 	private String home_dir;
+	private String log_file;
+	private boolean printOutput;
 	public String getResolve_file() {
 		return resolve_file;
 	}
@@ -83,24 +85,38 @@ public class Config{
 		// Gets the property values
 		user = prop.getProperty("user");
 		input_list = prop.getProperty("input_list");
-		output_file = prop.getProperty("output_file");
-		table_dir = prop.getProperty("table_dir");
-		file_dir = prop.getProperty("file_dir");
-		paper_dir = prop.getProperty("paper_dir");
+		//output_file = prop.getProperty("output_file");
+		//table_dir = prop.getProperty("table_dir");
+		//file_dir = prop.getProperty("file_dir");
+		//paper_dir = prop.getProperty("paper_dir");
 		make_tables = Boolean.parseBoolean(prop.getProperty("make_tables"));
 		simple_reaction = Boolean.parseBoolean(prop.getProperty("simple_reaction"));
 		reaction_class = prop.getProperty("reaction_class");
-		nxml = Boolean.parseBoolean(prop.getProperty("utils.nxml"));
-		nxml_dir = prop.getProperty("nxml_dir");
-		resolve_file = prop.getProperty("resolve_file");
+		//nxml = Boolean.parseBoolean(prop.getProperty("utils.nxml"));
+		//nxml_dir = prop.getProperty("nxml_dir");
+		//resolve_file = prop.getProperty("resolve_file");
 		home_dir = prop.getProperty("home_dir");
 		home_dir = Paths.get(home_dir).toAbsolutePath().normalize().toString();
+		log_file = prop.getProperty("log_file");
+		printOutput = Boolean.parseBoolean(prop.getProperty("print_output"));
 	}
 	public String getHome_dir() {	
 		return home_dir;
 	}
 	public void setHome_dir(String home_dir) {
 		this.home_dir = home_dir;
+	}
+	public String getLog_file() {
+		return log_file;
+	}
+	public void setLog_file(String log_file) {
+		this.log_file = log_file;
+	}
+	public boolean printOutput() {
+		return printOutput;
+	}
+	public void setPrintOutput(boolean printOutput) {
+		this.printOutput = printOutput;
 	}
 
 

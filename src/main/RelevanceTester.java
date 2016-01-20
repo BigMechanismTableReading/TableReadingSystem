@@ -21,22 +21,31 @@ public class RelevanceTester {
 		for (Integer pmc_id: TableReader.pmc_ids){
 			TableReader.writeToLog("Testing relevance " + pmc_id);
 			//ArrayList<Table> tables = Extractor.getTables(pmc_id);
-			System.out.println(pmc_id + ": " + isRelevant(pmc_id));
+			//System.out.println(pmc_id + ": " + isRelevant(pmc_id));
+			//TableReader.writeToLog(pmc_id + ": " + isRelevant(pmc_id));
 		}
 
 
 	}
 		
-	//TODO: redo so you just go by table
-	public static boolean isRelevant(Integer pmc_id){
+	/**
+	 * Writes to log whether it is relevant or not
+	 * @param pmc_id
+	 */
+	public static void isRelevant(Integer pmc_id){
 		ArrayList<TableWrapper> tables = Extractor.getTables(pmc_id);
 		for (TableWrapper table: tables){
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = Extractor.determineRelevance(table);
 			if (r!=null){
-				return true;
+				if (table.hasFile()){
+					TableReader.writeToLog(table.getFile().getName() + " is relevant.");
+				}
+			}
+			else{
+				TableReader.writeToLog(table.getFile().getName() + " is not relevant.");
 			}
 		}
-		return false;
+	
 	}
 		
 	
