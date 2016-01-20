@@ -46,7 +46,7 @@ public class TableReader {
 			config = new File(args[0]);		
 		}
 		
-		if (config.exists()){
+		if (config!=null && config.exists()){
 			System.out.println("table.config at " + config.getAbsolutePath());
 			init(config.getAbsolutePath());
 		}

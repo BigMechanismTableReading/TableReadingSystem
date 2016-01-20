@@ -13,6 +13,9 @@ public class ColumnData {
 		System.out.println("Col: " + header);
 	}
 	
+	public ColumnData() {
+	}
+
 	public String  getHeader() {
 		return header;
 	}

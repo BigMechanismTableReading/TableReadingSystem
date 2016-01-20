@@ -80,7 +80,7 @@ public class HTMLTableExtractor {
 		if (cols.size() > 0){
 			colCount+=getCol(cols);
 		}
-		
+	
 		//COLGROUP
 		Iterator <Element> colgroups = doc.select("table > colgroup").iterator();
 		while (colgroups.hasNext()){
@@ -148,9 +148,17 @@ public class HTMLTableExtractor {
 							//	String [] headers = new String[th.size()];
 								Iterator <Element> itTh = th.iterator();
 								while (itTh.hasNext()){
-									String header = itTh.next().ownText();
-									System.out.println("header: " + header);
-									t.addNextHeader(header);
+									Element head = itTh.next();
+									int colspan=1; //default to 1
+									if (head.hasAttr("colspan")){ //TODO: "rowspan"
+										colspan = Integer.parseInt(head.attr("colspan"));
+									}
+									int i=0;
+									while (i < colspan){
+										String header = head.ownText();
+										t.addNextHeader(header);
+										i++;
+									}
 								}
 								
 							}
@@ -206,6 +214,7 @@ public class HTMLTableExtractor {
 										rowInfo[i] = txt;
 										i++;
 									}
+									
 									t.addData(row, rowInfo);
 									row++;
 

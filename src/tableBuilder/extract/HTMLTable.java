@@ -37,11 +37,14 @@ public class HTMLTable {
 	public void setHeaderSize(int colSize) {
 		headers = new String[colSize];
 		columnData = new ColumnData[colSize];
+		for (int i=0; i< colSize; i++){
+			columnData[i] = new ColumnData(); //now never null
+		}
 	}
 	
 	public void addHeader(int i, String col){
 		headers[i] = col;
-		columnData[i] = new ColumnData(col);
+		columnData[i].setHeaders(col);
 		currentIndex=i;
 	}
 	
@@ -76,7 +79,9 @@ public class HTMLTable {
 	public void addColumnData(int colNum, int row, String add){
 	//	System.out.println("colDatas: " + columnData.length);
 	//	System.out.println("trying to add : " + colNum + "," + row + ", " + add);
-		columnData[colNum].addData(row, add);
+		if (columnData[colNum]!=null){ //this shouldnt happen
+			columnData[colNum].addData(row, add);
+		}
 	}
 
 	
