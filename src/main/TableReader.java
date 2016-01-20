@@ -30,51 +30,72 @@ public class TableReader {
 	//	return home;
 	//}
 	
-	public static void init(String[] args){
+	
+	public static void init(){
+		String [] args = new String[0];
+		init(args);
+	}
+	
+	public static void init(String [] args){
+		File config = null;
 		if (args.length!=1){
-			System.err.println("Requires location of config file argument");
+			System.err.println("Requires location of config file argument. Trying default.");
+			config = new File("table.config");			
+		}
+		else if (args.length==1){
+			config = new File(args[0]);		
+		}
+		
+		if (config.exists()){
+			System.out.println("table.config at " + config.getAbsolutePath());
+			init(config.getAbsolutePath());
 		}
 		else{
-			Config config = new Config();
-			//give config file
-			try {
-				config.setPropValues(args[0]);
-				String input_list = config.getInput_List();
-				home = config.getHome_dir();
-				System.out.println("Home is: " + home);
-				tables = home + File.separator + "tables";
-				mkdir(tables);
-				files = home + File.separator + "files";
-				mkdir(files);
-				papers = home + File.separator + "papers";
-				mkdir(papers);
-				simple_reaction = config.isSimple_reaction();
-				make_tables = config.isMake_tables();
-				String log_file = config.getLog_file();
-				if (!log_file.trim().equals("")){
-					log = new File(log_file);
-				}
-
-				if (log.exists()){
-					FileWriter clearFile = new FileWriter(log);
-					clearFile.write("");
-					clearFile.flush();
-					clearFile.close();
-				}
-				else{
-					log.createNewFile();
-				}
-				if (!config.printOutput()){
-					System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("system.output.txt"))));
-					System.setErr(new PrintStream(new BufferedOutputStream(new FileOutputStream("system.error.txt"))));
-				}
-				getPMCS(input_list); //sets the pmc_ids
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
+			System.err.println("Requires location of config file argument");
 		}
+	}
+	
+	public static void init(String configFile){
+		Config config = new Config();
+		//give config file
+		try {
+			config.setPropValues(configFile);
+			String input_list = config.getInput_List();
+			home = config.getHome_dir();
+			System.out.println("Home is: " + home);
+			tables = home + File.separator + "tables";
+			mkdir(tables);
+			files = home + File.separator + "files";
+			mkdir(files);
+			papers = home + File.separator + "papers";
+			mkdir(papers);
+			simple_reaction = config.isSimple_reaction();
+			make_tables = config.isMake_tables();
+			String log_file = config.getLog_file();
+			if (!log_file.trim().equals("")){
+				log = new File(log_file);
+			}
+
+			if (log.exists()){
+				FileWriter clearFile = new FileWriter(log);
+				clearFile.write("");
+				clearFile.flush();
+				clearFile.close();
+			}
+			else{
+				log.createNewFile();
+			}
+			if (!config.printOutput()){
+				System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("system.output.txt"))));
+				System.setErr(new PrintStream(new BufferedOutputStream(new FileOutputStream("system.error.txt"))));
+			}
+			getPMCS(input_list); //sets the pmc_ids
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	public static void main(String[] args) {
