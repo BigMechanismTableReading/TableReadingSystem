@@ -52,10 +52,16 @@ public class TableBuilder {
 			}
 			else{
 				for (HTMLTable tbl: htmlInfo){
-					extractor.createTableBuf(table, tbl);
-					Table tb = table.build();
-					writeToFile(target, tb, "");
-					tables.add(tb);
+					try {
+						extractor.createTableBuf(table, tbl);
+						Table tb = table.build();
+						writeToFile(target, tb, "");
+						tables.add(tb);
+					}
+					catch (NullPointerException e){
+						System.err.println("Error building tableBufs for " + target.getName());
+						TableReader.writeToLog("Error building tableBufs for " + target.getName());
+					}
 
 				}
 			}

@@ -125,8 +125,8 @@ public class Extractor {
 					}
 				}
 				else{
-					System.err.println("Error: can't find an html for " + pmc_id);
-					TableReader.writeToLog("Error: can't find an html for " + pmc_id);
+					System.err.println("No tables extracted for " + pmc_id);
+					TableReader.writeToLog("No tables extracted for " + pmc_id);
 				}
 
 		}
