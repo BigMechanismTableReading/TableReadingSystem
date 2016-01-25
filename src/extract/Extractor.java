@@ -63,11 +63,9 @@ public class Extractor {
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = dt.determine(t);
 		if (r!=null){
-			System.out.println("A:" + r.getA());
 			return r;
 		}
 		else{
-			System.err.println("Pair is null");
 			return null;
 		}
 		

@@ -14,6 +14,7 @@ import java.util.Random;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaError;
@@ -45,6 +46,15 @@ public class TableExtractor {
 					try {
 						HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(excel_document));
 						return wb;
+					/*} catch (OfficeXmlFileException e){
+						try {
+							XSSFWorkbook xb = new XSSFWorkbook(new FileInputStream(excel_document));
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+*/
+						
 					} catch (Exception exception) {
 						exception.printStackTrace();
 					}
@@ -348,6 +358,10 @@ public class TableExtractor {
 		ArrayList<String> captions = new ArrayList<String>();
 		captions.add("Captions");
 		table.put(-1, captions); //TODO: -1
+		String sheet_name = sheet.getSheetName();
+		if (sheet_name!=null && !sheet_name.trim().equals("")){
+			captions.add(sheet_name);
+		}
 		
 		int cols = regions.get(0)[1];
 		

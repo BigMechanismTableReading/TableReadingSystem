@@ -82,6 +82,10 @@ public class TableBuilder {
 					source.setAuthor("Unknown");		
 					source.setPmcId("PMC" + PMCID);
 					source.setPaperTitle("Unknown");
+					String name = wb.getSheetAt(sheetNum).getSheetName();
+					if (name!=null && !name.trim().equals("")){
+						source.setPaperTitle(name);
+					}
 					source.setSourceFile(target.getName());
 					source.setSheetNo(""+sheetNum);
 					boolean humanMarkupRequired = false;

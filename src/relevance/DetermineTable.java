@@ -195,6 +195,7 @@ public class DetermineTable {
 					
 				}
 			}
+			System.out.println(goodReactions.size());
 			if(goodReactions.size() == 1)
 				return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(goodReactions.get(0),labels);
 			else if (goodReactions.size() > 1)
