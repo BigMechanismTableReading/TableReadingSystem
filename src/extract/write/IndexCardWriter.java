@@ -232,7 +232,7 @@ public class IndexCardWriter {
 	public void jsonToFile(JsonObject card,String directory,TableBuf.Table t,String row, String partA){
 		String fileSubStr = t.getSource().getPmcId()+"/";
 
-		writeToDir("index_cards",fileSubStr,card, row,t, partA);
+		writeToDir(TableReader.index_cards,fileSubStr,card, row,t, partA);
 	}
 
 	/**

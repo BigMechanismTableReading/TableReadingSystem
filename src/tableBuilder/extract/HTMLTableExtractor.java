@@ -102,6 +102,12 @@ public class HTMLTableExtractor {
 				colCount+=span;
 			}
 		}
+		if (colCount==0){
+			Elements theads = doc.select("thead > tr > th");
+			if (theads.size() > 0){
+				colCount = theads.size();
+			}
+		}
 		return colCount;
 	}
 	

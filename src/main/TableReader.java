@@ -24,6 +24,7 @@ public class TableReader {
 	public static String tables = "tables";
 	public static String files = "files";
 	public static String papers = "papers";
+	public static String index_cards = "index_cards";
 	public static boolean simple_reaction = false;
 	public static boolean make_tables = false;
 //	public static String getHome(){
@@ -69,6 +70,8 @@ public class TableReader {
 			mkdir(files);
 			papers = home + File.separator + "papers";
 			mkdir(papers);
+			index_cards = home + File.separator + "index_cards";
+			mkdir(index_cards);
 			simple_reaction = config.isSimple_reaction();
 			make_tables = config.isMake_tables();
 			String log_file = config.getLog_file();
