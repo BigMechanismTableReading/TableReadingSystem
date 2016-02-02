@@ -178,8 +178,11 @@ public class TextExtractor {
 								type.add("of");
 							} 
 							entry.add(type);
+							if (type.contains("by")){
+								System.out.println(entry);
+							}
 							entry.add(findProteins(sentences[i].substring(breakpoint)));
-							System.out.println(entry);
+							//System.out.println(entry);
 							list.add(entry);
 						}
 					}
@@ -204,6 +207,7 @@ public class TextExtractor {
 	 */
 	public static HashMap<String,Integer> extractParticipantA(Set<String> participantBs, String PMCID, List<String> conjugationBase){
 		String name = "PMC" + PMCID;
+		//TODO: this should just have the captions and then look through it...
 		List<List<List<String>>> list = getReactionPairs(TableReader.papers + File.separator + name + ".html", conjugationBase);
 		HashMap<String, Integer> partAs = new HashMap<String, Integer>();
 		if(list == null)

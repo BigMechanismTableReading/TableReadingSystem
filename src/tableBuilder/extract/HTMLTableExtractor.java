@@ -125,7 +125,7 @@ public class HTMLTableExtractor {
 					HTMLTable t = new HTMLTable();
 					Element e = it.next();
 					//title
-					Elements titles = e.select("title , caption"); //TODO: caption?
+					Elements titles = e.select("title , caption, p"); //TODO: caption?
 					if (titles.size() > 0){
 						//TODO: ignore title importance for now
 						Iterator <Element> txtIterator = titles.iterator();
@@ -185,7 +185,8 @@ public class HTMLTableExtractor {
 							
 							Iterator <Element> tbs = tbodys.iterator(); //tbody
 							while (tbs.hasNext()){
-								Iterator <Element> trs = tbs.next().select("tr").iterator(); //tbody tr
+								Elements trList = tbs.next().select("tr");
+								Iterator <Element> trs = trList.iterator(); //tbody tr
 								int row = 0;
 								while (trs.hasNext()){
 									Iterator <Element> tds = trs.next().select("td").iterator(); //tbody tr td
@@ -208,7 +209,7 @@ public class HTMLTableExtractor {
 											}
 										}
 										
-										String txt = td.ownText();
+										String txt = td.text();
 										if (i >= rowInfo.length){
 											System.out.println("Info went beyond number of columns");
 											break;
@@ -220,7 +221,7 @@ public class HTMLTableExtractor {
 										rowInfo[i] = txt;
 										i++;
 									}
-									
+								//	System.out.println("adding row: " + row);
 									t.addData(row, rowInfo);
 									row++;
 

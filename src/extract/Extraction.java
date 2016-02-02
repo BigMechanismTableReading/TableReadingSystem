@@ -36,6 +36,7 @@ public class Extraction {
 	 * @return
 	 */
 	private Pair<HashMap<Integer,String>, HashMap<Integer,String>> getAllParticipantB(HashMap<ColumnContents, List<TableBuf.Column>> contents){
+		System.out.println("start B");
 		TableBuf.Column col = null;
 		ColumnContents protein = null;
 		for(ColumnContents c : contents.keySet()){
@@ -59,6 +60,7 @@ public class Extraction {
 				row++;
 			}
 		}
+		System.out.println("end B");
 		return new Pair<HashMap<Integer,String>, HashMap<Integer,String>>(partB, partBuntrans);
 	}
 	

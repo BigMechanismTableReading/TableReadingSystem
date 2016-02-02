@@ -149,6 +149,7 @@ public class Extractor {
 		for (TableWrapper t: tables){
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = determineRelevance(t);
 			if (r!=null){
+				System.out.println("relevant, extracting: " + t.getFile().getName());
 				extract(t, r);
 			}
 			else{
