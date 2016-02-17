@@ -157,7 +157,13 @@ public class HTMLTableExtractor {
 									Element head = itTh.next();
 									int colspan=1; //default to 1
 									if (head.hasAttr("colspan")){ //TODO: "rowspan"
-										colspan = Integer.parseInt(head.attr("colspan"));
+										try {
+											colspan = Integer.parseInt(head.attr("colspan").trim());
+										}	
+										catch (NumberFormatException ne){
+											colspan=1;	
+											//or try pattern matching?
+										}
 									}
 									int i=0;
 									while (i < colspan){
