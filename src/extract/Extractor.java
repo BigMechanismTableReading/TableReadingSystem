@@ -114,6 +114,7 @@ public class Extractor {
 				File [] files = Utils.getFiles(new File(TableReader.files), pmc_id, new String[] {".html",".xls", ".xlsx"});
 				if (files.length > 0){
 					for (File file: files){
+						System.out.println("building table for " + file.getName());
 						List<Table> table_list= TableBuilder.buildTable(file, pmc_id.toString());
 						for(Table t : table_list){
 							if (t!=null){

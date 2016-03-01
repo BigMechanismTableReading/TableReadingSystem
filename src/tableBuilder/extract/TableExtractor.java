@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,6 +25,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.jcabi.aspects.Timeable;
+
+import main.TableReader;
 import tableBuilder.TableBuf;
 
 /** 
@@ -41,7 +45,11 @@ public class TableExtractor {
 	public Workbook openExcelDocument(String excelFileName) {
 		File excel_document = new File(excelFileName);
 		
-		if (excel_document.exists()) {
+		long length = excel_document.length();
+		
+		if (excel_document.exists() && length > 0 ) {
+			double kb = length / 1024;
+			if (kb <=100){
 				if (excelFileName.endsWith(".xls")) {
 					try {
 						HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(excel_document));
@@ -66,7 +74,12 @@ public class TableExtractor {
 						exception.printStackTrace();
 					}
 				}
+			}
+			else{
+				TableReader.writeToLog("Excel too large: " + excelFileName);
+			}
 		}
+		
 		return null;
 	}
 	

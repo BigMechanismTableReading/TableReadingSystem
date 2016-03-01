@@ -92,32 +92,34 @@ public abstract class Fold implements ColumnContents{
 		TableBuf.Column c = bestSubColumn(cols);
 		HashMap<String, String> modifs = new HashMap<String,String>();
 		Pattern p = Pattern.compile("\\b(\\d{1,3}\\.\\d{1,})\\b");
-		TableBuf.Cell cell = c.getData(row);
-		if(cell != null){
-			String data = cell.getData();
-			Matcher m = p.matcher(data);
-			boolean neg = false;
-			if(data.contains("-"))
-				neg = true;
-			double num = Double.POSITIVE_INFINITY;
-			if(m.find()){
-				try{
-					num = Double.parseDouble(m.group());
-					if(neg)
-						num *= -1;
-				}catch(NumberFormatException e){
-
+		if (row < c.getDataCount()){
+			TableBuf.Cell cell = c.getData(row);
+			if(cell != null){
+				String data = cell.getData();
+				Matcher m = p.matcher(data);
+				boolean neg = false;
+				if(data.contains("-"))
+					neg = true;
+				double num = Double.POSITIVE_INFINITY;
+				if(m.find()){
+					try{
+						num = Double.parseDouble(m.group());
+						if(neg)
+							num *= -1;
+					}catch(NumberFormatException e){
+	
+					}
 				}
-			}
-			if(num != Double.POSITIVE_INFINITY){
-				String [] mods = determineMod(num);
-				if(mods != null){
-					modifs.put("interaction_type",mods[0]);
-					modifs.put("negative_information", mods[1]);
-					modifs.put("fold_information_used",c.getHeader().getData());
+				if(num != Double.POSITIVE_INFINITY){
+					String [] mods = determineMod(num);
+					if(mods != null){
+						modifs.put("interaction_type",mods[0]);
+						modifs.put("negative_information", mods[1]);
+						modifs.put("fold_information_used",c.getHeader().getData());
+					}
 				}
+	
 			}
-
 		}
 		return modifs;
 	}

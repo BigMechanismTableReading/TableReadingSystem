@@ -112,7 +112,6 @@ public class HTMLTableExtractor {
 	}
 	
 	public ArrayList<HTMLTable> parseHTML(String filename){
-	//	System.out.println("Doing own parsing: " + filename);
 		File document = new File(filename);
 		ArrayList<HTMLTable> tableResults = new ArrayList<HTMLTable>();
 		if (document.exists()){

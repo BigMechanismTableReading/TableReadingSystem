@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import main.TableReader;
 import tableBuilder.TableBuf.Table;
@@ -17,6 +18,8 @@ import tableBuilder.extract.XMLTableExtractor;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
+import com.jcabi.aspects.Timeable;
+
 
 public class TableBuilder {
 	/**
@@ -25,7 +28,11 @@ public class TableBuilder {
 	 * @param PMCID PMCID of paper
 	 * @return list of tables extracted
 	 */
+	
+	@Timeable(limit = 10, unit = TimeUnit.SECONDS)
 	public static List<Table> buildTable(File target, String PMCID){
+	
+		
 		ArrayList<Table> tables = new ArrayList<Table>();
 		if(target.getName().endsWith(".html")){
 			Table.Builder table = Table.newBuilder();
@@ -68,14 +75,13 @@ public class TableBuilder {
 			
 		} else if(target.getName().endsWith(".xml")){
 			tables.addAll(XMLTableExtractor.extractXMLPaper(target.getName(), PMCID));
-		} else {
+		} else if (target.getName().trim().endsWith(".xls") || target.getName().trim().endsWith(".xlsx")){
 			//int sheetNum = 0;
-			
 			TableExtractor extractor = new TableExtractor();
-			Workbook wb = extractor.openExcelDocument(target.getPath());
-			
+			Workbook wb = extractor.openExcelDocument(target.getPath());			
 			if(wb != null) {
 				int numOfSheets = wb.getNumberOfSheets();
+				//System.out.println(numOfSheets);
 				for (int sheetNum = 0; sheetNum < numOfSheets; sheetNum++){
 					Table.Builder table = Table.newBuilder();
 					TableBuf.Source.Builder source = table.getSourceBuilder();

@@ -1,8 +1,8 @@
 
 {
-    "pmc_id":"PMC2964295",
-    "reading_started":"Thu Jan 14 12:39:01 EST 2016",
-    "reading_complete":"Thu Jan 14 12:39:04 EST 2016",
+    "pmc_id":"2964295",
+    "reading_started":"Thu Jan 21 12:42:20 EST 2016",
+    "reading_complete":"Thu Jan 21 12:42:23 EST 2016",
     "submitter":"Leidos",
     "reader_type":"machine",
     "extracted_information":{
@@ -24,7 +24,7 @@
                 "site":"[46]"
             }
         },
-        "interaction_type":"adds modification",
+        "interaction_type":"adds_modification",
         "modifications":[
             {
                 "modification_type":"phosphorylation",
