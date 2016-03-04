@@ -25,27 +25,29 @@ public abstract class AbstractPosition  implements ColumnContents{
 		//TODO determine the best position possible by using valid pos or something similar in here.
 		HashMap<String,String> position = new HashMap<String, String>();
 		for(TableBuf.Column col : cols){
-			TableBuf.Cell c = col.getData(row);
-			if(c!=null){
-				String data = c.getData();
-				data = data.replaceAll("\\.0", "");
-				String []nums = data.split("[^\\d]");
-				List<String> actualNums = new ArrayList<String>();
-				boolean badPos = false;
-				for(String pos : nums){
-					if(pos.length() > 0 && pos.charAt(0) == '0'){
-						badPos = true;
+			if (row < col.getDataCount()){
+				TableBuf.Cell c = col.getData(row);
+				if(c!=null){
+					String data = c.getData();
+					data = data.replaceAll("\\.0", "");
+					String []nums = data.split("[^\\d]");
+					List<String> actualNums = new ArrayList<String>();
+					boolean badPos = false;
+					for(String pos : nums){
+						if(pos.length() > 0 && pos.charAt(0) == '0'){
+							badPos = true;
+						}
+						if(pos.length() > 1){
+							actualNums.add(pos);
+						}
 					}
-					if(pos.length() > 1){
-						actualNums.add(pos);
+					if(badPos){
+						position.put("site", null);
+						return position;
 					}
-				}
-				if(badPos){
-					position.put("site", null);
+					position.put("site", actualNums.toString());
 					return position;
 				}
-				position.put("site", actualNums.toString());
-				return position;
 			}
 		}
 		return null;

@@ -119,7 +119,10 @@ public class Extraction {
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
 			for (ColumnContents content : cols){
 				if(!(content instanceof Protein)){
-					card.addInfo(content.extractData(contents.get(content), i));
+					HashMap<String,String> map = content.extractData(contents.get(content), i);
+					if (map!=null && !map.isEmpty()){
+						card.addInfo(content.extractData(contents.get(content), i));
+					}
 				}
 			}
 			

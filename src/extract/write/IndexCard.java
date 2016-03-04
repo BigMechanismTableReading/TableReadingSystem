@@ -51,7 +51,9 @@ public class IndexCard {
 	 */
 	public void addInfo(HashMap<String, String> extractData) {
 		for (String key : extractData.keySet()){
-			data.put(key, extractData.get(key));
+			if (key!=null && extractData.get(key)!=null){
+				data.put(key, extractData.get(key));
+			}
 		}
 	}
 	
