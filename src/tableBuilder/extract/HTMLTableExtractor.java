@@ -155,7 +155,7 @@ public class HTMLTableExtractor {
 								while (itTh.hasNext()){
 									Element head = itTh.next();
 									int colspan=1; //default to 1
-									if (head.hasAttr("colspan")){ //TODO: "rowspan"
+									if (head.hasAttr("colspan") && head.attr("colspan").matches("\\d+")){ //TODO: "rowspan"
 										colspan = Integer.parseInt(head.attr("colspan"));
 									}
 									int i=0;
@@ -195,7 +195,7 @@ public class HTMLTableExtractor {
 									int i=0;
 									while (tds.hasNext()){ //TODO: if td colspan > 1 then add to caption
 										Element td = tds.next();
-										if (td.hasAttr("colspan")){
+										if (td.hasAttr("colspan") && td.attr("colspan").matches("\\d+")){
 											try{
 												//if it spans more than one than it will cause issues
 												if (Integer.parseInt(td.attr("colspan")) > 1){
