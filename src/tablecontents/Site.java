@@ -65,17 +65,19 @@ public abstract class Site implements ColumnContents {
 		List<String> aminos = new ArrayList<String>();
 		Pattern site = Pattern.compile(extractRegEx,Pattern.CASE_INSENSITIVE);
 		for(TableBuf.Column c : cols){
-			TableBuf.Cell cell = c.getData(row);
-			if(cell != null){
-				String data = cell.getData();
-				if(data != null){
-					Matcher m = site.matcher(data);
-					while(m.find()){
-						String s = m.group();
-						String [] both = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-						if(both.length== 2){
-							sites.add(both[1]);
-							aminos.add((both[0].replaceAll("[^A-Z[a-z]]", "")));
+			if (row < c.getDataCount()){
+				TableBuf.Cell cell = c.getData(row);
+				if(cell != null){
+					String data = cell.getData();
+					if(data != null){
+						Matcher m = site.matcher(data);
+						while(m.find()){
+							String s = m.group();
+							String [] both = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+							if(both.length== 2){
+								sites.add(both[1]);
+								aminos.add((both[0].replaceAll("[^A-Z[a-z]]", "")));
+							}
 						}
 					}
 				}

@@ -49,7 +49,7 @@ public class TableExtractor {
 		
 		if (excel_document.exists() && length > 0 ) {
 			double kb = length / 1024;
-			if (kb <=100){
+			//if (kb <=100){
 				if (excelFileName.endsWith(".xls")) {
 					try {
 						HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(excel_document));
@@ -74,10 +74,10 @@ public class TableExtractor {
 						exception.printStackTrace();
 					}
 				}
-			}
-			else{
+			//}
+			/*else{
 				TableReader.writeToLog("Excel too large: " + excelFileName);
-			}
+			}*/
 		}
 		
 		return null;

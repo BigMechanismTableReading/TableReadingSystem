@@ -1,32 +1,43 @@
-Start time: 1456776184103ms
-pmc ids: 2
-Extracting 3422281
-Making tables for 3422281
-Parsing html file: C:\Users\charnessn\git\TableReadingSystem\totest\files\PMC3422281pone-0041762-t001.html
-Parsing html file: C:\Users\charnessn\git\TableReadingSystem\totest\files\PMC3422281pone-0041762-t002.html
-Excel too large: C:\Users\charnessn\git\TableReadingSystem\totest\files\PMC3422281pone.0041762.s013.xlsx
-Not relevant, not going to extract: PMC3422281pone-0041762-t001.html
-Not relevant, not going to extract: PMC3422281pone-0041762-t002.html
-Not relevant, not going to extract: PMC3422281pone.0041762.s014.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s015.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s015.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s015.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s015.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s015.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s015.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s015.xlsx
-Not relevant, not going to extract: PMC3422281pone.0041762.s016.xlsx
-Extracting 3519636
-Making tables for 3519636
-Parsing html file: C:\Users\charnessn\git\TableReadingSystem\totest\files\PMC3519636pone-0051366-t001.html
-Parsing html file: C:\Users\charnessn\git\TableReadingSystem\totest\files\PMC3519636pone-0051366-t002.html
-Parsing html file: C:\Users\charnessn\git\TableReadingSystem\totest\files\PMC3519636pone-0051366-t003.html
-Excel too large: C:\Users\charnessn\git\TableReadingSystem\totest\files\PMC3519636pone.0051366.s004.xlsx
-Not relevant, not going to extract: PMC3519636pone-0051366-t001.html
-Not relevant, not going to extract: PMC3519636pone-0051366-t002.html
-Not relevant, not going to extract: PMC3519636pone-0051366-t003.html
-Not relevant, not going to extract: PMC3519636pone.0051366.s005.xlsx
-Start time: 1456776184103ms
-End time: 1456776189711ms
-Difference: 5608ms
-pmc ids: 2
+Start time: 1457364692832ms
+pmc ids: 1
+Extracting 3433420
+Making tables for 3433420
+Not relevant, not going to extract: PMC3433420pone.0044471.s017.xls
+Looking for partA in caption
+Not relevant, not going to extract: PMC3433420pone.0044471.s019.xlsx
+Looking for partA in caption
+Looking for partA in caption
+Not relevant, not going to extract: PMC3433420pone.0044471.s021.xlsx
+Looking for partA in caption
+Looking for partA in caption
+Looking for partA in caption
+Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s025.xlsx
+Looking for partA in caption
+Looking for partA in caption
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s029.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s030.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s030.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s030.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s031.xlsx
+Not relevant, not going to extract: PMC3433420pone.0044471.s032.xlsx
+Looking for partA in caption
+Start time: 1457364692832ms
+End time: 1457364714715ms
+Difference: 21883ms
+pmc ids: 1
