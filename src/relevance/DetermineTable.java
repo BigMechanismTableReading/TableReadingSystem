@@ -186,14 +186,14 @@ public class DetermineTable {
 				}
 			}
 		//	System.out.println("DetermineTable Done " + labels.keySet());
-			Iterator <ColumnContents> i = labels.keySet().iterator();
+			/*Iterator <ColumnContents> i = labels.keySet().iterator();
 			while (i.hasNext()){
 				ColumnContents c = i.next();
 				if (c instanceof Protein){
 					Protein p = (Protein) c;
 					
 				}
-			}
+			}*/
 			
 			if(goodReactions.size() == 1)
 				return new Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>>(goodReactions.get(0),labels);

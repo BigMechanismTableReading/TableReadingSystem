@@ -11,11 +11,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaError;
@@ -24,8 +22,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.jcabi.aspects.Timeable;
 
 import main.TableReader;
 import tableBuilder.TableBuf;
@@ -36,48 +32,122 @@ import tableBuilder.TableBuf;
  * @author vhsiao
  */
 public class TableExtractor {
-	
 	/**
 	 * Opens an Excel file (supports both .xls and .xlsx formats)
 	 * @param excelFileName the path to the Excel file
 	 * @return the Workbook object from Apache POI that represents an Excel Workbook
 	 */
-	public Workbook openExcelDocument(String excelFileName) {
-		File excel_document = new File(excelFileName);
+	
+	
+	public static boolean openExcelFile(File file){
+		if (file.exists()){
 		
-		long length = excel_document.length();
-		
-		if (excel_document.exists() && length > 0 ) {
-			double kb = length / 1024;
-			//if (kb <=100){
-				if (excelFileName.endsWith(".xls")) {
+			try {
+				FileInputStream stream = new FileInputStream(file);
+				System.out.println("Opening " + file.getName() + "...");
+				if (file.getName().endsWith(".xls")) {
 					try {
-						HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(excel_document));
-						return wb;
-					/*} catch (OfficeXmlFileException e){
-						try {
-							XSSFWorkbook xb = new XSSFWorkbook(new FileInputStream(excel_document));
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-*/
-						
+						HSSFWorkbook wb = new HSSFWorkbook(stream);
+						System.out.print("done. \n");
+						return wb!=null;
 					} catch (Exception exception) {
 						exception.printStackTrace();
 					}
-				} else if (excelFileName.endsWith(".xlsx")) {
+				} else if (file.getName().endsWith(".xlsx")) {
 					try {
-						XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(excel_document));
-						return wb;
+						System.out.println("Creating workbook");
+						//OPCPackage opc = OPCPackage.open(excel_document);
+						XSSFWorkbook wb = new XSSFWorkbook(stream);
+					//	XSSFWorkbook wb = new XSSFWorkbook(opc);
+						System.out.print("done. \n");
+
+						return wb!=null;
 					} catch (Exception exception) {
 						exception.printStackTrace();
 					}
 				}
-			//}
-			/*else{
-				TableReader.writeToLog("Excel too large: " + excelFileName);
+				stream.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	
+	public Workbook openExcelDocument(String excelFileName) {
+		System.out.println("tryna open this file: " + excelFileName);
+		File excel_document = new File(excelFileName);
+		try {
+			FileInputStream stream = new FileInputStream(excel_document);
+			/*InputStreamReader r = new InputStreamReader(stream);
+			if (!r.getEncoding().equals("UTF8")){
+			//	OutputStream out = new FileOutputStream(excel_document.getAbsolutePath());
+				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(excel_document.getAbsolutePath()),"UTF8");
+				writer.write('\uFEFF');
+				char[] buffer = new char[10];
+	            int read;
+	            while ((read = r.read(buffer)) != -1) {
+	                System.out.println(read);
+	                writer.write(buffer, 0, read);
+	            }
+				r.close();
+				writer.close();
+				stream.close();
+				stream = new FileInputStream(excel_document);
+
 			}*/
+			
+
+			
+			long length = excel_document.length();
+			
+			if (excel_document.exists() && length > 0 ) {
+				double kb = length / 1024;
+				if (kb / 1024 < 10){
+					if (excelFileName.endsWith(".xls")) {
+						try {
+							HSSFWorkbook wb = new HSSFWorkbook(stream);
+							return wb;
+						/*} catch (OfficeXmlFileException e){
+							try {
+								XSSFWorkbook xb = new XSSFWorkbook(new FileInputStream(excel_document));
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+	*/
+							
+						} catch (Exception exception) {
+							exception.printStackTrace();
+						}
+					} else if (excelFileName.endsWith(".xlsx")) {
+						try {
+							//OPCPackage opc = OPCPackage.open(excel_document);
+							XSSFWorkbook wb = new XSSFWorkbook(stream);
+						//	XSSFWorkbook wb = new XSSFWorkbook(opc);
+							return wb;
+						} catch (Exception exception) {
+							exception.printStackTrace();
+						}
+					}
+				}
+				else{
+					TableReader.writeToLog("Excel too large: " + excelFileName);
+				}
+			}
+			stream.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return null;
@@ -88,51 +158,23 @@ public class TableExtractor {
 	 * @param excelFileName the path to the excel file
 	 * @return the data as a 2D List
 	 */
-	public Collection<List<String>> parseModelFile(String filename){
+	/*public Collection<List<String>> parseModelFile(String filename){
 		return parseExcelTable(filename, 0);
-	}
+	}*/
 	
 	/**
 	 * Retrieve a table from an excel file, supports xls and xlsx files
 	 * @param excelFileName the path to the excel file
 	 * @return the data as a 2D List
 	 */
-	public Collection<List<String>> parseExcelTable(String excelFileName, int sheetNum){
-		File excel_document = new File(excelFileName);
-		//check if file is under 10MB
-		if (excel_document.exists() && excel_document.length() < 10485760) {
-				//	String extension = excelFileName.substring(period_index);
-					if (excelFileName.toLowerCase().endsWith(".xls")) {
-						try {
-							POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(
-									excel_document));
-							HSSFWorkbook wb = new HSSFWorkbook(fs);
-							HSSFSheet sheet = wb.getSheetAt(sheetNum);
-							List<int[]> regions = markupTable(sheet);
-							if (regions.size()>0){
-								return getDataFromExcelFile(sheet,regions);
-							}
-						} catch (Exception exception) {
-							exception.printStackTrace();
-						}
-					} else if (excelFileName.toLowerCase().endsWith(".xlsx")) {
-						try {
-							XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(excel_document));
-							XSSFSheet sheet = wb.getSheetAt(sheetNum);
-							List<int[]> regions = markupTable(sheet);
-							if (regions.size()>0){
-								return getDataFromExcelFile(sheet,regions);
-							}
-						} catch (Exception exception) {
-							exception.printStackTrace();
-						}
-					}
+	public Collection<List<String>> parseExcelTable(Workbook wb, int sheetNum){
+		if (sheetNum <= wb.getNumberOfSheets()){
+			Sheet sheet = wb.getSheetAt(sheetNum);
+			List<int[]> regions = markupTable(sheet);
+			if (regions.size()>0){
+				return getDataFromExcelFile(sheet,regions);
+			}
 		}
-		else if (!excel_document.exists()){
-			System.err.println("File does not exist: " + excelFileName);
-		}
-		
-		//System.err.println("returning null here");
 		return null;
 	}
 	
@@ -434,9 +476,9 @@ public class TableExtractor {
 		//PMC3643591TableS2
 		//PMC2711022Resource1
 		String name = /*"files"+File.separator +*/  "PMC2984231Suppsupp_M110.002113_mcp.M110.002113-1.xls";
-		Collection<List<String>> data = extractor.parseExcelTable(name,0);
+		//Collection<List<String>> data = extractor.parseExcelTable(name,0);
 		
-		extractor.createTableBuf(table, data);
+		//extractor.createTableBuf(table, data);
 		
 		/*for (TableBuf.Column col : table.getColumnList()){
 			System.out.println(col.getHeader().getData() + " " + col.getDataCount());
@@ -468,4 +510,5 @@ public class TableExtractor {
 
 	}
 
+	
 }

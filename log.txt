@@ -41,3 +41,5 @@ Start time: 1457364692832ms
 End time: 1457364714715ms
 Difference: 21883ms
 pmc ids: 1
+Took too long: PMC3422281pone.0041762.s013.xlsx
+Took too long: PMC3519636pone.0051366.s004.xlsx

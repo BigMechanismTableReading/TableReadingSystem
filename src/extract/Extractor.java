@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -31,15 +34,22 @@ import utils.Utils;
 
 
 public class Extractor {
+	
+//	private static ExecutorService executor;
 	/**
 	 * Begins extraction based on pmcids
 	 * @param pmc_ids
+	 * @throws Exception 
 	 */
 	public static void extractFromList(ArrayList<Integer> pmc_ids){
+	//	executor = Executors.newCachedThreadPool();
+
 		for (Integer pmc_id: pmc_ids){
 			TableReader.writeToLog("Extracting " + pmc_id);
 			extractFromID(pmc_id);
 		}
+	//	List<Runnable> runnables = executor.shutdownNow();
+
 		
 	}
 	
@@ -104,6 +114,7 @@ public class Extractor {
 
 
 	public static ArrayList<TableWrapper> getTables(Integer pmc_id){
+
 		ArrayList<TableWrapper> table_result = new ArrayList<TableWrapper>();
 		File [] tables = Utils.getFiles(new File(TableReader.tables), pmc_id, ".pb");//protobuf files
 		if (tables.length==0 || TableReader.make_tables){
@@ -115,6 +126,8 @@ public class Extractor {
 				if (files.length > 0){
 					for (File file: files){
 						System.out.println("building table for " + file.getName());
+						//executor service but make it not single
+						//spin each of these into a thread
 						List<Table> table_list= TableBuilder.buildTable(file, pmc_id.toString());
 						for(Table t : table_list){
 							if (t!=null){
