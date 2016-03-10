@@ -332,7 +332,7 @@ public class TableExtractor {
 						if(emptyrows >= 200){
 							counter = rows;
 						//	System.err.println("OVER 200 EMPTY ROWS");
-							break;
+						//	break;
 						}
 					} else {
 						start++;
@@ -392,6 +392,11 @@ public class TableExtractor {
 			
 			//Copy merged data over merged cells
 			Cell cell = sheet.getRow(row).getCell(start);
+			if (cell==null){
+				cell = sheet.getRow(row).createCell(start);
+				cell.setCellValue("");
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+			}
 			for (int j = start + 1; j <= end; j++){
 				Cell following_cell = sheet.getRow(row).getCell(j);
 				if (following_cell == null) {
@@ -466,9 +471,12 @@ public class TableExtractor {
 	// Main method used for testing
 	public static void main (String [] args){
 		TableExtractor ext = new TableExtractor();
-		Workbook wb = ext.openExcelDocument("C:\\Users\\charnessn\\git\\TableReadingSystem\\totest\\files\\PMC3519636pone.0051366.s004.xlsx");
-		ext.parseExcelTable(wb, 0);
-
+		Workbook wb = ext.openExcelDocument("C:\\Users\\charnessn\\Documents\\BigMechanisms\\PMC12154811472-6785-5-6-S2.xls");
+		//XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
+		//System.out.println(sheet.getTables().size());
+		for (int i=0; i < wb.getNumberOfSheets(); i++){
+			ext.parseExcelTable(wb, i);
+		}
 
 	}
 
