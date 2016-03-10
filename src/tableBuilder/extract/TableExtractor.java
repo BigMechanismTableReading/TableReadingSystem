@@ -168,7 +168,7 @@ public class TableExtractor {
 	 * @return the data as a 2D List
 	 */
 	public Collection<List<String>> parseExcelTable(Workbook wb, int sheetNum){
-		if (sheetNum <= wb.getNumberOfSheets()){
+		if (sheetNum < wb.getNumberOfSheets()){
 			Sheet sheet = wb.getSheetAt(sheetNum);
 			List<int[]> regions = markupTable(sheet);
 			if (regions.size()>0){
@@ -257,6 +257,8 @@ public class TableExtractor {
 	 * @return list of table regions
 	 */
 	public static List<int[]> markupTable(Sheet sheet){
+		//System.out.println("Looking at sheet: " + sheet.getSheetName());
+		
 		int rows = sheet.getLastRowNum();
 		int counter = 0;
 		
@@ -264,7 +266,7 @@ public class TableExtractor {
 		
 		ArrayList<int[]> regions = new ArrayList<int[]>();
 		
-		while (counter < rows && table_regions < 100) {
+		while (counter < rows && table_regions < 10) {
 			Row row = sheet.getRow(counter);
 			if(row != null){
 				int start = row.getFirstCellNum();
@@ -292,7 +294,7 @@ public class TableExtractor {
 						if(width + height > 6 && width > 1 ) {
 							table_regions++;
 							int[] region = {start, start + width, counter, counter + height};
-							System.out.println(region[0] + " " + region[1] + " " + region[2] + " " + region[3]);
+							//System.out.println(region[0] + " " + region[1] + " " + region[2] + " " + region[3]);
 							if(table_regions > 1){
 								//System.err.println("Multiple table regions : " + sheet.getSheetName());
 								//return false;
@@ -329,7 +331,8 @@ public class TableExtractor {
 						}
 						if(emptyrows >= 200){
 							counter = rows;
-							System.err.println("EMPTY ROWS");
+						//	System.err.println("OVER 200 EMPTY ROWS");
+							break;
 						}
 					} else {
 						start++;
@@ -349,6 +352,9 @@ public class TableExtractor {
 						cell = row.createCell(j);
 					}
 				}
+			}
+			if (table_regions > 1){
+				System.out.println("multiple sheet regions: " + sheet.getSheetName());
 			}
 			return regions;
 		} else {
@@ -459,54 +465,10 @@ public class TableExtractor {
 	
 	// Main method used for testing
 	public static void main (String [] args){
-		TableBuf.Table.Builder table = TableBuf.Table.newBuilder();
-		table.addCaption("Text Extracted from excel");
-		TableBuf.Source.Builder source = table.getSourceBuilder();
-		source.setAuthor("Paul Revere Et Al");
-		source.setPmcId("PMC4335977");
-		source.setPaperTitle("Biochemical Paper");
-		//A		B	C
-		//A1	B1 	C1
-		//A2 	B2	C2
-		
-		TableExtractor extractor = new TableExtractor();
-		//Test Data:
-		//PMC3725062Table1
-		//PMC3404884TableS1
-		//PMC3643591TableS2
-		//PMC2711022Resource1
-		String name = /*"files"+File.separator +*/  "PMC2984231Suppsupp_M110.002113_mcp.M110.002113-1.xls";
-		//Collection<List<String>> data = extractor.parseExcelTable(name,0);
-		
-		//extractor.createTableBuf(table, data);
-		
-		/*for (TableBuf.Column col : table.getColumnList()){
-			System.out.println(col.getHeader().getData() + " " + col.getDataCount());
-		}*/
-		
-		/*TableBuf.Column.Builder colA = table.addColumnBuilder();
-		colA.setHeader(TableBuf.Cell.newBuilder().setData("A"));
-		colA.addData(TableBuf.Cell.newBuilder().setData("A1"));
-		colA.addData(TableBuf.Cell.newBuilder().setData("A2"));
-		
-		TableBuf.Column.Builder colB = table.addColumnBuilder();
-		colB.setHeader(TableBuf.Cell.newBuilder().setData("B"));
-		colB.addData(TableBuf.Cell.newBuilder().setData("B1"));
-		colB.addData(TableBuf.Cell.newBuilder().setData("B2"));*/
-		
-		 FileOutputStream output;
-		try {
-			output = new FileOutputStream(name + ".pb");
-			table.build().writeTo(output);
-			output.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		    
+		TableExtractor ext = new TableExtractor();
+		Workbook wb = ext.openExcelDocument("C:\\Users\\charnessn\\git\\TableReadingSystem\\totest\\files\\PMC3519636pone.0051366.s004.xlsx");
+		ext.parseExcelTable(wb, 0);
+
 
 	}
 
