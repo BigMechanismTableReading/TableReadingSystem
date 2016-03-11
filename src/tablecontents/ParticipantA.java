@@ -32,7 +32,9 @@ public class ParticipantA implements LinkedContents{
 		foldCols = new HashMap<ColumnContents,List<TableBuf.Column>>();
 		this.confidenceLevel = confidenceLevel;
 	}
-	
+	public void setConfidenceLevel(double confidenceLevel){
+		this.confidenceLevel = confidenceLevel;
+	}
 	/**
 	 * Creates participant A when best fold column for the participant is already known
 	 * @param name
@@ -125,8 +127,8 @@ public class ParticipantA implements LinkedContents{
 	 * Returns the confidence level of this participant A
 	 * @return
 	 */
-	public String getConfidenceLevel() {
-		return confidenceLevel  + "";
+	public Double getConfidenceLevel() {
+		return confidenceLevel;
 	}
 
 	/**

@@ -50,6 +50,8 @@ public class ParticipantAExtractor {
 	private enum ExtractionLocation{
 		FOLD,TITLE,CAPTION,TEXT,NONE
 	}
+	HashMap<Pair<String,String>,Double>  a_conf = null;
+
 	/**
 	 * Helper method to add new participantA
 	 * @param participantAs
@@ -105,7 +107,7 @@ public class ParticipantAExtractor {
 				return trans;
 			}
 		}
-		
+
 		if(partA.length() > 3){
 			String trans = ChEMBLLookup.abbrLookup(partA);
 			if (trans != null){
@@ -126,7 +128,7 @@ public class ParticipantAExtractor {
 		allForms.add(partA);
 		for(int i = partA.length()-1; i >= 0; i--){
 			if(firstCap == -1 && !Character.isLowerCase(partA.charAt(i))){
-				
+
 				firstCap = i;
 			}else if(firstCap != -1 && Character.isLowerCase(partA.charAt(i))){
 				allForms.add(partA.substring(i+1,partA.length()));
@@ -230,6 +232,28 @@ public class ParticipantAExtractor {
 	}
 
 	/**
+	 * Check if a single translated protein occurs within the text
+	 * @param allB
+	 * @param r
+	 * @param possA
+	 * @param textA
+	 * @return
+	 */
+	private String checkSinglePartAText(Set<String> allB,Reaction r, String possA,List<String> textA){
+		for(String aWord : textA){
+			for(String aText : allForms(aWord)){
+				Pair<String,String> transTextApair = groundPartA(aText,allB,true,true);
+				if(transTextApair != null){
+					String transTextA = transTextApair.getB();
+					if(possA.equals(transTextA)){
+						return transTextA;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	/**
 	 * Creates a set of allBs in translated and untranslated forms
 	 * @param allB
 	 * @param trans
@@ -257,53 +281,46 @@ public class ParticipantAExtractor {
 	 * @param textA 
 	 * @return
 	 */
-	private List<ParticipantA> getFoldPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
+	private HashMap<ParticipantA,Double> getFoldPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
 			Reaction r, Set<String> allB,TableBuf.Table table, List<String> textA){
-		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
+		//Store the participantAs along with a confidence level
+		List<ParticipantA> tempA = new ArrayList<ParticipantA>();
+		HashMap<ParticipantA,Double> participantAs = new HashMap<ParticipantA,Double>();
+		//For any fold columns, check to see if there is a potential participant A
 		for(ColumnContents f : contents.keySet()){
 			for (TableBuf.Column col : contents.get(f)){
+				//gets all possA for each column
 				HashMap<String,String> possA = checkPartA(col.getHeader().getData(), allB,true,false);
-				if (possA != null && !possA.isEmpty()){
-					possibleA.putAll(possA);
-					String partA = checkPartAText(allB, r,possA.keySet(),textA);
-					if(partA != null){
-						addPartA(participantAs, possA.get(partA),partA, f, col,confidenceLevel(ExtractionLocation.FOLD));
-					}
+				for(String a: possA.keySet()){
+					addPartA(tempA,possA.get(a),a,f,col,0);									
 				}
 			}
+		}
+		for(ParticipantA a: tempA){
+			participantAs.put(a, 0.6);//TODO determine if this is a good value, no longer checks the text exactly
 		}
 		return participantAs;
 	}
-	
-	//TODO: if i get it straight from the HTML?
-	private List<ParticipantA> getCaptionPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
-			Reaction r, Set<String> allB,TableWrapper tblW, List<String> textA){
-		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
-		TableReader.writeToLog("Looking for partA in caption");
+
+	/**
+	 * Check the captions for possible participantAs
+	 * @param contents
+	 * @param r
+	 * @param allB
+	 * @param tblW
+	 * @return
+	 */
+	private HashMap<ParticipantA,Double> getCaptionPartA(HashMap<ColumnContents,List<TableBuf.Column>> contents,
+			Reaction r, Set<String> allB,TableWrapper tblW){
+		List<ParticipantA> tempAs = new ArrayList<ParticipantA>();
+		HashMap<ParticipantA,Double> participantAs = new HashMap<ParticipantA,Double>(); 
 		HashMap<String, String> possA = new HashMap<String, String>();
-		
 		Table table = tblW.getTable();
-		//Iterator <FieldDescriptor> it = table.getAllFields().keySet()
-		if (table.getCaptionList().isEmpty()){
-			File file = tblW.getFile();
-			if (file.getName().endsWith(".html")){
-				try {
-					Document doc = Jsoup.parse(new String(Files.readAllBytes(file.toPath())));
-					Elements e = doc.getElementsByTag("title");
-					Iterator <Element> it = e.iterator();
-					while (it.hasNext()){
-						System.out.println("title: " + it.next());
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		
+
 		boolean title = true;
 		for(String wholeCaption : table.getCaptionList()){
 			String[] subtitles = wholeCaption.split(";");
+			//Splits up the caption to individual word, and checks for the word if it matches the given regular expression
 			for (String caption : subtitles){
 				caption = caption.replaceAll("-", "");
 				Pattern p = Pattern.compile("[A-Z[a-z]][\\w]*[A-Z0-9]+[\\w]*");
@@ -317,48 +334,27 @@ public class ParticipantAExtractor {
 						}
 					}
 				}
-			
-				if(title){
-					String partA = checkPartAText(allB, r, possA.keySet(),textA);
-					System.out.println(possA);
-					if(partA!= null){
-						participantAs.add(new ParticipantA(partA, possA.get(partA), 
-								contents,confidenceLevel(ExtractionLocation.TITLE)));
-						
-						return participantAs;
+				//If part of the first caption/title of the table
+
+				for(String a : possA.keySet()){
+					if(a != null && title){
+						//TODO add the participants A here without checking text	
+						participantAs.put(new ParticipantA(a, possA.get(a),0),.5);
 					}
+					else if(a != null){
+						participantAs.put(new ParticipantA(a, possA.get(a),0), .4);
+					}
+					title = false;
 				}
-				title = false;
+
+
 			}
-			
-		}
-		possibleA.putAll(possA);
-		String partA = checkPartAText(allB, r, possA.keySet(),textA);
-		System.err.println(partA);
-		if(partA!= null){
-			
-			participantAs.add(new ParticipantA(partA, possA.get(partA), contents,confidenceLevel(ExtractionLocation.CAPTION)));
 			return participantAs;
 		}
 		return participantAs;
 	}
-	
-	/**
-	 * Calculates the confidence level (that is used later by text reading teams)
-	 * @param extractedFrom
-	 * @return
-	 */
-	private double confidenceLevel(ExtractionLocation extractedFrom){
-		double confidenceLevel = 1;
-		double multiplier = .75;
-		for(ExtractionLocation loc : ExtractionLocation.values()){
-			if(loc == extractedFrom)
-				return confidenceLevel;
-			confidenceLevel *= multiplier;//TODO better math/reasoning here so that values make sense
-			multiplier *= multiplier;
-		}
-		return -1;
-	}
+
+
 
 	/**
 	 * First checks the fold column for potential participantA then checks the title and caption.
@@ -380,11 +376,10 @@ public class ParticipantAExtractor {
 		makeAllBs(allB,partB.values(),partBUntrans.values(),t);
 		HashMap<String, Integer> hashA= TextExtractor.extractParticipantA(allB, table.getSource().getPmcId().substring(3),
 				r.getConjugationBase());
-		
 		String PMCID = table.getSource().getPmcId();
 		possibleA = new HashMap<String,String>();
+		a_conf = new HashMap<Pair<String,String>,Double>();
 
-		
 		/*//TODO: TOOK OUT FRIES/BIOPAX STUFF
 		 * 
 		 * ExtractBiopax extractor = new ExtractBiopax(PMCID + ".json", r.getConjugationBase().get(0));
@@ -401,37 +396,66 @@ public class ParticipantAExtractor {
 				hashA.put(a, friesA.get(a));
 			}
 		}*/
+
+
 		List<String> textA = TextExtractor.sortByValue(hashA);
-		List<ParticipantA> participantAs = getFoldPartA(contents, r, allB, table,textA);
-		System.out.println(textA);
-		
-		if (participantAs.isEmpty()){
-			participantAs = getCaptionPartA(contents, r, allB, tblWrap, textA);
-			if (!participantAs.isEmpty()){
-				return participantAs;
-			}
-		}else{
-			return participantAs;
-		}
-		
-		//BEST A IF NOTHING IS GOTTEN
+
+		//Checks the fold columns for potential participantA, assigns confidence level to each value
+		HashMap<ParticipantA,Double> participantAFold = getFoldPartA(contents, r, allB, table,textA);
+
+		//Checks the caption for a potential participantA
+
+		HashMap<ParticipantA,Double> participantACaption = getCaptionPartA(contents, r, allB, tblWrap);
+		HashMap<ParticipantA,Double> participantAText = new HashMap<ParticipantA,Double>();
 		//TODO decide best way to do this, possibly use drug suffix lookup??
 		int listPos =0;
 		for(String a : textA){
 			if(a.length() > 2){
 				String aTrans = translatePartA(a.toUpperCase());
+				//gets the best option that occurs in the text alone
+			
 				if(aTrans != null){
-					System.out.println("Text A: " + textA);
-					System.out.println("All B: " + allB);
-					participantAs.add(new ParticipantA(aTrans,a,contents,confidenceLevel(ExtractionLocation.TEXT),listPos));
-					return participantAs;
+					int value = hashA.get(aTrans);
+					participantAText.put(new ParticipantA(aTrans,a,.0), Math.min(.4, value*.02));
+				
 				}
 			}
 			listPos++;
 		}
-		//If no A was found by the text extractor
-		participantAs.add(new ParticipantA("unknown", "unknown", contents,confidenceLevel(ExtractionLocation.NONE)));
+		
+		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
+		double max = 0.0;
+		List<ParticipantA> top_candidates = new ArrayList<ParticipantA>();
+		double d = 0.0;
+		addConfidence(allB,r,textA,participantAFold, max,top_candidates);
+		addConfidence(allB,r,textA,participantACaption, max,top_candidates);
+		addConfidence(allB,r,textA,participantAText, max,top_candidates);
+		if(top_candidates.size()> 0){
+			participantAs.addAll(top_candidates);
+		}else{
+			participantAs.add(new ParticipantA("unknown", "unknown", contents,0));
+		}
 		return participantAs;
+	}
+	
+	private double addConfidence(Set<String> allB,Reaction r, List<String> textA,HashMap<ParticipantA,Double> participantACurr,double max,List<ParticipantA> top_candidates){
+		double d = 0.0;
+		List<ParticipantA> possible_a = new ArrayList<ParticipantA>();
+		for(ParticipantA a: participantACurr.keySet()){
+			if((checkSinglePartAText(allB, r, a.getName(), textA)) != null){
+				a.setConfidenceLevel(a.getConfidenceLevel()+.3);
+			}
+			if(( d = participantACurr.get(a)) > max){
+				top_candidates.add(a);
+				max =d;
+			}
+		}
+		return max;
+	}
+
+	private boolean checkPartAText() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
