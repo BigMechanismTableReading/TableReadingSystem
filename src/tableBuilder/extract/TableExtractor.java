@@ -391,6 +391,10 @@ public class TableExtractor {
 			int row = sheet.getMergedRegion(i).getFirstRow();
 			
 			//Copy merged data over merged cells
+			Row sheetRow = sheet.getRow(row);
+			if (sheetRow==null){
+				continue;
+			}
 			Cell cell = sheet.getRow(row).getCell(start);
 			if (cell==null){
 				cell = sheet.getRow(row).createCell(start);
@@ -413,6 +417,7 @@ public class TableExtractor {
 				}
 				following_cell.setCellStyle(cell.getCellStyle());
 			}
+			
 		}
 		
 		//initialize the table where we will extract the 
@@ -471,7 +476,7 @@ public class TableExtractor {
 	// Main method used for testing
 	public static void main (String [] args){
 		TableExtractor ext = new TableExtractor();
-		Workbook wb = ext.openExcelDocument("C:\\Users\\charnessn\\Documents\\BigMechanisms\\PMC12154811472-6785-5-6-S2.xls");
+		Workbook wb = ext.openExcelDocument("C:\\Users\\charnessn\\Documents\\BigMechanisms\\PMC2887972gkq149_supplementray_file_1.xls");
 		//XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
 		//System.out.println(sheet.getTables().size());
 		for (int i=0; i < wb.getNumberOfSheets(); i++){
