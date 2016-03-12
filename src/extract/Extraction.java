@@ -115,6 +115,7 @@ public class Extraction {
 		int count = 0;
 		boolean simple_reaction = TableReader.simple_reaction;
 		while(iter.hasNext()){
+			
 			int i = iter.next();
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
 			for (ColumnContents content : cols){
@@ -130,6 +131,7 @@ public class Extraction {
 			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);
 				if (dupl.addPartA(entry,i)){
+					System.err.println("here");
 					cards.add(dupl);
 				}else if(simple_reaction){
 					IndexCard new_card = new IndexCard(card);
@@ -154,7 +156,7 @@ public class Extraction {
 	public void ExtractInfo(Pair<Reaction,HashMap<ColumnContents,List<TableBuf.Column>>> colInfo,
 							TableWrapper tableWrap){
 		String readingStart = new Date(System.currentTimeMillis()).toString();
-
+		
 		Table table = tableWrap.getTable();
 		Reaction r = colInfo.getA();
 		HashMap<ColumnContents,List<TableBuf.Column>> contents = colInfo.getB();
@@ -164,9 +166,11 @@ public class Extraction {
 		HashMap<Integer, String> partBuntrans = partBinfo.getB();
 		ParticipantAExtractor partA = new ParticipantAExtractor();
 		List<ParticipantA> participantACols= partA.getParticipantAs(tableWrap,partB,partBuntrans,foldContents(contents), r);
+		
 		//TODO run the rest of the table, first choosing fold then going through the table
 		//System.out.println(participantACols.size() + " " + participantACols.get(0).getUntranslatedName());
 		List<ColumnContents> cols = new ArrayList<ColumnContents>();
+		int i = 0;
 		for(Class<? extends ColumnContents> c : r.getRequiredColumns()){
 			if (!(c == Fold.class)) {
 				for (ColumnContents a : contents.keySet()){
@@ -185,8 +189,15 @@ public class Extraction {
 						}
 					}
 				}
+			}else{
+				for (ColumnContents a : contents.keySet()){
+					if (c.isAssignableFrom(a.getClass())){
+						cols.add(a);
+					}
+				}
 			}
 		}
+	
 		System.out.println("Printing index cards");
 		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents);
 		makeIdx(cards, readingStart, table, partA.possibleA);

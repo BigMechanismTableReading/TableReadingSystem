@@ -72,7 +72,9 @@ public class Extractor {
 	public static Pair<Reaction, HashMap<ColumnContents, List<Column>>> determineRelevance(TableWrapper t){
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = dt.determine(t);
+		
 		if (r!=null){
+		
 			return r;
 		}
 		else{
@@ -164,6 +166,7 @@ public class Extractor {
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = determineRelevance(t);
 			if (r!=null){
 				System.out.println("relevant, extracting: " + t.getFile().getName());
+				
 				extract(t, r);
 			}
 			else{

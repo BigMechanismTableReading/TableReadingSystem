@@ -21,6 +21,7 @@ import org.jsoup.select.Elements;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 
 import tablecontents.ColumnContents;
+import tablecontents.Fold;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import utils.Pair;
@@ -63,6 +64,7 @@ public class ParticipantAExtractor {
 	private void addPartA(List<ParticipantA> participantAs,
 			String partAuntrans, String partA, ColumnContents f, 
 			Column col,double confidenceLevel) {
+	
 		for (ParticipantA partAentry : participantAs){
 			if (partAentry.equalString(partA)){
 				partAentry.addToData(f, col);
@@ -316,7 +318,24 @@ public class ParticipantAExtractor {
 		HashMap<ParticipantA,Double> participantAs = new HashMap<ParticipantA,Double>(); 
 		HashMap<String, String> possA = new HashMap<String, String>();
 		Table table = tblW.getTable();
-
+		//Iterator <FieldDescriptor> it = table.getAllFields().keySet()
+		if (table.getCaptionList().isEmpty()){
+			File file = tblW.getFile();
+			if (file.getName().endsWith(".html")){
+				try {
+					Document doc = Jsoup.parse(new String(Files.readAllBytes(file.toPath())));
+					Elements e = doc.getElementsByTag("title");
+					Iterator <Element> it = e.iterator();
+					while (it.hasNext()){
+						System.out.println("title: " + it.next());
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		boolean title = true;
 		for(String wholeCaption : table.getCaptionList()){
 			String[] subtitles = wholeCaption.split(";");
@@ -344,9 +363,9 @@ public class ParticipantAExtractor {
 					else if(a != null){
 						participantAs.put(new ParticipantA(a, possA.get(a),0), .4);
 					}
+				
 					title = false;
 				}
-
 
 			}
 			return participantAs;
@@ -396,10 +415,7 @@ public class ParticipantAExtractor {
 				hashA.put(a, friesA.get(a));
 			}
 		}*/
-
-
 		List<String> textA = TextExtractor.sortByValue(hashA);
-
 		//Checks the fold columns for potential participantA, assigns confidence level to each value
 		HashMap<ParticipantA,Double> participantAFold = getFoldPartA(contents, r, allB, table,textA);
 
@@ -415,7 +431,8 @@ public class ParticipantAExtractor {
 				//gets the best option that occurs in the text alone
 			
 				if(aTrans != null){
-					int value = hashA.get(aTrans);
+					System.out.println(aTrans);
+					int value = hashA.get(a.toUpperCase());
 					participantAText.put(new ParticipantA(aTrans,a,.0), Math.min(.4, value*.02));
 				
 				}
@@ -426,15 +443,36 @@ public class ParticipantAExtractor {
 		List<ParticipantA> participantAs = new ArrayList<ParticipantA>();
 		double max = 0.0;
 		List<ParticipantA> top_candidates = new ArrayList<ParticipantA>();
+		List<ParticipantA> best_candidates = new ArrayList<ParticipantA>();
 		double d = 0.0;
-		addConfidence(allB,r,textA,participantAFold, max,top_candidates);
-		addConfidence(allB,r,textA,participantACaption, max,top_candidates);
-		addConfidence(allB,r,textA,participantAText, max,top_candidates);
-		if(top_candidates.size()> 0){
-			participantAs.addAll(top_candidates);
+		max = addConfidence(allB,r,textA,participantAFold, max,top_candidates);
+		max = addConfidence(allB,r,textA,participantACaption, max,top_candidates);
+		max = addConfidence(allB,r,textA,participantAText, max,top_candidates);
+		for(ParticipantA a: top_candidates){
+			if(a.getConfidenceLevel() >= max){
+				best_candidates.add(a);
+				if(a.getFoldCols().size() == 0){
+					System.err.println(a.getName() +" HERE ");
+					for(ColumnContents c : contents.keySet()){
+						if(c instanceof Fold){
+							for(TableBuf.Column col : contents.get(c)){
+								System.out.println(col.getDataCount());
+								a.addToData(c, col);
+							}
+						}
+					}
+					
+				}
+			}
+		}
+		if(best_candidates.size()> 0){ 
+			participantAs.addAll(best_candidates);
 		}else{
 			participantAs.add(new ParticipantA("unknown", "unknown", contents,0));
 		}
+		System.err.println(top_candidates);
+		//TODO add the fold columns and delete on your way back?
+		
 		return participantAs;
 	}
 	
@@ -442,9 +480,12 @@ public class ParticipantAExtractor {
 		double d = 0.0;
 		List<ParticipantA> possible_a = new ArrayList<ParticipantA>();
 		for(ParticipantA a: participantACurr.keySet()){
+			System.err.println(a.getName() + " " + max);
+			a.setConfidenceLevel(participantACurr.get(a));
 			if((checkSinglePartAText(allB, r, a.getName(), textA)) != null){
-				a.setConfidenceLevel(a.getConfidenceLevel()+.3);
+				a.setConfidenceLevel(a.getConfidenceLevel()+0.3);
 			}
+			
 			if(( d = participantACurr.get(a)) > max){
 				top_candidates.add(a);
 				max =d;
@@ -453,9 +494,5 @@ public class ParticipantAExtractor {
 		return max;
 	}
 
-	private boolean checkPartAText() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

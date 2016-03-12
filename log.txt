@@ -1,45 +1,18 @@
-Start time: 1457364692832ms
+Start time: 1457729492558ms
 pmc ids: 1
-Extracting 3433420
-Making tables for 3433420
-Not relevant, not going to extract: PMC3433420pone.0044471.s017.xls
-Looking for partA in caption
-Not relevant, not going to extract: PMC3433420pone.0044471.s019.xlsx
-Looking for partA in caption
-Looking for partA in caption
-Not relevant, not going to extract: PMC3433420pone.0044471.s021.xlsx
-Looking for partA in caption
-Looking for partA in caption
-Looking for partA in caption
-Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s024.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s025.xlsx
-Looking for partA in caption
-Looking for partA in caption
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s028.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s029.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s030.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s030.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s030.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s031.xlsx
-Not relevant, not going to extract: PMC3433420pone.0044471.s032.xlsx
-Looking for partA in caption
-Start time: 1457364692832ms
-End time: 1457364714715ms
-Difference: 21883ms
+Extracting 2950672
+Making tables for 2950672
+Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl1.html
+Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl2.html
+Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl3.html
+Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl4.html
+Not relevant, not going to extract: PMC2950672pr9010475_si_002.xls
+Not relevant, not going to extract: PMC2950672pr9010475_si_003.xls
+Not relevant, not going to extract: PMC2950672pr9010475_si_004.xls
+Not relevant, not going to extract: PMC2950672tbl2.html
+Not relevant, not going to extract: PMC2950672tbl3.html
+Not relevant, not going to extract: PMC2950672tbl4.html
+Start time: 1457729492558ms
+End time: 1457729505223ms
+Difference: 12665ms
 pmc ids: 1
-Took too long: PMC3422281pone.0041762.s013.xlsx
-Took too long: PMC3519636pone.0051366.s004.xlsx

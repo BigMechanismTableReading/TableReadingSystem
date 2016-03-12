@@ -42,6 +42,7 @@ public class ParticipantA implements LinkedContents{
 	 * @param cols
 	 */
 	public ParticipantA(String name, String untransName, HashMap<ColumnContents,List<TableBuf.Column>> cols,double confidenceLevel){
+		System.out.println(cols);
 		this.name = name;
 		this.untransName = untransName;
 		entityType(name);
@@ -51,6 +52,7 @@ public class ParticipantA implements LinkedContents{
 	public ParticipantA(String aTrans, String a,
 			HashMap<ColumnContents, List<Column>> contents,
 			double confidenceLevel, int listPos) {
+		System.out.println(contents);
 		this.name = aTrans;
 		this.untransName = a;
 		entityType(name);

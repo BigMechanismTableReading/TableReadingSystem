@@ -78,16 +78,19 @@ public class IndexCard {
 		data.put("identifier_a",aGrounded);
 		data.put("entity_text_a",entry.getUntranslatedName());
 		data.put("entity_type_a",entry.getType());
-		data.put("confidence_level",entry.getConfidenceLevel());
+		data.put("confidence_level",String.valueOf(entry.getConfidenceLevel()));
 		data.put("list_position", entry.getListPosition());
 		
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
+		System.err.println(foldCols.size());
 		Fold f = r.bestFold(foldCols);
+		System.err.println(f);
 		HashMap<String, String> foldData = null;
 		if(f != null)
 			 foldData = f.extractData(foldCols.get(f),row);
 		
 		if(foldData == null || foldData.isEmpty()){
+			
 			return false;
 		}
 		addInfo(foldData);

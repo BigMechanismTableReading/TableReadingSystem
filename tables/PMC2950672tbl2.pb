@@ -106,6 +106,6 @@ b
 23.142
 15.969
 30.703
-33.448Phosphopeptide Mapping of Dok1<Peptides with reduced SILAC ratios in the presence of SU6656>Peptides with unchanged SILAC ratios in the presence of SU66563
+33.448Phosphopeptide Mapping of Dok1oSLoMo score = −10 × (log( p ). A score of 19 corresponds to a localization confidence with p = 0.0126.( 33 )<Peptides with reduced SILAC ratios in the presence of SU6656>Peptides with unchanged SILAC ratios in the presence of SU66563
 Unknown
 PMC2950672Unknown"PMC2950672tbl2.html

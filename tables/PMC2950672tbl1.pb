@@ -417,6 +417,6 @@ pYQQPFEDFR
  
 62.278
 58.171
-50.945LPhosphotyrosine Peptides Significantly Changed Due to the Presence of SU66563
+50.945LPhosphotyrosine Peptides Significantly Changed Due to the Presence of SU6656}Variability (%) was calculated using the standard deviation of the natural logarithms of the SILAC ratios, multiplied by 100.3
 Unknown
 PMC2950672Unknown"PMC2950672tbl1.html

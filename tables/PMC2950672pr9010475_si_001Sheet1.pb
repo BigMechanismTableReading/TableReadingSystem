@@ -20260,6 +20260,6 @@ SILAC-MSMS
  
  
  
- A
-Unknown
+ Sheet1@
+Sheet1
 PMC2950672Unknown"PMC2950672pr9010475_si_001.xls*0

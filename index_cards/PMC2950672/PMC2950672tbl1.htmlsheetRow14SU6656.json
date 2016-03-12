@@ -1,12 +1,12 @@
 
 {
     "pmc_id":"2950672",
-    "reading_started":"Thu Jan 21 12:42:05 EST 2016",
-    "reading_complete":"Thu Jan 21 12:42:05 EST 2016",
+    "reading_started":"Fri Mar 11 15:51:40 EST 2016",
+    "reading_complete":"Fri Mar 11 15:51:45 EST 2016",
     "submitter":"Leidos",
     "reader_type":"machine",
     "extracted_information":{
-        "confidence_level":"0.75",
+        "confidence_level":"0.8",
         "list_position":"-1",
         "negative_information":"false",
         "participant_a":{
@@ -54,7 +54,8 @@
                 }
             ],
             "captions":[
-                "Phosphotyrosine Peptides Significantly Changed Due to the Presence of SU6656"
+                "Phosphotyrosine Peptides Significantly Changed Due to the Presence of SU6656",
+                "Variability (%) was calculated using the standard deviation of the natural logarithms of the SILAC ratios, multiplied by 100."
             ]
         },
         {
