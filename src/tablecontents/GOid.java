@@ -14,7 +14,7 @@ import tableBuilder.TableBuf.Column;
 import utils.Pair;
 
 public class GOid implements ColumnContents{
-	String headerRegEx = "\bGO* | Process\b | Categories";
+	String headerRegEx = "\bGO.*|Process\b|Categories";
 	private int confidenceNeeded = 4;
 	private GOLookup go_lookup = null;
 	private static GOid instance = null;
@@ -31,7 +31,7 @@ public class GOid implements ColumnContents{
 		//TODO build the GOLookup using the appropriate text file
 		go_lookup = GOLookup.getInstance();
 		//TODO update so this works better in the future and can grab a larger variety
-		cellRegEx = "*(GO:\\d{8})*|*(\\d{8})*|([A-Za-z]{5,-})";
+		cellRegEx = ".*(GO:\\d{8}).*|*(\\d{8}).*|([A-Za-z]{5,-})";
 	}
 	
 	@Override
