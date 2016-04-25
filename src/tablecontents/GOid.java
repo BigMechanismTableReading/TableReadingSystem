@@ -31,7 +31,7 @@ public class GOid implements ColumnContents{
 		//TODO build the GOLookup using the appropriate text file
 		go_lookup = GOLookup.getInstance();
 		//TODO update so this works better in the future and can grab a larger variety
-		cellRegEx = ".*(GO:\\d{8}).*|*(\\d{8}).*|([A-Za-z]{5,-})";
+		cellRegEx = "(GO:\\d{7,8})|(\\d{7,8})|(([A-Za-z]{2,}\\s*)*)";
 	}
 	
 	@Override
@@ -72,7 +72,7 @@ public class GOid implements ColumnContents{
 	public String cellMatch(String match) {
 		Pattern p = Pattern.compile(cellRegEx,Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(match);
-		String format_match = "A";
+		String format_match = "none";
 		if(m.find()){
 			format_match = m.group();
 		}
@@ -99,6 +99,11 @@ public class GOid implements ColumnContents{
 	@Override
 	public int getPriorityNumber() {
 		return 0;
+	}
+
+	public Pair<String, String> get_data(Column go_col, int row) {
+		String s = go_col.getData(row).getData();
+		return new Pair<String,String>(cellMatch(s),"goooooo");
 	}
 
 }

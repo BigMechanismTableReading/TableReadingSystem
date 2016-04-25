@@ -469,10 +469,7 @@ public class ParticipantAExtractor {
 			participantAs.addAll(best_candidates);
 		}else{
 			participantAs.add(new ParticipantA("unknown", "unknown", contents,0));
-		}
-		System.err.println(top_candidates);
-		//TODO add the fold columns and delete on your way back?
-		
+		}	
 		return participantAs;
 	}
 	

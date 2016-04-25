@@ -22,38 +22,39 @@ import relevance.DetermineTable;
 //import extract.analysis.Extraction;
 import utils.Pair;
 import tableBuilder.TableBuf.Column;
+import extract.types.BiologicalProcess;
 import extract.types.PossibleReaction;
 import extract.types.Reaction;
 import tableBuilder.TableBuf;
 import main.TableReader;
 import tableBuilder.TableBuf.Table;
 import tablecontents.ColumnContents;
+import tablecontents.GOid;
 import tableBuilder.TableBuilder;
 import tableBuilder.TableWrapper;
 import utils.Utils;
 
 
 public class Extractor {
-	
-//	private static ExecutorService executor;
+
+	//	private static ExecutorService executor;
 	/**
 	 * Begins extraction based on pmcids
 	 * @param pmc_ids
 	 * @throws Exception 
 	 */
 	public static void extractFromList(ArrayList<Integer> pmc_ids){
-	//	executor = Executors.newCachedThreadPool();
+		//	executor = Executors.newCachedThreadPool();
 
 		for (Integer pmc_id: pmc_ids){
 			TableReader.writeToLog("Extracting " + pmc_id);
 			extractFromID(pmc_id);
 		}
-	//	List<Runnable> runnables = executor.shutdownNow();
+		//	List<Runnable> runnables = executor.shutdownNow();
 
-		
+
 	}
-	
-	
+
 	/*private void extractFromTable(Table t, String fileName, boolean simple_reaction){
 
 		DetermineTable dt = new DetermineTable();
@@ -65,25 +66,25 @@ public class Extractor {
 			}
 		}
 		else{
-			
+
 		}
 	}*/
-	
+
 	public static Pair<Reaction, HashMap<ColumnContents, List<Column>>> determineRelevance(TableWrapper t){
 		DetermineTable dt = new DetermineTable();
 		Pair<Reaction, HashMap<ColumnContents, List<Column>>> r  = dt.determine(t);
-		
+
 		if (r!=null){
-		
+
 			return r;
 		}
 		else{
 			return null;
 		}
-		
-		
+
+
 	}
-	
+
 	/*
 	private static void extract(TableBuf.Table t, FileWriter w, Extraction extr,String fileName,boolean simple_reaction){
 
@@ -99,7 +100,7 @@ public class Extractor {
 				}
 			}
 			else{
-				
+
 			}
 
 		} catch (IOException e) {
@@ -107,7 +108,7 @@ public class Extractor {
 			e.printStackTrace();
 		}
 	}*/
-	
+
 	public static void extract(TableWrapper t, Pair<Reaction, HashMap<ColumnContents, List<Column>>> r){
 		Extraction e = new Extraction();
 		e.ExtractInfo(r, t);		
@@ -124,24 +125,24 @@ public class Extractor {
 				TableReader.writeToLog("Making tables for " + pmc_id);
 			}
 			//File [] html = Utils.getFiles(new File(TableReader.files), pmc_id, ".html");//protobuf files
-				File [] files = Utils.getFiles(new File(TableReader.files), pmc_id, new String[] {".html",".xls", ".xlsx"});
-				if (files.length > 0){
-					for (File file: files){
-						System.out.println("building table for " + file.getName());
-						//executor service but make it not single
-						//spin each of these into a thread
-						List<Table> table_list= TableBuilder.buildTable(file, pmc_id.toString());
-						for(Table t : table_list){
-							if (t!=null){
-								table_result.add(new TableWrapper(t, file));
-							}
+			File [] files = Utils.getFiles(new File(TableReader.files), pmc_id, new String[] {".html",".xls", ".xlsx"});
+			if (files.length > 0){
+				for (File file: files){
+					System.out.println("building table for " + file.getName());
+					//executor service but make it not single
+					//spin each of these into a thread
+					List<Table> table_list= TableBuilder.buildTable(file, pmc_id.toString());
+					for(Table t : table_list){
+						if (t!=null){
+							table_result.add(new TableWrapper(t, file));
 						}
 					}
 				}
-				else{
-					System.err.println("No tables extracted for " + pmc_id);
-					TableReader.writeToLog("No tables extracted for " + pmc_id);
-				}
+			}
+			else{
+				System.err.println("No tables extracted for " + pmc_id);
+				TableReader.writeToLog("No tables extracted for " + pmc_id);
+			}
 
 		}
 		else{
@@ -156,25 +157,28 @@ public class Extractor {
 		return table_result;
 
 	}
-	
+
 
 
 	public static void extractFromID(Integer pmc_id){
-		
+		if(TableReader.go_only == true){
+			Reaction.allReactions = new Reaction[]{BiologicalProcess.getInstance()};
+		}
 		ArrayList<TableWrapper> tables = getTables(pmc_id);
 		for (TableWrapper t: tables){
 			Pair<Reaction, HashMap<ColumnContents, List<Column>>> r = determineRelevance(t);
 			if (r!=null){
 				System.out.println("relevant, extracting: " + t.getFile().getName());
-				
+
 				extract(t, r);
 			}
 			else{
-				
+
 				System.out.println("Not relevant, not going to extract: " + t.getFile().getName());
 				TableReader.writeToLog("Not relevant, not going to extract: " + t.getFile().getName());
 			}
 
 		}
+
 	}
 }

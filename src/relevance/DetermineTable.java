@@ -16,6 +16,7 @@ import tablecontents.Protein;
 import utils.Pair;
 import extract.TextExtractor;
 import tableBuilder.TableBuf;
+import extract.types.BiologicalProcess;
 import extract.types.PossibleReaction;
 import extract.types.Reaction;
 import extract.types.SimpleReaction;
@@ -155,6 +156,9 @@ public class DetermineTable {
 		}else{
 			//get methylation, phosphorylation etc. from the original text
 			possibleReactions = TextExtractor.getPossibleReactions(table.getSource().getPmcId().substring(3));
+		}
+		if(TableReader.go_only){
+			possibleReactions.add(BiologicalProcess.getInstance());
 		}
 		//TODO: add the title from the original source? 
 		Set<Reaction> tableReactions = getTableReactions(table,possibleReactions);

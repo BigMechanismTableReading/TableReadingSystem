@@ -27,6 +27,7 @@ public class TableReader {
 	public static String index_cards = "index_cards";
 	public static boolean simple_reaction = false;
 	public static boolean make_tables = false;
+	public static boolean go_only = false;
 //	public static String getHome(){
 	//	return home;
 	//}
@@ -74,6 +75,7 @@ public class TableReader {
 			mkdir(index_cards);
 			simple_reaction = config.isSimple_reaction();
 			make_tables = config.isMake_tables();
+			go_only = config.getGo_only();
 			String log_file = config.getLog_file();
 			if (!log_file.trim().equals("")){
 				log = new File(log_file);

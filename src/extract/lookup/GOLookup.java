@@ -20,7 +20,7 @@ public class GOLookup {
 	private GOLookup(){
 		go_ids = new HashMap<String,String>();
 		processes = new HashMap<String,String>();
-		File go_file = new File("");
+		File go_file = new File("comp-go.csv");
 		Scanner s;
 		String go;
 		String english;

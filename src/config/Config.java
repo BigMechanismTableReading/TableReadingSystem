@@ -23,6 +23,7 @@ public class Config{
 	private String home_dir;
 	private String log_file;
 	private boolean printOutput;
+	private Boolean go_only;
 	public String getResolve_file() {
 		return resolve_file;
 	}
@@ -99,6 +100,7 @@ public class Config{
 		home_dir = Paths.get(home_dir).toAbsolutePath().normalize().toString();
 		log_file = prop.getProperty("log_file");
 		printOutput = Boolean.parseBoolean(prop.getProperty("print_output"));
+		go_only = Boolean.parseBoolean(prop.getProperty("go_only"));
 	}
 	public String getHome_dir() {	
 		return home_dir;
@@ -117,6 +119,12 @@ public class Config{
 	}
 	public void setPrintOutput(boolean printOutput) {
 		this.printOutput = printOutput;
+	}
+	public Boolean getGo_only() {
+		return go_only;
+	}
+	public void setGo_only(Boolean go_only) {
+		this.go_only = go_only;
 	}
 
 

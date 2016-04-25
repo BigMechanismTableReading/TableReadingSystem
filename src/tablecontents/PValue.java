@@ -14,7 +14,7 @@ public class PValue implements ColumnContents {
 	private String cellRegEx;
 	private String headerRegEx;
 	private int confidenceNeeded;
-	private static PValue getInstance(){
+	public static PValue getInstance(){
 		if(p == null){
 			p = new PValue();
 		}

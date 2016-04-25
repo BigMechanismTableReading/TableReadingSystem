@@ -5,6 +5,7 @@ import org.apache.poi.ss.formula.functions.Value;
 import tablecontents.ColumnContents;
 import tablecontents.Fold;
 import tablecontents.GOid;
+import tablecontents.PValue;
 
 public class BiologicalProcess extends Regulation{
 	private static BiologicalProcess instance = null;
@@ -21,12 +22,11 @@ public class BiologicalProcess extends Regulation{
 		conjugationBase.add("process");
 		data.add(GOid.class);
 		data.add(Fold.class);
-		//addAlternativeEntry(Fold.class, createEntry(Pvalue.class));
+		addAlternativeEntry(Fold.class, createEntry(PValue.class));
 	}
 	@Override
 	public Class<? extends ColumnContents> getEssentialClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return GOid.class;
 	}
 
 }
