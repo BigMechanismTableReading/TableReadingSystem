@@ -10,6 +10,7 @@ import java.util.List;
 import tablecontents.ColumnContents;
 import tablecontents.Fold;
 import tablecontents.GOid;
+import tablecontents.PValue;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import utils.Pair;
@@ -96,6 +97,9 @@ public class Extraction {
 			if (f instanceof Fold) {
 				foldCols.put(f, contents.get(f));
 			}
+			if(f instanceof PValue){
+				foldCols.put(f, contents.get(f));
+			}
 		}
 		return foldCols;
 	}
@@ -136,7 +140,7 @@ public class Extraction {
 		while(iter.hasNext()){
 			int i = iter.next();
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
-			
+			System.err.println("here");
 			for (ColumnContents content : cols){
 				if(!(content instanceof Protein)){
 					HashMap<String,String> map = content.extractData(contents.get(content), i);
@@ -149,7 +153,6 @@ public class Extraction {
 			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);
 				if (dupl.addPartA(entry,i)){
-					System.err.println("here");
 					cards.add(dupl);
 				}else if(simple_reaction){
 					IndexCard new_card = new IndexCard(card);

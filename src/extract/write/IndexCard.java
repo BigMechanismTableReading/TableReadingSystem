@@ -5,6 +5,7 @@ import java.util.List;
 
 import tablecontents.ColumnContents;
 import tablecontents.Fold;
+import tablecontents.PValue;
 import tablecontents.ParticipantA;
 import tablecontents.Ratio;
 import tableBuilder.TableBuf.Column;
@@ -88,9 +89,10 @@ public class IndexCard {
 		HashMap<String, String> foldData = null;
 		if(f != null)
 			 foldData = f.extractData(foldCols.get(f),row);
-		
+		else if(foldCols.containsKey(PValue.getInstance())){
+			 foldData = PValue.getInstance().extractData(foldCols.get(PValue.getInstance()),row);
+		}
 		if(foldData == null || foldData.isEmpty()){
-			
 			return false;
 		}
 		addInfo(foldData);

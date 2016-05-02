@@ -48,7 +48,7 @@ public class IndexCardWriter {
 	 * @param simple_reaction 
 	 */
 	private void buildParticipant(JsonObjectBuilder participant, IndexCard idx, String part, boolean simple_reaction, HashMap<String, String> possibleA){
-		if(!simple_reaction  || part.equals("b")){
+		if(((!simple_reaction  || (part.equals("b"))) && idx.getData("entity_text" + "_" + part) != null)){
 			participant.add("entity_text", idx.getData("entity_text" + "_" + part));
 			participant.add("entity_type", idx.getData("entity_type" + "_" + part));
 			participant.add("identifier", idx.getData("identifier" + "_" + part));
@@ -108,7 +108,7 @@ public class IndexCardWriter {
 		infoBuilder.add("participant_a", participantA.build());
 		
 		infoBuilder.add("participant_b", participantB.build());
-		if(!simple_reaction){
+		if(idx.getData("interaction_type") != null){
 			infoBuilder.add("interaction_type", idx.getData("interaction_type").trim().replaceAll("\\s", "_"));
 		}
 		//Adds modificationType
@@ -151,7 +151,7 @@ public class IndexCardWriter {
 		}
 		interiorTableEv.add("Headers", headers);
 		JsonObjectBuilder foldHeader = Json.createObjectBuilder();
-		if(!simple_reaction){
+		if(idx.getData("fold_information_used") != null){
 			foldHeader.add("fold_information_used", idx.getData("fold_information_used"));
 		}
 		JsonArrayBuilder captions = Json.createArrayBuilder();	
@@ -201,7 +201,7 @@ public class IndexCardWriter {
 		infoBuilder.add("confidence_level", idx.getData("confidence_level"));
 		infoBuilder.add("list_position",idx.getData("list_position"));
 		boolean simple_reaction = TableReader.simple_reaction;
-		if(!simple_reaction){
+		if(idx.getData("negative_information") != null){
 			infoBuilder.add("negative_information", idx.getData("negative_information"));
 		}
 		JsonObjectBuilder participantA = Json.createObjectBuilder();

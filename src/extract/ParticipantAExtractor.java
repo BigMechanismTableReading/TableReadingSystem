@@ -22,6 +22,7 @@ import com.google.protobuf.Descriptors.FieldDescriptor;
 
 import tablecontents.ColumnContents;
 import tablecontents.Fold;
+import tablecontents.PValue;
 import tablecontents.ParticipantA;
 import tablecontents.Protein;
 import utils.Pair;
@@ -457,6 +458,13 @@ public class ParticipantAExtractor {
 						if(c instanceof Fold){
 							for(TableBuf.Column col : contents.get(c)){
 								System.out.println(col.getDataCount());
+								a.addToData(c, col);
+							}
+						}
+						System.err.println(c);
+						if(c instanceof PValue){
+							for(TableBuf.Column col : contents.get(c)){
+								
 								a.addToData(c, col);
 							}
 						}

@@ -1,18 +1,9 @@
-Start time: 1457729492558ms
+Start time: 1462221548618ms
 pmc ids: 1
-Extracting 2950672
-Making tables for 2950672
-Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl1.html
-Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl2.html
-Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl3.html
-Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC2950672tbl4.html
-Not relevant, not going to extract: PMC2950672pr9010475_si_002.xls
-Not relevant, not going to extract: PMC2950672pr9010475_si_003.xls
-Not relevant, not going to extract: PMC2950672pr9010475_si_004.xls
-Not relevant, not going to extract: PMC2950672tbl2.html
-Not relevant, not going to extract: PMC2950672tbl3.html
-Not relevant, not going to extract: PMC2950672tbl4.html
-Start time: 1457729492558ms
-End time: 1457729505223ms
-Difference: 12665ms
+Extracting 3141435
+Making tables for 3141435
+Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC3141435.html
+Start time: 1462221548618ms
+End time: 1462221552350ms
+Difference: 3732ms
 pmc ids: 1
