@@ -20,6 +20,10 @@ import extract.types.Reaction;
 public class IndexCard {
 	
 	public HashMap<String, String> data;
+	public HashMap<String,String> partAData;
+	public HashMap<String,String> partBData;
+	public HashMap<String,String> evidenceData;
+	public HashMap<String,String> extractedInfoData;
 	
 	/**
 	 * Adds the row, participantB and reaction type to the index card hashmap
@@ -30,11 +34,19 @@ public class IndexCard {
 	 */
 	public IndexCard(Reaction r, String partB, String partBuntrans, int row) {
 		data = new HashMap<String, String>();
-		data.put("row", row+ "");
-		data.put("modification_type", r.toString());
-		data.put("entity_text_b", partBuntrans);
-		data.put("entity_type_b", "protein");
-		data.put("identifier_b", partB);
+		partAData = new HashMap<String,String>();
+		partBData = new HashMap<String,String>();
+		evidenceData = new HashMap<String,String>();
+		extractedInfoData = new HashMap<String,String>();
+		partBData.put("row", row+ "");
+		partBData.put("modification_type", r.toString());
+		partBData.put("entity_text_b", partBuntrans);
+		if(partB.contains("GO:")){
+			partBData.put("entity_type_b", "Biological Process");
+		}else{
+			partBData.put("entity_type_b", "protein");
+		}
+		partBData.put("identifier_b", partB);
 	}
 	
 	/**
@@ -42,7 +54,11 @@ public class IndexCard {
 	 * @param card
 	 */
 	public IndexCard(IndexCard card) {
-		data = new HashMap<String, String>();
+		data = (HashMap<String, String>) card.data.clone();
+		partAData = (HashMap<String, String>) card.partAData.clone();
+		partBData = (HashMap<String, String>) card.partBData.clone();
+		evidenceData = (HashMap<String, String>) card.evidenceData.clone();
+		extractedInfoData = (HashMap<String, String>) card.extractedInfoData.clone();
 		addInfo(card.data);
 	}
 
@@ -54,6 +70,50 @@ public class IndexCard {
 		for (String key : extractData.keySet()){
 			if (key!=null && extractData.get(key)!=null){
 				data.put(key, extractData.get(key));
+			}
+		}
+	}
+	/**
+	 * Helper for adding data to part A of the index card
+	 * @param extractData
+	 */
+	public void addPartAInfo(HashMap<String, String> extractData) {
+		for (String key : extractData.keySet()){
+			if (key!=null && extractData.get(key)!=null){
+				partAData.put(key, extractData.get(key));
+			}
+		}
+	}
+	/**
+	 * Helper for adding data to part B of the index card
+	 * @param extractData
+	 */
+	public void addPartBInfo(HashMap<String, String> extractData) {
+		for (String key : extractData.keySet()){
+			if (key!=null && extractData.get(key)!=null){
+				partBData.put(key, extractData.get(key));
+			}
+		}
+	}
+	/**
+	 * Helper for adding data to extracted info part of the index card
+	 * @param extractData
+	 */
+	public void addExtractedInfo(HashMap<String, String> extractData) {
+		for (String key : extractData.keySet()){
+			if (key!=null && extractData.get(key)!=null){
+				extractedInfoData.put(key, extractData.get(key));
+			}
+		}
+	}
+	/**
+	 * Helper for adding data to extract data part of the index card
+	 * @param extractData
+	 */
+	public void addExtractData(HashMap<String, String> extractData) {
+		for (String key : extractData.keySet()){
+			if (key!=null && extractData.get(key)!=null){
+				extractData.put(key, extractData.get(key));
 			}
 		}
 	}
@@ -76,11 +136,11 @@ public class IndexCard {
 	public boolean addPartA(ParticipantA entry, int row) {
 		Ratio r = Ratio.getInstance();
 		String aGrounded = entry.getName();
-		data.put("identifier_a",aGrounded);
-		data.put("entity_text_a",entry.getUntranslatedName());
-		data.put("entity_type_a",entry.getType());
-		data.put("confidence_level",String.valueOf(entry.getConfidenceLevel()));
-		data.put("list_position", entry.getListPosition());
+		partAData.put("identifier_a",aGrounded);
+		partAData.put("entity_text_a",entry.getUntranslatedName());
+		partAData.put("entity_type_a",entry.getType());
+		partAData.put("confidence_level",String.valueOf(entry.getConfidenceLevel()));
+		partAData.put("list_position", entry.getListPosition());
 		
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
 		System.err.println(foldCols.size());
@@ -95,7 +155,7 @@ public class IndexCard {
 		if(foldData == null || foldData.isEmpty()){
 			return false;
 		}
-		addInfo(foldData);
+		addPartAInfo(foldData);
 		return true;
 	}
 	

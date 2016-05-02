@@ -1,9 +1,9 @@
-Start time: 1462221548618ms
+Start time: 1462230466583ms
 pmc ids: 1
 Extracting 3141435
 Making tables for 3141435
 Parsing html file: C:\Users\Sam\Documents\Table\TableReadingSystem\files\PMC3141435.html
-Start time: 1462221548618ms
-End time: 1462221552350ms
-Difference: 3732ms
+Start time: 1462230466583ms
+End time: 1462230470760ms
+Difference: 4177ms
 pmc ids: 1

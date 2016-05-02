@@ -144,7 +144,7 @@ public class IndexCardWriter {
 		JsonArrayBuilder tableArray =Json.createArrayBuilder();
 		JsonObjectBuilder interiorTableEv = Json.createObjectBuilder();
 		interiorTableEv.add("table",t.getSource().getSourceFile()+ "sheet" + t.getSource().getSheetNo());
-		interiorTableEv.add("row", idx.getData("row"));
+		interiorTableEv.add("row", idx.partBData.get("row"));
 		JsonArrayBuilder headers = Json.createArrayBuilder();
 		for(TableBuf.Column c : t.getColumnList()){
 			headers.add(c.getHeader().getData());
@@ -190,6 +190,44 @@ public class IndexCardWriter {
 		idxBuilder.add("evidence", evidence);
 	}
 
+	public JsonObject newWriteIndexCard(String readingStart, String readingStop, TableBuf.Table t,
+			IndexCard idx, HashMap<String, String> possibleA){
+		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
+		basicInfo(idxBuilder,t,readingStart,readingStop);
+		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
+		infoBuilder.add("confidence_level", idx.partAData.get("confidence_level"));
+		infoBuilder.add("list_position",idx.partAData.get("list_position"));
+		JsonObjectBuilder extracted_info = Json.createObjectBuilder();
+		for(String s : idx.extractedInfoData.keySet()){
+			String e = idx.extractedInfoData.get(s);
+			if(e!= null)
+				extracted_info.add(s, idx.extractedInfoData.get(s));
+		}
+		JsonObjectBuilder participantA = Json.createObjectBuilder();
+		for(String s : idx.partAData.keySet()){
+			String a = idx.partAData.get(s);
+			if(a != null)
+				participantA.add(s, idx.partAData.get(s));
+		}
+		JsonObjectBuilder participantB = Json.createObjectBuilder();
+		for(String s : idx.partBData.keySet()){
+			String b = idx.partBData.get(s);
+			if(b != null)
+				participantB.add(s, idx.partBData.get(s));
+		}
+		extracted_info.add("participant_a", participantA.build());
+		extracted_info.add("participant_b", participantB.build());
+		infoBuilder.add("extracted_information", extracted_info.build());
+		JsonArrayBuilder evidence = Json.createArrayBuilder();
+		tableEvidence(evidence, idx,t, TableReader.simple_reaction);
+		textEvidence(evidence, idx);
+		idxBuilder.add("evidence", evidence);
+		idxBuilder.add("info", infoBuilder.build());
+		JsonObject finishedCard = idxBuilder.build();
+		String partA = idx.getData("entity_text_a");
+		jsonToFile(finishedCard,"index_cards",t,idx.partBData.get("row"), partA);//TODO dont hardcode in index_cards
+		return finishedCard;
+	}
 	public JsonObject writeIndexCard(String readingStart, String readingStop, TableBuf.Table t,
 			IndexCard idx, HashMap<String, String> possibleA){
 		//TODO decide what to send into here, should send it in all at once not seperately,

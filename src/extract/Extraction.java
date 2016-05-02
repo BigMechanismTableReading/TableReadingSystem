@@ -115,7 +115,7 @@ public class Extraction {
 		String readingEnd = new Date(System.currentTimeMillis()).toString();
 		IndexCardWriter w = new IndexCardWriter();
 		for (IndexCard card : cards){
-			w.writeIndexCard(readingStart, readingEnd, table, card, possibleA);
+			w.newWriteIndexCard(readingStart, readingEnd, table, card, possibleA);
 		}
 	}
 
@@ -145,10 +145,11 @@ public class Extraction {
 				if(!(content instanceof Protein)){
 					HashMap<String,String> map = content.extractData(contents.get(content), i);
 					if (map!=null && !map.isEmpty()){
-						card.addInfo(content.extractData(contents.get(content), i));
+						card.addExtractedInfo(content.extractData(contents.get(content), i));
 					}
 				}
 			}
+			System.err.println(card.partBData);
 			//First get the site/sequence column, then do fold
 			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);
