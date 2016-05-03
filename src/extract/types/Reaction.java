@@ -17,7 +17,7 @@ import tablecontents.Protein;
 public abstract class Reaction {
 	
 	public static Reaction[] allReactions = {Phosphorylation.getInstance(),Acetylation.getInstance(),
-		Methylation.getInstance(),Sumoylation.getInstance(),PossibleReaction.getInstance()};
+		Methylation.getInstance(),Sumoylation.getInstance(),PossibleReaction.getInstance(),BiologicalProcess.getInstance()};
 	//public static Reaction[] allReactions = {Phosphorylation.getInstance()};
 	HashSet<Class<? extends ColumnContents>> data = new HashSet<Class<? extends ColumnContents>>();
 	HashSet<Class<? extends ColumnContents>> optionalColumns = new HashSet<Class<? extends ColumnContents>>();

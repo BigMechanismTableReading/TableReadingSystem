@@ -140,7 +140,6 @@ public class Extraction {
 		while(iter.hasNext()){
 			int i = iter.next();
 			IndexCard card = new IndexCard(r, partB.get(i), partBuntrans.get(i),i);
-			System.err.println("here");
 			for (ColumnContents content : cols){
 				if(!(content instanceof Protein)){
 					HashMap<String,String> map = content.extractData(contents.get(content), i);
@@ -149,7 +148,6 @@ public class Extraction {
 					}
 				}
 			}
-			System.err.println(card.partBData);
 			//First get the site/sequence column, then do fold
 			for(ParticipantA entry: participantACols){	
 				IndexCard dupl = new IndexCard(card);

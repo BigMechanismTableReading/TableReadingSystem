@@ -39,9 +39,9 @@ public class IndexCard {
 		evidenceData = new HashMap<String,String>();
 		extractedInfoData = new HashMap<String,String>();
 		partBData.put("row", row+ "");
-		partBData.put("modification_type", r.toString());
+		extractedInfoData.put("modification_type", r.toString());
 		partBData.put("entity_text_b", partBuntrans);
-		if(partB.contains("GO:")){
+		if(partB.contains("GO:") || (partBuntrans != null && partBuntrans.contains("GO:"))){
 			partBData.put("entity_type_b", "Biological Process");
 		}else{
 			partBData.put("entity_type_b", "protein");
@@ -101,7 +101,7 @@ public class IndexCard {
 	 */
 	public void addExtractedInfo(HashMap<String, String> extractData) {
 		for (String key : extractData.keySet()){
-			if (key!=null && extractData.get(key)!=null){
+			if (key!=null && extractData.get(key)!=null && key != "GO:"){
 				extractedInfoData.put(key, extractData.get(key));
 			}
 		}
@@ -138,14 +138,13 @@ public class IndexCard {
 		String aGrounded = entry.getName();
 		partAData.put("identifier_a",aGrounded);
 		partAData.put("entity_text_a",entry.getUntranslatedName());
+		//Look into fixing the entity type section
 		partAData.put("entity_type_a",entry.getType());
 		partAData.put("confidence_level",String.valueOf(entry.getConfidenceLevel()));
 		partAData.put("list_position", entry.getListPosition());
 		
 		HashMap<ColumnContents, List<Column>> foldCols = entry.getFoldCols();
-		System.err.println(foldCols.size());
 		Fold f = r.bestFold(foldCols);
-		System.err.println(f);
 		HashMap<String, String> foldData = null;
 		if(f != null)
 			 foldData = f.extractData(foldCols.get(f),row);
@@ -155,7 +154,7 @@ public class IndexCard {
 		if(foldData == null || foldData.isEmpty()){
 			return false;
 		}
-		addPartAInfo(foldData);
+		addExtractedInfo(foldData);
 		return true;
 	}
 	

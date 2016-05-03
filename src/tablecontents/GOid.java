@@ -103,7 +103,12 @@ public class GOid implements ColumnContents{
 
 	public Pair<String, String> get_data(Column go_col, int row) {
 		String s = go_col.getData(row).getData();
-		return new Pair<String,String>(cellMatch(s),"goooooo");
+		String match = cellMatch(s);
+		String trans = "unknown";
+		if(match != null){
+			trans = go_lookup.lookup_go(match);
+		}
+		return new Pair<String,String>(cellMatch(s),trans);
 	}
 
 }

@@ -40,100 +40,6 @@ public class IndexCardWriter {
 	}
 
 	/**
-	 * Adds participant Information
-	 * @param participant
-	 * @param idx
-	 * @param part
-	 * @param possibleA 
-	 * @param simple_reaction 
-	 */
-	private void buildParticipant(JsonObjectBuilder participant, IndexCard idx, String part, boolean simple_reaction, HashMap<String, String> possibleA){
-		if(((!simple_reaction  || (part.equals("b"))) && idx.getData("entity_text" + "_" + part) != null)){
-			participant.add("entity_text", idx.getData("entity_text" + "_" + part));
-			participant.add("entity_type", idx.getData("entity_type" + "_" + part));
-			participant.add("identifier", idx.getData("identifier" + "_" + part));
-			participant.add("in_model", "false");
-		}else{
-			JsonArrayBuilder poss_a = Json.createArrayBuilder();
-			for(String part_a: possibleA.keySet()){
-				String trans_a = possibleA.get(part_a);
-				JsonObjectBuilder a_obj= Json.createObjectBuilder();
-				a_obj.add("entity_text", part_a);
-				if(trans_a.charAt(0) == 'C'){
-					a_obj.add("entity_type", "chemical");
-				}else{
-					a_obj.add("entity_type", "protein");
-				}
-				a_obj.add("identifier", trans_a);
-				poss_a.add(a_obj);
-			}
-			participant.add("possible_a", poss_a);
-		}
-	}
-
-	/**
-	 * Adds the feature section
-	 * @param features
-	 * @param participantB
-	 * @param idx
-	 * @return
-	 */
-	private boolean addFeatures(JsonObjectBuilder features, JsonObjectBuilder participantB,IndexCard idx) {
-		String site = idx.getData("site");
-		if(site!= null){
-			features.add("site", site);
-		}else{
-			return false;
-		}
-		String amino = idx.getData("base");
-		if(amino!=null){
-			features.add("base", amino);
-		}
-		participantB.add("features", features.build());
-		return true;
-	}
-
-	/**
-	 * Adds the participant detains and interaction type
-	 * @param participantA
-	 * @param participantB
-	 * @param infoBuilder
-	 * @param idx
-	 * @return
-	 */
-	private boolean addParticipants(JsonObjectBuilder participantA,
-			JsonObjectBuilder participantB,	JsonObjectBuilder infoBuilder,
-			IndexCard idx,boolean simple_reaction) {
-		
-		infoBuilder.add("participant_a", participantA.build());
-		
-		infoBuilder.add("participant_b", participantB.build());
-		if(idx.getData("interaction_type") != null){
-			infoBuilder.add("interaction_type", idx.getData("interaction_type").trim().replaceAll("\\s", "_"));
-		}
-		//Adds modificationType
-		JsonArrayBuilder modifications = Json.createArrayBuilder();
-		JsonArrayBuilder positions = Json.createArrayBuilder();
-
-		String site = idx.getData("site");
-		if (site != null){
-			for (String i : idx.getData("site").split("^\\d")){
-				positions.add(i);
-			}
-		}else if(!simple_reaction){
-			return false;
-		}
-		//Change it from r to the actual name of the reaction
-		if(!simple_reaction){
-		modifications.add(Json.createObjectBuilder().add("modification_type", 
-				idx.getData("modification_type")).add("position", positions.build()).build());
-
-		infoBuilder.add("modifications",modifications);
-		}
-		return true;
-
-	}
-	/**
 	 * Adds table evidence
 	 * @param evidence
 	 * @param idx
@@ -183,13 +89,18 @@ public class IndexCardWriter {
 		textEvidence.add("text_evidence",textArray);
 		evidence.add(textEvidence);
 	}
-	private void createEvidence(JsonObjectBuilder idxBuilder,IndexCard idx,TableBuf.Table t,boolean simple_reaction){
-		JsonArrayBuilder evidence = Json.createArrayBuilder();
-		tableEvidence(evidence, idx,t, simple_reaction);
-		textEvidence(evidence, idx);
-		idxBuilder.add("evidence", evidence);
-	}
 
+	
+	private JsonObjectBuilder writeData(HashMap<String,String> data){
+		JsonObjectBuilder output_data = Json.createObjectBuilder();
+		for(String s : data.keySet()){
+			String val = data.get(s);
+			if(val != null)
+				output_data.add(s, val);
+		}
+		return output_data;
+	}
+	
 	public JsonObject newWriteIndexCard(String readingStart, String readingStop, TableBuf.Table t,
 			IndexCard idx, HashMap<String, String> possibleA){
 		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
@@ -197,68 +108,27 @@ public class IndexCardWriter {
 		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
 		infoBuilder.add("confidence_level", idx.partAData.get("confidence_level"));
 		infoBuilder.add("list_position",idx.partAData.get("list_position"));
-		JsonObjectBuilder extracted_info = Json.createObjectBuilder();
-		for(String s : idx.extractedInfoData.keySet()){
-			String e = idx.extractedInfoData.get(s);
-			if(e!= null)
-				extracted_info.add(s, idx.extractedInfoData.get(s));
-		}
-		JsonObjectBuilder participantA = Json.createObjectBuilder();
-		for(String s : idx.partAData.keySet()){
-			String a = idx.partAData.get(s);
-			if(a != null)
-				participantA.add(s, idx.partAData.get(s));
-		}
-		JsonObjectBuilder participantB = Json.createObjectBuilder();
-		for(String s : idx.partBData.keySet()){
-			String b = idx.partBData.get(s);
-			if(b != null)
-				participantB.add(s, idx.partBData.get(s));
-		}
-		extracted_info.add("participant_a", participantA.build());
-		extracted_info.add("participant_b", participantB.build());
+		
+		//Add Participant Info
+		JsonObjectBuilder extracted_info = writeData(idx.extractedInfoData);
+		extracted_info.add("participant_a", writeData(idx.partAData).build());
+		extracted_info.add("participant_b", writeData(idx.partBData).build());
 		infoBuilder.add("extracted_information", extracted_info.build());
+		
+		//Add evidence info
 		JsonArrayBuilder evidence = Json.createArrayBuilder();
 		tableEvidence(evidence, idx,t, TableReader.simple_reaction);
 		textEvidence(evidence, idx);
 		idxBuilder.add("evidence", evidence);
 		idxBuilder.add("info", infoBuilder.build());
+		
+		//Output card
 		JsonObject finishedCard = idxBuilder.build();
 		String partA = idx.getData("entity_text_a");
 		jsonToFile(finishedCard,"index_cards",t,idx.partBData.get("row"), partA);//TODO dont hardcode in index_cards
 		return finishedCard;
 	}
-	public JsonObject writeIndexCard(String readingStart, String readingStop, TableBuf.Table t,
-			IndexCard idx, HashMap<String, String> possibleA){
-		//TODO decide what to send into here, should send it in all at once not seperately,
-		//Why not write a card for each partA and do fold, it doesnt need to be seperate at all.
-		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
-		basicInfo(idxBuilder,t,readingStart,readingStop);
-		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
-
-		infoBuilder.add("confidence_level", idx.getData("confidence_level"));
-		infoBuilder.add("list_position",idx.getData("list_position"));
-		boolean simple_reaction = TableReader.simple_reaction;
-		if(idx.getData("negative_information") != null){
-			infoBuilder.add("negative_information", idx.getData("negative_information"));
-		}
-		JsonObjectBuilder participantA = Json.createObjectBuilder();
-		buildParticipant(participantA,idx, "a",simple_reaction,possibleA);
-		JsonObjectBuilder participantB = Json.createObjectBuilder();
-		buildParticipant(participantB,idx,"b",simple_reaction,possibleA);
-		JsonObjectBuilder featuresB = Json.createObjectBuilder();
-		if(!simple_reaction){
-			addFeatures(featuresB,participantB,idx);
-		}
-		addParticipants(participantA,participantB,infoBuilder,idx, simple_reaction);
-
-		idxBuilder.add("extracted_information", infoBuilder.build());
-		createEvidence(idxBuilder,idx,t, simple_reaction);
-		JsonObject finishedCard = idxBuilder.build();
-		String partA = idx.getData("entity_text_a");
-		jsonToFile(finishedCard,"index_cards",t,idx.getData("row"), partA);//TODO dont hardcode in index_cards
-		return finishedCard;
-	}
+	
 	/**
 	 * Writes the built json info to a file
 	 * @param card

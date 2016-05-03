@@ -28,5 +28,8 @@ public class BiologicalProcess extends Regulation{
 	public Class<? extends ColumnContents> getEssentialClass() {
 		return GOid.class;
 	}
-
+	@Override
+	public String toString(){
+		return "GO: Up or Down Regulation of Functional Process";
+	}
 }
