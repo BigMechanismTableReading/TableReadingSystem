@@ -22,7 +22,8 @@ public class PValue implements ColumnContents {
 	}
 	
 	private PValue(){
-		cellRegEx = "(\\d\\.\\d{0,12}(E-\\d{0,2}){0,1})";
+		//cellRegEx = "(\\d\\.\\d{0,12}(E-\\d{0,2}){0,1})";
+		cellRegEx = "(\\d\\.\\d{0,12}(E-\\d{0,2}){0,1})|(0\\.\\d{0,8})";
 		headerRegEx = "\\b(p.*val).*|\\b(e.*val).*";
 	}
 	@Override

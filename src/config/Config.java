@@ -97,6 +97,7 @@ public class Config{
 		//nxml_dir = prop.getProperty("nxml_dir");
 		//resolve_file = prop.getProperty("resolve_file");
 		home_dir = prop.getProperty("home_dir");
+		System.out.println(home_dir);
 		home_dir = Paths.get(home_dir).toAbsolutePath().normalize().toString();
 		log_file = prop.getProperty("log_file");
 		printOutput = Boolean.parseBoolean(prop.getProperty("print_output"));
