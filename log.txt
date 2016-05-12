@@ -1,4 +1,4 @@
-Start time: 1462301312915ms
+Start time: 1463067585009ms
 pmc ids: 1
 Extracting 2950672
 Making tables for 2950672
@@ -12,7 +12,7 @@ Not relevant, not going to extract: PMC2950672pr9010475_si_004.xls
 Not relevant, not going to extract: PMC2950672tbl2.html
 Not relevant, not going to extract: PMC2950672tbl3.html
 Not relevant, not going to extract: PMC2950672tbl4.html
-Start time: 1462301312915ms
-End time: 1462301326242ms
-Difference: 13327ms
+Start time: 1463067585009ms
+End time: 1463067597763ms
+Difference: 12754ms
 pmc ids: 1

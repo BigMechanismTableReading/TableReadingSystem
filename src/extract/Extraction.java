@@ -16,6 +16,7 @@ import tablecontents.Protein;
 import utils.Pair;
 import tableBuilder.TableBuf;
 import tableBuilder.TableWrapper;
+import tableBuilder.TableBuf.Column;
 import tableBuilder.TableBuf.Table;
 import extract.types.Reaction;
 import extract.write.IndexCard;
@@ -110,12 +111,13 @@ public class Extraction {
 	 * @param readingStart
 	 * @param table
 	 * @param possibleA 
+	 * @param contents 
 	 */
-	private void makeIdx(List<IndexCard> cards, String readingStart,Table table, HashMap<String, String> possibleA){
+	private void makeIdx(List<IndexCard> cards, String readingStart,Table table, HashMap<String, String> possibleA, HashMap<ColumnContents, List<Column>> contents){
 		String readingEnd = new Date(System.currentTimeMillis()).toString();
 		IndexCardWriter w = new IndexCardWriter();
 		for (IndexCard card : cards){
-			w.newWriteIndexCard(readingStart, readingEnd, table, card, possibleA);
+			w.newWriteIndexCard(readingStart, readingEnd, table, card, possibleA,contents);
 		}
 	}
 
@@ -221,7 +223,7 @@ public class Extraction {
 
 		System.out.println("Printing index cards");
 		List<IndexCard> cards = getCards( r, participantACols, partB, partBuntrans, cols, contents);
-		makeIdx(cards, readingStart, table, partA.possibleA);
+		makeIdx(cards, readingStart, table, partA.possibleA,contents);
 
 	}
 }

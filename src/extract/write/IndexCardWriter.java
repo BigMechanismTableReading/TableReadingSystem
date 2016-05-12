@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.json.Json;
@@ -16,7 +17,9 @@ import javax.json.stream.JsonGenerator;
 
 import main.TableReader;
 import tableBuilder.TableBuf;
+import tableBuilder.TableBuf.Column;
 import tableBuilder.TableBuf.Table;
+import tablecontents.ColumnContents;
 /**
  * Writes index cards to proper json format
  * @author sloates
@@ -101,8 +104,31 @@ public class IndexCardWriter {
 		return output_data;
 	}
 	
+	private JsonArrayBuilder writeML(HashMap<ColumnContents, List<Column>> contents,String row){
+		int cell = -1;
+		try{
+			cell = Integer.parseInt(row);
+		}catch(NumberFormatException e){
+			e.printStackTrace();
+		}
+		JsonArrayBuilder ml_data = Json.createArrayBuilder();
+		for(ColumnContents c : contents.keySet()){
+			for(TableBuf.Column col : contents.get(c)){
+				JsonObjectBuilder ml_temp = Json.createObjectBuilder();
+				ml_temp.add("Purpose",c.toString().split("\\.")[1].split("@")[0]);
+				ml_temp.add("ColumnName",col.getHeader().getData());
+				if(cell >= 0 && col.getData(cell) != null && col.getData(cell).getData()!= null){
+					ml_temp.add("Cells", col.getData(cell).getData());
+				}
+				ml_data.add(ml_temp);
+			}
+		}
+		return ml_data;
+	}
+	
+	
 	public JsonObject newWriteIndexCard(String readingStart, String readingStop, TableBuf.Table t,
-			IndexCard idx, HashMap<String, String> possibleA){
+			IndexCard idx, HashMap<String, String> possibleA, HashMap<ColumnContents, List<Column>> contents){
 		JsonObjectBuilder idxBuilder = Json.createObjectBuilder();
 		basicInfo(idxBuilder,t,readingStart,readingStop);
 		JsonObjectBuilder infoBuilder = Json.createObjectBuilder();
@@ -122,6 +148,7 @@ public class IndexCardWriter {
 		idxBuilder.add("evidence", evidence);
 		idxBuilder.add("info", infoBuilder.build());
 		
+		idxBuilder.add("ML", writeML(contents,idx.partBData.get("row")).build());
 		//Output card
 		JsonObject finishedCard = idxBuilder.build();
 		String partA = idx.getData("entity_text_a");
