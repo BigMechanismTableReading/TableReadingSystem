@@ -117,7 +117,7 @@ public class IndexCardWriter {
 				JsonObjectBuilder ml_temp = Json.createObjectBuilder();
 				ml_temp.add("Purpose",c.toString().split("\\.")[1].split("@")[0]);
 				ml_temp.add("ColumnName",col.getHeader().getData());
-				if(cell >= 0 && col.getData(cell) != null && col.getData(cell).getData()!= null){
+				if(cell >= 0 && cell < col.getDataCount() && col.getData(cell) != null && col.getData(cell).getData()!= null){
 					ml_temp.add("Cells", col.getData(cell).getData());
 				}
 				ml_data.add(ml_temp);

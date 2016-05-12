@@ -60,8 +60,10 @@ public class PValue implements ColumnContents {
 		HashMap<String,String> data = new HashMap<String,String>();
 		if(cols.size()>0){
 			TableBuf.Column c = cols.get(0);
-			String s = cellMatch(c.getData(row).getData());
-			data.put("PValue", s);
+			if(row < c.getDataCount() && c.getData(row)!= null){
+				String s = cellMatch(c.getData(row).getData());
+				data.put("PValue", s);
+			}
 		}
 		return data;
 	}
